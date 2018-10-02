@@ -29,29 +29,47 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
-/**
- * This is NOT an opmode.
- *
- * This class can be used to define all the specific hardware for our robot
- * This class stores functions that use a combination of subsystems on our robot
- */
-public class HardwareMap
+
+@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
+public class TeleOp_DriveOnly extends OpMode
 {
-    HardwareDrive drive = new HardwareDrive();
+    private HardwareMap robot = new HardwareMap();
+    private double leftPower;
+    private double rightPower;
 
-    /* local OpMode members. */
-    private ElapsedTime period  = new ElapsedTime();
-
-    /* Constructor */
-    public HardwareMap(){
+    /*
+     * Code to run ONCE when the driver hits INIT
+     */
+    @Override
+    public void init() {
+        robot.init(hardwareMap);
+        telemetry.addData("Status", "Initialized");
     }
 
-    /* Initialize standard Hardware interfaces */
-    public void init(com.qualcomm.robotcore.hardware.HardwareMap hwMap) {
-        drive.init(hwMap);
+    /*
+     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+     */
+    @Override
+    public void loop() {
+        setMotorPowers();
+        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
     }
- }
+
+
+    private void setMotorPowers() {
+        double drive = -gamepad1.left_stick_y;
+        double turn  =  gamepad1.right_stick_x;
+
+        leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+        rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+
+        robot.drive.setPowers(leftPower, rightPower);
+    }
+}
