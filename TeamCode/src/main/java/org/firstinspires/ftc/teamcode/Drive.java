@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -38,13 +37,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class HardwareDrive
+public class Drive
 {
     /* Public OpMode members. */
-    private DcMotor  leftFrontDrive   = null;
-    private DcMotor  leftBackDrive   = null;
-    private DcMotor  rightFrontDrive  = null;
-    private DcMotor  rightBackDrive  = null;
+    private DcMotor leftDrive1 = null;
+    private DcMotor leftDrive2 = null;
+    private DcMotor rightDrive1 = null;
+    private DcMotor rightDrive2 = null;
 
     private boolean reverseDirection = false;
 
@@ -53,7 +52,7 @@ public class HardwareDrive
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public HardwareDrive(){
+    public Drive(){
 
     }
 
@@ -67,17 +66,17 @@ public class HardwareDrive
     }
 
     private void initializeDriveMotors(){
-        leftFrontDrive  = hwMap.get(DcMotor.class, "left_front_1");
-        leftBackDrive  = hwMap.get(DcMotor.class, "left_back_2");
-        rightFrontDrive = hwMap.get(DcMotor.class, "right_front_1");
-        rightBackDrive  = hwMap.get(DcMotor.class, "right_back_2");
+        leftDrive1 = hwMap.get(DcMotor.class, "left_drive_1");
+        leftDrive2 = hwMap.get(DcMotor.class, "left_drive_2");
+        rightDrive1 = hwMap.get(DcMotor.class, "right_drive_1");
+        rightDrive2 = hwMap.get(DcMotor.class, "right_drive_2");
     }
 
     public void setRunModes(DcMotor.RunMode runMode){
-        leftFrontDrive.setMode(runMode);
-        leftBackDrive.setMode(runMode);
-        rightFrontDrive.setMode(runMode);
-        rightBackDrive.setMode(runMode);
+        leftDrive1.setMode(runMode);
+        leftDrive2.setMode(runMode);
+        rightDrive1.setMode(runMode);
+        rightDrive2.setMode(runMode);
     }
 
 
@@ -87,13 +86,13 @@ public class HardwareDrive
     }
 
     public void setLeftPower(double power){
-        leftFrontDrive.setPower(power);
-        leftBackDrive.setPower(power);
+        leftDrive1.setPower(power);
+        leftDrive2.setPower(power);
     }
 
     public void setRightPower(double power){
-        rightFrontDrive.setPower(power);
-        rightBackDrive.setPower(power);
+        rightDrive1.setPower(power);
+        rightDrive2.setPower(power);
     }
 
     public void reverseMotorDirections(boolean reverseDirection) {
@@ -107,15 +106,15 @@ public class HardwareDrive
 
     private void setMotorDirections(){
         if (reverseDirection){
-            leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-            leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
-            rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-            rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+            leftDrive1.setDirection(DcMotor.Direction.FORWARD);
+            leftDrive2.setDirection(DcMotor.Direction.FORWARD);
+            rightDrive1.setDirection(DcMotor.Direction.REVERSE);
+            rightDrive2.setDirection(DcMotor.Direction.REVERSE);
         } else {
-            leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-            leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-            rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-            rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+            leftDrive1.setDirection(DcMotor.Direction.REVERSE);
+            leftDrive2.setDirection(DcMotor.Direction.REVERSE);
+            rightDrive1.setDirection(DcMotor.Direction.FORWARD);
+            rightDrive2.setDirection(DcMotor.Direction.FORWARD);
         }
     }
 
