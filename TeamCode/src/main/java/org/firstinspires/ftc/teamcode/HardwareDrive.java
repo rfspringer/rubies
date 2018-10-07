@@ -67,10 +67,10 @@ public class HardwareDrive
     }
 
     private void initializeDriveMotors(){
-        leftFrontDrive  = hwMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive  = hwMap.get(DcMotor.class, "left_back_drive");
-        rightFrontDrive = hwMap.get(DcMotor.class, "right_front_drive");
-        rightBackDrive  = hwMap.get(DcMotor.class, "right_back_drive");
+        leftFrontDrive  = hwMap.get(DcMotor.class, "left_front_1");
+        leftBackDrive  = hwMap.get(DcMotor.class, "left_back_2");
+        rightFrontDrive = hwMap.get(DcMotor.class, "right_front_1");
+        rightBackDrive  = hwMap.get(DcMotor.class, "right_back_2");
     }
 
     public void setRunModes(DcMotor.RunMode runMode){
