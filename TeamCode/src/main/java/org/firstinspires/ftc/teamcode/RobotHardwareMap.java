@@ -29,9 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * This is NOT an opmode.
@@ -39,19 +38,23 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This class can be used to define all the specific hardware for our robot
  * This class stores functions that use a combination of subsystems on our robot
  */
-public class HardwareMap
+public class RobotHardwareMap
 {
-    HardwareDrive drive = new HardwareDrive();
+    Drive drive = new Drive();
+    HardwareLift lift = new HardwareLift();
 
     /* local OpMode members. */
     private ElapsedTime period  = new ElapsedTime();
+    private HardwareMap hwMap = null;
 
     /* Constructor */
-    public HardwareMap(){
+    public RobotHardwareMap(){
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(com.qualcomm.robotcore.hardware.HardwareMap hwMap) {
+    public void init(HardwareMap ahwMap) {
+        hwMap = ahwMap;
         drive.init(hwMap);
+        lift.init(hwMap);
     }
  }

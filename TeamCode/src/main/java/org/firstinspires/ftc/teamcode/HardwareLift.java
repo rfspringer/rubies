@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -39,81 +40,30 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class HardwareLift
 {
-//    /* Public OpMode members. */
-//    private DcMotor  lift   = null;
-//
-//    private boolean reverseDirection = false;
-//
-//    /* local OpMode members. */
-//    private HardwareMap hwMap           =  null;
-//    private ElapsedTime period  = new ElapsedTime();
-//
-//    /* Constructor */
-//    public HardwareLift(){
-//
-//    }
-//
-//    /* Initialize standard Hardware interfaces */
-//    public void init(HardwareMap ahwMap) {
-//        hwMap = ahwMap;
-//        initializeDriveMotors();
-//        setMotorDirections();
-//        setPowers(0, 0);
-//        setRunModes(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//    }
-//
-//    private void initializeDriveMotors(){
-//        leftFrontDrive  = hwMap.get(DcMotor.class, "left_front_drive");
-//        leftBackDrive  = hwMap.get(DcMotor.class, "left_back_drive");
-//        rightFrontDrive = hwMap.get(DcMotor.class, "right_front_drive");
-//        rightBackDrive  = hwMap.get(DcMotor.class, "right_back_drive");
-//    }
-//
-//    public void setRunModes(DcMotor.RunMode runMode){
-//        leftFrontDrive.setMode(runMode);
-//        leftBackDrive.setMode(runMode);
-//        rightFrontDrive.setMode(runMode);
-//        rightBackDrive.setMode(runMode);
-//    }
-//
-//
-//    public void setPowers(double leftPower, double rightPower){
-//        setLeftPower(leftPower);
-//        setRightPower(rightPower);
-//    }
-//
-//    public void setLeftPower(double power){
-//        leftFrontDrive.setPower(power);
-//        leftBackDrive.setPower(power);
-//    }
-//
-//    public void setRightPower(double power){
-//        rightFrontDrive.setPower(power);
-//        rightBackDrive.setPower(power);
-//    }
-//
-//    public void reverseMotorDirections(boolean reverseDirection) {
-//        this.reverseDirection = reverseDirection;
-//        setMotorDirections();
-//    }
-//
-//    public boolean isDirectionReversed() {
-//        return reverseDirection;
-//    }
-//
-//    private void setMotorDirections(){
-//        if (reverseDirection){
-//            leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-//            leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
-//            rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-//            rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
-//        } else {
-//            leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-//            leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-//            rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-//            rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-//        }
-//    }
+    /* Public OpMode members. */
+    private DcMotor  lift   = null;
 
+    /* local OpMode members. */
+    private HardwareMap hwMap           =  null;
+    private ElapsedTime period  = new ElapsedTime();
+
+    /* Constructor */
+    public HardwareLift(){
+
+    }
+
+    /* Initialize standard Hardware interfaces */
+    public void init(HardwareMap ahwMap) {
+        hwMap = ahwMap;
+        lift = hwMap.get(DcMotor.class, "lift");
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setPower(0);
+    }
+
+    public void setPower(double power) {
+        lift.setPower(power);
+    }
 }
 
