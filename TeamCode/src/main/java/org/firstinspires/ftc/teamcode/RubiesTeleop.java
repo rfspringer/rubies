@@ -37,8 +37,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
-@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
-public class TeleOp_DriveOnly extends OpMode
+@TeleOp(name="Teleop", group="Iterative Opmode")
+public class RubiesTeleop extends OpMode
 {
     private RobotHardwareMap robot = new RobotHardwareMap();
     private double leftPower;
@@ -61,6 +61,7 @@ public class TeleOp_DriveOnly extends OpMode
         setMotorPowers();
         moveLift();
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        telemetry.addData("Encoders", "left(%.2f) right (%.2f)", robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
     }
 
     private void moveLift() {
@@ -74,12 +75,8 @@ public class TeleOp_DriveOnly extends OpMode
     }
 
     private void setMotorPowers() {
-        double drive = -gamepad1.left_stick_y;
-        double turn  =  gamepad1.right_stick_x;
-
-        leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-        rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-
+        leftPower    = -0.5 * gamepad1.left_stick_y;
+        rightPower   = -0.5 * gamepad1.right_stick_y;
         robot.drive.setPowers(leftPower, rightPower);
     }
 }
