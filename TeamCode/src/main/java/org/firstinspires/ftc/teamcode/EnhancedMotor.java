@@ -8,4 +8,10 @@ public class EnhancedMotor {
             motor.setMode(runMode);
         }
     }
+
+    public static void setDirections(DcMotor[] dcMotors, DcMotor.Direction direction){
+        for (DcMotor motor : dcMotors) {
+            motor.setDirection(direction);
+        }
+    }
 }
