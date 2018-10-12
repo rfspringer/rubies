@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -39,11 +40,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class Drive
 {
+    private static final Drive instance = new Drive();
     /* Public OpMode members. */
     private DcMotor leftDrive1 = null;
     private DcMotor leftDrive2 = null;
     private DcMotor rightDrive1 = null;
     private DcMotor rightDrive2 = null;
+
+    private DcMotor[] allMotors;
+    private DcMotor[] leftMotors;
+    private DcMotor[] rightMotors;
 
     private boolean reverseDirection = false;
 
@@ -52,7 +58,7 @@ public class Drive
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public Drive(){
+    private Drive(){
 
     }
 
@@ -60,9 +66,10 @@ public class Drive
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
         initializeDriveMotors();
+        initializeMotorArrays();
         setMotorDirections();
         setPowers(0, 0);
-        setRunModes(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     private void initializeDriveMotors(){
@@ -72,27 +79,18 @@ public class Drive
         rightDrive2 = hwMap.get(DcMotor.class, "right_drive_2");
     }
 
-    public void setRunModes(DcMotor.RunMode runMode){
-        leftDrive1.setMode(runMode);
-        leftDrive2.setMode(runMode);
-        rightDrive1.setMode(runMode);
-        rightDrive2.setMode(runMode);
+    private void initializeMotorArrays() {
+        DcMotor[] allMotors = {leftDrive1, leftDrive2, rightDrive1, rightDrive2};
+        DcMotor[] leftMotors = {leftDrive1, leftDrive2};
+        DcMotor[] rightMotors = {rightDrive1, rightDrive2};
+        this.allMotors = allMotors;
+        this.leftMotors = leftMotors;
+        this.rightMotors = rightMotors;
     }
-
 
     public void setPowers(double leftPower, double rightPower){
-        setLeftPower(leftPower);
-        setRightPower(rightPower);
-    }
-
-    public void setLeftPower(double power){
-        leftDrive1.setPower(power);
-        leftDrive2.setPower(power);
-    }
-
-    public void setRightPower(double power){
-        rightDrive1.setPower(power);
-        rightDrive2.setPower(power);
+        MotorEnhanced.setPowers(leftMotors, leftPower);
+        MotorEnhanced.setPowers(rightMotors, rightPower);
     }
 
     public void reverseMotorDirections(boolean reverseDirection) {
@@ -106,16 +104,25 @@ public class Drive
 
     private void setMotorDirections(){
         if (reverseDirection){
-            leftDrive1.setDirection(DcMotor.Direction.FORWARD);
-            leftDrive2.setDirection(DcMotor.Direction.FORWARD);
-            rightDrive1.setDirection(DcMotor.Direction.REVERSE);
-            rightDrive2.setDirection(DcMotor.Direction.REVERSE);
+            MotorEnhanced.setDirections(leftMotors, Direction.FORWARD);
+            MotorEnhanced.setDirections(rightMotors, Direction.REVERSE);
         } else {
-            leftDrive1.setDirection(DcMotor.Direction.REVERSE);
-            leftDrive2.setDirection(DcMotor.Direction.REVERSE);
-            rightDrive1.setDirection(DcMotor.Direction.FORWARD);
-            rightDrive2.setDirection(DcMotor.Direction.FORWARD);
+            MotorEnhanced.setDirections(leftMotors, Direction.REVERSE);
+            MotorEnhanced.setDirections(rightMotors, Direction.FORWARD);
         }
+    }
+
+    public int getRightEncoderCounts(){
+        double counts = (rightDrive1.getCurrentPosition() + rightDrive2.getCurrentPosition())/2;
+        return (int) counts;
+    }
+
+    public int getLeftEncoderCounts(){
+        double counts = (leftDrive1.getCurrentPosition() + leftDrive2.getCurrentPosition())/2;
+        return (int) counts;
+    }
+    public static Drive getInstance() {
+        return instance;
     }
 
 }

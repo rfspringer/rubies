@@ -37,12 +37,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
-@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
-public class TeleOp_DriveOnly extends OpMode
+@TeleOp(name="Teleop", group="Iterative Opmode")
+public class RubiesTeleop extends OpMode
 {
-    private RobotHardwareMap robot = new RobotHardwareMap();
+    private RobotHardwareMap robot = RobotHardwareMap.getInstance();
     private double leftPower;
     private double rightPower;
+
+    private GamepadEnhanced gamepadA = new GamepadEnhanced();
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -58,15 +60,17 @@ public class TeleOp_DriveOnly extends OpMode
      */
     @Override
     public void loop() {
+        gamepadA.update(gamepad1);
         setMotorPowers();
         moveLift();
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        telemetry.addData("Encoders", "left(%d) right (%d)", robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
     }
 
     private void moveLift() {
-        if (gamepad1.dpad_up){
+        if (gamepadA.dpad_up){
             robot.lift.setPower(1);
-        } else if (gamepad1.dpad_down) {
+        } else if (gamepadA.dpad_down) {
             robot.lift.setPower(-1);
         } else {
             robot.lift.setPower(0);
@@ -74,12 +78,8 @@ public class TeleOp_DriveOnly extends OpMode
     }
 
     private void setMotorPowers() {
-        double drive = -gamepad1.left_stick_y;
-        double turn  =  gamepad1.right_stick_x;
-
-        leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-        rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-
+        leftPower    = -0.5 * gamepadA.left_stick_y;
+        rightPower   = -0.5 * gamepadA.right_stick_y;
         robot.drive.setPowers(leftPower, rightPower);
     }
 }
