@@ -39,6 +39,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class Drive
 {
+    private static final Drive instance = new Drive();
     /* Public OpMode members. */
     private DcMotor leftDrive1 = null;
     private DcMotor leftDrive2 = null;
@@ -52,7 +53,7 @@ public class Drive
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public Drive(){
+    private Drive(){
 
     }
 
@@ -104,8 +105,8 @@ public class Drive
         return reverseDirection;
     }
 
-    private void setMotorDirections(){
-        if (reverseDirection){
+    private void setMotorDirections() {
+        if (reverseDirection) {
             leftDrive1.setDirection(DcMotor.Direction.FORWARD);
             leftDrive2.setDirection(DcMotor.Direction.FORWARD);
             rightDrive1.setDirection(DcMotor.Direction.REVERSE);
@@ -116,6 +117,10 @@ public class Drive
             rightDrive1.setDirection(DcMotor.Direction.FORWARD);
             rightDrive2.setDirection(DcMotor.Direction.FORWARD);
         }
+    }
+
+    public static Drive getInstance() {
+        return instance;
     }
 
 }
