@@ -30,14 +30,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -73,7 +68,7 @@ public class Drive
         initializeMotorArrays();
         setMotorDirections();
         setPowers(0, 0);
-        EnhancedMotor.setRunModes(allMotors, DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     private void initializeDriveMotors(){
@@ -105,8 +100,8 @@ public class Drive
 //    }
 
     public void setPowers(double leftPower, double rightPower){
-        EnhancedMotor.setPowers(leftMotors, leftPower);
-        EnhancedMotor.setPowers(rightMotors, rightPower);
+        MotorEnhanced.setPowers(leftMotors, leftPower);
+        MotorEnhanced.setPowers(rightMotors, rightPower);
     }
 //
 //    public void setLeftPower(double power){
@@ -130,11 +125,11 @@ public class Drive
 
     private void setMotorDirections(){
         if (reverseDirection){
-            EnhancedMotor.setDirections(leftMotors, Direction.FORWARD);
-            EnhancedMotor.setDirections(rightMotors, Direction.REVERSE);
+            MotorEnhanced.setDirections(leftMotors, Direction.FORWARD);
+            MotorEnhanced.setDirections(rightMotors, Direction.REVERSE);
         } else {
-            EnhancedMotor.setDirections(leftMotors, Direction.REVERSE);
-            EnhancedMotor.setDirections(rightMotors, Direction.FORWARD);
+            MotorEnhanced.setDirections(leftMotors, Direction.REVERSE);
+            MotorEnhanced.setDirections(rightMotors, Direction.FORWARD);
         }
     }
 

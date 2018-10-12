@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
-public class EnhancedMotor {
+public class MotorEnhanced {
     public static void setRunModes(DcMotor[] dcMotors, DcMotor.RunMode runMode) {
         for (DcMotor motor : dcMotors) {
             motor.setMode(runMode);
