@@ -40,7 +40,7 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
 public class TeleOp_DriveOnly extends OpMode
 {
-    private RobotHardwareMap robot = new RobotHardwareMap();
+    private HardwareMap robot = new HardwareMap();
     private double leftPower;
     private double rightPower;
 
@@ -64,13 +64,13 @@ public class TeleOp_DriveOnly extends OpMode
     }
 
     private void moveLift() {
-        if (gamepad1.dpad_up){
-            robot.lift.setPower(1);
-        } else if (gamepad1.dpad_down) {
-            robot.lift.setPower(-1);
-        } else {
-            robot.lift.setPower(0);
-        }
+//        if (gamepad1.dpad_up){
+//            robot.lift.setPower(1);
+//        } else if (gamepad1.dpad_down) {
+//            robot.lift.setPower(-1);
+//        } else {
+//            robot.lift.setPower(0);
+//        }
     }
 
     private void setMotorPowers() {
