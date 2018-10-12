@@ -29,8 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * This is NOT an opmode.
@@ -42,20 +42,25 @@ public class RobotHardwareMap
 {
     private static final RobotHardwareMap instance = new RobotHardwareMap();
     Drive drive = Drive.getInstance();
+    HardwareLift lift = HardwareLift.getInstance();
 
     /* local OpMode members. */
     private ElapsedTime period  = new ElapsedTime();
+    private HardwareMap hwMap = null;
 
     /* Constructor */
     private RobotHardwareMap(){
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap hwMap) {
+    public void init(HardwareMap ahwMap) {
+        hwMap = ahwMap;
         drive.init(hwMap);
+        lift.init(hwMap);
     }
 
     public static RobotHardwareMap getInstance() {
         return instance;
     }
  }
+

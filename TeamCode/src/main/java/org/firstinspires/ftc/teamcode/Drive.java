@@ -112,6 +112,15 @@ public class Drive
         }
     }
 
+    public int getRightEncoderCounts(){
+        double counts = (rightDrive1.getCurrentPosition() + rightDrive2.getCurrentPosition())/2;
+        return (int) counts;
+    }
+
+    public int getLeftEncoderCounts(){
+        double counts = (leftDrive1.getCurrentPosition() + leftDrive2.getCurrentPosition())/2;
+        return (int) counts;
+    }
     public static Drive getInstance() {
         return instance;
     }

@@ -29,29 +29,57 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
-/**
- * This is NOT an opmode.
- *
- * This class can be used to define all the specific hardware for our robot
- * This class stores functions that use a combination of subsystems on our robot
- */
-public class HardwareMap
+
+@TeleOp(name="Teleop", group="Iterative Opmode")
+public class RubiesTeleop extends OpMode
 {
-    Drive drive = Drive.getInstance();
+    private RobotHardwareMap robot = RobotHardwareMap.getInstance();
+    private double leftPower;
+    private double rightPower;
 
-    /* local OpMode members. */
-    private ElapsedTime period  = new ElapsedTime();
+    private GamepadEnhanced gamepadA = new GamepadEnhanced();
 
-    /* Constructor */
-    public HardwareMap(){
+    /*
+     * Code to run ONCE when the driver hits INIT
+     */
+    @Override
+    public void init() {
+        robot.init(hardwareMap);
+        telemetry.addData("Status", "Initialized");
     }
 
-    /* Initialize standard Hardware interfaces */
-    public void init(com.qualcomm.robotcore.hardware.HardwareMap hwMap) {
-        drive.init(hwMap);
+    /*
+     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+     */
+    @Override
+    public void loop() {
+        gamepadA.update(gamepad1);
+        setMotorPowers();
+        moveLift();
+        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        telemetry.addData("Encoders", "left(%d) right (%d)", robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
     }
- }
+
+    private void moveLift() {
+        if (gamepadA.dpad_up){
+            robot.lift.setPower(1);
+        } else if (gamepadA.dpad_down) {
+            robot.lift.setPower(-1);
+        } else {
+            robot.lift.setPower(0);
+        }
+    }
+
+    private void setMotorPowers() {
+        leftPower    = -0.5 * gamepadA.left_stick_y;
+        rightPower   = -0.5 * gamepadA.right_stick_y;
+        robot.drive.setPowers(leftPower, rightPower);
+    }
+}

@@ -29,46 +29,46 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-
-@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
-public class TeleOp_DriveOnly extends OpMode
+/**
+ * This class stores all objects on our robot's drivetrain
+ * It also includes functionality specific to our drive base
+ */
+public class HardwareLift
 {
-    private RobotHardwareMap robot = RobotHardwareMap.getInstance();
-    private double leftPower;
-    private double rightPower;
+    private static final HardwareLift instance = new HardwareLift();
+    /* Public OpMode members. */
+    private DcMotor  lift   = null;
 
-    GamepadEnhanced gamepadA = new GamepadEnhanced();
+    /* local OpMode members. */
+    private HardwareMap hwMap           =  null;
+    private ElapsedTime period  = new ElapsedTime();
 
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
-    @Override
-    public void init() {
-        robot.init(hardwareMap);
-        telemetry.addData("Status", "Initialized");
+    /* Constructor */
+    private HardwareLift(){
+
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-    @Override
-    public void loop() {
-        gamepadA.update(gamepad1);
-        setMotorPowers();
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+    /* Initialize standard Hardware interfaces */
+    public void init(HardwareMap ahwMap) {
+        hwMap = ahwMap;
+        lift = hwMap.get(DcMotor.class, "lift");
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setPower(0);
     }
 
-    private void setMotorPowers() {
-        double drive = -gamepadA.left_stick_y;
-        double turn  =  gamepadA.right_stick_x;
+    public void setPower(double power) {
+        lift.setPower(power);
+    }
 
-        leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-        rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-
-        robot.drive.setPowers(leftPower, rightPower);
+    public static HardwareLift getInstance(){
+        return instance;
     }
 }
+
