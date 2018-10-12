@@ -87,33 +87,11 @@ public class Drive
         this.leftMotors = leftMotors;
         this.rightMotors = rightMotors;
     }
-//
-//    public void setRunModes(DcMotor.RunMode runMode){
-//        leftDrive1.setMode(runMode);
-//        leftDrive2.setMode(runMode);
-//        rightDrive1.setMode(runMode);
-//        rightDrive2.setMode(runMode);
-//    }
-//
-//    public void setPowers(double leftPower, double rightPower){
-//        setLeftPower(leftPower);
-//        setRightPower(rightPower);
-//    }
 
     public void setPowers(double leftPower, double rightPower){
         MotorEnhanced.setPowers(leftMotors, leftPower);
         MotorEnhanced.setPowers(rightMotors, rightPower);
     }
-//
-//    public void setLeftPower(double power){
-//        leftDrive1.setPower(power);
-//        leftDrive2.setPower(power);
-//    }
-//
-//    public void setRightPower(double power){
-//        rightDrive1.setPower(power);
-//        rightDrive2.setPower(power);
-//    }
 
     public void reverseMotorDirections(boolean reverseDirection) {
         this.reverseDirection = reverseDirection;

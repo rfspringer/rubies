@@ -41,7 +41,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class HardwareMap
 {
-    Drive drive = new Drive();
+    Drive drive = Drive.getInstance();
 
     /* local OpMode members. */
     private ElapsedTime period  = new ElapsedTime();
