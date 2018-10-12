@@ -30,8 +30,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -96,23 +98,26 @@ public class Drive
 //        rightDrive1.setMode(runMode);
 //        rightDrive2.setMode(runMode);
 //    }
-
-
+//
+//    public void setPowers(double leftPower, double rightPower){
+//        setLeftPower(leftPower);
+//        setRightPower(rightPower);
+//    }
 
     public void setPowers(double leftPower, double rightPower){
-        setLeftPower(leftPower);
-        setRightPower(rightPower);
+        EnhancedMotor.setPowers(leftMotors, leftPower);
+        EnhancedMotor.setPowers(rightMotors, rightPower);
     }
-
-    public void setLeftPower(double power){
-        leftDrive1.setPower(power);
-        leftDrive2.setPower(power);
-    }
-
-    public void setRightPower(double power){
-        rightDrive1.setPower(power);
-        rightDrive2.setPower(power);
-    }
+//
+//    public void setLeftPower(double power){
+//        leftDrive1.setPower(power);
+//        leftDrive2.setPower(power);
+//    }
+//
+//    public void setRightPower(double power){
+//        rightDrive1.setPower(power);
+//        rightDrive2.setPower(power);
+//    }
 
     public void reverseMotorDirections(boolean reverseDirection) {
         this.reverseDirection = reverseDirection;
@@ -125,16 +130,11 @@ public class Drive
 
     private void setMotorDirections(){
         if (reverseDirection){
-            EnhancedMotor.setDirections([leftDrive1, leftDrive2]);
-            leftDrive1.setDirection(DcMotor.Direction.FORWARD);
-            leftDrive2.setDirection(DcMotor.Direction.FORWARD);
-            rightDrive1.setDirection(DcMotor.Direction.REVERSE);
-            rightDrive2.setDirection(DcMotor.Direction.REVERSE);
+            EnhancedMotor.setDirections(leftMotors, Direction.FORWARD);
+            EnhancedMotor.setDirections(rightMotors, Direction.REVERSE);
         } else {
-            leftDrive1.setDirection(DcMotor.Direction.REVERSE);
-            leftDrive2.setDirection(DcMotor.Direction.REVERSE);
-            rightDrive1.setDirection(DcMotor.Direction.FORWARD);
-            rightDrive2.setDirection(DcMotor.Direction.FORWARD);
+            EnhancedMotor.setDirections(leftMotors, Direction.REVERSE);
+            EnhancedMotor.setDirections(rightMotors, Direction.FORWARD);
         }
     }
 
