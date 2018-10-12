@@ -29,11 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
@@ -43,6 +40,8 @@ public class TeleOp_DriveOnly extends OpMode
     private RobotHardwareMap robot = new RobotHardwareMap();
     private double leftPower;
     private double rightPower;
+
+    GamepadEnhanced gamepadA = new GamepadEnhanced();
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -58,15 +57,16 @@ public class TeleOp_DriveOnly extends OpMode
      */
     @Override
     public void loop() {
+        gamepadA.update(gamepad1);
         setMotorPowers();
         moveLift();
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
     }
 
     private void moveLift() {
-        if (gamepad1.dpad_up){
+        if (gamepadA.dpad_up){
             robot.lift.setPower(1);
-        } else if (gamepad1.dpad_down) {
+        } else if (gamepadA.dpad_down) {
             robot.lift.setPower(-1);
         } else {
             robot.lift.setPower(0);
@@ -74,8 +74,8 @@ public class TeleOp_DriveOnly extends OpMode
     }
 
     private void setMotorPowers() {
-        double drive = -gamepad1.left_stick_y;
-        double turn  =  gamepad1.right_stick_x;
+        double drive = -gamepadA.left_stick_y;
+        double turn  =  gamepadA.right_stick_x;
 
         leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
         rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
