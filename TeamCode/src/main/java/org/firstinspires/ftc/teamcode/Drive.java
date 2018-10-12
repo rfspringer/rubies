@@ -33,6 +33,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
@@ -44,6 +48,10 @@ public class Drive
     private DcMotor leftDrive2 = null;
     private DcMotor rightDrive1 = null;
     private DcMotor rightDrive2 = null;
+
+    private DcMotor[] allMotors;
+    private DcMotor[] leftMotors;
+    private DcMotor[] rightMotors;
 
     private boolean reverseDirection = false;
 
@@ -60,9 +68,10 @@ public class Drive
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
         initializeDriveMotors();
+        initializeMotorArrays();
         setMotorDirections();
         setPowers(0, 0);
-        setRunModes(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        EnhancedMotor.setRunModes(allMotors, DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     private void initializeDriveMotors(){
@@ -72,12 +81,22 @@ public class Drive
         rightDrive2 = hwMap.get(DcMotor.class, "right_drive_2");
     }
 
-    public void setRunModes(DcMotor.RunMode runMode){
-        leftDrive1.setMode(runMode);
-        leftDrive2.setMode(runMode);
-        rightDrive1.setMode(runMode);
-        rightDrive2.setMode(runMode);
+    private void initializeMotorArrays() {
+        DcMotor[] allMotors = {leftDrive1, leftDrive2, rightDrive1, rightDrive2};
+        DcMotor[] leftMotors = {leftDrive1, leftDrive2};
+        DcMotor[] rightMotors = {rightDrive1, rightDrive2};
+        this.allMotors = allMotors;
+        this.leftMotors = leftMotors;
+        this.rightMotors = rightMotors;
     }
+//
+//    public void setRunModes(DcMotor.RunMode runMode){
+//        leftDrive1.setMode(runMode);
+//        leftDrive2.setMode(runMode);
+//        rightDrive1.setMode(runMode);
+//        rightDrive2.setMode(runMode);
+//    }
+
 
 
     public void setPowers(double leftPower, double rightPower){
@@ -106,6 +125,7 @@ public class Drive
 
     private void setMotorDirections(){
         if (reverseDirection){
+            EnhancedMotor.setDirections([leftDrive1, leftDrive2]);
             leftDrive1.setDirection(DcMotor.Direction.FORWARD);
             leftDrive2.setDirection(DcMotor.Direction.FORWARD);
             rightDrive1.setDirection(DcMotor.Direction.REVERSE);
