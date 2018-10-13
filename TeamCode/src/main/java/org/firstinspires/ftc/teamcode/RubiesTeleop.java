@@ -29,12 +29,9 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name="Teleop", group="Iterative Opmode")
@@ -43,6 +40,7 @@ public class RubiesTeleop extends OpMode
     private RobotHardwareMap robot = RobotHardwareMap.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
+    private AccelerationController accelerationController = new AccelerationController(1.0);
 
     private double leftPower;
     private double rightPower;
@@ -73,6 +71,9 @@ public class RubiesTeleop extends OpMode
                 leftPower, rightPower);
         telemetry.addData("Encoders", "left(%d) right (%d)",
                 robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
+
+        accelerationController.setPower(leftPower, robot.drive.getLeftMotors());
+        accelerationController.setPower(rightPower, robot.drive.getRightMotors());
     }
 
     private void moveLift() {
@@ -88,7 +89,7 @@ public class RubiesTeleop extends OpMode
     private void setMotorPowers() {
         leftPower    = -0.5 * gamepadA.left_stick_y;
         rightPower   = -0.5 * gamepadA.right_stick_y;
-        robot.drive.setPowers(leftPower, rightPower);
+//        robot.drive.setPowers(leftPower, rightPower);
     }
 
     private void controlAcceleration() {

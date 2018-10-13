@@ -123,6 +123,19 @@ public class Drive
         double counts = (leftDrive1.getCurrentPosition() + leftDrive2.getCurrentPosition())/2;
         return (int) counts;
     }
+
+    public DcMotor[] getAllMotors() {
+        return allMotors;
+    }
+
+    public DcMotor[] getLeftMotors() {
+        return leftMotors;
+    }
+
+    public DcMotor[] getRightMotors() {
+        return rightMotors;
+    }
+
     public static Drive getInstance() {
         return instance;
     }
