@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -40,10 +41,12 @@ public class RubiesTeleop extends OpMode
     private RobotHardwareMap robot = RobotHardwareMap.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
-    private AccelerationController accelerationController = new AccelerationController(1.0);
+    private AccelerationController accelerationController = new AccelerationController(3.0);
 
     private double leftPower;
     private double rightPower;
+
+    CRServo test;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -68,9 +71,14 @@ public class RubiesTeleop extends OpMode
         setDriveMotorPowers();
         moveLift();
         telemetry.addData("Motors", "left (%.2f), right (%.2f)",
-                leftPower, rightPower);
+                robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
         telemetry.addData("Encoders", "left(%d) right (%d)",
                 robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
+        telemetry.addData("Powers", "current (%.2f), last (%.2f), delta (%.2f)",
+                accelerationController.currentPower, accelerationController.lastPower, accelerationController.dPower);
+        telemetry.addData("Times", "current (%.2f), last (%.2f), delta (%.2f)",
+                accelerationController.currentTime, accelerationController.lastTime, accelerationController.dTime);
+
     }
 
     private void moveLift() {
