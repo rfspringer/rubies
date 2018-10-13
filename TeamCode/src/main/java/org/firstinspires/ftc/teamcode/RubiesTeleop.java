@@ -72,8 +72,8 @@ public class RubiesTeleop extends OpMode
         telemetry.addData("Encoders", "left(%d) right (%d)",
                 robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
 
-        accelerationController.setPower(leftPower, robot.drive.getLeftMotors());
-        accelerationController.setPower(rightPower, robot.drive.getRightMotors());
+        accelerationController.run(leftPower, robot.drive.getLeftMotors());
+        accelerationController.run(rightPower, robot.drive.getRightMotors());
     }
 
     private void moveLift() {
