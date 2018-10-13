@@ -41,10 +41,11 @@ import com.qualcomm.robotcore.util.Range;
 public class RubiesTeleop extends OpMode
 {
     private RobotHardwareMap robot = RobotHardwareMap.getInstance();
+    private ElapsedTime runtime = new ElapsedTime();
+    private GamepadEnhanced gamepadA = new GamepadEnhanced();
+
     private double leftPower;
     private double rightPower;
-
-    private GamepadEnhanced gamepadA = new GamepadEnhanced();
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -55,6 +56,11 @@ public class RubiesTeleop extends OpMode
         telemetry.addData("Status", "Initialized");
     }
 
+    @Override
+    public void start() {
+        runtime.reset();
+    }
+
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
@@ -63,8 +69,10 @@ public class RubiesTeleop extends OpMode
         gamepadA.update(gamepad1);
         setMotorPowers();
         moveLift();
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-        telemetry.addData("Encoders", "left(%d) right (%d)", robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
+        telemetry.addData("Motors", "left (%.2f), right (%.2f)",
+                leftPower, rightPower);
+        telemetry.addData("Encoders", "left(%d) right (%d)",
+                robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
     }
 
     private void moveLift() {
@@ -81,5 +89,9 @@ public class RubiesTeleop extends OpMode
         leftPower    = -0.5 * gamepadA.left_stick_y;
         rightPower   = -0.5 * gamepadA.right_stick_y;
         robot.drive.setPowers(leftPower, rightPower);
+    }
+
+    private void controlAcceleration() {
+
     }
 }
