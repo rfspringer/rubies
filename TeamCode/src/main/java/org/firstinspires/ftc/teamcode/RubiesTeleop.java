@@ -65,34 +65,32 @@ public class RubiesTeleop extends OpMode
     @Override
     public void loop() {
         gamepadA.update(gamepad1);
-        setMotorPowers();
+        setDriveMotorPowers();
         moveLift();
         telemetry.addData("Motors", "left (%.2f), right (%.2f)",
                 leftPower, rightPower);
         telemetry.addData("Encoders", "left(%d) right (%d)",
                 robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
-
-        accelerationController.run(leftPower, robot.drive.getLeftMotors());
-        accelerationController.run(rightPower, robot.drive.getRightMotors());
     }
 
     private void moveLift() {
         if (gamepadA.dpad_up){
-            robot.lift.setPower(1);
+            accelerationController.run(1, robot.lift.getMotor());
         } else if (gamepadA.dpad_down) {
-            robot.lift.setPower(-1);
+            accelerationController.run(-1, robot.lift.getMotor());
         } else {
-            robot.lift.setPower(0);
+            accelerationController.run(0, robot.lift.getMotor());
         }
     }
 
-    private void setMotorPowers() {
-        leftPower    = -0.5 * gamepadA.left_stick_y;
-        rightPower   = -0.5 * gamepadA.right_stick_y;
-//        robot.drive.setPowers(leftPower, rightPower);
+    private void setDriveMotorPowers() {
+        calculateMotorPowers();
+        accelerationController.run(leftPower, robot.drive.getLeftMotors());
+        accelerationController.run(rightPower, robot.drive.getRightMotors());
     }
 
-    private void controlAcceleration() {
-
+    private void calculateMotorPowers() {
+        leftPower    = -1 * gamepadA.left_stick_y;
+        rightPower   = -1 * gamepadA.right_stick_y;
     }
 }

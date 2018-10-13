@@ -15,8 +15,8 @@ public class AccelerationController {
 
     private double maxAcceleration;
 
-    public AccelerationController(double maxAcceleration) {
-        this.maxAcceleration = maxAcceleration;
+    public AccelerationController(double maxAccelerationOfPowers) {
+        this.maxAcceleration = maxAccelerationOfPowers;
     }
 
     public void run(double targetPower, DcMotor[] motors) {
@@ -24,6 +24,14 @@ public class AccelerationController {
         updateDifferentials(targetPower);
         currentPower = calculatePower();
         MotorEnhanced.setPowers(motors, currentPower);
+        updateLastTimeAndPower();
+    }
+
+    public void run(double targetPower, DcMotor motor) {
+        updateTime();
+        updateDifferentials(targetPower);
+        currentPower = calculatePower();
+        motor.setPower(currentPower);
         updateLastTimeAndPower();
     }
 

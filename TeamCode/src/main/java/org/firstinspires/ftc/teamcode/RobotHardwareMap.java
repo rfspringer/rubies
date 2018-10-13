@@ -44,17 +44,12 @@ public class RobotHardwareMap
     Drive drive = Drive.getInstance();
     HardwareLift lift = HardwareLift.getInstance();
 
-    /* local OpMode members. */
-    private ElapsedTime period  = new ElapsedTime();
-    private HardwareMap hwMap = null;
-
     /* Constructor */
     private RobotHardwareMap(){
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
-        hwMap = ahwMap;
+    public void init(HardwareMap hwMap) {
         drive.init(hwMap);
         lift.init(hwMap);
     }
