@@ -69,7 +69,8 @@ public class Drive
         initializeMotorArrays();
         setMotorDirections();
         setPowers(0, 0);
-        MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     private void initializeDriveMotors(){
