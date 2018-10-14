@@ -49,8 +49,6 @@ public class RubiesTeleop extends OpMode
     private double leftPower;
     private double rightPower;
 
-    CRServo test;
-
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -78,14 +76,6 @@ public class RubiesTeleop extends OpMode
                 robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
         telemetry.addData("Encoders", "left(%d) right (%d)",
                 robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
-        telemetry.addData("Powers", "current (%.2f), last (%.2f), delta (%.2f)",
-                leftAccelerationController.currentPower, leftAccelerationController.lastPower, leftAccelerationController.dPower);
-        telemetry.addData("Times", "current (%.2f), last (%.2f), delta (%.2f)",
-                leftAccelerationController.currentTime, leftAccelerationController.lastTime, leftAccelerationController.dTime);
-        logger.writeLine(-1 * gamepadA.left_stick_y, leftAccelerationController.currentPower,
-                leftAccelerationController.lastPower, leftAccelerationController.dPower,
-                leftAccelerationController.currentTime, leftAccelerationController.lastTime,
-                leftAccelerationController.dTime);
     }
 
     private void moveLift() {
