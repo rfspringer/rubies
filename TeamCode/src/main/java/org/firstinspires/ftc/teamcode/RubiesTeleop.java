@@ -90,8 +90,12 @@ public class RubiesTeleop extends OpMode
 
     private void setDriveMotorPowers() {
         calculateMotorPowers();
-        leftAccelerationController.run(leftPower, robot.drive.getLeftMotors());
-        rightAccelerationController.run(rightPower, robot.drive.getRightMotors());
+        if (gamepadA.left_bumper) {
+            robot.drive.setPowers(leftPower, rightPower);
+        } else {
+            leftAccelerationController.run(leftPower, robot.drive.getLeftMotors());
+            rightAccelerationController.run(rightPower, robot.drive.getRightMotors());
+        }
     }
 
     private void calculateMotorPowers() {
