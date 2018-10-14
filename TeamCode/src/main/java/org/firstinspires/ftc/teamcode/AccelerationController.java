@@ -67,7 +67,7 @@ public class AccelerationController {
             direction = 0;
         }
 //        double direction = -Math.signum(dPower);
-        dPower = Math.min(maxAcceleration * dTime,  dPower);
+        dPower = Math.min(maxAcceleration * dTime,  Math.abs(dPower));
         return lastPower + direction * dPower;
     }
 }

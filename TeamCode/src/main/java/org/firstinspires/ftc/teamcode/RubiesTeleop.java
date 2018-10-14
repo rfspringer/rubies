@@ -41,7 +41,10 @@ public class RubiesTeleop extends OpMode
     private RobotHardwareMap robot = RobotHardwareMap.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
-    private AccelerationController accelerationController = new AccelerationController(3.0);
+    private AccelerationController leftAccelerationController = new AccelerationController(5.0);
+    private AccelerationController rightAccelerationController = new AccelerationController(5.0);
+    private AccelerationController liftAccelerationController = new AccelerationController(3.0);
+    private FTCLogger logger = new FTCLogger("AccelerationControllerTests");
 
     private double leftPower;
     private double rightPower;
@@ -60,6 +63,7 @@ public class RubiesTeleop extends OpMode
     @Override
     public void start() {
         runtime.reset();
+        logger.writeLine("Joystick Pos", "(left) Current Power", "Last Power", "dPower", "Current Time", "Last Time", "dTime");
     }
 
     /*
@@ -75,30 +79,38 @@ public class RubiesTeleop extends OpMode
         telemetry.addData("Encoders", "left(%d) right (%d)",
                 robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
         telemetry.addData("Powers", "current (%.2f), last (%.2f), delta (%.2f)",
-                accelerationController.currentPower, accelerationController.lastPower, accelerationController.dPower);
+                leftAccelerationController.currentPower, leftAccelerationController.lastPower, leftAccelerationController.dPower);
         telemetry.addData("Times", "current (%.2f), last (%.2f), delta (%.2f)",
-                accelerationController.currentTime, accelerationController.lastTime, accelerationController.dTime);
-
+                leftAccelerationController.currentTime, leftAccelerationController.lastTime, leftAccelerationController.dTime);
+        logger.writeLine(-1 * gamepadA.left_stick_y, leftAccelerationController.currentPower,
+                leftAccelerationController.lastPower, leftAccelerationController.dPower,
+                leftAccelerationController.currentTime, leftAccelerationController.lastTime,
+                leftAccelerationController.dTime);
     }
 
     private void moveLift() {
         if (gamepadA.dpad_up){
-            accelerationController.run(1, robot.lift.getMotor());
+            liftAccelerationController.run(1, robot.lift.getMotor());
         } else if (gamepadA.dpad_down) {
-            accelerationController.run(-1, robot.lift.getMotor());
+            liftAccelerationController.run(-1, robot.lift.getMotor());
         } else {
-            accelerationController.run(0, robot.lift.getMotor());
+            liftAccelerationController.run(0, robot.lift.getMotor());
         }
     }
 
     private void setDriveMotorPowers() {
         calculateMotorPowers();
-        accelerationController.run(leftPower, robot.drive.getLeftMotors());
-        accelerationController.run(rightPower, robot.drive.getRightMotors());
+        leftAccelerationController.run(leftPower, robot.drive.getLeftMotors());
+        rightAccelerationController.run(rightPower, robot.drive.getRightMotors());
     }
 
     private void calculateMotorPowers() {
         leftPower    = -1 * gamepadA.left_stick_y;
         rightPower   = -1 * gamepadA.right_stick_y;
+    }
+
+    @Override
+    public void stop() {
+        logger.closeFile();
     }
 }
