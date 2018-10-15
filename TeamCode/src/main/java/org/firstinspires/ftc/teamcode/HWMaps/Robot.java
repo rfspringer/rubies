@@ -38,9 +38,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * This class can be used to define all the specific hardware for our robot
  * This class stores functions that use a combination of subsystems on our robot
  */
-public class RobotHardwareMap
+public class Robot
 {
-    private static final RobotHardwareMap instance = new RobotHardwareMap();
+    private static final Robot instance = new Robot();
     public Drive drive = Drive.getInstance();
     public Lift lift = Lift.getInstance();
 
@@ -49,7 +49,7 @@ public class RobotHardwareMap
     private HardwareMap hwMap = null;
 
     /* Constructor */
-    private RobotHardwareMap(){
+    private Robot(){
     }
 
     /* Initialize standard Hardware interfaces */
@@ -59,7 +59,7 @@ public class RobotHardwareMap
         lift.init(hwMap);
     }
 
-    public static RobotHardwareMap getInstance() {
+    public static Robot getInstance() {
         return instance;
     }
  }

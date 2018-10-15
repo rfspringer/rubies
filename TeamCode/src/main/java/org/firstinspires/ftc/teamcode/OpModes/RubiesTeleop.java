@@ -33,13 +33,13 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
-import org.firstinspires.ftc.teamcode.HWMaps.RobotHardwareMap;
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 
 
 @TeleOp(name="Teleop", group="Iterative Opmode")
 public class RubiesTeleop extends OpMode
 {
-    private RobotHardwareMap robot = RobotHardwareMap.getInstance();
+    private Robot robot = Robot.getInstance();
     private double leftPower;
     private double rightPower;
 
