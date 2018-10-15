@@ -27,12 +27,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.HWMaps;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.HWMaps.HardwareLift;
 
 /**
  * This is NOT an opmode.
@@ -43,8 +41,8 @@ import org.firstinspires.ftc.teamcode.HWMaps.HardwareLift;
 public class RobotHardwareMap
 {
     private static final RobotHardwareMap instance = new RobotHardwareMap();
-    Drive drive = Drive.getInstance();
-    HardwareLift lift = HardwareLift.getInstance();
+    public Drive drive = Drive.getInstance();
+    public Lift lift = Lift.getInstance();
 
     /* local OpMode members. */
     private ElapsedTime period  = new ElapsedTime();

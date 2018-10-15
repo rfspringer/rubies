@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.HWMaps;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -38,9 +38,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class HardwareLift
+public class Lift
 {
-    private static final HardwareLift instance = new HardwareLift();
+    private static final Lift instance = new Lift();
     /* Public OpMode members. */
     private DcMotor  lift   = null;
 
@@ -49,7 +49,7 @@ public class HardwareLift
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    private HardwareLift(){
+    private Lift(){
 
     }
 
@@ -67,7 +67,7 @@ public class HardwareLift
         lift.setPower(power);
     }
 
-    public static HardwareLift getInstance(){
+    public static Lift getInstance(){
         return instance;
     }
 }
