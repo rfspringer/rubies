@@ -27,14 +27,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
+import org.firstinspires.ftc.teamcode.HWMaps.RobotHardwareMap;
 
 
 @TeleOp(name="Teleop", group="Iterative Opmode")
@@ -78,8 +77,8 @@ public class RubiesTeleop extends OpMode
     }
 
     private void setMotorPowers() {
-        leftPower    = -0.5 * gamepadA.left_stick_y;
-        rightPower   = -0.5 * gamepadA.right_stick_y;
+        leftPower = -0.5 * gamepadA.left_stick_y;
+        rightPower = -0.5 * gamepadA.right_stick_y;
         robot.drive.setPowers(leftPower, rightPower);
     }
 }
