@@ -18,23 +18,24 @@ public class Trajectory {
 
     public void run(ElapsedTime currentTime) {
         if (currentTime.milliseconds() < timeOfAcceleration) {
-            accelerate();
-        } else if (timeOfAcceleration <= currentTime.milliseconds() && currentTime.milliseconds() < timeOfAcceleration + timeOfConstantVelocity) {
-            cruise();
+            accelerate(currentTime);
+        } else if (timeOfAcceleration <= currentTime.milliseconds() &&
+                currentTime.milliseconds() < timeOfAcceleration + timeOfConstantVelocity) {
+            cruise(currentTime);
         } else if (timeOfAcceleration + timeOfConstantVelocity < currentTime.milliseconds()) {
-            decelerate();
+            decelerate(currentTime);
         }
     }
 
-    public void accelerate() {
+    public void accelerate(ElapsedTime currentTime) {
+        
+    }
+
+    public void cruise(ElapsedTime currentTime) {
 
     }
 
-    public void cruise() {
-
-    }
-
-    public void decelerate() {
+    public void decelerate(ElapsedTime currentTime) {
 
     }
 }
