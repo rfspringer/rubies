@@ -67,6 +67,10 @@ public class HardwareLift
         lift.setPower(power);
     }
 
+    public DcMotor getMotor() {
+        return lift;
+    }
+
     public static HardwareLift getInstance(){
         return instance;
     }

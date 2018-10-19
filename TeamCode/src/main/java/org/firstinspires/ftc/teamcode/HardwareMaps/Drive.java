@@ -56,8 +56,10 @@ public class Drive
     private boolean reverseDirection = false;
 
     /* local OpMode members. */
-    private HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime();
+    private HardwareMap hwMap =  null;
+
+//    private double MAX_VEL;
+//    private double MAX_ACCEL = ;
 
     /* Constructor */
     private Drive(){
@@ -124,6 +126,19 @@ public class Drive
         double counts = (leftDrive1.getCurrentPosition() + leftDrive2.getCurrentPosition())/2;
         return (int) counts;
     }
+
+    public DcMotor[] getAllMotors() {
+        return allMotors;
+    }
+
+    public DcMotor[] getLeftMotors() {
+        return leftMotors;
+    }
+
+    public DcMotor[] getRightMotors() {
+        return rightMotors;
+    }
+
     public static Drive getInstance() {
         return instance;
     }

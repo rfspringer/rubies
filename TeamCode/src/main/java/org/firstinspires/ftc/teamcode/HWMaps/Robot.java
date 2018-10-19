@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.HWMaps;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -47,17 +48,12 @@ public class Robot
     public Drive drive = Drive.getInstance();
     public Lift lift = Lift.getInstance();
 
-    /* local OpMode members. */
-    private ElapsedTime period  = new ElapsedTime();
-    private HardwareMap hwMap = null;
-
     /* Constructor */
     private Robot(){
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
-        hwMap = ahwMap;
+    public void init(HardwareMap hwMap) {
         drive.init(hwMap);
         lift.init(hwMap);
     }

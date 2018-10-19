@@ -70,5 +70,9 @@ public class Lift
     public static Lift getInstance(){
         return instance;
     }
+
+    public DcMotor getMotor() {
+        return lift;
+    }
 }
 
