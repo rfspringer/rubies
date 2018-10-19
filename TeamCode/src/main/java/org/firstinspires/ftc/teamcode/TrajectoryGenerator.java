@@ -1,23 +1,31 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 public class TrajectoryGenerator {
+    // Units are inches and seconds
+    private double maxVelocity;
+    private double maxAcceleration;
+
     private double trajectoryLength;
 
-    public TrajectoryGenerator(double distance) {
-        this.trajectoryLength = distance;
+    public TrajectoryGenerator(double trajectoryLength, double maxVelocity, double maxAcceleration) {
+        this.trajectoryLength = trajectoryLength;
+        this.maxVelocity = maxVelocity;
+        this.maxAcceleration = maxAcceleration;
     }
 
-    private double distanceToAccelerateAndDecelerate (double acceleration, double maxVelocity) {
-        // Rearranged kinematic equation v^2 = v_0^2 + 2ax
-        return maxVelocity * maxVelocity / acceleration;
+    public double calculateVelocityAtTime(ElapsedTime currentTime) {
+        double velocityWithoutCruising = Math.min(velocityIfConstantAcceleration(currentTime),
+                velocityIfConstantDeceleration(currentTime));
+        return Math.min(velocityWithoutCruising, maxVelocity);
     }
 
-    private double getCruisingDistance(double acceleration, double maxVelocity) {
-        return trajectoryLength - distanceToAccelerateAndDecelerate(acceleration, maxVelocity);
+    private double velocityIfConstantAcceleration(ElapsedTime currentTime) {
+        return maxAcceleration * currentTime.seconds();
     }
 
-    private boolean trajectoryIsLongerThanAccelerationAndDeceleration
-            (double distanceToAccelerateAndDecelerate, double trajectoryLength) {
-        return  trajectoryLength > distanceToAccelerateAndDecelerate;
+    private double velocityIfConstantDeceleration(ElapsedTime currentTime) {
+        return trajectoryLength - maxAcceleration * currentTime.seconds();
     }
 }
