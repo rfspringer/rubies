@@ -27,59 +27,48 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.HWMaps;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
-
-@TeleOp(name="Teleop", group="Iterative Opmode")
-public class RubiesTeleop extends OpMode
+/**
+ * This class stores all objects on our robot's drivetrain
+ * It also includes functionality specific to our drive base
+ */
+public class Lift
 {
-    private RobotHardwareMap robot = RobotHardwareMap.getInstance();
-    private double leftPower;
-    private double rightPower;
+    private static final Lift instance = new Lift();
+    /* Public OpMode members. */
+    private DcMotor  lift   = null;
 
-    private GamepadEnhanced gamepadA = new GamepadEnhanced();
+    /* local OpMode members. */
+    private HardwareMap hwMap           =  null;
+    private ElapsedTime period  = new ElapsedTime();
 
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
-    @Override
-    public void init() {
-        robot.init(hardwareMap);
-        telemetry.addData("Status", "Initialized");
+    /* Constructor */
+    private Lift(){
+
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-    @Override
-    public void loop() {
-        gamepadA.update(gamepad1);
-        setMotorPowers();
-        moveLift();
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-        telemetry.addData("Encoders", "left(%d) right (%d)", robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
+    /* Initialize standard Hardware interfaces */
+    public void init(HardwareMap ahwMap) {
+        hwMap = ahwMap;
+        lift = hwMap.get(DcMotor.class, "lift");
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setPower(0);
     }
 
-    private void moveLift() {
-        if (gamepadA.dpad_up){
-            robot.lift.setPower(1);
-        } else if (gamepadA.dpad_down) {
-            robot.lift.setPower(-1);
-        } else {
-            robot.lift.setPower(0);
-        }
+    public void setPower(double power) {
+        lift.setPower(power);
     }
 
-    private void setMotorPowers() {
-        leftPower    = -0.5 * gamepadA.left_stick_y;
-        rightPower   = -0.5 * gamepadA.right_stick_y;
-        robot.drive.setPowers(leftPower, rightPower);
+    public static Lift getInstance(){
+        return instance;
     }
 }
+

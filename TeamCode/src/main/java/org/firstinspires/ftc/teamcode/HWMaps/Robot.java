@@ -27,48 +27,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.HWMaps;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
- * This class stores all objects on our robot's drivetrain
- * It also includes functionality specific to our drive base
+ * This is NOT an opmode.
+ *
+ * This class can be used to define all the specific hardware for our robot
+ * This class stores functions that use a combination of subsystems on our robot
  */
-public class HardwareLift
+public class Robot
 {
-    private static final HardwareLift instance = new HardwareLift();
-    /* Public OpMode members. */
-    private DcMotor  lift   = null;
+    private static final Robot instance = new Robot();
+    public Drive drive = Drive.getInstance();
+    public Lift lift = Lift.getInstance();
 
     /* local OpMode members. */
-    private HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
+    private HardwareMap hwMap = null;
 
     /* Constructor */
-    private HardwareLift(){
-
+    private Robot(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        lift = hwMap.get(DcMotor.class, "lift");
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        lift.setPower(0);
+        drive.init(hwMap);
+        lift.init(hwMap);
     }
 
-    public void setPower(double power) {
-        lift.setPower(power);
-    }
-
-    public static HardwareLift getInstance(){
+    public static Robot getInstance() {
         return instance;
     }
-}
+ }
 
