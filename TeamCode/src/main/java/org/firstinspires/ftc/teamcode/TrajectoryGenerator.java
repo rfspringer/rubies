@@ -7,6 +7,9 @@ public class TrajectoryGenerator {
     private double maxVelocity;
     private double maxAcceleration;
 
+    private double currentVelocity;
+    private double currentAcceleration;
+
     private double trajectoryLength;
 
     public TrajectoryGenerator(double trajectoryLength, double maxVelocity, double maxAcceleration) {
@@ -15,17 +18,41 @@ public class TrajectoryGenerator {
         this.maxAcceleration = maxAcceleration;
     }
 
-    public double calculateVelocityAtTime(ElapsedTime currentTime) {
-        double velocityWithoutCruising = Math.min(velocityIfConstantAcceleration(currentTime),
-                velocityIfConstantDeceleration(currentTime));
-        return Math.min(velocityWithoutCruising, maxVelocity);
+    public void calculatePositionalDerivatives(ElapsedTime currentTime) {
+        if (velocityIfConstantAcceleration(currentTime) < velocityIfCruising()
+                && velocityIfConstantAcceleration(currentTime)
+                < velocityIfConstantAcceleration(currentTime)) {
+            currentVelocity = velocityIfConstantAcceleration(currentTime);
+            currentAcceleration = maxAcceleration;
+        } else if (velocityIfConstantDeceleration(currentTime) < velocityIfCruising()
+                && velocityIfConstantDeceleration(currentTime) <
+                velocityIfConstantAcceleration(currentTime)) {
+            currentVelocity = velocityIfConstantAcceleration(currentTime);
+            currentAcceleration = -maxAcceleration;
+        } else {
+            currentVelocity = maxVelocity;
+            currentAcceleration = 0;
+        }
     }
 
     private double velocityIfConstantAcceleration(ElapsedTime currentTime) {
         return maxAcceleration * currentTime.seconds();
     }
 
+    private double velocityIfCruising(){
+        return maxVelocity;
+    }
+
     private double velocityIfConstantDeceleration(ElapsedTime currentTime) {
-        return trajectoryLength - maxAcceleration * currentTime.seconds();
+        return  Math.sqrt(2 * maxAcceleration * trajectoryLength) - maxAcceleration
+                * currentTime.seconds();
+    }
+
+    public double getCurrentVelocity() {
+        return currentVelocity;
+    }
+
+    public double getCurrentAcceleration() {
+        return currentAcceleration;
     }
 }
