@@ -53,6 +53,12 @@ public class Drive
 
     private boolean reverseDirection = false;
 
+    private double MAX_VELOCITY;
+    private double MAX_ACCELERATION;
+
+    private double kV = 0.8/MAX_VELOCITY;
+    private double kA = 0.1;
+
     /* local OpMode members. */
     private HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
@@ -98,6 +104,21 @@ public class Drive
         setMotorDirections();
     }
 
+    public void followTrajectory(double distance, double heading) {
+        MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, MAX_VELOCITY, MAX_ACCELERATION);
+        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(allMotors, trajectory, kV, kA, false);
+        trajectoryFollower.run();
+    }
+
+
+    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
+        MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
+        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(allMotors, trajectory, kV, kA, false);
+        trajectoryFollower.run();
+    }
+
     public boolean isDirectionReversed() {
         return reverseDirection;
     }
@@ -121,9 +142,21 @@ public class Drive
         double counts = (leftDrive1.getCurrentPosition() + leftDrive2.getCurrentPosition())/2;
         return (int) counts;
     }
+
     public static Drive getInstance() {
         return instance;
     }
 
+    public DcMotor[] getAllMotors() {
+        return allMotors;
+    }
+
+    public double getkV() {
+        return kV;
+    }
+
+    public double getkA() {
+        return kA;
+    }
 }
 

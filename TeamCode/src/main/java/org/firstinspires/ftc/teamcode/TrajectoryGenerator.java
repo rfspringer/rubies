@@ -12,7 +12,8 @@ public class TrajectoryGenerator {
 
     private double trajectoryLength;
 
-    public TrajectoryGenerator(double trajectoryLength, double maxVelocity, double maxAcceleration) {
+    public TrajectoryGenerator(double trajectoryLength, double maxVelocity, double maxAcceleration)
+    {
         this.trajectoryLength = trajectoryLength;
         this.maxVelocity = maxVelocity;
         this.maxAcceleration = maxAcceleration;
@@ -21,13 +22,13 @@ public class TrajectoryGenerator {
     public void calculatePositionalDerivatives(ElapsedTime currentTime) {
         if (velocityIfConstantAcceleration(currentTime) < velocityIfCruising()
                 && velocityIfConstantAcceleration(currentTime)
-                < velocityIfConstantAcceleration(currentTime)) {
+                < velocityIfConstantDeceleration(currentTime)) {
             currentVelocity = velocityIfConstantAcceleration(currentTime);
             currentAcceleration = maxAcceleration;
         } else if (velocityIfConstantDeceleration(currentTime) < velocityIfCruising()
-                && velocityIfConstantDeceleration(currentTime) <
-                velocityIfConstantAcceleration(currentTime)) {
-            currentVelocity = velocityIfConstantAcceleration(currentTime);
+                && velocityIfConstantDeceleration(currentTime)
+                < velocityIfConstantAcceleration(currentTime)) {
+            currentVelocity = velocityIfConstantDeceleration(currentTime);
             currentAcceleration = -maxAcceleration;
         } else {
             currentVelocity = maxVelocity;
@@ -44,8 +45,8 @@ public class TrajectoryGenerator {
     }
 
     private double velocityIfConstantDeceleration(ElapsedTime currentTime) {
-        return  Math.sqrt(2 * maxAcceleration * trajectoryLength) - maxAcceleration
-                * currentTime.seconds();
+        double finalVelocity  = Math.sqrt(2 * maxAcceleration * trajectoryLength);
+        return  finalVelocity - maxAcceleration * currentTime.seconds();
     }
 
     public double getCurrentVelocity() {
