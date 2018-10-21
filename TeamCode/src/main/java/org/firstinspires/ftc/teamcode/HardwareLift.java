@@ -56,7 +56,6 @@ public class HardwareLift
 
     /* Constructor */
     private HardwareLift(){
-
     }
 
     /* Initialize standard Hardware interfaces */
