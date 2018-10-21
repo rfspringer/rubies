@@ -10,13 +10,15 @@ public class TrajectoryFollower {
     private boolean usesFeedback;
     private DcMotor[] motors;
     private TrajectoryGenerator trajectory;
+    private boolean directionIsPositive;
 
-    public TrajectoryFollower(DcMotor[] motors, TrajectoryGenerator trajectory, double kV, double kA, boolean usesFeedback){
+    public TrajectoryFollower(DcMotor[] motors, TrajectoryGenerator trajectory, double kV, double kA, boolean usesFeedback, boolean directionIsNonNeg){
         this.usesFeedback = usesFeedback;
         this.motors = motors;
         this.trajectory = trajectory;
         this.kV = kV;
         this.kA = kA;
+        this.directionIsPositive = directionIsPositive;
         timer.reset();
     }
 
@@ -24,13 +26,18 @@ public class TrajectoryFollower {
         if (usesFeedback) {
             //run PID with heading and feedforward
         } else {
-            MotorEnhanced.setPowers(motors, getFeedforwardPower(timer));
+            MotorEnhanced.setPower(motors, getFeedforwardPower(timer));
         }
     }
 
     private double getFeedforwardPower(ElapsedTime currentTime){
         trajectory.calculatePositionalDerivatives(currentTime);
-        return kV * trajectory.getCurrentVelocity() + kA * trajectory.getCurrentAcceleration();
+        double power = kV * trajectory.getCurrentVelocity() + kA * trajectory.getCurrentAcceleration();
+        if (directionIsPositive) {
+            return power;
+        } else {
+            return -power;
+        }
     }
 
     public boolean trajectoryIsComplete() {

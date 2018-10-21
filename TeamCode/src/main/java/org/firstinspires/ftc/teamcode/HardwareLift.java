@@ -44,6 +44,12 @@ public class HardwareLift
     /* Public OpMode members. */
     private DcMotor  lift   = null;
 
+    private double MAX_VELOCITY;
+    private double MAX_ACCELERATION;
+
+    private double kV = 0.8/MAX_VELOCITY;
+    private double kA;
+
     /* local OpMode members. */
     private HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
@@ -69,6 +75,24 @@ public class HardwareLift
 
     public static HardwareLift getInstance(){
         return instance;
+    }
+
+
+    public void followTrajectory(double distance, double heading) {
+        followTrajectory(distance, heading, MAX_VELOCITY, MAX_ACCELERATION);
+    }
+
+
+    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
+        DcMotor[] lift = {this.lift};
+        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
+        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false, distance >= 0);
+        if (trajectoryFollower.trajectoryIsComplete()) {
+            MotorEnhanced.setPower(lift, 0);
+            return;
+        }
+        trajectoryFollower.run();
     }
 }
 

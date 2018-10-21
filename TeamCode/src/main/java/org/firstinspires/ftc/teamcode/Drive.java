@@ -75,7 +75,7 @@ public class Drive
         initializeMotorArrays();
         setMotorDirections();
         setPowers(0, 0);
-        MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     private void initializeDriveMotors(){
@@ -95,8 +95,8 @@ public class Drive
     }
 
     public void setPowers(double leftPower, double rightPower){
-        MotorEnhanced.setPowers(leftMotors, leftPower);
-        MotorEnhanced.setPowers(rightMotors, rightPower);
+        MotorEnhanced.setPower(leftMotors, leftPower);
+        MotorEnhanced.setPower(rightMotors, rightPower);
     }
 
     public void reverseMotorDirections(boolean reverseDirection) {
@@ -110,11 +110,11 @@ public class Drive
 
 
     public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
-        MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
+        MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
         TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
-        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(allMotors, trajectory, kV, kA, false);
+        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(allMotors, trajectory, kV, kA, false, distance >= 0);
         if (trajectoryFollower.trajectoryIsComplete()) {
-            MotorEnhanced.setPowers(allMotors, 0);
+            MotorEnhanced.setPower(allMotors, 0);
             return;
         }
         trajectoryFollower.run();
@@ -126,11 +126,11 @@ public class Drive
 
     private void setMotorDirections(){
         if (reverseDirection){
-            MotorEnhanced.setDirections(leftMotors, Direction.FORWARD);
-            MotorEnhanced.setDirections(rightMotors, Direction.REVERSE);
+            MotorEnhanced.setDirection(leftMotors, Direction.FORWARD);
+            MotorEnhanced.setDirection(rightMotors, Direction.REVERSE);
         } else {
-            MotorEnhanced.setDirections(leftMotors, Direction.REVERSE);
-            MotorEnhanced.setDirections(rightMotors, Direction.FORWARD);
+            MotorEnhanced.setDirection(leftMotors, Direction.REVERSE);
+            MotorEnhanced.setDirection(rightMotors, Direction.FORWARD);
         }
     }
 

@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.io.IOError;
+import java.io.IOException;
+
 public class TrajectoryGenerator {
     // Units are inches and seconds
     private double maxVelocity;
@@ -14,6 +17,9 @@ public class TrajectoryGenerator {
 
     public TrajectoryGenerator(double trajectoryLength, double maxVelocity, double maxAcceleration)
     {
+        if (trajectoryLength < 0) {
+            throw new java.lang.RuntimeException("Cannot have negative trajectory length");
+        }
         this.trajectoryLength = trajectoryLength;
         this.maxVelocity = maxVelocity;
         this.maxAcceleration = maxAcceleration;
