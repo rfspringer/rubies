@@ -105,10 +105,7 @@ public class Drive
     }
 
     public void followTrajectory(double distance, double heading) {
-        MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
-        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, MAX_VELOCITY, MAX_ACCELERATION);
-        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(allMotors, trajectory, kV, kA, false);
-        trajectoryFollower.run();
+        followTrajectory(distance, heading, MAX_VELOCITY, MAX_ACCELERATION);
     }
 
 
@@ -116,6 +113,10 @@ public class Drive
         MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
         TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
         TrajectoryFollower trajectoryFollower = new TrajectoryFollower(allMotors, trajectory, kV, kA, false);
+        if (trajectoryFollower.trajectoryIsComplete()) {
+            MotorEnhanced.setPowers(allMotors, 0);
+            return;
+        }
         trajectoryFollower.run();
     }
 

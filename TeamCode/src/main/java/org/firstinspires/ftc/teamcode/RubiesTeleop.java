@@ -63,6 +63,7 @@ public class RubiesTeleop extends OpMode
         gamepadA.update(gamepad1);
         setMotorPowers();
         moveLift();
+        robot.drive.followTrajectory(12.0, 0);
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
         telemetry.addData("Encoders", "left(%d) right (%d)", robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
     }
@@ -82,4 +83,5 @@ public class RubiesTeleop extends OpMode
         rightPower   = -0.5 * gamepadA.right_stick_y;
         robot.drive.setPowers(leftPower, rightPower);
     }
+
 }

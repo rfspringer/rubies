@@ -8,7 +8,6 @@ public class TrajectoryFollower {
     private double kV;
     private double kA;
     private boolean usesFeedback;
-    private boolean hasResetTimer = false;
     private DcMotor[] motors;
     private TrajectoryGenerator trajectory;
 
@@ -18,36 +17,23 @@ public class TrajectoryFollower {
         this.trajectory = trajectory;
         this.kV = kV;
         this.kA = kA;
+        timer.reset();
     }
-//
-//    public TrajectoryFollower(TrajectoryGenerator trajectory, boolean usesFeedback){
-//        // default trajectory follower for drivetrain
-//        Drive drive = Drive.getInstance();
-//        this.usesFeedback = usesFeedback;
-//        this.motors = drive.getAllMotors();
-//        this.trajectory = trajectory;
-//        this.kV = drive.getkV();
-//        this.kA = drive.getkA();
-//    }
 
     public void run(){
-        updateTimerIfFirstTime();
         if (usesFeedback) {
-            //run PID with current position and feedforward
+            //run PID with heading and feedforward
         } else {
             MotorEnhanced.setPowers(motors, getFeedforwardPower(timer));
-        }
-    }
-
-    private void updateTimerIfFirstTime(){
-        if (!hasResetTimer) {
-            timer.reset();
-            hasResetTimer = true;
         }
     }
 
     private double getFeedforwardPower(ElapsedTime currentTime){
         trajectory.calculatePositionalDerivatives(currentTime);
         return kV * trajectory.getCurrentVelocity() + kA * trajectory.getCurrentAcceleration();
+    }
+
+    public boolean trajectoryIsComplete() {
+        return timer.seconds() > 0.1 && trajectory.getCurrentVelocity() <= 0;
     }
 }
