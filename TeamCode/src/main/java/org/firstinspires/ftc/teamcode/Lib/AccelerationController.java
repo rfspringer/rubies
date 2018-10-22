@@ -23,7 +23,7 @@ public class AccelerationController {
         updateTime();
         updateDifferentials(targetPower);
         currentPower = calculatePower();
-        MotorEnhanced.setPowers(motors, currentPower);
+        MotorEnhanced.setPower(motors, currentPower);
         updateLastTimeAndPower();
     }
 

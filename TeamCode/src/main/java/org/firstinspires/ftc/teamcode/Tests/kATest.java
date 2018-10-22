@@ -27,15 +27,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.ftc2018.Archived.HardwareMinibot;
-import org.firstinspires.ftc.teamcode.ftc2018.lib.FTCLogger;
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
 
 
 /**
@@ -59,7 +59,7 @@ public class kATest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime accelerationTimer = new ElapsedTime();
 
-    HardwareMinibot robot = new HardwareMinibot();
+    Robot robot = Robot.getInstance();
     FTCLogger logger = new FTCLogger("kATest");
     double MAX_VELOCITY = 1.265;
     double MAX_ACCELERATION = 2.0;
@@ -93,12 +93,12 @@ public class kATest extends LinearOpMode {
 
             if (runtime.seconds() < 3){
                 if (setVel < MAX_VELOCITY) {
-                    robot.setDrivePower(kV * setVel + kA * currentAcceleration, kV * setVel + kA * currentAcceleration);
+                    robot.drive.setPowers(kV * setVel + kA * currentAcceleration, kV * setVel + kA * currentAcceleration);
                 } else {
-                    robot.setDrivePower(kV * MAX_VELOCITY, kV * MAX_VELOCITY);
+                    robot.drive.setPowers(kV * MAX_VELOCITY, kV * MAX_VELOCITY);
                 }
             } else {
-                robot.setDrivePower(0, 0);
+                robot.drive.setPowers(0, 0);
             }
 
             telemetry.addData("Read distance", "%f", robot.getAverageEncoderValue() /1680 * 4 * Math.PI);

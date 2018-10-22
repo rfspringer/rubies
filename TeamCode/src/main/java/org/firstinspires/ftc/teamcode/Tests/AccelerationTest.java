@@ -27,15 +27,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.ftc2018.Subsystems.HardwareRubot;
-import org.firstinspires.ftc.teamcode.ftc2018.lib.FTCLogger;
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
 
 
 /**
@@ -59,7 +59,7 @@ public class AccelerationTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime accelerationTimer = new ElapsedTime();
 
-    HardwareRubot robot = new HardwareRubot();
+    Robot robot = Robot.getInstance();
     FTCLogger logger = new FTCLogger("AccelerationTest");
     double acceleration = 2.0;
     double setVel;
@@ -84,18 +84,18 @@ public class AccelerationTest extends LinearOpMode {
             }
 
             if (runtime.seconds() < 3){
-                if (setVel < robot.drivetrain.MAX_VELOCITY) {
-                    robot.drivetrain.setDrivePower(1 / robot.drivetrain.MAX_VELOCITY * 0.8 * setVel, 1 / robot.drivetrain.MAX_VELOCITY * 0.8 * setVel);
+                if (setVel < robot.drive.MAX_VELOCITY) {
+                    robot.drive.setPowers(1 / robot.drive.MAX_VELOCITY * 0.8 * setVel, 1 / robot.drive.MAX_VELOCITY * 0.8 * setVel);
                 } else {
-                    robot.drivetrain.setDrivePower(0.8, 0.8);
+                    robot.drive.setPowers(0.8, 0.8);
                 }
             } else {
-                robot.drivetrain.setDrivePower(0, 0);
+                robot.drive.setPowers(0, 0);
             }
 
-            telemetry.addData("Read distance", robot.drivetrain.getAverageEncoderValue()*2 /537.6 * 4 * Math.PI);
+            telemetry.addData("Read distance", robot.drive.getAverageEncoderValue()*2 /537.6 * 4 * Math.PI);
             telemetry.update();
-            logger.writeLine(acceleration, 1 / robot.drivetrain.MAX_VELOCITY * 0.8 * setVel);
+            logger.writeLine(acceleration, 1 / robot.drive.MAX_VELOCITY * 0.8 * setVel);
         }
         logger.closeFile();
     }

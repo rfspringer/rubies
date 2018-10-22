@@ -27,11 +27,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HardwareMaps;
+package org.firstinspires.ftc.teamcode.HWMaps;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
 import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
@@ -73,8 +72,8 @@ public class Drive
         initializeMotorArrays();
         setMotorDirections();
         setPowers(0, 0);
-        MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
+        MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     private void initializeDriveMotors(){
@@ -94,8 +93,8 @@ public class Drive
     }
 
     public void setPowers(double leftPower, double rightPower){
-        MotorEnhanced.setPowers(leftMotors, leftPower);
-        MotorEnhanced.setPowers(rightMotors, rightPower);
+        MotorEnhanced.setPower(leftMotors, leftPower);
+        MotorEnhanced.setPower(rightMotors, rightPower);
     }
 
     public void reverseMotorDirections(boolean reverseDirection) {
@@ -109,11 +108,11 @@ public class Drive
 
     private void setMotorDirections(){
         if (reverseDirection){
-            MotorEnhanced.setDirections(leftMotors, Direction.FORWARD);
-            MotorEnhanced.setDirections(rightMotors, Direction.REVERSE);
+            MotorEnhanced.setDirection(leftMotors, Direction.FORWARD);
+            MotorEnhanced.setDirection(rightMotors, Direction.REVERSE);
         } else {
-            MotorEnhanced.setDirections(leftMotors, Direction.REVERSE);
-            MotorEnhanced.setDirections(rightMotors, Direction.FORWARD);
+            MotorEnhanced.setDirection(leftMotors, Direction.REVERSE);
+            MotorEnhanced.setDirection(rightMotors, Direction.FORWARD);
         }
     }
 

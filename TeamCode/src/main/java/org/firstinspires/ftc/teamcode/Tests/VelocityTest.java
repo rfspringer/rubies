@@ -27,14 +27,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.ftc2018.Subsystems.HardwareRubot;
-import org.firstinspires.ftc.teamcode.ftc2018.lib.FTCLogger;
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
 
 
 /**
@@ -56,7 +56,7 @@ public class VelocityTest extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    HardwareRubot robot = new HardwareRubot();
+    Robot robot = Robot.getInstance();
     FTCLogger logger = new FTCLogger();
     boolean hasBeen2Seconds = false;
     double encoderValueAt2Seconds;
@@ -76,19 +76,19 @@ public class VelocityTest extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             if (runtime.seconds()< 3) {
-                robot.drivetrain.setDrivePower(0.8, 0.8);
+                robot.drive.setPowers(0.8, 0.8);
                 if (runtime.seconds() > 2 && !hasBeen2Seconds){
-                    encoderValueAt2Seconds = (robot.drivetrain.leftFrontDrive.getCurrentPosition() + robot.drivetrain.rightFrontDrive.getCurrentPosition())/2;
+                    encoderValueAt2Seconds = (robot.drive.leftFrontDrive.getCurrentPosition() + robot.drive.rightFrontDrive.getCurrentPosition())/2;
                     hasBeen2Seconds = true;
                 }
             } else {
-                logger.writeLine(robot.drivetrain.getAverageEncoderValue() - encoderValueAt2Seconds);
-                robot.drivetrain.setDrivePower(0,0);
+                logger.writeLine(robot.drive.getAverageEncoderValue() - encoderValueAt2Seconds);
+                robot.drive.setPowers(0,0);
             }
-            telemetry.addData("Feet per sec", "%f", (robot.drivetrain.getAverageEncoderValue() - encoderValueAt2Seconds) /537.6 * 4 * Math.PI / 12);
-            telemetry.addData("Encoders per sec", robot.drivetrain.getAverageEncoderValue() - encoderValueAt2Seconds);
-            telemetry.addData("Left", robot.drivetrain.getAverageLeftEncoderValue());
-            telemetry.addData("Right", robot.drivetrain.getAverageRightEncoderValue());
+            telemetry.addData("Feet per sec", "%f", (robot.drive.getAverageEncoderValue() - encoderValueAt2Seconds) /537.6 * 4 * Math.PI / 12);
+            telemetry.addData("Encoders per sec", robot.drive.getAverageEncoderValue() - encoderValueAt2Seconds);
+            telemetry.addData("Left", robot.drive.getAverageLeftEncoderValue());
+            telemetry.addData("Right", robot.drive.getAverageRightEncoderValue());
             telemetry.update();
 
         }
