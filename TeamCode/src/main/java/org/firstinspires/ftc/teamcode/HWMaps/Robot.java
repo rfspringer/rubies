@@ -45,6 +45,7 @@ public class Robot
 
     /* Constructor */
     private Robot(){
+
     }
 
     /* Initialize standard Hardware interfaces */

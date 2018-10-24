@@ -59,6 +59,11 @@ public class Drive
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
 
+    private double WHEEL_DIAMETER = 4.0;
+    private double WHEEL_PERIMETER = WHEEL_DIAMETER * Math.PI;
+    private double GEAR_RATIO = 45/60;
+    private double COUNTS_PER_REVOLUTION = 537.6;
+
     private double MAX_VEL;
     private double MAX_ACCEL;
     private double kV;
@@ -132,7 +137,9 @@ public class Drive
         }
     }
 
-
+    public double convertEncoderCountsToInches(double encoderCounts) {
+        return encoderCounts / COUNTS_PER_REVOLUTION * GEAR_RATIO * WHEEL_PERIMETER;
+    }
 
     public int getRightEncoderCounts(){
         double counts = (rightDrive1.getCurrentPosition() + rightDrive2.getCurrentPosition())/2;

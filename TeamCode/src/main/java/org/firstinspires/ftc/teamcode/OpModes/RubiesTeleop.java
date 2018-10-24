@@ -45,9 +45,9 @@ public class RubiesTeleop extends OpMode
     private Robot robot = Robot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
-    private AccelerationController leftAccelerationController = new AccelerationController(5.0);
-    private AccelerationController rightAccelerationController = new AccelerationController(5.0);
-    private AccelerationController liftAccelerationController = new AccelerationController(3.0);
+    private AccelerationController leftAccelerationController = new AccelerationController(3.0);
+    private AccelerationController rightAccelerationController = new AccelerationController(3.0);
+    private AccelerationController liftAccelerationController = new AccelerationController(1.5);
 
     private double leftPower;
     private double rightPower;
