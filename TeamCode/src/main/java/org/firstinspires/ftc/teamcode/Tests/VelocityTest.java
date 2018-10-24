@@ -58,8 +58,9 @@ public class VelocityTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     Robot robot = Robot.getInstance();
     FTCLogger logger = new FTCLogger();
-    boolean hasBeen2Seconds = false;
+    boolean has = false;
     double encoderValueAt2Seconds;
+    double powerOfMaxVel;
 
     @Override
     public void runOpMode() {
@@ -76,14 +77,14 @@ public class VelocityTest extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             if (runtime.seconds()< 3) {
-                robot.drive.setPowers(0.8, 0.8);
-                if (runtime.seconds() > 2 && !hasBeen2Seconds){
-                    encoderValueAt2Seconds = (robot.drive.leftFrontDrive.getCurrentPosition() + robot.drive.rightFrontDrive.getCurrentPosition())/2;
-                    hasBeen2Seconds = true;
+                robot.drive.setPowers(powerOfMaxVel, powerOfMaxVel);
+                if (runtime.seconds() > 2 && !has){
+                    encoderValueAt2Seconds = robot.drive.getAverageEncoderCounts();
+                    has = true;
                 }
             } else {
-                logger.writeLine(robot.drive.getAverageEncoderValue() - encoderValueAt2Seconds);
                 robot.drive.setPowers(0,0);
+                logger.writeLine(robot.drive.getAverageEncoderCounts() - encoderValueAt2Seconds);
             }
             telemetry.addData("Feet per sec", "%f", (robot.drive.getAverageEncoderValue() - encoderValueAt2Seconds) /537.6 * 4 * Math.PI / 12);
             telemetry.addData("Encoders per sec", robot.drive.getAverageEncoderValue() - encoderValueAt2Seconds);

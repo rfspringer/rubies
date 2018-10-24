@@ -62,6 +62,7 @@ public class AccelerationTest extends LinearOpMode {
     Robot robot = Robot.getInstance();
     FTCLogger logger = new FTCLogger("AccelerationTest");
     double acceleration = 2.0;
+    double maxVelocity = robot.drive.getMaxVelocity();
     double setVel;
 
     @Override
@@ -77,22 +78,7 @@ public class AccelerationTest extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            robot.drive.
-//            if (runtime.seconds()< 3-runtime.seconds()) {
-//                setVel = runtime.seconds() * acceleration;
-//            } else {
-//                setVel = (3 - runtime.seconds()) * acceleration;
-//            }
-//
-//            if (runtime.seconds() < 3){
-//                if (setVel < robot.drive.MAX_VELOCITY) {
-//                    robot.drive.setPowers(1 / robot.drive.MAX_VELOCITY * 0.8 * setVel, 1 / robot.drive.MAX_VELOCITY * 0.8 * setVel);
-//                } else {
-//                    robot.drive.setPowers(0.8, 0.8);
-//                }
-//            } else {
-//                robot.drive.setPowers(0, 0);
-//            }
+            robot.drive.followTrajectory(36, 0, maxVelocity, acceleration, false);
 
             telemetry.addData("Read distance", robot.drive.getAverageEncoderValue()*2 /537.6 * 4 * Math.PI);
             telemetry.update();

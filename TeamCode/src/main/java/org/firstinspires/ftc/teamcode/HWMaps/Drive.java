@@ -60,7 +60,9 @@ public class Drive
     private HardwareMap hwMap =  null;
 
     private double MAX_VEL;
-    private double MAX_ACCEL = ;
+    private double MAX_ACCEL;
+    private double kV;
+    private double kA;
 
     /* Constructor */
     private Drive(){
@@ -99,9 +101,16 @@ public class Drive
         MotorEnhanced.setPower(rightMotors, rightPower);
     }
 
-    public void followTrajectory(double distance, double heading) {
-        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, MAX_VEL, MAX_ACCEL);
-        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(allMotors, trajectory, kV, kA);
+    public void followTrajectory(double distanceInInches, double heading) {
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, MAX_VEL, MAX_ACCEL);
+        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(allMotors, trajectory, kV, kA, false);
+        trajectoryFollower.run();
+    }
+
+    public void followTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxVel);
+        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(allMotors, trajectory, kV, kA, usesFeedback);
+        trajectoryFollower.run();
     }
 
     public void reverseMotorDirections(boolean reverseDirection) {
@@ -123,6 +132,8 @@ public class Drive
         }
     }
 
+
+
     public int getRightEncoderCounts(){
         double counts = (rightDrive1.getCurrentPosition() + rightDrive2.getCurrentPosition())/2;
         return (int) counts;
@@ -131,6 +142,15 @@ public class Drive
     public int getLeftEncoderCounts(){
         double counts = (leftDrive1.getCurrentPosition() + leftDrive2.getCurrentPosition())/2;
         return (int) counts;
+    }
+
+    public int getAverageEncoderCounts(){
+        double counts = (getLeftEncoderCounts() + getRightEncoderCounts())/2;
+        return (int) counts;
+    }
+
+    public double getMaxVelocity() {
+        return MAX_VEL;
     }
 
     public DcMotor[] getAllMotors() {
