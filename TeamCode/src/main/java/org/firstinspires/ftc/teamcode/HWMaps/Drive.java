@@ -66,8 +66,8 @@ public class Drive
 
     private double MAX_VEL;
     private double MAX_ACCEL;
-    private double kV;
-    private double kA;
+    private double kV = 0.8/MAX_VEL;
+    private double kA = 0;
 
     /* Constructor */
     private Drive(){

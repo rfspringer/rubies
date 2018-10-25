@@ -54,16 +54,14 @@ import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
 @TeleOp(name="Acceleration Test", group="Tests")
 @Disabled
 public class AccelerationTest extends LinearOpMode {
-
-    // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime accelerationTimer = new ElapsedTime();
 
-    Robot robot = Robot.getInstance();
-    FTCLogger logger = new FTCLogger("AccelerationTest");
-    double acceleration = 2.0;
-    double maxVelocity = robot.drive.getMaxVelocity();
-    double setVel;
+    private Robot robot = Robot.getInstance();
+    private FTCLogger logger = new FTCLogger("AccelerationTest");
+    private double maxVelocity = robot.drive.getMaxVelocity();
+    private double acceleration = 24.0;
+
 
     @Override
     public void runOpMode() {
@@ -72,33 +70,28 @@ public class AccelerationTest extends LinearOpMode {
         telemetry.update();
         adjustAcceleration();
 
-        // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             robot.drive.followTrajectory(36, 0, maxVelocity, acceleration, false);
-
-            telemetry.addData("Read distance", robot.drive.getAverageEncoderValue()*2 /537.6 * 4 * Math.PI);
+            telemetry.addData("Read distance", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
             telemetry.update();
-            logger.writeLine(acceleration, 1 / robot.drive.MAX_VELOCITY * 0.8 * setVel);
+            logger.writeLine(acceleration, robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()), robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
         }
         logger.closeFile();
     }
-    void adjustAcceleration(){
+
+    private void adjustAcceleration(){
         while (!isStarted()){
             if (gamepad1.dpad_up && accelerationTimer.milliseconds() > 500){
-                //If the dpad is pushed up for more than 1/2 second, add a second of delay
-                acceleration = acceleration + 0.125;
+                acceleration += 1.5;
                 accelerationTimer.reset();
             } else if (gamepad1.dpad_down && accelerationTimer.milliseconds() > 500) {
-                //If the dpad is pushed down for more than 1/2 second, add a second of delay
-                acceleration = acceleration - 0.125;
+                acceleration -= 1.5;
                 accelerationTimer.reset();
             }
 
-            //Display telemetry for the current delay time
             telemetry.addData("Current Acceleration", "feet/second^2:" + acceleration);
             telemetry.update();
         }

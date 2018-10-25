@@ -90,7 +90,6 @@ public class DriveMotorTest extends LinearOpMode {
             } else {
                 robot.drive.setPowers(0,0);
             }
-
             addTelemetry();
             telemetry.update();
         }
