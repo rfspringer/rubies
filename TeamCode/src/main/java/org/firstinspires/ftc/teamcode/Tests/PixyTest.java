@@ -32,67 +32,55 @@ package org.firstinspires.ftc.teamcode.Tests;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 
 
-@TeleOp(name="Gold Detection Test", group="Tests")
+@TeleOp(name="Pixy Test", group="Tests")
+public class PixyTest extends LinearOpMode {
+    private I2cDeviceSynch pixyCam;
+    private byte[] pixyData;
 
-public class GoldDetectionTest extends OpMode
-{
-    private GoldAlignDetector detector;
-
-
-    @Override
-    public void init() {
-        telemetry.addData("Status", "DogeCV 2018.0 - Gold Align Example");
-
-        detector = new GoldAlignDetector();
-        detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
-        detector.useDefaults();
-
-        // Optional Tuning
-        detector.alignSize = 100; // How wide (in pixels) is the range in which the gold object will be aligned. (Represented by green bars in the preview)
-        detector.alignPosOffset = 0; // How far from center frame to offset this alignment zone.
-        detector.downscale = 0.4; // How much to downscale the input frames
-
-        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
-//        detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
-        detector.maxAreaScorer.weight = 0.005;
-
-        detector.ratioScorer.weight = 5;
-        detector.ratioScorer.perfectRatio = 1.0;
-
-        detector.enable();
-
-    }
+    private double x;
+    private double y;
+    private double width;
+    private double height;
+    private double numObjects;
 
     @Override
-    public void init_loop() {
+    public void runOpMode() {
+        pixyCam = hardwareMap.i2cDeviceSynch.get("pixy");
+
+        waitForStart();
+
+        while (opModeIsActive()) {
+            pixyCam.engage();
+
+            //read 5 (creg) bytes on the second register (ireg) of the Pixy
+            pixyData = pixyCam.read(0x52, 5);
+
+            addTelemetry();
+            telemetry.update();
+            sleep(500);
+        }
     }
 
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
-    @Override
-    public void start() {
-
+    private void query() {
+        x = pixyData[1];
+        y = pixyData[2];
+        width = pixyData[3];
+        height = pixyData[4];
+        numObjects = pixyData[0];
     }
 
-
-    @Override
-    public void loop() {
-        telemetry.addData("IsAligned" , detector.getAligned()); // Is the bot aligned with the gold mineral
-        telemetry.addData("X Pos" , detector.getXPosition()); // Gold X pos.
+    private void addTelemetry() {
+        telemetry.addData("0", 0xff & pixyData[0]);
+        telemetry.addData("1", 0xff & pixyData[1]);
+        telemetry.addData("2", 0xff & pixyData[2]);
+        telemetry.addData("3", 0xff & pixyData[3]);
+        telemetry.addData("4", 0xff & pixyData[4]);
+        telemetry.addData("Length", pixyData.length);
     }
-
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
-    @Override
-    public void stop() {
-        detector.disable();
-    }
-
 }
