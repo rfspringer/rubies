@@ -160,6 +160,14 @@ public class Drive
         return MAX_VEL;
     }
 
+    public double getMaxAccel() {
+        return MAX_ACCEL;
+    }
+
+    public double getkV() {
+        return kV;
+    }
+
     public DcMotor[] getAllMotors() {
         return allMotors;
     }

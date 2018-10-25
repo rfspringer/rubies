@@ -67,7 +67,14 @@ public class AccelerationTest extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
+        telemetry.addData("This program will attempt to run a 3 foot trajectory. Acceleration is adjustable via the gamepad in init. Run several times until the acceleration causes inconsistencies in read distance and actual distance travelled", "Go RUBIES!");
+        telemetry.addData("Instruction", "Press A to begin adjusting acceleration");
         telemetry.update();
+
+        while (!gamepad1.a || !isStarted()) {
+            sleep(1);
+        }
+
         adjustAcceleration();
 
         waitForStart();

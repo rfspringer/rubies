@@ -36,6 +36,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
 
 
 /**
@@ -61,64 +63,50 @@ public class kATest extends LinearOpMode {
 
     Robot robot = Robot.getInstance();
     FTCLogger logger = new FTCLogger("kATest");
-    double MAX_VELOCITY = 1.265;
-    double MAX_ACCELERATION = 2.0;
-    double currentAcceleration;
-    double kV = 0.8/1.265;
+    double MAX_VELOCITY = robot.drive.getMaxVelocity();
+    double MAX_ACCELERATION = robot.drive.getMaxAccel();
+    double kV = robot.drive.getkV();
     double kA = 0.005;
-    double setVel;
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+        logger.writeLine("Max Velocity", "Max Acceleration", "kV", "kA");
         adjustkA();
 
-        // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
         logger.writeLine(MAX_VELOCITY, MAX_ACCELERATION, kV, kA);
+        logger.writeLine("Motor Power", "Inches travelled");
 
-        // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            robot.drive.followTrajectory(36, 0, MAX_VELOCITY, MAX_ACCELERATION, false);
 
-            if (runtime.seconds()< 3-runtime.seconds()) {
-                setVel = runtime.seconds() * MAX_ACCELERATION;
-                currentAcceleration = MAX_ACCELERATION;
-            } else {
-                setVel = (3 - runtime.seconds()) * MAX_ACCELERATION;
-                currentAcceleration = -MAX_ACCELERATION;
-            }
-
-            if (runtime.seconds() < 3){
-                if (setVel < MAX_VELOCITY) {
-                    robot.drive.setPowers(kV * setVel + kA * currentAcceleration, kV * setVel + kA * currentAcceleration);
-                } else {
-                    robot.drive.setPowers(kV * MAX_VELOCITY, kV * MAX_VELOCITY);
-                }
-            } else {
-                robot.drive.setPowers(0, 0);
-            }
-
-            telemetry.addData("Read distance", "%f", robot.getAverageEncoderValue() /1680 * 4 * Math.PI);
-            logger.writeLine(robot.leftFrontDrive.getPower(), robot.getAverageEncoderValue());
+            telemetry.addData("Read distance", "%f", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
+            logger.writeLine(robot.drive.getLeftMotors()[0].getPower(), robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
         }
         logger.closeFile();
-        
     }
+
+    public void followTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxVel);
+        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(robot.drive.getAllMotors(), trajectory, kV, kA, usesFeedback);
+        trajectoryFollower.run();
+    }
+
     void adjustkA(){
         while (!isStarted()){
             if (gamepad1.dpad_up && accelerationTimer.milliseconds() > 500){
                 //If the dpad is pushed up for more than 1/2 second, add a second of delay
-                kA = kA + 0.01;
+                kA = kA + 0.005;
                 accelerationTimer.reset();
             } else if (gamepad1.dpad_down && accelerationTimer.milliseconds() > 500) {
                 //If the dpad is pushed down for more than 1/2 second, add a second of delay
-                kA = kA - 0.01;
+                kA = kA - 0.005;
                 accelerationTimer.reset();
             }
-
 
             //Display telemetry for the current delay time
             telemetry.addData("Current Acceleration", "%f" + MAX_ACCELERATION);
