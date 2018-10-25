@@ -29,12 +29,11 @@
 
 package org.firstinspires.ftc.teamcode.Tests;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Drive;
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
 
 
@@ -57,13 +56,13 @@ public class DriveMotorTest extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
-    boolean leftBackMotor = false;
-    boolean leftFrontMotor = false;
-    boolean rightBackMotor = false;
-    boolean rightFrontMotor = false;
+    private boolean leftMotor0 = false;
+    private boolean leftMotor1 = false;
+    private boolean rightMotor0 = false;
+    private boolean rightMotor1 = false;
 
-    Drive robot = Drive.getInstance();
-    FTCLogger logger = new FTCLogger("Motor Test");
+    private Robot robot = Robot.getInstance();
+    private FTCLogger logger = new FTCLogger("Motor Test");
 
     @Override
     public void runOpMode() {
@@ -80,37 +79,20 @@ public class DriveMotorTest extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             if (runtime.seconds() < 3){
-                if (leftFrontMotor)
-                    robot.setPower(0.8);
-
-                if (leftBackMotor)
-                    robot.leftBackDrive.setPower(0.8);
-
-                if (rightFrontMotor)
-                    robot.rightFrontDrive.setPower(0.8);
-
-                if (rightBackMotor)
-                    robot.rightBackDrive.setPower(0.8);
-
-                telemetry.addData("Left Front", robot.leftFrontDrive.getCurrentPosition());
-                telemetry.addData("Left Back", robot.leftBackDrive.getCurrentPosition());
-                telemetry.addData("Right Front", robot.rightFrontDrive.getCurrentPosition());
-                telemetry.addData("Right Back", robot.rightBackDrive.getCurrentPosition());
-
-                telemetry.addData("Left", robot.getAverageLeftEncoderValue());
-                telemetry.addData("Right", robot.getAverageRightEncoderValue());
-                telemetry.update();
+                if (leftMotor1)
+                    robot.drive.getLeftMotors()[0].setPower(0.8);
+                if (leftMotor0)
+                    robot.drive.getLeftMotors()[1].setPower(0.8);
+                if (rightMotor1)
+                    robot.drive.getRightMotors()[0].setPower(0.8);
+                if (rightMotor0)
+                    robot.drive.getRightMotors()[1].setPower(0.8);
             } else {
-                robot.setPowers(0,0);
-                telemetry.addData("Left Front", robot.leftFrontDrive.getCurrentPosition());
-                telemetry.addData("Left Back", robot.leftBackDrive.getCurrentPosition());
-                telemetry.addData("Right Front", robot.rightFrontDrive.getCurrentPosition());
-                telemetry.addData("Right Back", robot.rightBackDrive.getCurrentPosition());
-
-                telemetry.addData("Left", robot.getAverageLeftEncoderValue());
-                telemetry.addData("Right", robot.getAverageRightEncoderValue());
-                telemetry.update();
+                robot.drive.setPowers(0,0);
             }
+
+            addTelemetry();
+            telemetry.update();
         }
         logger.closeFile();
     }
@@ -118,19 +100,29 @@ public class DriveMotorTest extends LinearOpMode {
     void adjustMotors(){
         while (!isStarted()){
             if (gamepad1.x)
-                leftFrontMotor = true;
+                leftMotor1 = true;
              else if (gamepad1.y)
-                 leftBackMotor = true;
+                 leftMotor0 = true;
              else if (gamepad1.a)
-                 rightFrontMotor = true;
+                 rightMotor1 = true;
              else if (gamepad1.b)
-                 rightBackMotor = true;
+                 rightMotor0 = true;
 
-            telemetry.addData("Left Motor 1 (x)", leftFrontMotor);
-            telemetry.addData("Left Motor 2 (y)", leftBackMotor);
-            telemetry.addData("Right Motor 1 (a)", rightFrontMotor);
-            telemetry.addData("Right Motor 2 (b)", rightBackMotor);
+            telemetry.addData("Left Motor 0 (x)", leftMotor1);
+            telemetry.addData("Left Motor 1 (y)", leftMotor0);
+            telemetry.addData("Right Motor 0 (a)", rightMotor1);
+            telemetry.addData("Right Motor 1 (b)", rightMotor0);
             telemetry.update();
         }
+    }
+
+    private void addTelemetry() {
+        telemetry.addData("Left Motor 0", robot.drive.getLeftMotors()[0].getCurrentPosition());
+        telemetry.addData("Left Motor 1", robot.drive.getLeftMotors()[1].getCurrentPosition());
+        telemetry.addData("Right Motor 0", robot.drive.getRightMotors()[0].getCurrentPosition());
+        telemetry.addData("Right Motor 1", robot.drive.getRightMotors()[1].getCurrentPosition());
+
+        telemetry.addData("Left", robot.drive.getLeftEncoderCounts());
+        telemetry.addData("Right", robot.drive.getRightEncoderCounts());
     }
 }
