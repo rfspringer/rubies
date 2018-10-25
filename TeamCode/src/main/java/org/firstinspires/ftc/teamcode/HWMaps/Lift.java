@@ -55,8 +55,7 @@ public class Lift
     private double kA;
 
     /* local OpMode members. */
-    private HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime();
+    private HardwareMap hwMap = null;
 
     /* Constructor */
     private Lift(){
@@ -94,7 +93,7 @@ public class Lift
         DcMotor[] lift = {this.lift};
         MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
         TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
-        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false, distance >= 0);
+        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
         if (trajectoryFollower.trajectoryIsComplete()) {
             MotorEnhanced.setPower(lift, 0);
             return;
