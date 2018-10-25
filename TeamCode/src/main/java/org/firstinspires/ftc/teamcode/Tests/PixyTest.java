@@ -37,10 +37,12 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+
 
 @TeleOp(name="Pixy Test", group="Tests")
 public class PixyTest extends LinearOpMode {
-    private I2cDeviceSynch pixyCam;
+    private Robot robot = Robot.getInstance();
     private byte[] pixyData;
 
     private double x;
@@ -51,16 +53,14 @@ public class PixyTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        pixyCam = hardwareMap.i2cDeviceSynch.get("pixy");
-
         waitForStart();
 
         while (opModeIsActive()) {
-            pixyCam.engage();
+            robot.sensors.getPixyCam().engage();
 
             //read 5 (creg) bytes on the second register (ireg) of the Pixy
-            pixyData = pixyCam.read(0x52, 5);
-
+            pixyData = robot.sensors.getPixyCam().read(0x52, 5);
+            query();
             addTelemetry();
             telemetry.update();
             sleep(500);

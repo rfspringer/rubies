@@ -47,6 +47,7 @@ public class Robot
     private static final Robot instance = new Robot();
     public Drive drive = Drive.getInstance();
     public Lift lift = Lift.getInstance();
+    public Sensors sensors = Sensors.getInstance();
 
     /* Constructor */
     private Robot(){
@@ -56,6 +57,7 @@ public class Robot
     public void init(HardwareMap hwMap) {
         drive.init(hwMap);
         lift.init(hwMap);
+        sensors.init(hwMap);
     }
 
     public static Robot getInstance() {
