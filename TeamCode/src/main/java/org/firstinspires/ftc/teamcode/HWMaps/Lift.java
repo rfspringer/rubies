@@ -38,15 +38,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Lift
-{
+public class Lift {
     private static final Lift instance = new Lift();
     /* Public OpMode members. */
     private DcMotor  lift   = null;
 
     /* local OpMode members. */
     private HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
     private Lift(){
