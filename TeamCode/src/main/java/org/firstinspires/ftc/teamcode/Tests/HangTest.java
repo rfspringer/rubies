@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Actions.Hang;
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 
-@TeleOp(name="HangTest", group="Iterative Opmode")
+@TeleOp(name="Hang Test", group="Tests")
 public class HangTest extends LinearOpMode {
     private Robot robot = Robot.getInstance();
     private Hang hang = new Hang();
@@ -22,6 +22,8 @@ public class HangTest extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             hang.run();
+            telemetry.addData("Position", robot.lift.getMotor().getCurrentPosition());
+            telemetry.update();
         }
     }
 
