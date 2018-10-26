@@ -11,7 +11,7 @@ public class Hang extends Action {
     @Override
     public void run() {
         if (!actionIsComplete) {
-            robot.lift.getMotor().setTargetPosition(robot.lift.extendedLiftPosition());
+            robot.lift.getMotor().setTargetPosition(0);
         }
     }
 }
