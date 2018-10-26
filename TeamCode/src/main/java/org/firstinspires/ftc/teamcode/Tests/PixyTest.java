@@ -29,13 +29,8 @@
 
 package org.firstinspires.ftc.teamcode.Tests;
 
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DogeCV;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 
@@ -43,23 +38,16 @@ import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 @TeleOp(name="Pixy Test", group="Tests")
 public class PixyTest extends LinearOpMode {
     private Robot robot = Robot.getInstance();
-    private byte[] pixyData;
 
-    private double x;
-    private double y;
-    private double width;
-    private double height;
-    private double numObjects;
+    private boolean digitalReading;
+    private double analogReading;
 
     @Override
     public void runOpMode() {
+        robot.init(hardwareMap);
         waitForStart();
 
         while (opModeIsActive()) {
-            robot.sensors.getPixyCam().engage();
-
-            //read 5 (creg) bytes on the second register (ireg) of the Pixy
-            pixyData = robot.sensors.getPixyCam().read(0x52, 5);
             query();
             addTelemetry();
             telemetry.update();
@@ -68,19 +56,12 @@ public class PixyTest extends LinearOpMode {
     }
 
     private void query() {
-        x = pixyData[1];
-        y = pixyData[2];
-        width = pixyData[3];
-        height = pixyData[4];
-        numObjects = pixyData[0];
+        digitalReading = robot.sensors.getPixyDigital().getState();
+        analogReading = robot.sensors.getPixyAnalog().getVoltage() / robot.sensors.getPixyAnalog().getMaxVoltage();
     }
 
     private void addTelemetry() {
-        telemetry.addData("0", 0xff & pixyData[0]);
-        telemetry.addData("1", 0xff & pixyData[1]);
-        telemetry.addData("2", 0xff & pixyData[2]);
-        telemetry.addData("3", 0xff & pixyData[3]);
-        telemetry.addData("4", 0xff & pixyData[4]);
-        telemetry.addData("Length", pixyData.length);
+        telemetry.addData("Digital", digitalReading);
+        telemetry.addData("Analog", analogReading);
     }
 }

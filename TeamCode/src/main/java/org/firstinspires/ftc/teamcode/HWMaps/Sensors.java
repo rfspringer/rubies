@@ -56,11 +56,19 @@ public class Sensors
     public void init(HardwareMap hwMap) {
         pixyAnalog = hwMap.analogInput.get("pixy_analog");
         pixyDigital = hwMap.digitalChannel.get("pixy_digital");
+        pixyDigital.setMode(DigitalChannel.Mode.INPUT);
+    }
+
+    public AnalogInput getPixyAnalog() {
+        return pixyAnalog;
+    }
+
+    public DigitalChannel getPixyDigital() {
+        return pixyDigital;
     }
 
     public static Sensors getInstance() {
         return instance;
     }
-
 }
 
