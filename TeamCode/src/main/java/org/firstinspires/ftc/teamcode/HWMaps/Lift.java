@@ -57,7 +57,8 @@ public class Lift
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
         lift = hwMap.get(DcMotor.class, "lift");
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setPower(0);
@@ -67,12 +68,16 @@ public class Lift
         lift.setPower(power);
     }
 
-    public static Lift getInstance(){
-        return instance;
+    public int getEncoderCounnts() {
+        return lift.getCurrentPosition();
     }
 
     public DcMotor getMotor() {
         return lift;
+    }
+
+    public static Lift getInstance(){
+        return instance;
     }
 }
 
