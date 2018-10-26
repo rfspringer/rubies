@@ -29,8 +29,8 @@
 
 package org.firstinspires.ftc.teamcode.Tests;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
@@ -50,12 +50,12 @@ import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Velocity Test", group="Tests")
+@TeleOp(name="Velocity Test", group="Tests")
 //@Disabled
 public class VelocityTest extends LinearOpMode {
 
     // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime pathTime = new ElapsedTime();
     private Robot robot = Robot.getInstance();
     private FTCLogger logger = new FTCLogger();
 
@@ -74,17 +74,23 @@ public class VelocityTest extends LinearOpMode {
         telemetry.addData("Run, the encoders per sec value will give you the number of encoder counts in the last second of a 3 second run at 0.8 power", "Have fun :)");
         telemetry.update();
 
+        logger.writeLine("Inches travelled in final second");
         waitForStart();
-        runtime.reset();
+        pathTime.reset();
 
         while (opModeIsActive()) {
-            if (runtime.seconds() < 3) {
+            if (gamepad1.a) {
+                pathTime.reset();
+            }
+
+            if (pathTime.seconds() < 3) {
                 robot.drive.setPowers(powerOfMaxVel, powerOfMaxVel);
                 setEncoderValueAt2SecondsIfApplicable();
             } else {
                 robot.drive.setPowers(0,0);
                 if (!hasCalculatedEncoderDiff) {
                     calculateEncoderDiff();
+                    logger.writeLine(inchesPerSecond);
                     hasCalculatedEncoderDiff = true;
                 }
             }
@@ -94,17 +100,16 @@ public class VelocityTest extends LinearOpMode {
         logger.closeFile();
     }
 
-    public void setEncoderValueAt2SecondsIfApplicable() {
-        if (runtime.seconds() > 2 && !hasSetEncoderValueAt2Seconds){
+    private void setEncoderValueAt2SecondsIfApplicable() {
+        if (pathTime.seconds() > 2 && !hasSetEncoderValueAt2Seconds){
             encoderValueAt2Seconds = robot.drive.getAverageEncoderCounts();
             hasSetEncoderValueAt2Seconds = true;
         }
     }
 
-    private void calculateEncoderDiff ( ){
+    private void calculateEncoderDiff (){
         encoderDiff = robot.drive.getAverageEncoderCounts() - encoderValueAt2Seconds;
         inchesPerSecond = robot.drive.convertEncoderCountsToInches(encoderDiff);
-        logger.writeLine(encoderDiff);
     }
 
     private void addTelemetry() {
@@ -112,5 +117,6 @@ public class VelocityTest extends LinearOpMode {
         telemetry.addData("Encoders per sec", encoderDiff);
         telemetry.addData("Left", robot.drive.getLeftEncoderCounts());
         telemetry.addData("Right", robot.drive.getRightEncoderCounts());
+        telemetry.addData("Instructions", "Press A to repeat and collect additional data");
     }
 }
