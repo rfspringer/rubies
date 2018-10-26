@@ -29,12 +29,8 @@
 
 package org.firstinspires.ftc.teamcode.Tests;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 
@@ -54,9 +50,8 @@ import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 
 @TeleOp(name="Gyro Test", group="Tests")
 //@Disabled
-public class GyroTest extends OpMode
-{
-    Robot robot = Robot.getInstance();
+public class GyroTest extends OpMode {
+    private Robot robot = Robot.getInstance();
     @Override
     public void init() {
         robot.init(hardwareMap);
@@ -69,7 +64,6 @@ public class GyroTest extends OpMode
     @Override
     public void loop() {
         robot.sensors.updateIMU();
-        // Show the elapsed game time and wheel power.
         telemetry.addData("Gyro Heading", robot.sensors.getHeading());
     }
 }
