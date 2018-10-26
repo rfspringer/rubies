@@ -68,7 +68,7 @@ public class Lift
         lift.setPower(power);
     }
 
-    public int getEncoderCounnts() {
+    public int getEncoderCounts() {
         return lift.getCurrentPosition();
     }
 
