@@ -20,14 +20,11 @@ public class Hang extends Action {
     public void run() {
         if (!actionIsComplete) {
             robot.lift.getMotor().setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            if (robot.lift.getMotor().getCurrentPosition() < -3) {
-                robot.lift.setPower(0.25);
+            if (robot.lift.getMotor().getCurrentPosition() < -5) {
+                robot.lift.setPower(-0.428 * robot.lift.getMotor().getCurrentPosition());
             } else {
                 robot.lift.setPower(0);
             }
-
-//            robot.lift.getMotor().setTargetPosition(0);
-//            robot.lift.setPower(0);
         }
     }
 }
