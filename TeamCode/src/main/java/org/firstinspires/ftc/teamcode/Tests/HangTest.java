@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 @TeleOp(name="Hang Test", group="Tests")
 public class HangTest extends LinearOpMode {
     private Robot robot = Robot.getInstance();
-    private Hang hang = new Hang();
+    private Hang hang = new Hang(robot);
 
     @Override
     public void runOpMode() {
