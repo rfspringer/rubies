@@ -13,8 +13,7 @@ public class TrajectoryGenerator {
     private double trajectoryLength;
     private double trajectoryDirection;
 
-    public TrajectoryGenerator(double distance, double maxVelocity, double maxAcceleration)
-    {
+    public TrajectoryGenerator(double distance, double maxVelocity, double maxAcceleration) {
         this.trajectoryDirection = Math.signum(distance);
         this.trajectoryLength = Math.abs(distance);
         this.maxVelocity = maxVelocity;
@@ -36,10 +35,6 @@ public class TrajectoryGenerator {
             currentVelocity = maxVelocity;
             currentAcceleration = 0;
         }
-    }
-
-    public boolean isDirectionPositive(double distance) {
-        return distance > 0;
     }
 
     private double velocityIfConstantAcceleration(ElapsedTime currentTime) {
