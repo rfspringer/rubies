@@ -29,39 +29,45 @@
 
 package org.firstinspires.ftc.teamcode.HWMaps;
 
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.HardwareMaps.Drive;
-import org.firstinspires.ftc.teamcode.HardwareMaps.HardwareLift;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * This is NOT an opmode.
- *
- * This class can be used to define all the specific hardware for our robot
- * This class stores functions that use a combination of subsystems on our robot
+ * This class stores all objects on our robot's drivetrain
+ * It also includes functionality specific to our drive base
  */
-public class Robot
-{
-    private static final Robot instance = new Robot();
-    public Drive drive = Drive.getInstance();
-    public Lift lift = Lift.getInstance();
-    public Claim claim = Claim.getInstance();
+public class Claim {
+    private static final Claim instance = new Claim();
+    /* Public OpMode members. */
+    private Servo claimServo;
+
+    private double STOWED_POS = 0.0;
+    private double DEPLOYED_POS = 1.0;
 
     /* Constructor */
-    private Robot(){
+    private Claim(){
+
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hwMap) {
-        drive.init(hwMap);
-        lift.init(hwMap);
-        claim.init(hwMap);
+        claimServo = hwMap.servo.get("claim_servo");
+        stow();
     }
 
-    public static Robot getInstance() {
+    public void stow() {
+        claimServo.setPosition(STOWED_POS);
+    }
+
+    public void deploy() {
+        claimServo.setPosition(DEPLOYED_POS);
+    }
+
+    public static Claim getInstance(){
         return instance;
     }
- }
+}
 
