@@ -69,17 +69,19 @@ public class kATest extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
+        telemetry.addData("This program will attempt to run a 3 foot trajectory. The acceleration constant is adjustable via the gamepad in init. Encoder values will be logged to a file which can be viewed in Excel", "Go RUBIES!");
+        telemetry.addData("Instruction", "Press A to begin adjusting kA");
         telemetry.update();
-        logger.writeLine("Max Velocity", "Max Acceleration", "kV", "kA");
-        adjustkA();
 
+        adjustkA();
+        logger.writeLine("Max Velocity", "Max Acceleration", "kV", "kA");
         waitForStart();
         runtime.reset();
         logger.writeLine(MAX_VELOCITY, MAX_ACCELERATION, kV, kA);
         logger.writeLine("Motor Power", "Inches travelled");
 
         while (opModeIsActive()) {
-            robot.drive.followTrajectory(36, 0, MAX_VELOCITY, MAX_ACCELERATION, false);
+            this.followTrajectory(36, 0, MAX_VELOCITY, MAX_ACCELERATION, false);
 
             telemetry.addData("Read distance", "%f", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
             logger.writeLine(robot.drive.getLeftMotors()[0].getPower(), robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
