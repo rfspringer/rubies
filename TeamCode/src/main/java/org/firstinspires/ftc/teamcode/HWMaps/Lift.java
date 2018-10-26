@@ -48,6 +48,8 @@ public class Lift
     private HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
+    private int EXTENDED_ENCODER_COUNTS = -3800;
+
     /* Constructor */
     private Lift(){
 
@@ -69,6 +71,10 @@ public class Lift
 
     public static Lift getInstance(){
         return instance;
+    }
+
+    public int extendedLiftPosition() {
+        return EXTENDED_ENCODER_COUNTS;
     }
 
     public DcMotor getMotor() {
