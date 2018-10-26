@@ -13,14 +13,21 @@ public class Hang extends Action {
 
     @Override
     public void init() {
+        robot.lift.getMotor().setTargetPosition(0);
     }
 
     @Override
     public void run() {
         if (!actionIsComplete) {
             robot.lift.getMotor().setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            robot.lift.getMotor().setTargetPosition(100);
-//            robot.lift.setPower(0.5);
+            if (robot.lift.getMotor().getCurrentPosition() < -3) {
+                robot.lift.setPower(0.25);
+            } else {
+                robot.lift.setPower(0);
+            }
+
+//            robot.lift.getMotor().setTargetPosition(0);
+//            robot.lift.setPower(0);
         }
     }
 }
