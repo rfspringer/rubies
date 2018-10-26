@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode.HWMaps;
 
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 
@@ -43,7 +45,8 @@ import org.firstinspires.ftc.teamcode.HardwareMaps.Drive;
 public class Sensors
 {
     private static final Sensors instance = new Sensors();
-    private I2cDeviceSynch pixyCam;
+    private AnalogInput pixyAnalog;
+    private DigitalChannel pixyDigital;
 
     /* Constructor */
     private Sensors(){
@@ -51,15 +54,13 @@ public class Sensors
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hwMap) {
-        pixyCam = hwMap.i2cDeviceSynch.get("pixy");
+        pixyAnalog = hwMap.analogInput.get("pixy_analog");
+        pixyDigital = hwMap.digitalChannel.get("pixy_digital");
     }
 
     public static Sensors getInstance() {
         return instance;
     }
 
-    public I2cDeviceSynch getPixyCam() {
-        return pixyCam;
-    }
 }
 
