@@ -13,14 +13,14 @@ public class Lower extends Action {
 
     @Override
     public void init() {
-        robot.lift.getMotor().setTargetPosition(-4200);
+        robot.lift.getMotor().setTargetPosition(-4725);
     }
 
     @Override
     public void run() {
         if (!actionIsComplete) {
             robot.lift.getMotor().setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.lift.setPower(0.8);
+            robot.lift.setPower(0.5);
         }
     }
 }
