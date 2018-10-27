@@ -34,14 +34,12 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Drive;
 
 import java.util.Locale;
 
@@ -54,8 +52,16 @@ import java.util.Locale;
 public class Sensors
 {
     private static final Sensors instance = new Sensors();
+
     private AnalogInput pixyAnalog;
     private DigitalChannel pixyDigital;
+
+
+    public enum GoldLocation {
+        LEFT,
+        RIGHT,
+        CENTER
+    }
 
     private BNO055IMU imu;
     private Orientation angles;
@@ -126,12 +132,22 @@ public class Sensors
         return integratedHeading;
     }
 
-    public AnalogInput getPixyAnalog() {
-        return pixyAnalog;
+    public GoldLocation getGoldPosition() {
+        if (!getPixyDigital()) {
+            return GoldLocation.RIGHT;
+        } else if (getPixyAnalog() < 0.5) {
+            return GoldLocation.LEFT;
+        } else {
+            return GoldLocation.CENTER;
+        }
     }
 
-    public DigitalChannel getPixyDigital() {
-        return pixyDigital;
+    public double getPixyAnalog() {
+        return pixyAnalog.getVoltage()/pixyAnalog.getMaxVoltage();
+    }
+
+    public boolean getPixyDigital() {
+        return pixyDigital.getState();
     }
 
     public static Sensors getInstance() {
