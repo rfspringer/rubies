@@ -79,9 +79,9 @@ public class AccelerationTest extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
+        TrajectoryFollower trajectory = robot.drive.initializeTrajectory(36, 0, maxVelocity, acceleration, false);
 
         while (opModeIsActive()) {
-            TrajectoryFollower trajectory = robot.drive.initializeTrajectory(36, 0, maxVelocity, acceleration, false);
             trajectory.run();
             telemetry.addData("Powers", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
             telemetry.addData("Read distance", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
