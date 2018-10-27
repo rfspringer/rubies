@@ -28,10 +28,10 @@ public class MineralToDepot extends Action {
 
     @Override
     public void run() {
-        if (robot.sensors.getHeading() < -10) {
+        if (robot.sensors.getHeading() < -15) {
             robot.turnToHeading(LEFT_MINERAL_HEADING);
             driveFromLeftMineral.run();
-        } else if (robot.sensors.getHeading() > 10) {
+        } else if (robot.sensors.getHeading() > 15) {
             robot.turnToHeading(RIGHT_MINERAL_HEADING);
             driveFromRightMineral.run();
         } else {

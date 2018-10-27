@@ -14,8 +14,9 @@ public class Sample extends Action {
     TrajectoryFollower  driveToLeftMineral;
     TrajectoryFollower  driveToRightMineral;
 
-    private double LEFT_MINERAL_HEADING = -45;
-    private double RIGHT_MINERAL_HEADING = 45;
+    private double CENTER_MINERAL_HEADING = -170;
+    private double LEFT_MINERAL_HEADING = -140;
+    private double RIGHT_MINERAL_HEADING = 150;
 
     public Sample(Robot robot) {
         this.robot = robot;
@@ -23,9 +24,9 @@ public class Sample extends Action {
 
     @Override
     public void init() {
-        driveToCenterMineral = robot.drive.initializeTrajectory(-36, 0);
-        driveToLeftMineral = robot.drive.initializeTrajectory(-48, LEFT_MINERAL_HEADING);
-        driveToRightMineral = robot.drive.initializeTrajectory(-48, RIGHT_MINERAL_HEADING);
+        driveToCenterMineral = robot.drive.initializeTrajectory(60, CENTER_MINERAL_HEADING);
+        driveToLeftMineral = robot.drive.initializeTrajectory(90, LEFT_MINERAL_HEADING);
+        driveToRightMineral = robot.drive.initializeTrajectory(90, RIGHT_MINERAL_HEADING);
         goldLocation = robot.sensors.getGoldPosition();
     }
 
@@ -38,7 +39,7 @@ public class Sample extends Action {
             robot.turnToHeading(RIGHT_MINERAL_HEADING);
             driveToRightMineral.run();
         } else {
-            robot.turnToHeading(0);
+            robot.turnToHeading(CENTER_MINERAL_HEADING);
             driveToCenterMineral.run();
         }
     }

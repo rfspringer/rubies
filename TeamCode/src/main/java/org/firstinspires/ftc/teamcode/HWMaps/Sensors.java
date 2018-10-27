@@ -121,7 +121,7 @@ public class Sensors
         return integrateHeading(rawHeading);
     }
 
-    private double integrateHeading(double heading){
+    public double integrateHeading(double heading){
         //Integrates it to be from -180 to 180 degrees
         while (heading > 180){
             heading = heading - 360;

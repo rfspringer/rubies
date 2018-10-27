@@ -11,9 +11,9 @@ import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
-@Autonomous(name="Auto No Park", group="Iterative Opmode")
+@Autonomous(name="Auto No Park OR Sample", group="Iterative Opmode")
 //@Disabled
-public class AutoNoPark extends LinearOpMode {
+public class AutoNoParkOrSample extends LinearOpMode {
 
     // Declare OpMode members.
     private Robot robot = Robot.getInstance();
@@ -28,8 +28,9 @@ public class AutoNoPark extends LinearOpMode {
         telemetry.update();
         robot.init(hardwareMap);
         hang.init();
-        TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-18, -30);
-        TrajectoryFollower driveAwayFromMarker = robot.drive.initializeTrajectory(10, 30);
+        TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-15, -30);
+        TrajectoryFollower driveFromUnlatchedToDepot = robot.drive.initializeTrajectory(150, 30);
+        TrajectoryFollower driveAwayFromMarker = robot.drive.initializeTrajectory(-10, 30);
 
         telemetry.addData("Instructions", "Initialize robot against left wall");
         telemetry.addData("Status", "Initialized");
@@ -54,20 +55,22 @@ public class AutoNoPark extends LinearOpMode {
         telemetry.addData("Task", "Now I'll drive out from the latch :)");
         telemetry.update();
         driveAwayFromLatch.run();
-        telemetry.addData("Task", "I'm gonna sample!");
-        telemetry.update();
+        robot.turnToHeading(180);
+//        telemetry.addData("Task", "I'm gonna sample!");
+//        telemetry.update();
 //        sample.run();
         telemetry.addData("Task", "Time to head over to the depot");
         telemetry.update();
+        driveFromUnlatchedToDepot.run();
 //        mineralToDepot.init();
 //        mineralToDepot.run();
         telemetry.addData("Task", "One last thing...");
         telemetry.update();
-//        robot.claim.deploy();
-//        sleep(1500);
-//        robot.claim.stow();
-//        driveAwayFromMarker.run();
-//        telemetry.addData("Status", "All done, go RUBOT!");
-//        telemetry.update();
+        robot.claim.deploy();
+        sleep(1500);
+        robot.claim.stow();
+        driveAwayFromMarker.run();
+        telemetry.addData("Status", "All done, go RUBOT!");
+        telemetry.update();
     }
 }

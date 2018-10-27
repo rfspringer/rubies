@@ -60,7 +60,7 @@ public class Robot
     }
 
     public void turnToHeading(double targetHeading) {
-        while (Math.abs(targetHeading - sensors.getHeading()) > 2.5) {
+        while (Math.abs(sensors.integrateHeading(targetHeading - sensors.getHeading())) > 2.5) {
             sensors.updateIMU();
             double kP = 0.0065;
             double error = targetHeading - sensors.getHeading();
