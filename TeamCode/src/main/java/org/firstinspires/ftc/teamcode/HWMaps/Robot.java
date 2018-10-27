@@ -30,9 +30,6 @@
 package org.firstinspires.ftc.teamcode.HWMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.HardwareMaps.Drive;
-import org.firstinspires.ftc.teamcode.HardwareMaps.HardwareLift;
 import org.firstinspires.ftc.teamcode.Lib.PIDController;
 
 /**
@@ -63,11 +60,13 @@ public class Robot
     }
 
     public void turnToHeading(double targetHeading) {
-        double kP = 0.0065;
-        double error = targetHeading - sensors.getHeading();
-        double leftPower = PIDController.proportionalController(0, error, -kP);
-        double rightPower = PIDController.proportionalController(0, error, kP);
-        drive.setPowers(leftPower, rightPower);
+        while (Math.abs(targetHeading - sensors.getHeading()) > 2.5) {
+            double kP = 0.0065;
+            double error = targetHeading - sensors.getHeading();
+            double leftPower = PIDController.proportionalController(0, error, -kP);
+            double rightPower = PIDController.proportionalController(0, error, kP);
+            drive.setPowers(leftPower, rightPower);
+        }
     }
 
     public static Robot getInstance() {

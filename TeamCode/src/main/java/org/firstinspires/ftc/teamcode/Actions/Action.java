@@ -10,7 +10,5 @@ public abstract class Action {
 
     public abstract void run();
 
-    public void kill() {
-        actionIsComplete = true;
-    }
+    public abstract void kill();
 }

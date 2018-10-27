@@ -103,6 +103,17 @@ public class Lift {
         trajectoryFollower.run();
     }
 
+    public int getCurrentPosition() {
+        return lift.getCurrentPosition();
+    }
+
+    public void setTargetPosition(int targetPosition) {
+        lift.setTargetPosition(targetPosition);
+    }
+
+    public void setMode(DcMotor.RunMode runMode) {
+        lift.setMode(runMode);
+    }
 
     public int getEncoderCounts() {
         return lift.getCurrentPosition();

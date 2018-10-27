@@ -23,18 +23,19 @@ public class TrajectoryFollower {
     }
 
     public void run(){
-        if (!hasResetTimer) {
-            timer.reset();
-            hasResetTimer = true;
-        }
-
-        if (trajectoryIsComplete()) {
-            MotorEnhanced.setPower(motors, 0);
-        } else if (usesFeedback) {
-            //run PID with heading and feedforward
-        } else {
-            power = getFeedforwardPower(timer);
-            MotorEnhanced.setPower(motors, power);
+        while (!trajectoryIsComplete()) {
+            if (!hasResetTimer) {
+                timer.reset();
+                hasResetTimer = true;
+            }
+//            if (trajectoryIsComplete()) {
+//                MotorEnhanced.setPower(motors, 0);
+//            } else if (usesFeedback) {
+//                //run PID with heading and feedforward
+//            } else {
+                power = getFeedforwardPower(timer);
+                MotorEnhanced.setPower(motors, power);
+//            }
         }
     }
 

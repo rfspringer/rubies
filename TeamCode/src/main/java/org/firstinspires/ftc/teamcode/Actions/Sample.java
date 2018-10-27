@@ -4,10 +4,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 
-public class Hang extends Action {
+public class Sample extends Action {
     Robot robot;
 
-    public Hang(Robot robot) {
+    public Sample(Robot robot) {
         this.robot = robot;
     }
 
