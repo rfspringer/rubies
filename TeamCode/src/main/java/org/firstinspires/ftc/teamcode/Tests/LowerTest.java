@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Actions.Hang;
 import org.firstinspires.ftc.teamcode.Actions.Lower;
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 
-@TeleOp(name="Hang Test", group="Tests")
+@TeleOp(name="Lower Test", group="Tests")
 public class LowerTest extends LinearOpMode {
     private Robot robot = Robot.getInstance();
     private Lower lower = new Lower(robot);
