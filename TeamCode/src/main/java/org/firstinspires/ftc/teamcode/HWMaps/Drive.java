@@ -64,7 +64,8 @@ public class Drive
     private double GEAR_RATIO = 45/60;
     private double COUNTS_PER_REVOLUTION = 537.6;
 
-    private double MAX_VEL;
+    //Units are inches and seconds
+    private double MAX_VEL = 59.52;
     private double MAX_ACCEL;
     private double kV = 0.8/MAX_VEL;
     private double kA = 0;
