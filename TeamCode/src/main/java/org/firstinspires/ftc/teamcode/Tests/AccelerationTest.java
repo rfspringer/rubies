@@ -62,8 +62,6 @@ public class AccelerationTest extends LinearOpMode {
     private double maxVelocity = robot.drive.getMaxVelocity();
     private double acceleration = 24.0;
 
-    private TrajectoryFollower trajectory = robot.drive.initializeTrajectory(36, 0, maxVelocity, acceleration, false);
-
 
     @Override
     public void runOpMode() {
@@ -82,9 +80,11 @@ public class AccelerationTest extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
+        TrajectoryFollower trajectory = robot.drive.initializeTrajectory(72, 0, maxVelocity, acceleration, false);
+
         while (opModeIsActive()) {
             trajectory.run();
-            telemetry.addData("Powers", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
+            telemetry.addData("Powers", robot.drive.getAllMotors()[0].getPower());
             telemetry.addData("Read distance", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
             telemetry.update();
             logger.writeLine(acceleration, robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()), robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
