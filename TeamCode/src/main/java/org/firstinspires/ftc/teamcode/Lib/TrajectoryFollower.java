@@ -37,6 +37,7 @@ public class TrajectoryFollower {
                 MotorEnhanced.setPower(motors, power);
 //            }
         }
+        MotorEnhanced.setPower(motors, 0);
     }
 
     private double getFeedforwardPower(ElapsedTime currentTime){

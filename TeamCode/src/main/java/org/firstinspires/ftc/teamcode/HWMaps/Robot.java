@@ -67,6 +67,7 @@ public class Robot
             double rightPower = PIDController.proportionalController(0, error, kP);
             drive.setPowers(leftPower, rightPower);
         }
+        drive.setPowers(0, 0);
     }
 
     public static Robot getInstance() {
