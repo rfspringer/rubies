@@ -41,7 +41,8 @@ import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Drive {
+public class Drive
+{
     private static final Drive instance = new Drive();
     /* Public OpMode members. */
     private DcMotor leftDrive1 = null;
