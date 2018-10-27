@@ -60,7 +60,7 @@ public class Sensors
     private BNO055IMU imu;
     private Orientation angles;
     private Acceleration gravity;
-    private boolean hasSetInitialAngle;
+    private boolean hasSetInitialAngle = false;
     private double initialHeading;
 
     /* Constructor */
