@@ -27,55 +27,43 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HWMaps;
+package org.firstinspires.ftc.teamcode.Tests;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 
 /**
- * This class stores all objects on our robot's drivetrain
- * It also includes functionality specific to our drive base
+ * This file contains an example of an iterative (Non-Linear) "OpMode".
+ * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
+ * The names of OpModes appear on the menu of the FTC Driver Station.
+ * When an selection is made from the menu, the corresponding OpMode
+ * class is instantiated on the Robot Controller and executed.
+ *
+ * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
+ * It includes all the skeletal structure that all iterative OpModes contain.
+ *
+ * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
+ * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-public class Lift {
-    private static final Lift instance = new Lift();
-    /* Public OpMode members. */
-    private DcMotor  lift   = null;
 
-    /* local OpMode members. */
-    private HardwareMap hwMap           =  null;
-
-    /* Constructor */
-    private Lift(){
-
+@TeleOp(name="Gyro Test", group="Tests")
+//@Disabled
+public class GyroTest extends OpMode {
+    private Robot robot = Robot.getInstance();
+    @Override
+    public void init() {
+        robot.init(hardwareMap);
+        telemetry.addData("Status", "Initialized");
     }
 
-    /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
-        hwMap = ahwMap;
-        lift = hwMap.get(DcMotor.class, "lift");
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        lift.setPower(0);
-    }
-
-    public void setPower(double power) {
-        lift.setPower(power);
-    }
-
-    public int getEncoderCounts() {
-        return lift.getCurrentPosition();
-    }
-
-    public DcMotor getMotor() {
-        return lift;
-    }
-
-    public static Lift getInstance(){
-        return instance;
+    /*
+     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+     */
+    @Override
+    public void loop() {
+        robot.sensors.updateIMU();
+        telemetry.addData("Gyro Heading", robot.sensors.getHeading());
     }
 }
-

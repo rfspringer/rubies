@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
 import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
+import org.firstinspires.ftc.teamcode.Lib.PIDController;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -102,8 +103,8 @@ public class Drive
         return reverseDirection;
     }
 
-    private void setMotorDirections(){
-        if (reverseDirection){
+    private void setMotorDirections() {
+        if (reverseDirection) {
             MotorEnhanced.setDirections(leftMotors, Direction.FORWARD);
             MotorEnhanced.setDirections(rightMotors, Direction.REVERSE);
         } else {
