@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Actions.Hang;
 import org.firstinspires.ftc.teamcode.Actions.Lower;
+import org.firstinspires.ftc.teamcode.Actions.Sample;
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
@@ -17,9 +18,7 @@ public class AutoNoPark extends LinearOpMode {
     private Robot robot = Robot.getInstance();
     private Hang hang = new Hang(robot);
     private Lower lower = new Lower(robot);
-
-    private double LEFT_MINERAL_HEADING;
-    private double RIGHT_MINERAL HEADING
+    private Sample sample = new Sample(robot);
 
     @Override
     public void runOpMode() {
@@ -28,9 +27,6 @@ public class AutoNoPark extends LinearOpMode {
         robot.init(hardwareMap);
         hang.init();
         TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(36, 30);
-        TrajectoryFollower  driveToCenterMineral = robot.drive.initializeTrajectory(36, 0);
-        TrajectoryFollower  driveToLeftMineral = robot.drive.initializeTrajectory(48, -50);
-        TrajectoryFollower  driveToRightMineral = robot.drive.initializeTrajectory(48, 50);
 
         telemetry.addData("Instructions", "Initialize robot against left wall");
         telemetry.addData("Status", "Initialized");
@@ -42,20 +38,13 @@ public class AutoNoPark extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        sample.init();
         hang.kill();
         lower.init();
         lower.run();
         lower.kill();
         robot.turnToHeading(30);
-//        driveAwayFromLatch.run();
-//        robot.turnToHeading(0);
-//        if (robot.sensors.getGoldPosition() == Sensors.GoldLocation.LEFT) {
-//
-//        } else if (robot.sensors.getGoldPosition() == Sensors.GoldLocation.RIGHT) {
-//
-//        } else {
-//
-//        }
-
+        driveAwayFromLatch.run();
+        sample.run();
     }
 }

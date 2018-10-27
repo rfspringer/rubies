@@ -3,9 +3,19 @@ package org.firstinspires.ftc.teamcode.Actions;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
 public class Sample extends Action {
     Robot robot;
+    private Sensors.GoldLocation goldLocation;
+
+    TrajectoryFollower driveToCenterMineral;
+    TrajectoryFollower  driveToLeftMineral;
+    TrajectoryFollower  driveToRightMineral;
+
+    private double LEFT_MINERAL_HEADING;
+    private double RIGHT_MINERAL_HEADING;
 
     public Sample(Robot robot) {
         this.robot = robot;
@@ -13,18 +23,27 @@ public class Sample extends Action {
 
     @Override
     public void init() {
-        robot.lift.getMotor().setTargetPosition(0);
+        driveToCenterMineral = robot.drive.initializeTrajectory(36, 0);
+        driveToLeftMineral = robot.drive.initializeTrajectory(48, -50);
+        driveToRightMineral = robot.drive.initializeTrajectory(48, 50);
+        goldLocation = robot.sensors.getGoldPosition();
     }
 
     @Override
     public void run() {
-        robot.lift.getMotor().setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.lift.setPower(0.2);
+        if (goldLocation == Sensors.GoldLocation.LEFT) {
+            robot.turnToHeading(LEFT_MINERAL_HEADING);
+            driveToLeftMineral.run();
+        } else if (goldLocation == Sensors.GoldLocation.RIGHT) {
+            robot.turnToHeading(RIGHT_MINERAL_HEADING);
+            driveToRightMineral.run();
+        } else {
+            driveToCenterMineral.run();
+        }
     }
 
     @Override
     public void kill() {
-        actionIsComplete = true;
-        robot.lift.getMotor().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 }
