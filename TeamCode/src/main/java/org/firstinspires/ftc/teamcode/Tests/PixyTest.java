@@ -61,6 +61,7 @@ public class PixyTest extends LinearOpMode {
     }
 
     private void addTelemetry() {
+        telemetry.addData("Gold Pos", robot.sensors.getGoldPosition());
         telemetry.addData("Digital", digitalReading);
         telemetry.addData("Analog", analogReading);
     }
