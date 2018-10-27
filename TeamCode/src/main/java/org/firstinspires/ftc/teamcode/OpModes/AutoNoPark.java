@@ -24,7 +24,7 @@ public class AutoNoPark extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        telemetry.addData("Instructions", "Initialize robot against left wall");
+        telemetry.addData("Instructions", "Initialize robot against phone-side wall");
         telemetry.update();
         robot.init(hardwareMap);
         hang.init();
@@ -41,13 +41,13 @@ public class AutoNoPark extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-//        sample.init();
-//        hang.kill();
-//        lower.init();
+        sample.init();
+        hang.kill();
+        lower.init();
         telemetry.addData("Task", "Time to lower from the lander!");
         telemetry.update();
-//        lower.run();
-//        lower.kill();
+        lower.run();
+        lower.kill();
         telemetry.addData("Task", "Alrighty, now I'm gonna turn");
         telemetry.update();
 //        robot.turnToHeading(-30);

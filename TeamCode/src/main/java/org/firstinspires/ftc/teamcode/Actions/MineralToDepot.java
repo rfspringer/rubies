@@ -12,8 +12,8 @@ public class MineralToDepot extends Action {
     TrajectoryFollower driveFromLeftMineral;
     TrajectoryFollower driveFromRightMineral;
 
-    private double LEFT_MINERAL_HEADING = 50;
-    private double RIGHT_MINERAL_HEADING = -50;
+    private double LEFT_MINERAL_HEADING = -50;
+    private double RIGHT_MINERAL_HEADING = 50;
 
     public MineralToDepot(Robot robot) {
         this.robot = robot;
@@ -21,9 +21,9 @@ public class MineralToDepot extends Action {
 
     @Override
     public void init() {
-        driveFromCenterMineral = robot.drive.initializeTrajectory(36, 0);
-        driveFromLeftMineral = robot.drive.initializeTrajectory(48, 50);
-        driveFromRightMineral = robot.drive.initializeTrajectory(48, -50);
+        driveFromCenterMineral = robot.drive.initializeTrajectory(-36, 0);
+        driveFromLeftMineral = robot.drive.initializeTrajectory(-48, LEFT_MINERAL_HEADING);
+        driveFromRightMineral = robot.drive.initializeTrajectory(-48, RIGHT_MINERAL_HEADING);
     }
 
     @Override

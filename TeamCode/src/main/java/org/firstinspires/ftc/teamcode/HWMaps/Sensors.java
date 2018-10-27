@@ -128,7 +128,7 @@ public class Sensors
      */
     public double getHeading(){
         //Gets heading from imu
-        double rawHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) - initialHeading;
+        double rawHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) + initialHeading;
         double integratedHeading = integrateHeading(rawHeading);
 
         return integratedHeading;
