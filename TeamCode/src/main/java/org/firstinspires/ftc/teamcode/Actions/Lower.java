@@ -4,16 +4,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 
-public class Hang extends Action {
+public class Lower extends Action {
     Robot robot;
 
-    public Hang(Robot robot) {
+    public Lower(Robot robot) {
         this.robot = robot;
     }
 
     @Override
     public void init() {
-        robot.lift.getMotor().setTargetPosition(0);
+        robot.lift.getMotor().setTargetPosition(-3800);
     }
 
     @Override
