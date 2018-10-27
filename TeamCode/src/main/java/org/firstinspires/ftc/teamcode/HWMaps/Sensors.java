@@ -68,6 +68,7 @@ public class Sensors
     private Acceleration gravity;
     private boolean hasSetInitialAngle = false;
     private double initialHeading;
+    private double IMU_WALL_OFFSET;
 
     /* Constructor */
     private Sensors(){
@@ -104,7 +105,7 @@ public class Sensors
 
         //initialize "initialHeading" value the first time through the loop (again, sometimes our imu doesn't zero when we reset it every time, we do this to prevent the issue
         if (!hasSetInitialAngle){
-            initialHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+            initialHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) - IMU_WALL_OFFSET;
             hasSetInitialAngle = true;
         }
     }

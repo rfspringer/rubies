@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
-@Autonomous(name="Park From Ground", group="Iterative Opmode")
+@Autonomous(name="Auto No Park", group="Iterative Opmode")
 //@Disabled
 public class AutoNoPark extends LinearOpMode {
 
@@ -41,21 +41,33 @@ public class AutoNoPark extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        sample.init();
-        hang.kill();
-        lower.init();
-        lower.run();
-        lower.kill();
-        robot.turnToHeading(30);
-        driveAwayFromLatch.run();
-        sample.run();
-        mineralToDepot.init();
-        mineralToDepot.run();
-        robot.claim.deploy();
-        sleep(1500);
-        robot.claim.stow();
-        driveAwayFromMarker.run();
-        telemetry.addData("Status", "All done, go RUBIES!");
+//        sample.init();
+//        hang.kill();
+//        lower.init();
+        telemetry.addData("Task", "Time to lower from the lander!");
         telemetry.update();
+//        lower.run();
+//        lower.kill();
+        telemetry.addData("Task", "Alrighty, now I'm gonna turn");
+        telemetry.update();
+//        robot.turnToHeading(30);
+        telemetry.addData("Task", "Now I'll drive out from the latch :)");
+        telemetry.update();
+//        driveAwayFromLatch.run();
+        telemetry.addData("Task", "I'm gonna sample!");
+        telemetry.update();
+//        sample.run();
+        telemetry.addData("Task", "Time to head over to the depot");
+        telemetry.update();
+//        mineralToDepot.init();
+//        mineralToDepot.run();
+        telemetry.addData("Task", "One last thing...");
+        telemetry.update();
+//        robot.claim.deploy();
+//        sleep(1500);
+//        robot.claim.stow();
+//        driveAwayFromMarker.run();
+//        telemetry.addData("Status", "All done, go RUBOT!");
+//        telemetry.update();
     }
 }
