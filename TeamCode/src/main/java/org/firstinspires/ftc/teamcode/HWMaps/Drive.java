@@ -114,7 +114,7 @@ public class Drive
     }
 
     public void followTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
-        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxVel);
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxAccel);
         TrajectoryFollower trajectoryFollower = new TrajectoryFollower(allMotors, trajectory, kV, kA, usesFeedback);
         trajectoryFollower.run();
     }

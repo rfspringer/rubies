@@ -113,7 +113,7 @@ public class VelocityTest extends LinearOpMode {
     }
 
     private void addTelemetry() {
-        telemetry.addData("Inch per sec", "%f", inchesPerSecond);
+        telemetry.addData("Inch per sec", inchesPerSecond);
         telemetry.addData("Encoders per sec", encoderDiff);
         telemetry.addData("Left", robot.drive.getLeftEncoderCounts());
         telemetry.addData("Right", robot.drive.getRightEncoderCounts());

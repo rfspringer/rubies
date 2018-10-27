@@ -8,6 +8,7 @@ public class TrajectoryFollower {
     private double kV;
     private double kA;
     private boolean usesFeedback;
+    private boolean hasResetTimer = false;
     private DcMotor[] motors;
     private TrajectoryGenerator trajectory;
 
@@ -17,10 +18,13 @@ public class TrajectoryFollower {
         this.trajectory = trajectory;
         this.kV = kV;
         this.kA = kA;
-        timer.reset();
     }
 
     public void run(){
+        if (!hasResetTimer) {
+            timer.reset();
+            hasResetTimer = true;
+        }
         if (usesFeedback) {
             //run PID with heading and feedforward
         } else {

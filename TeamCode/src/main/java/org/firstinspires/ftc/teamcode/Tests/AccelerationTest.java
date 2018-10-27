@@ -52,7 +52,7 @@ import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
  */
 
 @TeleOp(name="Acceleration Test", group="Tests")
-@Disabled
+//@Disabled
 public class AccelerationTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime accelerationTimer = new ElapsedTime();
@@ -66,13 +66,13 @@ public class AccelerationTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        telemetry.addData("Status", "Initialized");
-        telemetry.addData("This program will attempt to run a 3 foot trajectory. Acceleration is adjustable via the gamepad in init. Run several times until the acceleration causes inconsistencies in read distance and actual distance travelled", "Go RUBIES!");
-        telemetry.addData("Instruction", "Press A to begin adjusting acceleration");
-        telemetry.update();
 
-        while (!gamepad1.a || !isStarted()) {
-            sleep(1);
+        while (!gamepad1.a && !isStarted()) {
+            telemetry.addData("Status", "Initialized");
+            telemetry.addData("This program will attempt to run a 3 foot trajectory. Acceleration is adjustable via the gamepad in init. Run several times until the acceleration causes inconsistencies in read distance and actual distance travelled", "Go RUBIES!");
+            telemetry.addData("Instruction", "Press A to begin adjusting acceleration");
+            telemetry.addData("A", gamepad1.a);
+            telemetry.update();
         }
 
         adjustAcceleration();
