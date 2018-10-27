@@ -28,5 +28,6 @@ public class Lower extends Action {
     @Override
     public void kill() {
         robot.lift.getMotor().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.lift.setPower(0);
     }
 }

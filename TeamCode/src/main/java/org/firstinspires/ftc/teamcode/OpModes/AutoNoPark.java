@@ -50,7 +50,7 @@ public class AutoNoPark extends LinearOpMode {
         lower.kill();
         telemetry.addData("Task", "Alrighty, now I'm gonna turn");
         telemetry.update();
-//        robot.turnToHeading(-30);
+        robot.turnToHeading(-30);
         telemetry.addData("Task", "Now I'll drive out from the latch :)");
         telemetry.update();
 //        driveAwayFromLatch.run();

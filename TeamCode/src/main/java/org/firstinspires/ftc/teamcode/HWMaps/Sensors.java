@@ -111,6 +111,17 @@ public class Sensors
         }
     }
 
+    /*
+    Gets heading and integrates to be between -180 and 180 just in case
+     */
+    public double getHeading(){
+        //Gets heading from imu
+        double rawHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) + initialHeading;
+        double integratedHeading = integrateHeading(rawHeading);
+
+        return integratedHeading;
+    }
+
     private double integrateHeading(double heading){
         //Integrates it to be from -180 to 180 degrees
         while (heading > 180){
@@ -121,17 +132,6 @@ public class Sensors
         }
 
         return heading;
-    }
-
-    /*
-    Gets heading and integrates to be between -180 and 180 just in case
-     */
-    public double getHeading(){
-        //Gets heading from imu
-        double rawHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) + initialHeading;
-        double integratedHeading = integrateHeading(rawHeading);
-
-        return integratedHeading;
     }
 
     public GoldLocation getGoldPosition() {
