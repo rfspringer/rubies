@@ -28,8 +28,8 @@ public class AutoNoPark extends LinearOpMode {
         telemetry.update();
         robot.init(hardwareMap);
         hang.init();
-        TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(36, 30);
-        TrajectoryFollower driveAwayFromMarker = robot.drive.initializeTrajectory(-10, 30);
+        TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-36, 30);
+        TrajectoryFollower driveAwayFromMarker = robot.drive.initializeTrajectory(10, 30);
 
         telemetry.addData("Instructions", "Initialize robot against left wall");
         telemetry.addData("Status", "Initialized");
@@ -50,7 +50,7 @@ public class AutoNoPark extends LinearOpMode {
 //        lower.kill();
         telemetry.addData("Task", "Alrighty, now I'm gonna turn");
         telemetry.update();
-//        robot.turnToHeading(30);
+//        robot.turnToHeading(-30);
         telemetry.addData("Task", "Now I'll drive out from the latch :)");
         telemetry.update();
 //        driveAwayFromLatch.run();

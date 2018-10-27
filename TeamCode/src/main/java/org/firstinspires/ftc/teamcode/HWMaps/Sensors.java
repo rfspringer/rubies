@@ -68,7 +68,7 @@ public class Sensors
     private Acceleration gravity;
     private boolean hasSetInitialAngle = false;
     private double initialHeading;
-    private double IMU_WALL_OFFSET;
+    private double IMU_WALL_OFFSET = 45.0;
 
     /* Constructor */
     private Sensors(){
@@ -81,6 +81,7 @@ public class Sensors
         imu = hwMap.get(BNO055IMU.class, "imu");
 
         initializeIMU();
+        updateIMU();
         pixyDigital.setMode(DigitalChannel.Mode.INPUT);
     }
 
