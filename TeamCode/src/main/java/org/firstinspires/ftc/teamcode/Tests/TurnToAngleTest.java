@@ -72,7 +72,7 @@ public class TurnToAngleTest extends OpMode {
     @Override
     public void loop() {
         robot.sensors.updateIMU();
-        robot.turnToHeading(0);
+        robot.turnToHeading(-30);
         telemetry.addData("Gyro Heading", robot.sensors.getHeading());
     }
 }
