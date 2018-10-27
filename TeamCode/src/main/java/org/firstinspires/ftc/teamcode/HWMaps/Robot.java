@@ -29,8 +29,6 @@
 
 package org.firstinspires.ftc.teamcode.HWMaps;
 
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Drive;
@@ -52,6 +50,7 @@ public class Robot
 
     /* Constructor */
     private Robot(){
+
     }
 
     /* Initialize standard Hardware interfaces */

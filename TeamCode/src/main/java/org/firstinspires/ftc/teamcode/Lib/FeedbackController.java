@@ -43,7 +43,7 @@ abstract public class FeedbackController {
 //    }
 //
 //    public double getLastTime() {
-//        return lastTime;
+//        return lastTim;
 //    }
 //
 //    public double getdPower() {

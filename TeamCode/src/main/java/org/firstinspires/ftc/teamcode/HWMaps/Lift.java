@@ -34,6 +34,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
+
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
@@ -43,14 +47,19 @@ public class Lift {
     /* Public OpMode members. */
     private DcMotor  lift   = null;
 
-    /* local OpMode members. */
-    private HardwareMap hwMap           =  null;
+    private double MAX_VELOCITY;
+    private double MAX_ACCELERATION;
 
-    private int EXTENDED_ENCODER_COUNTS = -3800;
+    private double kV = 0.8/MAX_VELOCITY;
+    private double kA;
+
+    /* local OpMode members. */
+    private HardwareMap hwMap = null;
+
+    private int EXTENDED_ENCODER_COUNTS = -4725;
 
     /* Constructor */
     private Lift(){
-
     }
 
     /* Initialize standard Hardware interfaces */
@@ -68,6 +77,33 @@ public class Lift {
         lift.setPower(power);
     }
 
+    public DcMotor getMotor() {
+        return lift;
+    }
+
+    public static Lift getInstance(){
+        return instance;
+    }
+
+
+    public void followTrajectory(double distance, double heading) {
+        followTrajectory(distance, heading, MAX_VELOCITY, MAX_ACCELERATION);
+    }
+
+
+    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
+        DcMotor[] lift = {this.lift};
+        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
+        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
+        if (trajectoryFollower.trajectoryIsComplete()) {
+            MotorEnhanced.setPower(lift, 0);
+            return;
+        }
+        trajectoryFollower.run();
+    }
+
+
     public int getEncoderCounts() {
         return lift.getCurrentPosition();
     }
@@ -76,12 +112,5 @@ public class Lift {
         return EXTENDED_ENCODER_COUNTS;
     }
 
-    public DcMotor getMotor() {
-        return lift;
-    }
-
-    public static Lift getInstance(){
-        return instance;
-    }
 }
 
