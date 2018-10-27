@@ -46,6 +46,8 @@ public class Lift {
     /* local OpMode members. */
     private HardwareMap hwMap           =  null;
 
+    private int EXTENDED_ENCODER_COUNTS = -3800;
+
     /* Constructor */
     private Lift(){
 
@@ -68,6 +70,10 @@ public class Lift {
 
     public int getEncoderCounts() {
         return lift.getCurrentPosition();
+    }
+
+    public int extendedLiftPosition() {
+        return EXTENDED_ENCODER_COUNTS;
     }
 
     public DcMotor getMotor() {
