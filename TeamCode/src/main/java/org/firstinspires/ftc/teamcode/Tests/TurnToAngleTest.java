@@ -74,8 +74,8 @@ public class TurnToAngleTest extends OpMode {
         robot.sensors.updateIMU();
 
         error = 0 - robot.sensors.getHeading();
-        leftPower = PIDController.proportionalController(0, error, kP);
-        rightPower = PIDController.proportionalController(0, error, -kP);
+        leftPower = PIDController.proportionalController(0, error, -kP);
+        rightPower = PIDController.proportionalController(0, error, kP);
         robot.drive.setPowers(leftPower, rightPower);
         telemetry.addData("Gyro Heading", robot.sensors.getHeading());
     }
