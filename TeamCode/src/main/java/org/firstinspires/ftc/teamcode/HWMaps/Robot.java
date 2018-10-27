@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Drive;
 import org.firstinspires.ftc.teamcode.HardwareMaps.HardwareLift;
+import org.firstinspires.ftc.teamcode.Lib.PIDController;
 
 /**
  * This is NOT an opmode.
@@ -58,6 +59,14 @@ public class Robot
         drive.init(hwMap);
         lift.init(hwMap);
         sensors.init(hwMap);
+    }
+
+    public void turnToHeading(double targetHeading) {
+        double kP = 0.0065;
+        double error = targetHeading - sensors.getHeading();
+        double leftPower = PIDController.proportionalController(0, error, -kP);
+        double rightPower = PIDController.proportionalController(0, error, kP);
+        drive.setPowers(leftPower, rightPower);
     }
 
     public static Robot getInstance() {

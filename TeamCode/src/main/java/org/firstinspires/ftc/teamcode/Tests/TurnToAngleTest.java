@@ -58,7 +58,7 @@ public class TurnToAngleTest extends OpMode {
     private double error;
     private double leftPower;
     private double rightPower;
-    private double kP = 0.0075;
+    private double kP = 0.0065;
 
     @Override
     public void init() {
@@ -72,11 +72,7 @@ public class TurnToAngleTest extends OpMode {
     @Override
     public void loop() {
         robot.sensors.updateIMU();
-
-        error = 0 - robot.sensors.getHeading();
-        leftPower = PIDController.proportionalController(0, error, -kP);
-        rightPower = PIDController.proportionalController(0, error, kP);
-        robot.drive.setPowers(leftPower, rightPower);
+        robot.turnToHeading(0);
         telemetry.addData("Gyro Heading", robot.sensors.getHeading());
     }
 }
