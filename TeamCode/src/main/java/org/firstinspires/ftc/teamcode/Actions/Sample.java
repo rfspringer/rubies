@@ -14,8 +14,8 @@ public class Sample extends Action {
     TrajectoryFollower  driveToLeftMineral;
     TrajectoryFollower  driveToRightMineral;
 
-    private double LEFT_MINERAL_HEADING = 50;
-    private double RIGHT_MINERAL_HEADING = -50;
+    private double LEFT_MINERAL_HEADING = -45;
+    private double RIGHT_MINERAL_HEADING = 45;
 
     public Sample(Robot robot) {
         this.robot = robot;

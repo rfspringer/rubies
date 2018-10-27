@@ -28,7 +28,7 @@ public class AutoNoPark extends LinearOpMode {
         telemetry.update();
         robot.init(hardwareMap);
         hang.init();
-        TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-20, -30);
+        TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-18, -30);
         TrajectoryFollower driveAwayFromMarker = robot.drive.initializeTrajectory(10, 30);
 
         telemetry.addData("Instructions", "Initialize robot against left wall");

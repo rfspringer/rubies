@@ -21,7 +21,7 @@ public class Lower extends Action {
         while (!actionIsComplete) {
             robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.lift.setPower(0.5);
-            actionIsComplete = (robot.lift.getCurrentPosition() <= (robot.lift.extendedLiftPosition() - 5));
+            actionIsComplete = (robot.lift.getCurrentPosition() <= (robot.lift.extendedLiftPosition() - 8));
         }
     }
 
