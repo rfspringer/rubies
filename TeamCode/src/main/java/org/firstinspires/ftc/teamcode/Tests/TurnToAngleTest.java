@@ -29,70 +29,50 @@
 
 package org.firstinspires.ftc.teamcode.Tests;
 
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DogeCV;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.PIDCoefficients;
+import com.qualcomm.robotcore.hardware.PWMOutput;
 
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.Lib.PIDController;
 
-@TeleOp(name="Gold Detection Test", group="Tests")
+/**
+ * This file contains an example of an iterative (Non-Linear) "OpMode".
+ * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
+ * The names of OpModes appear on the menu of the FTC Driver Station.
+ * When an selection is made from the menu, the corresponding OpMode
+ * class is instantiated on the Robot Controller and executed.
+ *
+ * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
+ * It includes all the skeletal structure that all iterative OpModes contain.
+ *
+ * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
+ * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ */
 
-public class GoldDetectionTest extends OpMode
-{
-    private GoldAlignDetector detector;
-
+@TeleOp(name="Stay At Heading 0 Test", group="Tests")
+//@Disabled
+public class TurnToAngleTest extends OpMode {
+    private Robot robot = Robot.getInstance();
+    private double error;
+    private double leftPower;
+    private double rightPower;
+    private double kP = 0.0065;
 
     @Override
     public void init() {
-        telemetry.addData("Status", "DogeCV 2018.0 - Gold Align Example");
-
-        detector = new GoldAlignDetector();
-        detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
-        detector.useDefaults();
-
-        // Optional Tuning
-        detector.alignSize = 100; // How wide (in pixels) is the range in which the gold object will be aligned. (Represented by green bars in the preview)
-        detector.alignPosOffset = 0; // How far from center frame to offset this alignment zone.
-        detector.downscale = 0.4; // How much to downscale the input frames
-
-        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
-//        detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
-        detector.maxAreaScorer.weight = 0.005;
-
-        detector.ratioScorer.weight = 5;
-        detector.ratioScorer.perfectRatio = 1.0;
-
-        detector.enable();
-
-    }
-
-    @Override
-    public void init_loop() {
+        robot.init(hardwareMap);
+        telemetry.addData("Status", "Initialized");
     }
 
     /*
-     * Code to run ONCE when the driver hits PLAY
+     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
-    @Override
-    public void start() {
-
-    }
-
-
     @Override
     public void loop() {
-        telemetry.addData("IsAligned" , detector.getAligned()); // Is the bot aligned with the gold mineral
-        telemetry.addData("X Pos" , detector.getXPosition()); // Gold X pos.
+        robot.sensors.updateIMU();
+        robot.turnToHeading(0);
+        telemetry.addData("Gyro Heading", robot.sensors.getHeading());
     }
-
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
-    @Override
-    public void stop() {
-        detector.disable();
-    }
-
 }

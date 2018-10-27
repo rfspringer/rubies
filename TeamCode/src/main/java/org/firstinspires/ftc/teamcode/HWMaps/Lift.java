@@ -34,30 +34,40 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
+
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Lift
-{
+public class Lift {
     private static final Lift instance = new Lift();
     /* Public OpMode members. */
     private DcMotor  lift   = null;
 
+    private double MAX_VELOCITY;
+    private double MAX_ACCELERATION;
+
+    private double kV = 0.8/MAX_VELOCITY;
+    private double kA;
+
     /* local OpMode members. */
-    private HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime();
+    private HardwareMap hwMap = null;
+
+    private int EXTENDED_ENCODER_COUNTS = -4725;
 
     /* Constructor */
     private Lift(){
-
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
         lift = hwMap.get(DcMotor.class, "lift");
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setPower(0);
@@ -67,12 +77,40 @@ public class Lift
         lift.setPower(power);
     }
 
+    public DcMotor getMotor() {
+        return lift;
+    }
+
     public static Lift getInstance(){
         return instance;
     }
 
-    public DcMotor getMotor() {
-        return lift;
+
+    public void followTrajectory(double distance, double heading) {
+        followTrajectory(distance, heading, MAX_VELOCITY, MAX_ACCELERATION);
     }
+
+
+    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
+        DcMotor[] lift = {this.lift};
+        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
+        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
+        if (trajectoryFollower.trajectoryIsComplete()) {
+            MotorEnhanced.setPower(lift, 0);
+            return;
+        }
+        trajectoryFollower.run();
+    }
+
+
+    public int getEncoderCounts() {
+        return lift.getCurrentPosition();
+    }
+
+    public int extendedLiftPosition() {
+        return EXTENDED_ENCODER_COUNTS;
+    }
+
 }
 

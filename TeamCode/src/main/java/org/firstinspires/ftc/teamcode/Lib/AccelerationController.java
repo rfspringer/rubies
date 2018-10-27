@@ -5,13 +5,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class AccelerationController {
     private ElapsedTime timer = new ElapsedTime();
-    public double currentPower = 0;
-    public double lastPower = 0;
-    public double currentTime = 0;
-    public double lastTime = 0;
-    public double dPower;
-    public double dTime;
-    public boolean hasStartedTimer = false;
+    private double currentPower = 0;
+    private double lastPower = 0;
+    private double currentTime = 0;
+    private double lastTime = 0;
+    private double dPower;
+    private double dTime;
+    private boolean hasStartedTimer = false;
 
     private double maxAcceleration;
 
@@ -23,7 +23,7 @@ public class AccelerationController {
         updateTime();
         updateDifferentials(targetPower);
         currentPower = calculatePower();
-        MotorEnhanced.setPowers(motors, currentPower);
+        MotorEnhanced.setPower(motors, currentPower);
         updateLastTimeAndPower();
     }
 
@@ -58,14 +58,7 @@ public class AccelerationController {
     }
 
     private double calculatePower() {
-        double direction;
-        if (dPower > 0) {
-            direction = 1;
-        } else if (dPower < 0) {
-            direction = -1;
-        } else {
-            direction = 0;
-        }
+        double direction = Math.signum(dPower);
         dPower = Math.min(maxAcceleration * dTime,  Math.abs(dPower));
         return lastPower + direction * dPower;
     }

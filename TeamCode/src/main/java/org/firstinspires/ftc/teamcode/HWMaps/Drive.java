@@ -34,6 +34,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
 import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
+import org.firstinspires.ftc.teamcode.Lib.PIDController;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -57,6 +60,17 @@ public class Drive
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
 
+    private double WHEEL_DIAMETER = 4.0;
+    private double WHEEL_PERIMETER = WHEEL_DIAMETER * Math.PI;
+    private double GEAR_RATIO = 45/60;
+    private double COUNTS_PER_REVOLUTION = 537.6;
+
+    //Units are inches and seconds
+    private double MAX_VEL = 59.52;
+    private double MAX_ACCEL = 35.0;
+    private double kV = 0.8/MAX_VEL;
+    private double kA = 0;
+
     /* Constructor */
     private Drive(){
 
@@ -69,7 +83,8 @@ public class Drive
         initializeMotorArrays();
         setMotorDirections();
         setPowers(0, 0);
-        MotorEnhanced.setRunModes(allMotors, DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     private void initializeDriveMotors(){
@@ -89,8 +104,18 @@ public class Drive
     }
 
     public void setPowers(double leftPower, double rightPower){
-        MotorEnhanced.setPowers(leftMotors, leftPower);
-        MotorEnhanced.setPowers(rightMotors, rightPower);
+        MotorEnhanced.setPower(leftMotors, leftPower);
+        MotorEnhanced.setPower(rightMotors, rightPower);
+    }
+
+    public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading) {
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, MAX_VEL, MAX_ACCEL);
+        return new TrajectoryFollower(allMotors, trajectory, kV, kA, false);
+    }
+
+    public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxAccel);
+        return new TrajectoryFollower(allMotors, trajectory, kV, kA, usesFeedback);
     }
 
     public void reverseMotorDirections(boolean reverseDirection) {
@@ -104,12 +129,16 @@ public class Drive
 
     private void setMotorDirections(){
         if (reverseDirection){
-            MotorEnhanced.setDirections(leftMotors, Direction.FORWARD);
-            MotorEnhanced.setDirections(rightMotors, Direction.REVERSE);
+            MotorEnhanced.setDirection(leftMotors, Direction.FORWARD);
+            MotorEnhanced.setDirection(rightMotors, Direction.REVERSE);
         } else {
-            MotorEnhanced.setDirections(leftMotors, Direction.REVERSE);
-            MotorEnhanced.setDirections(rightMotors, Direction.FORWARD);
+            MotorEnhanced.setDirection(leftMotors, Direction.REVERSE);
+            MotorEnhanced.setDirection(rightMotors, Direction.FORWARD);
         }
+    }
+
+    public double convertEncoderCountsToInches(double encoderCounts) {
+        return encoderCounts / COUNTS_PER_REVOLUTION * GEAR_RATIO * WHEEL_PERIMETER;
     }
 
     public int getRightEncoderCounts(){
@@ -120,6 +149,23 @@ public class Drive
     public int getLeftEncoderCounts(){
         double counts = (leftDrive1.getCurrentPosition() + leftDrive2.getCurrentPosition())/2;
         return (int) counts;
+    }
+
+    public int getAverageEncoderCounts(){
+        double counts = (getLeftEncoderCounts() + getRightEncoderCounts())/2;
+        return (int) counts;
+    }
+
+    public double getMaxVelocity() {
+        return MAX_VEL;
+    }
+
+    public double getMaxAccel() {
+        return MAX_ACCEL;
+    }
+
+    public double getkV() {
+        return kV;
     }
 
     public DcMotor[] getAllMotors() {

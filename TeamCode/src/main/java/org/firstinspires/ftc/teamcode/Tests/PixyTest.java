@@ -27,51 +27,42 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HWMaps;
+package org.firstinspires.ftc.teamcode.Tests;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Drive;
-import org.firstinspires.ftc.teamcode.HardwareMaps.HardwareLift;
-import org.firstinspires.ftc.teamcode.Lib.PIDController;
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 
-/**
- * This is NOT an opmode.
- *
- * This class can be used to define all the specific hardware for our robot
- * This class stores functions that use a combination of subsystems on our robot
- */
-public class Robot
-{
-    private static final Robot instance = new Robot();
-    public Drive drive = Drive.getInstance();
-    public Lift lift = Lift.getInstance();
-    public Claim claim = Claim.getInstance();
-    public Sensors sensors = Sensors.getInstance();
 
-    /* Constructor */
-    private Robot(){
+@TeleOp(name="Pixy Test", group="Tests")
+public class PixyTest extends LinearOpMode {
+    private Robot robot = Robot.getInstance();
 
+    private boolean digitalReading;
+    private double analogReading;
+
+    @Override
+    public void runOpMode() {
+        robot.init(hardwareMap);
+        waitForStart();
+
+        while (opModeIsActive()) {
+            query();
+            addTelemetry();
+            telemetry.update();
+            sleep(500);
+        }
     }
 
-    /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap hwMap) {
-        drive.init(hwMap);
-        lift.init(hwMap);
-        sensors.init(hwMap);
-        claim.init(hwMap);
+    private void query() {
+        digitalReading = robot.sensors.getPixyDigital();
+        analogReading = robot.sensors.getPixyAnalog();
     }
 
-    public void turnToHeading(double targetHeading) {
-        double kP = 0.0065;
-        double error = targetHeading - sensors.getHeading();
-        double leftPower = PIDController.proportionalController(0, error, -kP);
-        double rightPower = PIDController.proportionalController(0, error, kP);
-        drive.setPowers(leftPower, rightPower);
+    private void addTelemetry() {
+        telemetry.addData("Gold Pos", robot.sensors.getGoldPosition());
+        telemetry.addData("Digital", digitalReading);
+        telemetry.addData("Analog", analogReading);
     }
-
-    public static Robot getInstance() {
-        return instance;
-    }
- }
-
+}

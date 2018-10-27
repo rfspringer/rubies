@@ -26,52 +26,44 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.firstinspires.ftc.teamcode.HWMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.HardwareMaps.Drive;
-import org.firstinspires.ftc.teamcode.HardwareMaps.HardwareLift;
-import org.firstinspires.ftc.teamcode.Lib.PIDController;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
- * This is NOT an opmode.
- *
- * This class can be used to define all the specific hardware for our robot
- * This class stores functions that use a combination of subsystems on our robot
+ * This class stores all objects on our robot's drivetrain
+ * It also includes functionality specific to our drive base
  */
-public class Robot
-{
-    private static final Robot instance = new Robot();
-    public Drive drive = Drive.getInstance();
-    public Lift lift = Lift.getInstance();
-    public Claim claim = Claim.getInstance();
-    public Sensors sensors = Sensors.getInstance();
+public class Claim {
+    private static final Claim instance = new Claim();
+    /* Public OpMode members. */
+    private Servo claimServo;
+
+    private double STOWED_POS = 0.0;
+    private double DEPLOYED_POS = 1.0;
 
     /* Constructor */
-    private Robot(){
+    private Claim(){
 
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hwMap) {
-        drive.init(hwMap);
-        lift.init(hwMap);
-        sensors.init(hwMap);
-        claim.init(hwMap);
+        claimServo = hwMap.servo.get("claim_servo");
+        stow();
     }
 
-    public void turnToHeading(double targetHeading) {
-        double kP = 0.0065;
-        double error = targetHeading - sensors.getHeading();
-        double leftPower = PIDController.proportionalController(0, error, -kP);
-        double rightPower = PIDController.proportionalController(0, error, kP);
-        drive.setPowers(leftPower, rightPower);
+    public void stow() {
+        claimServo.setPosition(STOWED_POS);
     }
 
-    public static Robot getInstance() {
+    public void deploy() {
+        claimServo.setPosition(DEPLOYED_POS);
+    }
+
+    public static Claim getInstance(){
         return instance;
     }
- }
+}
 
