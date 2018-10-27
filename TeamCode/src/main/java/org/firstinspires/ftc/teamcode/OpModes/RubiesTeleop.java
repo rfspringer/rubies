@@ -45,8 +45,8 @@ public class RubiesTeleop extends OpMode
     private Robot robot = Robot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
-    private AccelerationController leftAccelerationController = new AccelerationController(3.0);
-    private AccelerationController rightAccelerationController = new AccelerationController(3.0);
+    private AccelerationController leftAccelerationController = new AccelerationController(1.0);
+    private AccelerationController rightAccelerationController = new AccelerationController(1.0);
     private AccelerationController liftAccelerationController = new AccelerationController(1.5);
 
     private double leftPower;
@@ -101,8 +101,8 @@ public class RubiesTeleop extends OpMode
     }
 
     private void calculateMotorPowers() {
-        leftPower    = -1 * gamepadA.left_stick_y;
-        rightPower   = -1 * gamepadA.right_stick_y;
+        leftPower    = -0.5 * gamepadA.left_stick_y;
+        rightPower   = -0.5 * gamepadA.right_stick_y;
     }
 
     @Override
