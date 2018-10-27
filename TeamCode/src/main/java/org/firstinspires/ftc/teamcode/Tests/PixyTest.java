@@ -56,8 +56,8 @@ public class PixyTest extends LinearOpMode {
     }
 
     private void query() {
-        digitalReading = robot.sensors.getPixyDigital().getState();
-        analogReading = robot.sensors.getPixyAnalog().getVoltage() / robot.sensors.getPixyAnalog().getMaxVoltage();
+        digitalReading = robot.sensors.getPixyDigital();
+        analogReading = robot.sensors.getPixyAnalog();
     }
 
     private void addTelemetry() {

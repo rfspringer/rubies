@@ -48,6 +48,12 @@ public class Sensors
     private AnalogInput pixyAnalog;
     private DigitalChannel pixyDigital;
 
+    public enum GoldLocation {
+        LEFT,
+        CENTER,
+        RIGHT
+    }
+
     /* Constructor */
     private Sensors(){
     }
@@ -59,12 +65,22 @@ public class Sensors
         pixyDigital.setMode(DigitalChannel.Mode.INPUT);
     }
 
-    public AnalogInput getPixyAnalog() {
-        return pixyAnalog;
+    public double getPixyAnalog() {
+        return pixyAnalog.getVoltage()/pixyAnalog.getMaxVoltage();
     }
 
-    public DigitalChannel getPixyDigital() {
-        return pixyDigital;
+    public boolean getPixyDigital() {
+        return pixyDigital.getState();
+    }
+
+    public GoldLocation getGoldPosition() {
+        if (!getPixyDigital()) {
+            return GoldLocation.RIGHT;
+        } else if (getPixyAnalog() < 0.5) {
+            return GoldLocation.LEFT;
+        } else {
+            return GoldLocation.CENTER;
+        }
     }
 
     public static Sensors getInstance() {
