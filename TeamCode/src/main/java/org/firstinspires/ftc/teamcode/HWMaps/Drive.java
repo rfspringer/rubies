@@ -66,7 +66,7 @@ public class Drive
 
     //Units are inches and seconds
     private double MAX_VEL = 59.52;
-    private double MAX_ACCEL;
+    private double MAX_ACCEL = 35.0;
     private double kV = 0.8/MAX_VEL;
     private double kA = 0;
 
