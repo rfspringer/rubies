@@ -107,16 +107,14 @@ public class Drive
         MotorEnhanced.setPower(rightMotors, rightPower);
     }
 
-    public void followTrajectory(double distanceInInches, double heading) {
+    public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading) {
         TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, MAX_VEL, MAX_ACCEL);
-        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(allMotors, trajectory, kV, kA, false);
-        trajectoryFollower.run();
+        return new TrajectoryFollower(allMotors, trajectory, kV, kA, false);
     }
 
-    public void followTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
+    public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
         TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxAccel);
-        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(allMotors, trajectory, kV, kA, usesFeedback);
-        trajectoryFollower.run();
+        return new TrajectoryFollower(allMotors, trajectory, kV, kA, usesFeedback);
     }
 
     public void reverseMotorDirections(boolean reverseDirection) {

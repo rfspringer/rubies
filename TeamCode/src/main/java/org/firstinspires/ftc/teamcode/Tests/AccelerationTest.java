@@ -29,13 +29,13 @@
 
 package org.firstinspires.ftc.teamcode.Tests;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
 
 /**
@@ -81,7 +81,9 @@ public class AccelerationTest extends LinearOpMode {
         runtime.reset();
 
         while (opModeIsActive()) {
-            robot.drive.followTrajectory(36, 0, maxVelocity, acceleration, false);
+            TrajectoryFollower trajectory = robot.drive.initializeTrajectory(36, 0, maxVelocity, acceleration, false);
+            trajectory.run();
+            telemetry.addData("Powers", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
             telemetry.addData("Read distance", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
             telemetry.update();
             logger.writeLine(acceleration, robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()), robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());

@@ -67,6 +67,7 @@ public class kATest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        //NOT WORKING
         robot.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.addData("This program will attempt to run a 3 foot trajectory. The acceleration constant is adjustable via the gamepad in init. Encoder values will be logged to a file which can be viewed in Excel", "Go RUBIES!");

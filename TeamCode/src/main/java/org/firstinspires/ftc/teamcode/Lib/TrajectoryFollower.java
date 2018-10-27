@@ -7,7 +7,7 @@ public class TrajectoryFollower {
     private ElapsedTime timer = new ElapsedTime();
     private double kV;
     private double kA;
-    private boolean usesFeedback;
+    private boolean usesFeedback = false;
     private boolean hasResetTimer = false;
     private DcMotor[] motors;
     private TrajectoryGenerator trajectory;
