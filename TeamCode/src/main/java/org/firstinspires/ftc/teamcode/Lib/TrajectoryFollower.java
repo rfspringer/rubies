@@ -3,8 +3,12 @@ package org.firstinspires.ftc.teamcode.Lib;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+
 public class TrajectoryFollower {
+    private Robot robot = Robot.getInstance();
     private ElapsedTime timer = new ElapsedTime();
+    private double heading;
     private double power = 0;
     private double kV;
     private double kA;
@@ -13,12 +17,13 @@ public class TrajectoryFollower {
     private DcMotor[] motors;
     private TrajectoryGenerator trajectory;
 
-    public TrajectoryFollower(DcMotor[] motors, TrajectoryGenerator trajectory, double kV, double kA, boolean usesFeedback){
+    public TrajectoryFollower(DcMotor[] motors, TrajectoryGenerator trajectory, double heading, double kV, double kA, boolean usesFeedback){
         this.usesFeedback = usesFeedback;
         this.motors = motors;
         this.trajectory = trajectory;
         this.kV = kV;
         this.kA = kA;
+        this.heading = heading;
         MotorEnhanced.setRunMode(motors, DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
@@ -34,7 +39,8 @@ public class TrajectoryFollower {
 //                //run PID with heading and feedforward
 //            } else {
                 power = getFeedforwardPower(timer);
-                MotorEnhanced.setPower(motors, power);
+            robot.driveByHeading(power, power, heading);
+//                MotorEnhanced.setPower(motors, power);
 //            }
         }
         MotorEnhanced.setPower(motors, 0);

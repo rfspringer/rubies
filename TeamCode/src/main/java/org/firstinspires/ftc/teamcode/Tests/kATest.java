@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.Tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -53,6 +54,7 @@ import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
  */
 
 @TeleOp(name="kA Test", group="tests")
+@Disabled
 public class kATest extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -91,9 +93,9 @@ public class kATest extends LinearOpMode {
     }
 
     private void followTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
-        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxVel);
-        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(robot.drive.getAllMotors(), trajectory, kV, kA, usesFeedback);
-        trajectoryFollower.run();
+//        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxVel);
+//        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(robot.drive.getAllMotors(), trajectory, kV, kA, usesFeedback);
+//        trajectoryFollower.run();
     }
 
     private void adjustkA(){

@@ -59,6 +59,15 @@ public class Robot
         claim.init(hwMap);
     }
 
+    public void driveByHeading(double leftPower, double rightPower, double targetHeading) {
+        sensors.updateIMU();
+        double kP = 0.0065;
+        double error = targetHeading - sensors.getHeading();
+        double left = PIDController.proportionalController(leftPower, error, -kP);
+        double right = PIDController.proportionalController(rightPower, error, kP);
+        drive.setPowers(leftPower, rightPower);
+    }
+
     public void turnToHeading(double targetHeading) {
         while (Math.abs(sensors.integrateHeading(targetHeading - sensors.getHeading())) > 2.5) {
             sensors.updateIMU();

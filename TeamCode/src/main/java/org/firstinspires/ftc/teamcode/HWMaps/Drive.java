@@ -110,12 +110,12 @@ public class Drive
 
     public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading) {
         TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, MAX_VEL, MAX_ACCEL);
-        return new TrajectoryFollower(allMotors, trajectory, kV, kA, false);
+        return new TrajectoryFollower(allMotors, trajectory, heading, kV, kA, false);
     }
 
     public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
         TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxAccel);
-        return new TrajectoryFollower(allMotors, trajectory, kV, kA, usesFeedback);
+        return new TrajectoryFollower(allMotors, trajectory, heading, kV, kA, usesFeedback);
     }
 
     public void reverseMotorDirections(boolean reverseDirection) {

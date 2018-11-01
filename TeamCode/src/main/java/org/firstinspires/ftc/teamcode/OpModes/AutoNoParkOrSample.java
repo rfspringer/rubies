@@ -29,7 +29,7 @@ public class AutoNoParkOrSample extends LinearOpMode {
         robot.init(hardwareMap);
         hang.init();
         TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-15, -30);
-        TrajectoryFollower driveFromUnlatchedToDepot = robot.drive.initializeTrajectory(150, 30);
+        TrajectoryFollower driveFromUnlatchedToDepot = robot.drive.initializeTrajectory(150, 180);
         TrajectoryFollower driveAwayFromMarker = robot.drive.initializeTrajectory(-10, 30);
 
         telemetry.addData("Instructions", "Initialize robot against left wall");
@@ -56,14 +56,9 @@ public class AutoNoParkOrSample extends LinearOpMode {
         telemetry.update();
         driveAwayFromLatch.run();
         robot.turnToHeading(180);
-//        telemetry.addData("Task", "I'm gonna sample!");
-//        telemetry.update();
-//        sample.run();
         telemetry.addData("Task", "Time to head over to the depot");
         telemetry.update();
         driveFromUnlatchedToDepot.run();
-//        mineralToDepot.init();
-//        mineralToDepot.run();
         telemetry.addData("Task", "One last thing...");
         telemetry.update();
         robot.claim.deploy();

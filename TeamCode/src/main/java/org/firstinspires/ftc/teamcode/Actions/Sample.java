@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Actions;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;

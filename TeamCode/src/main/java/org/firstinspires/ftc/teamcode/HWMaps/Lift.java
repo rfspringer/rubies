@@ -32,11 +32,6 @@ package org.firstinspires.ftc.teamcode.HWMaps;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -85,23 +80,23 @@ public class Lift {
         return instance;
     }
 
+//
+//    public void followTrajectory(double distance, double heading) {
+//        followTrajectory(distance, heading, MAX_VELOCITY, MAX_ACCELERATION);
+//    }
 
-    public void followTrajectory(double distance, double heading) {
-        followTrajectory(distance, heading, MAX_VELOCITY, MAX_ACCELERATION);
-    }
 
-
-    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
-        DcMotor[] lift = {this.lift};
-        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
-        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
-        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
-        if (trajectoryFollower.trajectoryIsComplete()) {
-            MotorEnhanced.setPower(lift, 0);
-            return;
-        }
-        trajectoryFollower.run();
-    }
+//    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
+//        DcMotor[] lift = {this.lift};
+//        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
+//        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
+//        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
+//        if (trajectoryFollower.trajectoryIsComplete()) {
+//            MotorEnhanced.setPower(lift, 0);
+//            return;
+//        }
+//        trajectoryFollower.run();
+//    }
 
     public int getCurrentPosition() {
         return lift.getCurrentPosition();
