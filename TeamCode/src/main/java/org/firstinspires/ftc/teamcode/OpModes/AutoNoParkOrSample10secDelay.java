@@ -15,7 +15,6 @@ public class AutoNoParkOrSample10secDelay extends LinearOpMode {
 
     // Declare OpMode members.
     private Robot robot = Robot.getInstance();
-    private Hang hang = new Hang(robot);
     private Sample sample = new Sample(robot);
     private MineralToDepot mineralToDepot = new MineralToDepot(robot);
 
@@ -24,7 +23,7 @@ public class AutoNoParkOrSample10secDelay extends LinearOpMode {
         telemetry.addData("Instructions", "Initialize robot against phone-side wall");
         telemetry.update();
         robot.init(hardwareMap);
-        hang.init();
+        robot.lift.holdHangingPosition();
         TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-15, -30);
         TrajectoryFollower driveFromUnlatchedToDepot = robot.drive.initializeTrajectory(150, 180);
         TrajectoryFollower driveAwayFromMarker = robot.drive.initializeTrajectory(-10, 30);
@@ -33,14 +32,9 @@ public class AutoNoParkOrSample10secDelay extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        while (!isStarted()) {
-            hang.runAction();
-        }
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         sample.init();
-        hang.kill();
         telemetry.addData("Task", "Time to lower from the lander!");
         telemetry.update();
         robot.lift.lowerRobotToGround();

@@ -6,13 +6,6 @@ import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 
 public class Hang {
     boolean actionIsComplete;
-//
-//    public Hang() {
-//        Robot robot = Robot.getInstance();
-//        init(robot);
-//        runAction(robot);
-//        kill(robot);
-//    }
 
     public static void run() {
         Robot robot = Robot.getInstance();

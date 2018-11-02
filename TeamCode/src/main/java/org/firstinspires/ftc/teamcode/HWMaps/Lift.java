@@ -97,10 +97,6 @@ public class Lift {
         return lift.getCurrentPosition();
     }
 
-    public int extendedLiftPosition() {
-        return EXTENDED_ENCODER_COUNTS;
-    }
-
     public void lowerRobotToGround() {
         boolean actionIsComplete = false;
         ElapsedTime time = new ElapsedTime();
@@ -114,8 +110,14 @@ public class Lift {
         setPower(0);
     }
 
+    public void holdHangingPosition() {
+        setTargetPosition(0);
+        setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setPower(0.2);
+    }
+
     private boolean robotIsCloseToGround(ElapsedTime time) {
-        return (getCurrentPosition() <= (extendedLiftPosition() - 10)) || time.seconds() > 4;
+        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS - 10)) || time.seconds() > 4;
     }
 }
 
