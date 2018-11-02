@@ -12,8 +12,13 @@ public class HangTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        robot.lift.holdHangingPosition();
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+        robot.lift.holdHangingPosition();
+        waitForStart();
+        robot.lift.holdHangingPosition();
+        while (opModeIsActive()) {
+
+        }
     }
 }
