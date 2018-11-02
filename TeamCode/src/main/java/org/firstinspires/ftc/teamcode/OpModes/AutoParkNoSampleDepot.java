@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Actions.Hang;
 import org.firstinspires.ftc.teamcode.Actions.MineralToDepot;
 import org.firstinspires.ftc.teamcode.Actions.Sample;
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
