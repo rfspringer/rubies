@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Actions.MineralToDepot;
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
@@ -11,11 +10,8 @@ import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 @Autonomous(name="Auto No Park", group="Iterative Opmode")
 //@Disabled
 public class AutoNoPark extends LinearOpMode {
-
     // Declare OpMode members.
     private Robot robot = Robot.getInstance();
-//    private Sample sample = new Sample(robot);
-    private MineralToDepot mineralToDepot = new MineralToDepot(robot);
 
     @Override
     public void runOpMode() {
