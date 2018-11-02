@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Actions.MineralToDepot;
-import org.firstinspires.ftc.teamcode.Actions.Sample;
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
 @Autonomous(name="Auto No Park", group="Iterative Opmode")
@@ -14,7 +14,7 @@ public class AutoNoPark extends LinearOpMode {
 
     // Declare OpMode members.
     private Robot robot = Robot.getInstance();
-    private Sample sample = new Sample(robot);
+//    private Sample sample = new Sample(robot);
     private MineralToDepot mineralToDepot = new MineralToDepot(robot);
 
     @Override
@@ -34,7 +34,7 @@ public class AutoNoPark extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        sample.init();
+        Sensors.GoldLocation goldLocation = robot.sensors.getGoldPosition();
         telemetry.addData("Task", "Time to lower from the lander!");
         telemetry.update();
         robot.lift.lowerRobotToGround();
@@ -47,7 +47,7 @@ public class AutoNoPark extends LinearOpMode {
         robot.turnToHeading(180);
         telemetry.addData("Task", "I'm gonna sample!");
         telemetry.update();
-        sample.run();
+        robot.sample(goldLocation);
 //        telemetry.addData("Task", "Time to head over to the depot");
 //        telemetry.update();
 //        driveFromUnlatchedToDepot.runAction();

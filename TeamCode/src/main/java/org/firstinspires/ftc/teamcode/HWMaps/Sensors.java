@@ -68,7 +68,12 @@ public class Sensors
     private Acceleration gravity;
     private boolean hasSetInitialAngle = false;
     private double initialHeading;
+
     private double IMU_WALL_OFFSET = 45.0;
+
+    private double CENTER_MINERAL_HEADING = -170;
+    private double LEFT_MINERAL_HEADING = -140;
+    private double RIGHT_MINERAL_HEADING = 150;
 
     /* Constructor */
     private Sensors(){
@@ -149,6 +154,18 @@ public class Sensors
 
     public boolean getPixyDigital() {
         return pixyDigital.getState();
+    }
+
+    public double getCenterMineralHeading() {
+        return CENTER_MINERAL_HEADING;
+    }
+
+    public double getLeftMineralHeading() {
+        return LEFT_MINERAL_HEADING;
+    }
+
+    public double getRightMineralHeading() {
+        return RIGHT_MINERAL_HEADING;
     }
 
     public static Sensors getInstance() {

@@ -45,6 +45,7 @@ import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
 public class Drive
 {
     private static final Drive instance = new Drive();
+    private Sensors sensors = Sensors.getInstance();
     /* Public OpMode members. */
     private DcMotor leftDrive1 = null;
     private DcMotor leftDrive2 = null;
@@ -70,6 +71,10 @@ public class Drive
     private double MAX_ACCEL = 35.0;
     private double kV = 0.8/MAX_VEL;
     private double kA = 0;
+
+    TrajectoryFollower driveToCenterMineral = initializeTrajectory(60, sensors.getCenterMineralHeading());
+    TrajectoryFollower driveToLeftMineral = initializeTrajectory(90, sensors.getInstance().getLeftMineralHeading());
+    TrajectoryFollower driveToRightMineral = initializeTrajectory(90, sensors.getInstance().getRightMineralHeading());
 
     /* Constructor */
     private Drive(){

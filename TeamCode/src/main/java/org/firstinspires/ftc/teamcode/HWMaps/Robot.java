@@ -79,6 +79,19 @@ public class Robot {
         drive.setPowers(0, 0);
     }
 
+    public void sample(Sensors.GoldLocation goldLocation) {
+        if (goldLocation == Sensors.GoldLocation.LEFT) {
+            turnToHeading(sensors.getLeftMineralHeading());
+            drive.driveToLeftMineral.run();
+        } else if (goldLocation == Sensors.GoldLocation.RIGHT) {
+            turnToHeading(sensors.getRightMineralHeading());
+            drive.driveToRightMineral.run();
+        } else {
+            turnToHeading(sensors.getCenterMineralHeading());
+            drive.driveToCenterMineral.run();
+        }
+    }
+
     public static Robot getInstance() {
         return instance;
     }

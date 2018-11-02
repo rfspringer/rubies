@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Actions.MineralToDepot;
-import org.firstinspires.ftc.teamcode.Actions.Sample;
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
@@ -14,7 +13,6 @@ public class AutoParkNoSampleCrater extends LinearOpMode {
 
     // Declare OpMode members.
     private Robot robot = Robot.getInstance();
-    private Sample sample = new Sample(robot);
     private MineralToDepot mineralToDepot = new MineralToDepot(robot);
 
     @Override
@@ -33,7 +31,6 @@ public class AutoParkNoSampleCrater extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        sample.init();
         telemetry.addData("Task", "Time to lower from the lander!");
         telemetry.update();
         robot.lift.lowerRobotToGround();
