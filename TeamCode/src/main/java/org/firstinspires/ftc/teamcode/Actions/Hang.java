@@ -4,27 +4,38 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 
-public class Hang extends Action {
-    Robot robot;
+public class Hang {
+    boolean actionIsComplete;
+//
+//    public Hang() {
+//        Robot robot = Robot.getInstance();
+//        init(robot);
+//        runAction(robot);
+//        kill(robot);
+//    }
 
-    public Hang(Robot robot) {
-        this.robot = robot;
+    public static void run() {
+        Robot robot = Robot.getInstance();
+        init(robot);
+        runAction(robot);
+        kill(robot);
     }
 
-    @Override
-    public void init() {
+    public static void init(Robot robot) {
         robot.lift.getMotor().setTargetPosition(0);
     }
 
-    @Override
-    public void run() {
+    public static void runAction(Robot robot) {
         robot.lift.getMotor().setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.lift.setPower(0.2);
     }
+//
+//    private void isActionComplete() {
+//
+//    }
 
-    @Override
-    public void kill() {
-        actionIsComplete = true;
+    public static void kill(Robot robot) {
+        //actionIsComplete = true;
         robot.lift.getMotor().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }

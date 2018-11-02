@@ -38,8 +38,7 @@ import org.firstinspires.ftc.teamcode.Lib.PIDController;
  * This class can be used to define all the specific hardware for our robot
  * This class stores functions that 3use a combination of subsystems on our robot
  */
-public class Robot
-{
+public class Robot {
     private static final Robot instance = new Robot();
     public Drive drive = Drive.getInstance();
     public Lift lift = Lift.getInstance();

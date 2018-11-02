@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.HWMaps;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -80,24 +81,6 @@ public class Lift {
         return instance;
     }
 
-//
-//    public void followTrajectory(double distance, double heading) {
-//        followTrajectory(distance, heading, MAX_VELOCITY, MAX_ACCELERATION);
-//    }
-
-
-//    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
-//        DcMotor[] lift = {this.lift};
-//        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
-//        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
-//        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
-//        if (trajectoryFollower.trajectoryIsComplete()) {
-//            MotorEnhanced.setPower(lift, 0);
-//            return;
-//        }
-//        trajectoryFollower.run();
-//    }
-
     public int getCurrentPosition() {
         return lift.getCurrentPosition();
     }
@@ -118,5 +101,21 @@ public class Lift {
         return EXTENDED_ENCODER_COUNTS;
     }
 
+    public void lowerRobotToGround() {
+        boolean actionIsComplete = false;
+        ElapsedTime time = new ElapsedTime();
+        setTargetPosition(EXTENDED_ENCODER_COUNTS);
+        setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setPower(0.5);
+        while (!actionIsComplete) {
+            actionIsComplete = robotIsCloseToGround(time);
+        }
+        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        setPower(0);
+    }
+
+    private boolean robotIsCloseToGround(ElapsedTime time) {
+        return (getCurrentPosition() <= (extendedLiftPosition() - 10)) || time.seconds() > 4;
+    }
 }
 

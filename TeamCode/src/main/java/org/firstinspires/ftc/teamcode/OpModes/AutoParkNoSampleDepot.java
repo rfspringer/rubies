@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Actions.Hang;
-import org.firstinspires.ftc.teamcode.Actions.Lower;
 import org.firstinspires.ftc.teamcode.Actions.MineralToDepot;
 import org.firstinspires.ftc.teamcode.Actions.Sample;
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
@@ -17,7 +16,6 @@ public class AutoParkNoSampleDepot extends LinearOpMode {
     // Declare OpMode members.
     private Robot robot = Robot.getInstance();
     private Hang hang = new Hang(robot);
-    private Lower lower = new Lower(robot);
     private Sample sample = new Sample(robot);
     private MineralToDepot mineralToDepot = new MineralToDepot(robot);
 
@@ -37,18 +35,16 @@ public class AutoParkNoSampleDepot extends LinearOpMode {
         telemetry.update();
 
         while (!isStarted()) {
-            hang.run();
+            hang.runAction();
         }
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         sample.init();
         hang.kill();
-        lower.init();
         telemetry.addData("Task", "Time to lower from the lander!");
         telemetry.update();
-        lower.run();
-        lower.kill();
+        robot.lift.lowerRobotToGround();
         telemetry.addData("Task", "Alrighty, now I'm gonna turn");
         telemetry.update();
         robot.turnToHeading(-30);

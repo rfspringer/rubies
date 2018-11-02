@@ -76,7 +76,7 @@ public class DriveMotorTest extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
+        // runAction until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             if (runtime.seconds() < 3){
                 if (leftMotor1)

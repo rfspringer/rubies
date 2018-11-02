@@ -21,7 +21,7 @@ public class HangTest extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         while (opModeIsActive()) {
-            hang.run();
+            hang.runAction();
             telemetry.addData("Position", robot.lift.getMotor().getCurrentPosition());
             telemetry.update();
         }
