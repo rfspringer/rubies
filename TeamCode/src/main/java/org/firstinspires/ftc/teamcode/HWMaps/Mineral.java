@@ -43,11 +43,10 @@ import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
  */
 public class Mineral {
     private static final Mineral instance = new Mineral();
+    public MineralArm mineralArm = MineralArm.getInstance();
+    public MineralIntake mineralIntake = MineralIntake.getInstance();
 
-    /* local OpMode members. */
-    private HardwareMap hwMap = null;
-
-    private int EXTENDED_ENCODER_COUNTS = -4725;
+    private HardwareMap hwMap;
 
     /* Constructor */
     private Mineral(){
@@ -56,52 +55,8 @@ public class Mineral {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        lift = hwMap.get(DcMotor.class, "lift");
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        lift.setPower(0);
+        mineralArm.init(hwMap);
+        mineralIntake.init(hwMap);
     }
-
-    public void setPower(double power) {
-        lift.setPower(power);
-    }
-
-    public DcMotor getMotor() {
-        return lift;
-    }
-
-    public static Mineral getInstance(){
-        return instance;
-    }
-
-
-    public void followTrajectory(double distance, double heading) {
-        followTrajectory(distance, heading, MAX_VELOCITY, MAX_ACCELERATION);
-    }
-
-
-    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
-        DcMotor[] lift = {this.lift};
-        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
-        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
-        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
-        if (trajectoryFollower.trajectoryIsComplete()) {
-            MotorEnhanced.setPower(lift, 0);
-            return;
-        }
-        trajectoryFollower.run();
-    }
-
-
-    public int getEncoderCounts() {
-        return lift.getCurrentPosition();
-    }
-
-    public int extendedLiftPosition() {
-        return EXTENDED_ENCODER_COUNTS;
-    }
-
 }
 
