@@ -44,11 +44,12 @@ import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
  */
 public class MineralIntake {
     private static final MineralIntake instance = new MineralIntake();
-    /* Public OpMode members. */
-    private CRServo intake = null;
 
-    /* local OpMode members. */
+    private CRServo intake = null;
     private HardwareMap hwMap = null;
+
+    private double scaledPower = 0;
+    private double rawPower = 0;
 
     /* Constructor */
     private MineralIntake(){
@@ -63,11 +64,24 @@ public class MineralIntake {
     }
 
     public void setRawPower(double power) {
-        intake.setPower(power);
+        intake.setPower(rawPower);
     }
 
     public double getRawPower(double power) {
         return intake.getPower();
+    }
+
+    /**
+     * This function adjusts inputted power to be on the standard -1 thru 1 scale
+     * It then converts this to a raw power and sets the vex motor power accordingly
+     * @param power power for servo from -1.0 to 1.0
+     */
+    public void setScaledPower(double power) {
+
+    }
+
+    public double getScaledPower() {
+        return scaledPower;
     }
 
     public static MineralIntake getInstance(){
