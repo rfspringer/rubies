@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
+import org.firstinspires.ftc.teamcode.Lib.VexMotorEnhanced;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -71,17 +72,12 @@ public class MineralIntake {
         return intake.getPower();
     }
 
-    /**
-     * This function adjusts inputted power to be on the standard -1 thru 1 scale
-     * It then converts this to a raw power and sets the vex motor power accordingly
-     * @param power power for servo from -1.0 to 1.0
-     */
     public void setScaledPower(double power) {
-
+        VexMotorEnhanced.setScaledPower(intake, power);
     }
 
     public double getScaledPower() {
-        return scaledPower;
+        return VexMotorEnhanced.getScaledPower(intake);
     }
 
     public static MineralIntake getInstance(){
