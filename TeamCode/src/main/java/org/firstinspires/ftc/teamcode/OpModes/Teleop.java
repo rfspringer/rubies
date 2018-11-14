@@ -35,12 +35,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.AccelerationController;
-import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
 import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
 
 
-@TeleOp(name="Teleop", group="Iterative Opmode")
-public class RubiesTeleop extends OpMode
+@TeleOp(name="Teleop - No Mineral", group="Iterative Opmode")
+public class Teleop extends OpMode
 {
     private Robot robot = Robot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
