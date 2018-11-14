@@ -74,7 +74,7 @@ public class MineralArm {
 //        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
 //        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
 //        if (trajectoryFollower.trajectoryIsComplete()) {
-//            MotorEnhanced.setPower(lift, 0);
+//            MotorEnhanced.setRawPower(lift, 0);
 //            return;
 //        }
 //        trajectoryFollower.run();

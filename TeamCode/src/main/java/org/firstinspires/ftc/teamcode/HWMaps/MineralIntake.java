@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.HWMaps;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -44,18 +45,10 @@ import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
 public class MineralIntake {
     private static final MineralIntake instance = new MineralIntake();
     /* Public OpMode members. */
-    private DcMotor  lift   = null;
-
-    private double MAX_VELOCITY;
-    private double MAX_ACCELERATION;
-
-    private double kV = 0.8/MAX_VELOCITY;
-    private double kA;
+    private CRServo intake = null;
 
     /* local OpMode members. */
     private HardwareMap hwMap = null;
-
-    private int EXTENDED_ENCODER_COUNTS = -4725;
 
     /* Constructor */
     private MineralIntake(){
@@ -64,52 +57,21 @@ public class MineralIntake {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        lift = hwMap.get(DcMotor.class, "lift");
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        lift.setPower(0);
+        intake = hwMap.crservo.get("intake");
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setPower(0);
     }
 
-    public void setPower(double power) {
-        lift.setPower(power);
+    public void setRawPower(double power) {
+        intake.setPower(power);
     }
 
-    public DcMotor getMotor() {
-        return lift;
+    public double getRawPower(double power) {
+        return intake.getPower();
     }
 
     public static MineralIntake getInstance(){
         return instance;
     }
-
-
-    public void followTrajectory(double distance, double heading) {
-        followTrajectory(distance, heading, MAX_VELOCITY, MAX_ACCELERATION);
-    }
-
-
-    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
-        DcMotor[] lift = {this.lift};
-        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
-        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
-        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
-        if (trajectoryFollower.trajectoryIsComplete()) {
-            MotorEnhanced.setPower(lift, 0);
-            return;
-        }
-        trajectoryFollower.run();
-    }
-
-
-    public int getEncoderCounts() {
-        return lift.getCurrentPosition();
-    }
-
-    public int extendedLiftPosition() {
-        return EXTENDED_ENCODER_COUNTS;
-    }
-
 }
 
