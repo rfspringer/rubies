@@ -73,10 +73,21 @@ public class Teleop extends OpMode
         gamepadA.update(gamepad1);
         setDriveMotorPowers();
         moveLift();
+        moveArm();
         telemetry.addData("Motors", "left (%.2f), right (%.2f)",
                 robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
         telemetry.addData("Encoders", "left(%d) right (%d)",
                 robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
+    }
+
+    private void moveArm() {
+        if (gamepadA.left_bumper) {
+            robot.mineral.mineralArm.setPower(1);
+        } else if (gamepadA.right_bumper) {
+            robot.mineral.mineralArm.setPower(-1);
+        } else {
+            robot.mineral.mineralArm.setPower(0);
+        }
     }
 
     private void moveLift() {
