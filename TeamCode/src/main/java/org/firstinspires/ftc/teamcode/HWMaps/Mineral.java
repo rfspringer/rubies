@@ -58,5 +58,9 @@ public class Mineral {
         mineralArm.init(hwMap);
         mineralIntake.init(hwMap);
     }
+
+    public static Mineral getInstance() {
+        return instance;
+    }
 }
 

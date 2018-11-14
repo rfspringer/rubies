@@ -30,9 +30,6 @@
 package org.firstinspires.ftc.teamcode.HWMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.HardwareMaps.Drive;
-import org.firstinspires.ftc.teamcode.HardwareMaps.HardwareLift;
 import org.firstinspires.ftc.teamcode.Lib.PIDController;
 
 /**
@@ -46,18 +43,19 @@ public class Robot
     private static final Robot instance = new Robot();
     public Drive drive = Drive.getInstance();
     public Lift lift = Lift.getInstance();
+    public Mineral mineral = Mineral.getInstance();
     public Claim claim = Claim.getInstance();
     public Sensors sensors = Sensors.getInstance();
 
     /* Constructor */
     private Robot(){
-
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hwMap) {
         drive.init(hwMap);
         lift.init(hwMap);
+        mineral.init(hwMap);
         sensors.init(hwMap);
         claim.init(hwMap);
     }

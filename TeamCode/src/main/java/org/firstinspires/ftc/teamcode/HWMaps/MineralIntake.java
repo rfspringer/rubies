@@ -65,10 +65,10 @@ public class MineralIntake {
     }
 
     public void setRawPower(double power) {
-        intake.setPower(rawPower);
+        intake.setPower(power);
     }
 
-    public double getRawPower(double power) {
+    public double getRawPower() {
         return intake.getPower();
     }
 
