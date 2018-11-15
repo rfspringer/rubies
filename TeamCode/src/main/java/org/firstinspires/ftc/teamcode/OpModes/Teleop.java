@@ -71,16 +71,19 @@ public class Teleop extends OpMode
     @Override
     public void loop() {
         gamepadA.update(gamepad1);
-        setDriveMotorPowers();
-        moveLift();
-        moveArm();
+
+        controlDrivetrain();
+        controlLift();
+        controlArm();
+        controlIntake();
+
         telemetry.addData("Motors", "left (%.2f), right (%.2f)",
                 robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
         telemetry.addData("Encoders", "left(%d) right (%d)",
                 robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
     }
 
-    private void moveArm() {
+    private void controlArm() {
         if (gamepadA.left_bumper) {
             robot.mineral.mineralArm.setPower(1);
         } else if (gamepadA.right_bumper) {
@@ -90,7 +93,17 @@ public class Teleop extends OpMode
         }
     }
 
-    private void moveLift() {
+    private void controlIntake() {
+        if (gamepadA.getHasButtonToggled(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER)) {
+            robot.mineral.mineralIntake.setScaledPower(-1);
+        } else if (gamepadA.getHasButtonToggled(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)) {
+            robot.mineral.mineralIntake.setScaledPower(-1);
+        } else {
+            robot.mineral.mineralIntake.setScaledPower(0);
+        }
+    }
+
+    private void controlLift() {
         if (gamepadA.dpad_up){
             liftAccelerationController.run(1, robot.lift.getMotor());
         } else if (gamepadA.dpad_down) {
@@ -100,7 +113,7 @@ public class Teleop extends OpMode
         }
     }
 
-    private void setDriveMotorPowers() {
+    private void controlDrivetrain() {
         calculateMotorPowers();
         if (gamepadA.left_bumper) {
             robot.drive.setPowers(leftPower, rightPower);

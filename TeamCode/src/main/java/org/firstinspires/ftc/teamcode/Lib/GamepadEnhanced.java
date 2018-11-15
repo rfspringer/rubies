@@ -469,7 +469,7 @@ public class GamepadEnhanced {
     /**
      * Reads any axis as a boolean button, checking if axis value is greater than threshold value
      * @param axis the axis to be checked
-     * @return true if absolute value of the axis is greater than the threshhold, false otherwise
+     * @return true if absolute value of the axis is greater than the threshold, false otherwise
      */
     public boolean getAxisAsButton(AXIS axis){
         switch (axis) {
