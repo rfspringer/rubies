@@ -23,7 +23,7 @@ public class TensorFlow {
     private int LEFT_THRESHOLD;
     private int RIGHT_THRESHOLD;
 
-    private int goldMineralX;
+    public int goldMineralX;
 
 
     public enum GoldPosition {
