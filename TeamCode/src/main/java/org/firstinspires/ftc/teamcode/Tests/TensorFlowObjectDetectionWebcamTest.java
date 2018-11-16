@@ -70,7 +70,7 @@ public class TensorFlowObjectDetectionWebcamTest extends LinearOpMode {
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
-    private static final String VUFORIA_KEY = " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+    private static final String VUFORIA_KEY = "AT2E+kb/////AAAAGf8YTkfSRkKHrsNx2Sj+Qjc53Nu5YtFH4jlzliMbmb1MAPff8lD9LEAQWgI0eOHtfIYcMZANkhE2mrZBXtrvtfoEUXb0kzcjPmNhnVQHpqM3wlvZTxsNSCk5Y8cMPAbW/jMFilmWd+iP7YhFhajlZ1+FlYsedp1voNI0qBWhBaOyvlBs3zHNeKnA8xb03W7U8cNdq7hhKFfzt1zrlbhzrj4UIw5oFoA6kXlpAPTZE6e31356A6u5FyBiFwBfQ4CoNp/isAkNhCkKrmAolfuQjmHwnM7pg0ueMbvL12e7MmqwEVCWL4qKaqMxxNe/K++LgLFtmV/gMPBCUjNH53+8E/7qBceeNYBvcatdFgWapJv1\";\n";
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -96,13 +96,13 @@ public class TensorFlowObjectDetectionWebcamTest extends LinearOpMode {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
 
-        /** Wait for the game to begin */
+        /* Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
         waitForStart();
 
         if (opModeIsActive()) {
-            /** Activate Tensor Flow Object Detection. */
+            /* Activate Tensor Flow Object Detection. */
             if (tfod != null) {
                 tfod.activate();
             }
