@@ -91,9 +91,9 @@ public class Drive
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
 
-        driveToCenterMineral = initializeTrajectory(60, sensors.getCenterMineralHeading());
-        driveToLeftMineral = initializeTrajectory(90, sensors.getInstance().getLeftMineralHeading());
-        driveToRightMineral = initializeTrajectory(90, sensors.getInstance().getRightMineralHeading());
+        driveToCenterMineral = initializeTrajectory(-50, sensors.getCenterMineralHeading());
+        driveToLeftMineral = initializeTrajectory(-80, sensors.getLeftMineralHeading());
+        driveToRightMineral = initializeTrajectory(-75, sensors.getRightMineralHeading());
     }
 
     private void initializeDriveMotors(){
