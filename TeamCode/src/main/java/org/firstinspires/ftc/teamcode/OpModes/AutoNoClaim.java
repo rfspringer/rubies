@@ -5,12 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.TensorFlow;
-import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
-@Autonomous(name="Auto No Park", group="Iterative Opmode")
+@Autonomous(name="Auto No Claim", group="Iterative Opmode")
 //@Disabled
-public class AutoNoPark extends LinearOpMode {
+public class AutoNoClaim extends LinearOpMode {
     // Declare OpMode members.
     private Robot robot = Robot.getInstance();
     private TensorFlow tensorFlow = new TensorFlow();
@@ -50,23 +49,5 @@ public class AutoNoPark extends LinearOpMode {
         telemetry.addData("Mineral", goldPos);
         telemetry.update();
         robot.sample(goldPos);
-        robot.turnToHeading(0);
-        robot.claim(goldPos);
-        robot.claim.deploy();
-        sleep(2000);
-        robot.claim.stow();
-//        telemetry.addData("Task", "Time to head over to the depot");
-//        telemetry.update();
-//        driveFromUnlatchedToDepot.runAction();
-////        mineralToDepot.init();
-////        mineralToDepot.runAction();
-//        telemetry.addData("Task", "One last thing...");
-//        telemetry.update();
-//        robot.claim.deploy();
-//        sleep(1500);
-//        robot.claim.stow();
-//        driveAwayFromMarker.runAction();
-//        telemetry.addData("Status", "All done, go RUBOT!");
-//        telemetry.update();
     }
 }

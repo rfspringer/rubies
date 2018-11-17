@@ -33,6 +33,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Lib.PIDController;
 import org.firstinspires.ftc.teamcode.Lib.TensorFlow;
 
+import static java.lang.Thread.sleep;
+
 /**
  * This is NOT an opmode.
  *
@@ -92,6 +94,21 @@ public class Robot {
             turnToHeading(sensors.getCenterMineralHeading());
             drive.driveToCenterMineral.run();
         }
+    }
+
+
+    public void claim(TensorFlow.GoldPosition goldLocation) {
+        if (goldLocation == TensorFlow.GoldPosition.LEFT) {
+            turnToHeading(-45);
+            drive.driveFromLeftMineral.run();
+        } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
+            turnToHeading(45);
+            drive.driveFromRightMineral.run();
+        } else {
+            turnToHeading(0);
+            drive.driveFromCenterMineral.run();
+        }
+        claim.deploy();
     }
 
     public static Robot getInstance() {

@@ -76,6 +76,11 @@ public class Drive
     TrajectoryFollower driveToLeftMineral;
     TrajectoryFollower driveToRightMineral;
 
+    TrajectoryFollower driveFromCenterMineral;
+    TrajectoryFollower driveFromLeftMineral;
+    TrajectoryFollower driveFromRightMineral;
+
+
     /* Constructor */
     private Drive(){
 
@@ -91,9 +96,13 @@ public class Drive
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
 
-        driveToCenterMineral = initializeTrajectory(-50, sensors.getCenterMineralHeading());
-        driveToLeftMineral = initializeTrajectory(-80, sensors.getLeftMineralHeading());
-        driveToRightMineral = initializeTrajectory(-75, sensors.getRightMineralHeading());
+        driveToCenterMineral = initializeTrajectory(-65, sensors.getCenterMineralHeading());
+        driveToLeftMineral = initializeTrajectory(-90, sensors.getLeftMineralHeading());
+        driveToRightMineral = initializeTrajectory(-85, sensors.getRightMineralHeading());
+
+        driveFromCenterMineral = initializeTrajectory(-40, 0);
+        driveFromLeftMineral = initializeTrajectory(-50, -45);
+        driveFromRightMineral = initializeTrajectory(-50, 45);
     }
 
     private void initializeDriveMotors(){

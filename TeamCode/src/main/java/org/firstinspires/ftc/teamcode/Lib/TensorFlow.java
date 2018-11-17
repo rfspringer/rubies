@@ -19,8 +19,8 @@ public class TensorFlow {
     private TFObjectDetector tfod;
     private HardwareMap hwMap;
 
-    private int LEFT_THRESHOLD;
-    private int RIGHT_THRESHOLD;
+    private int LEFT_THRESHOLD = 275;
+    private int RIGHT_THRESHOLD = 475;
 
     private int goldMineralX;
 
