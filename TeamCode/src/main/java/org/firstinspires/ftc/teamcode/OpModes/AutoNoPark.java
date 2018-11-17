@@ -13,12 +13,14 @@ import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 public class AutoNoPark extends LinearOpMode {
     // Declare OpMode members.
     private Robot robot = Robot.getInstance();
+    private TensorFlow tensorFlow = new TensorFlow();
 
     @Override
     public void runOpMode() {
         telemetry.addData("Instructions", "Initialize robot against phone-side wall");
         telemetry.update();
         robot.init(hardwareMap);
+        tensorFlow.init(hardwareMap);
         robot.lift.holdHangingPosition();
         TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-15, -30);
         TrajectoryFollower driveFromUnlatchedToDepot = robot.drive.initializeTrajectory(150, 180);
@@ -31,7 +33,8 @@ public class AutoNoPark extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        Sensors.GoldLocation goldLocation = robot.sensors.getGoldPosition();
+        TensorFlow.GoldPosition goldPos = tensorFlow.getGoldPos();
+        tensorFlow.shutdown();
         telemetry.addData("Task", "Time to lower from the lander!");
         telemetry.update();
         robot.lift.lowerRobotToGround();
@@ -42,12 +45,9 @@ public class AutoNoPark extends LinearOpMode {
         telemetry.update();
         driveAwayFromLatch.run();
         robot.turnToHeading(0);
-        while (!gamepad1.a) {
-            sleep(1);
-        }
         telemetry.addData("Task", "I'm gonna sample!");
         telemetry.update();
-        robot.sample(goldLocation);
+        robot.sample(goldPos);
 //        telemetry.addData("Task", "Time to head over to the depot");
 //        telemetry.update();
 //        driveFromUnlatchedToDepot.runAction();

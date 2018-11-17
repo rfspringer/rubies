@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.HWMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Lib.PIDController;
+import org.firstinspires.ftc.teamcode.Lib.TensorFlow;
 
 /**
  * This is NOT an opmode.
@@ -80,11 +81,11 @@ public class Robot {
         drive.setPowers(0, 0);
     }
 
-    public void sample(Sensors.GoldLocation goldLocation) {
-        if (goldLocation == Sensors.GoldLocation.LEFT) {
+    public void sample(TensorFlow.GoldPosition goldLocation) {
+        if (goldLocation == TensorFlow.GoldPosition.LEFT) {
             turnToHeading(sensors.getLeftMineralHeading());
             drive.driveToLeftMineral.run();
-        } else if (goldLocation == Sensors.GoldLocation.RIGHT) {
+        } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
             turnToHeading(sensors.getRightMineralHeading());
             drive.driveToRightMineral.run();
         } else {

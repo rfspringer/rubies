@@ -93,19 +93,21 @@ public class Teleop extends OpMode {
     }
 
     private void controlIntake() {
-        if (gamepadA.getHasButtonToggled(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER)) {
+        if (gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER)) {
             robot.mineral.mineralIntake.setScaledPower(-1);
-        } else if (gamepadA.getHasButtonToggled(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)) {
+        } else if (gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)) {
             robot.mineral.mineralIntake.setScaledPower(-1);
-        } else {
+        } else if (gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER) && gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)){
             robot.mineral.mineralIntake.setScaledPower(0);
         }
     }
 
     private void controlLift() {
         if (gamepadA.dpad_up){
+            robot.mineral.mineralIntake.setScaledPower(0);
             liftAccelerationController.run(1, robot.lift.getMotor());
         } else if (gamepadA.dpad_down) {
+            robot.mineral.mineralIntake.setScaledPower(0);
             liftAccelerationController.run(-1, robot.lift.getMotor());
         } else {
             liftAccelerationController.run(0, robot.lift.getMotor());

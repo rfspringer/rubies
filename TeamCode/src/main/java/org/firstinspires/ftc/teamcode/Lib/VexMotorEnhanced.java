@@ -12,11 +12,11 @@ public class VexMotorEnhanced {
      * @param power power for servo from -1.0 to 1.0
      */
     public static void setScaledPower(CRServo servo, double power) {
-        servo.setPower(power);
+        servo.setPower(scalePower(power));
     }
 
     public static double getScaledPower(CRServo servo) {
-        return scalePower(servo.getPower());
+        return unscalePower(servo.getPower());
     }
 
     private static double scalePower(double rawPower) {

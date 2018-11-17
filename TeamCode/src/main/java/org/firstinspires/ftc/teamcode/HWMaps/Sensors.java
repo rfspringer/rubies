@@ -53,16 +53,6 @@ public class Sensors
 {
     private static final Sensors instance = new Sensors();
 
-    private AnalogInput pixyAnalog;
-    private DigitalChannel pixyDigital;
-
-
-    public enum GoldLocation {
-        LEFT,
-        RIGHT,
-        CENTER
-    }
-
     private BNO055IMU imu;
     private Orientation angles;
     private Acceleration gravity;
@@ -81,13 +71,10 @@ public class Sensors
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hwMap) {
-        pixyAnalog = hwMap.analogInput.get("pixy_analog");
-        pixyDigital = hwMap.digitalChannel.get("pixy_digital");
         imu = hwMap.get(BNO055IMU.class, "imu");
 
         initializeIMU();
         updateIMU();
-        pixyDigital.setMode(DigitalChannel.Mode.INPUT);
     }
 
     private void initializeIMU() {
@@ -136,24 +123,6 @@ public class Sensors
         }
 
         return heading;
-    }
-
-    public GoldLocation getGoldPosition() {
-        if (!getPixyDigital()) {
-            return GoldLocation.RIGHT;
-        } else if (getPixyAnalog() < 0.5) {
-            return GoldLocation.LEFT;
-        } else {
-            return GoldLocation.CENTER;
-        }
-    }
-
-    public double getPixyAnalog() {
-        return pixyAnalog.getVoltage()/pixyAnalog.getMaxVoltage();
-    }
-
-    public boolean getPixyDigital() {
-        return pixyDigital.getState();
     }
 
     public double getCenterMineralHeading() {
