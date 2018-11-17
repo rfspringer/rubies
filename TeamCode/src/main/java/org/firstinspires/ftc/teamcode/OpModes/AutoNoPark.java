@@ -41,7 +41,10 @@ public class AutoNoPark extends LinearOpMode {
         telemetry.addData("Task", "Now I'll drive out from the latch :)");
         telemetry.update();
         driveAwayFromLatch.run();
-        robot.turnToHeading(180);
+        robot.turnToHeading(0);
+        while (!gamepad1.a) {
+            sleep(1);
+        }
         telemetry.addData("Task", "I'm gonna sample!");
         telemetry.update();
         robot.sample(goldLocation);

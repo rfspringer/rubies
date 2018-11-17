@@ -51,7 +51,7 @@ import org.firstinspires.ftc.teamcode.Lib.PIDController;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Stay At Heading 0 Test", group="Tests")
+@TeleOp(name="Turn to angle test", group="Tests")
 //@Disabled
 public class TurnToAngleTest extends OpMode {
     private Robot robot = Robot.getInstance();
