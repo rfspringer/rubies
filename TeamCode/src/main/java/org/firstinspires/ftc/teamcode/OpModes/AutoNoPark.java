@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.TensorFlow;
-import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
 @Autonomous(name="Auto No Park", group="Iterative Opmode")
@@ -41,20 +40,19 @@ public class AutoNoPark extends LinearOpMode {
         robot.lift.lowerRobotToGround();
         telemetry.addData("Task", "Alrighty, now I'm gonna turn");
         telemetry.update();
-        robot.turnToHeading(-30);
+        robot.turnToHeadingCenterPivot(-30);
         telemetry.addData("Task", "Now I'll drive out from the latch :)");
         telemetry.update();
         driveAwayFromLatch.run();
-        robot.turnToHeading(0);
         telemetry.addData("Task", "I'm gonna sample!");
         telemetry.addData("Mineral", goldPos);
         telemetry.update();
         robot.sample(goldPos);
-        robot.turnToHeading(0);
+        robot.turnToHeadingCenterPivot(0);
         robot.claim(goldPos);
-        robot.claim.deploy();
         sleep(2000);
         robot.claim.stow();
+        driveAwayFromMarker.run();
 //        telemetry.addData("Task", "Time to head over to the depot");
 //        telemetry.update();
 //        driveFromUnlatchedToDepot.runAction();
@@ -66,7 +64,7 @@ public class AutoNoPark extends LinearOpMode {
 //        sleep(1500);
 //        robot.claim.stow();
 //        driveAwayFromMarker.runAction();
-//        telemetry.addData("Status", "All done, go RUBOT!");
-//        telemetry.update();
+        telemetry.addData("Status", "All done, go RUBOT!");
+        telemetry.update();
     }
 }

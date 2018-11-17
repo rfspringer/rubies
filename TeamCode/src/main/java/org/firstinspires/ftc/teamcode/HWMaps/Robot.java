@@ -71,7 +71,7 @@ public class Robot {
         drive.setPowers(leftPower, rightPower);
     }
 
-    public void turnToHeading(double targetHeading) {
+    public void turnToHeadingCenterPivot(double targetHeading) {
         while (Math.abs(sensors.integrateHeading(targetHeading - sensors.getHeading())) > 2.5) {
             sensors.updateIMU();
             double kP = 0.0065;
@@ -83,15 +83,32 @@ public class Robot {
         drive.setPowers(0, 0);
     }
 
+
+    public void turnToHeadingForwardPivot(double targetHeading) {
+        while (Math.abs(sensors.integrateHeading(targetHeading - sensors.getHeading())) > 2.5) {
+            sensors.updateIMU();
+            double kP = 0.0065;
+            double error = targetHeading - sensors.getHeading();
+            double leftPower = PIDController.proportionalController(0, error, -kP);
+            double rightPower = PIDController.proportionalController(0, error, kP);
+            if (leftPower > 0) {
+                drive.setPowers(leftPower, 0);
+            } else {
+                drive.setPowers(0, rightPower);
+            }
+        }
+        drive.setPowers(0, 0);
+    }
+
     public void sample(TensorFlow.GoldPosition goldLocation) {
         if (goldLocation == TensorFlow.GoldPosition.LEFT) {
-            turnToHeading(sensors.getLeftMineralHeading());
+            turnToHeadingCenterPivot(sensors.getLeftMineralHeading());
             drive.driveToLeftMineral.run();
         } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
-            turnToHeading(sensors.getRightMineralHeading());
+            turnToHeadingCenterPivot(sensors.getRightMineralHeading());
             drive.driveToRightMineral.run();
         } else {
-            turnToHeading(sensors.getCenterMineralHeading());
+            turnToHeadingCenterPivot(sensors.getCenterMineralHeading());
             drive.driveToCenterMineral.run();
         }
     }
@@ -99,13 +116,13 @@ public class Robot {
 
     public void claim(TensorFlow.GoldPosition goldLocation) {
         if (goldLocation == TensorFlow.GoldPosition.LEFT) {
-            turnToHeading(-45);
+            turnToHeadingForwardPivot(-45);
             drive.driveFromLeftMineral.run();
         } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
-            turnToHeading(45);
+            turnToHeadingForwardPivot(45);
             drive.driveFromRightMineral.run();
         } else {
-            turnToHeading(0);
+            turnToHeadingForwardPivot(0);
             drive.driveFromCenterMineral.run();
         }
         claim.deploy();

@@ -34,11 +34,11 @@ public class AutoParkNoSampleCrater extends LinearOpMode {
         robot.lift.lowerRobotToGround();
         telemetry.addData("Task", "Alrighty, now I'm gonna turn");
         telemetry.update();
-        robot.turnToHeading(-30);
+        robot.turnToHeadingCenterPivot(-30);
         telemetry.addData("Task", "Now I'll drive out from the latch :)");
         telemetry.update();
         driveAwayFromLatch.run();
-        robot.turnToHeading(180);
+        robot.turnToHeadingCenterPivot(180);
         telemetry.addData("Task", "Time to head over to the depot");
         telemetry.update();
         driveFromUnlatchedToDepot.run();
