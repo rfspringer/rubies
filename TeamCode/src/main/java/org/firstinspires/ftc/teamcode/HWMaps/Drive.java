@@ -46,6 +46,7 @@ public class Drive
 {
     private static final Drive instance = new Drive();
     private Sensors sensors = Sensors.getInstance();
+
     /* Public OpMode members. */
     private DcMotor leftDrive1 = null;
     private DcMotor leftDrive2 = null;
@@ -100,9 +101,9 @@ public class Drive
         driveToLeftMineral = initializeTrajectory(-110, sensors.getLeftMineralHeading());
         driveToRightMineral = initializeTrajectory(-100, sensors.getRightMineralHeading());
 
-        driveFromCenterMineral = initializeTrajectory(-40, 0);
-        driveFromLeftMineral = initializeTrajectory(-50, -45);
-        driveFromRightMineral = initializeTrajectory(-50, 45);
+        driveFromCenterMineral = initializeTrajectory(-80, 15);
+        driveFromLeftMineral = initializeTrajectory(-100, -35);
+        driveFromRightMineral = initializeTrajectory(-100, 35);
     }
 
     private void initializeDriveMotors(){

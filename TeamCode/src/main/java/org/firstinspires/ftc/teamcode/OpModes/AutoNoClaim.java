@@ -23,7 +23,7 @@ public class AutoNoClaim extends LinearOpMode {
         robot.lift.holdHangingPosition();
         TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-15, -30);
         TrajectoryFollower driveFromUnlatchedToDepot = robot.drive.initializeTrajectory(150, 180);
-        TrajectoryFollower driveAwayFromMarker = robot.drive.initializeTrajectory(-10, 30);
+        TrajectoryFollower driveALittleExtra = robot.drive.initializeTrajectory(-10, 30);
 
         telemetry.addData("Instructions", "Initialize robot against left wall");
         telemetry.addData("Status", "Initialized");
@@ -48,5 +48,8 @@ public class AutoNoClaim extends LinearOpMode {
         telemetry.addData("Mineral", goldPos);
         telemetry.update();
         robot.sample(goldPos);
+        robot.drive.setPowers(0.5, 0.5);
+        sleep(750);
+        robot.drive.setPowers(0, 0);
     }
 }

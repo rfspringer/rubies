@@ -63,7 +63,7 @@ public class Sensors
 
     private double CENTER_MINERAL_HEADING = 10;
     private double LEFT_MINERAL_HEADING = 40;
-    private double RIGHT_MINERAL_HEADING = -19;
+    private double RIGHT_MINERAL_HEADING = -16.5;
 
     /* Constructor */
     private Sensors(){

@@ -53,17 +53,6 @@ public class AutoNoPark extends LinearOpMode {
         sleep(2000);
         robot.claim.stow();
         driveAwayFromMarker.run();
-//        telemetry.addData("Task", "Time to head over to the depot");
-//        telemetry.update();
-//        driveFromUnlatchedToDepot.runAction();
-////        mineralToDepot.init();
-////        mineralToDepot.runAction();
-//        telemetry.addData("Task", "One last thing...");
-//        telemetry.update();
-//        robot.claim.deploy();
-//        sleep(1500);
-//        robot.claim.stow();
-//        driveAwayFromMarker.runAction();
         telemetry.addData("Status", "All done, go RUBOT!");
         telemetry.update();
     }
