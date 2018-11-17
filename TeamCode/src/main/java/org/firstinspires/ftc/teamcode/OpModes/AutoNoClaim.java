@@ -44,7 +44,6 @@ public class AutoNoClaim extends LinearOpMode {
         telemetry.addData("Task", "Now I'll drive out from the latch :)");
         telemetry.update();
         driveAwayFromLatch.run();
-        robot.turnToHeading(0);
         telemetry.addData("Task", "I'm gonna sample!");
         telemetry.addData("Mineral", goldPos);
         telemetry.update();
