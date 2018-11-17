@@ -68,6 +68,7 @@ public class Sensors
     private Acceleration gravity;
     private boolean hasSetInitialAngle = false;
     private double initialHeading;
+    private double IMU_WALL_OFFSET = 45.0;
 
     /* Constructor */
     private Sensors(){
@@ -80,6 +81,7 @@ public class Sensors
         imu = hwMap.get(BNO055IMU.class, "imu");
 
         initializeIMU();
+        updateIMU();
         pixyDigital.setMode(DigitalChannel.Mode.INPUT);
     }
 
@@ -104,12 +106,22 @@ public class Sensors
 
         //initialize "initialHeading" value the first time through the loop (again, sometimes our imu doesn't zero when we reset it every time, we do this to prevent the issue
         if (!hasSetInitialAngle){
-            initialHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+            initialHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) - IMU_WALL_OFFSET;
             hasSetInitialAngle = true;
         }
     }
 
-    private double integrateHeading(double heading){
+    /*
+    Gets heading and integrates to be between -180 and 180 just in case
+     */
+    public double getHeading(){
+        //Gets heading from imu
+        double rawHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) + initialHeading;
+
+        return integrateHeading(rawHeading);
+    }
+
+    public double integrateHeading(double heading){
         //Integrates it to be from -180 to 180 degrees
         while (heading > 180){
             heading = heading - 360;
@@ -119,17 +131,6 @@ public class Sensors
         }
 
         return heading;
-    }
-
-    /*
-    Gets heading and integrates to be between -180 and 180 just in case
-     */
-    public double getHeading(){
-        //Gets heading from imu
-        double rawHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) - initialHeading;
-        double integratedHeading = integrateHeading(rawHeading);
-
-        return integratedHeading;
     }
 
     public GoldLocation getGoldPosition() {

@@ -18,9 +18,13 @@ public class Hang extends Action {
 
     @Override
     public void run() {
-        if (!actionIsComplete) {
-            robot.lift.getMotor().setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.lift.setPower(0.2);
-        }
+        robot.lift.getMotor().setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.lift.setPower(0.2);
+    }
+
+    @Override
+    public void kill() {
+        actionIsComplete = true;
+        robot.lift.getMotor().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }

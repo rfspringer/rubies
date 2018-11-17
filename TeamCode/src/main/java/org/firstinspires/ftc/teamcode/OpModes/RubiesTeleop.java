@@ -31,12 +31,13 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.AccelerationController;
-import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
 import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
+import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
 
 
 @TeleOp(name="Teleop", group="Iterative Opmode")
@@ -58,6 +59,7 @@ public class RubiesTeleop extends OpMode
     @Override
     public void init() {
         robot.init(hardwareMap);
+        MotorEnhanced.setRunMode(robot.drive.getAllMotors(), DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         telemetry.addData("Status", "Initialized");
     }
 
@@ -95,8 +97,9 @@ public class RubiesTeleop extends OpMode
         if (gamepadA.left_bumper) {
             robot.drive.setPowers(leftPower, rightPower);
         } else {
-            leftAccelerationController.run(leftPower, robot.drive.getLeftMotors());
-            rightAccelerationController.run(rightPower, robot.drive.getRightMotors());
+            robot.drive.setPowers(leftPower, rightPower);
+//            leftAccelerationController.run(leftPower, robot.drive.getLeftMotors());
+//            rightAccelerationController.run(rightPower, robot.drive.getRightMotors());
         }
     }
 

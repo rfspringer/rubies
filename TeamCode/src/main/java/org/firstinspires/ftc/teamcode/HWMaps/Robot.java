@@ -30,16 +30,13 @@
 package org.firstinspires.ftc.teamcode.HWMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.HardwareMaps.Drive;
-import org.firstinspires.ftc.teamcode.HardwareMaps.HardwareLift;
 import org.firstinspires.ftc.teamcode.Lib.PIDController;
 
 /**
  * This is NOT an opmode.
  *
  * This class can be used to define all the specific hardware for our robot
- * This class stores functions that use a combination of subsystems on our robot
+ * This class stores functions that 3use a combination of subsystems on our robot
  */
 public class Robot
 {
@@ -62,12 +59,25 @@ public class Robot
         claim.init(hwMap);
     }
 
-    public void turnToHeading(double targetHeading) {
+    public void driveByHeading(double leftPower, double rightPower, double targetHeading) {
+        sensors.updateIMU();
         double kP = 0.0065;
         double error = targetHeading - sensors.getHeading();
-        double leftPower = PIDController.proportionalController(0, error, -kP);
-        double rightPower = PIDController.proportionalController(0, error, kP);
+        double left = PIDController.proportionalController(leftPower, error, -kP);
+        double right = PIDController.proportionalController(rightPower, error, kP);
         drive.setPowers(leftPower, rightPower);
+    }
+
+    public void turnToHeading(double targetHeading) {
+        while (Math.abs(sensors.integrateHeading(targetHeading - sensors.getHeading())) > 2.5) {
+            sensors.updateIMU();
+            double kP = 0.0065;
+            double error = targetHeading - sensors.getHeading();
+            double leftPower = PIDController.proportionalController(0, error, -kP);
+            double rightPower = PIDController.proportionalController(0, error, kP);
+            drive.setPowers(leftPower, rightPower);
+        }
+        drive.setPowers(0, 0);
     }
 
     public static Robot getInstance() {
