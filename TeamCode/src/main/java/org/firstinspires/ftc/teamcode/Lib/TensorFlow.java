@@ -22,7 +22,7 @@ public class TensorFlow {
     private int LEFT_THRESHOLD;
     private int RIGHT_THRESHOLD;
 
-    public int goldMineralX;
+    private int goldMineralX;
 
 
     public enum GoldPosition {
@@ -40,7 +40,9 @@ public class TensorFlow {
         } else {
             throw new RuntimeException("This phone is not compatible with Tensorflow");
         }
+    }
 
+    public void activate() {
         /* Activate Tensor Flow Object Detection. */
         if (tfod != null) {
             tfod.activate();
@@ -61,50 +63,35 @@ public class TensorFlow {
     }
 
     private void determineGoldMineralX() {
-        goldMineralX = -1;
-        if (TFODisPrepared()) {
+        if (tfod != null) {
             Recognition goldMineral = identifyGoldMineral();
             if (goldMineral != null) {
                 goldMineralX = (int) goldMineral.getLeft();
             }
         }
-    }
-
-    public int determineGoldMineralX2() {
-        goldMineralX = -1;
-        if (TFODisPrepared()) {
-            Recognition goldMineral = identifyGoldMineral();
-            if (goldMineral != null) {
-                goldMineralX = (int) goldMineral.getLeft();
-                return (int) goldMineral.getLeft();
-            }
-        }
-        return -8686;
     }
 
     private Recognition identifyGoldMineral() {
+        Recognition goldMineral = null;
         List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
         if (updatedRecognitions != null) {
             for (Recognition recognition : updatedRecognitions) {
                 if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                    return recognition;
+                    goldMineral = recognition;
                 }
             }
         }
-        return null;
-    }
-
-    private boolean TFODisPrepared() {
-//        if (tfod != null) {
-//            tfod.activate();
-//        }
-        return tfod != null;
+        return goldMineral;
     }
 
     public void shutdown() {
         if (tfod != null) {
             tfod.shutdown();
         }
+    }
+
+    public int getGoldMineralX() {
+        return goldMineralX;
     }
 
     /**

@@ -59,6 +59,40 @@ public class RUBIESTensorFlowObjectDetectionWebcamTest extends LinearOpMode {
     private Robot robot = Robot.getInstance();
     private TensorFlow tensorFlow = new TensorFlow();
 
+//
+//
+//    private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
+//    private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
+//    private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+//
+//    /*
+//     * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
+//     * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
+//     * A Vuforia 'Development' license key, can be obtained free of charge from the Vuforia developer
+//     * web site at https://developer.vuforia.com/license-manager.
+//     *
+//     * Vuforia license keys are always 380 characters long, and look as if they contain mostly
+//     * random data. As an example, here is a example of a fragment of a valid key:
+//     *      ... yIgIzTqZ4mWjk9wd3cZO9T1axEqzuhxoGlfOOI2dRzKS4T0hQ8kT ...
+//     * Once you've obtained a license key, copy the string from the Vuforia web site
+//     * and paste it in to your code on the next line, between the double quotes.
+//     */
+//    private static final String VUFORIA_KEY = "AVRfS7L/////AAABmaGT8EE2D0ognaN6WhR7wTsd4Zu3Bn3gJjl8WAi95O+bXTS8qogcR58wbZP+UoYB99sjHS22e4oF03SQ5f3y0j9oUyDrOw6vbqPCmductE5WDpTqj+RQIbkUX/0zAmOIsLdq0a7jWPEPAGtI5RRVD3+pFqwU8jvy16q0zvTa+zpvcQU4uYDTOtLEwhGUnStDbK8sgrNzjehUojKnMezx5ypO0C69YT+N8nChher2V+kghuea9ysf4auTD2vIhL7mw8oEZKDcJd3kf9hLX8dlukarDrVcyT+pDC92zARDSWybAU7IxHvol627lXekBv+lo+Jv9UNUvma6tSB4AR7zeBmnhMEMmXoOau7JABDkzT9m";
+//    /**
+//     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
+//     * localization engine.
+//     */
+//    private VuforiaLocalizer vuforia;
+//
+//    /**
+//     * {@link #tfod} is the variable we will use to store our instance of the Tensor Flow Object
+//     * Detection engine.
+//     */
+//    private TFObjectDetector tfod;
+
+
+
+
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
@@ -67,14 +101,66 @@ public class RUBIESTensorFlowObjectDetectionWebcamTest extends LinearOpMode {
         /* Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
+
+
+
+//        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
+//        // first.
+//        initVuforia();
+//
+//        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+//            initTfod();
+//        } else {
+//            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+//        }
+
+        /* Wait for the game to begin */
+        telemetry.addData(">", "Press Play to start tracking");
+        telemetry.update();
+
+
         waitForStart();
 
+        tensorFlow.activate();
+
         while (opModeIsActive()){
+
             tensorFlow.getGoldPos();
-            telemetry.addData("Gold Mineral Position", tensorFlow.determineGoldMineralX2());
-            telemetry.addData("Gold Mineral Position by variable", tensorFlow.goldMineralX);
+            telemetry.addData("Gold Mineral Position by variable", tensorFlow.getGoldMineralX());
             telemetry.update();
         }
+
         tensorFlow.shutdown();
     }
+//
+//
+//    /**
+//     * Initialize the Vuforia localization engine.
+//     */
+//    private void initVuforia() {
+//        /*
+//         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+//         */
+//        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+//
+//        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+//        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+//
+//        //  Instantiate the Vuforia engine
+//        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+//
+//        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
+//    }
+//
+//    /**
+//     * Initialize the Tensor Flow Object Detection engine.
+//     */
+//    private void initTfod() {
+//        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+//                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+//        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+//        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+//        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+//    }
+
 }
