@@ -29,60 +29,64 @@
 
 package org.firstinspires.ftc.teamcode.HWMaps;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.firstinspires.ftc.teamcode.Lib.PIDController;
+
+import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
 
 /**
- * This is NOT an opmode.
- *
- * This class can be used to define all the specific hardware for our robot
- * This class stores functions that 3use a combination of subsystems on our robot
+ * This class stores all objects on our robot's drivetrain
+ * It also includes functionality specific to our drive base
  */
-public class Robot
-{
-    private static final Robot instance = new Robot();
-    public Drive drive = Drive.getInstance();
-    public Lift lift = Lift.getInstance();
-    public Mineral mineral = Mineral.getInstance();
-    public Claim claim = Claim.getInstance();
-    public Sensors sensors = Sensors.getInstance();
+public class MineralArm {
+    private static final MineralArm instance = new MineralArm();
+    /* Public OpMode members. */
+    private DcMotor arm = null;
+
+    /* local OpMode members. */
+    private HardwareMap hwMap = null;
 
     /* Constructor */
-    private Robot(){
+    private MineralArm(){
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap hwMap) {
-        drive.init(hwMap);
-        lift.init(hwMap);
-        mineral.init(hwMap);
-        sensors.init(hwMap);
-        claim.init(hwMap);
+    public void init(HardwareMap ahwMap) {
+        hwMap = ahwMap;
+        arm = hwMap.get(DcMotor.class, "arm");
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        arm.setDirection(DcMotorSimple.Direction.FORWARD);
+        arm.setPower(0);
     }
 
-    public void driveByHeading(double leftPower, double rightPower, double targetHeading) {
-        sensors.updateIMU();
-        double kP = 0.0065;
-        double error = targetHeading - sensors.getHeading();
-        double left = PIDController.proportionalController(leftPower, error, -kP);
-        double right = PIDController.proportionalController(rightPower, error, kP);
-        drive.setPowers(leftPower, rightPower);
+    public void setPower(double power) {
+        arm.setPower(power);
     }
 
-    public void turnToHeading(double targetHeading) {
-        while (Math.abs(sensors.integrateHeading(targetHeading - sensors.getHeading())) > 2.5) {
-            sensors.updateIMU();
-            double kP = 0.0065;
-            double error = targetHeading - sensors.getHeading();
-            double leftPower = PIDController.proportionalController(0, error, -kP);
-            double rightPower = PIDController.proportionalController(0, error, kP);
-            drive.setPowers(leftPower, rightPower);
-        }
-        drive.setPowers(0, 0);
+//    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
+//        DcMotor[] lift = {this.arm};
+//        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
+//        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
+//        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
+//        if (trajectoryFollower.trajectoryIsComplete()) {
+//            MotorEnhanced.setRawPower(lift, 0);
+//            return;
+//        }
+//        trajectoryFollower.run();
+//    }
+
+    public int getEncoderCounts() {
+        return arm.getCurrentPosition();
     }
 
-    public static Robot getInstance() {
+    public static MineralArm getInstance(){
         return instance;
     }
- }
+
+}
 

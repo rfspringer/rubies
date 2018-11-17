@@ -40,8 +40,8 @@ import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
 import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
 
 
-@TeleOp(name="Teleop", group="Iterative Opmode")
-public class RubiesTeleop extends OpMode
+@TeleOp(name="Teleop - No Mineral", group="Iterative Opmode")
+public class TeleopNoMineral extends OpMode
 {
     private Robot robot = Robot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();

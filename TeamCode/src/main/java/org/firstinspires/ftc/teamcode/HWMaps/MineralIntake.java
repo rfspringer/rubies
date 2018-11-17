@@ -29,60 +29,59 @@
 
 package org.firstinspires.ftc.teamcode.HWMaps;
 
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.firstinspires.ftc.teamcode.Lib.PIDController;
+
+import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
+import org.firstinspires.ftc.teamcode.Lib.VexMotorEnhanced;
 
 /**
- * This is NOT an opmode.
- *
- * This class can be used to define all the specific hardware for our robot
- * This class stores functions that 3use a combination of subsystems on our robot
+ * This class stores all objects on our robot's drivetrain
+ * It also includes functionality specific to our drive base
  */
-public class Robot
-{
-    private static final Robot instance = new Robot();
-    public Drive drive = Drive.getInstance();
-    public Lift lift = Lift.getInstance();
-    public Mineral mineral = Mineral.getInstance();
-    public Claim claim = Claim.getInstance();
-    public Sensors sensors = Sensors.getInstance();
+public class MineralIntake {
+    private static final MineralIntake instance = new MineralIntake();
+
+    private CRServo intake = null;
+    private HardwareMap hwMap = null;
+
+    private double scaledPower = 0;
+    private double rawPower = 0;
 
     /* Constructor */
-    private Robot(){
+    private MineralIntake(){
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap hwMap) {
-        drive.init(hwMap);
-        lift.init(hwMap);
-        mineral.init(hwMap);
-        sensors.init(hwMap);
-        claim.init(hwMap);
+    public void init(HardwareMap ahwMap) {
+        hwMap = ahwMap;
+        intake = hwMap.crservo.get("intake");
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setPower(0);
     }
 
-    public void driveByHeading(double leftPower, double rightPower, double targetHeading) {
-        sensors.updateIMU();
-        double kP = 0.0065;
-        double error = targetHeading - sensors.getHeading();
-        double left = PIDController.proportionalController(leftPower, error, -kP);
-        double right = PIDController.proportionalController(rightPower, error, kP);
-        drive.setPowers(leftPower, rightPower);
+    public void setRawPower(double power) {
+        intake.setPower(power);
     }
 
-    public void turnToHeading(double targetHeading) {
-        while (Math.abs(sensors.integrateHeading(targetHeading - sensors.getHeading())) > 2.5) {
-            sensors.updateIMU();
-            double kP = 0.0065;
-            double error = targetHeading - sensors.getHeading();
-            double leftPower = PIDController.proportionalController(0, error, -kP);
-            double rightPower = PIDController.proportionalController(0, error, kP);
-            drive.setPowers(leftPower, rightPower);
-        }
-        drive.setPowers(0, 0);
+    public double getRawPower() {
+        return intake.getPower();
     }
 
-    public static Robot getInstance() {
+    public void setScaledPower(double power) {
+        VexMotorEnhanced.setScaledPower(intake, power);
+    }
+
+    public double getScaledPower() {
+        return VexMotorEnhanced.getScaledPower(intake);
+    }
+
+    public static MineralIntake getInstance(){
         return instance;
     }
- }
+}
 
