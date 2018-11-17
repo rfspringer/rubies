@@ -38,6 +38,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.TensorFlow;
 
 import java.util.List;
@@ -55,10 +56,12 @@ import java.util.List;
 @TeleOp(name = "Tensorflow Enhanced Test", group = "tests")
 //@Disabled
 public class RUBIESTensorFlowObjectDetectionWebcamTest extends LinearOpMode {
+    private Robot robot = Robot.getInstance();
     private TensorFlow tensorFlow = new TensorFlow();
 
     @Override
     public void runOpMode() {
+        robot.init(hardwareMap);
         tensorFlow.init(hardwareMap);
 
         /* Wait for the game to begin */
