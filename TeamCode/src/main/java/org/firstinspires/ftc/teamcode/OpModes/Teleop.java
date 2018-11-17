@@ -38,9 +38,8 @@ import org.firstinspires.ftc.teamcode.Lib.AccelerationController;
 import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
 
 
-@TeleOp(name="Teleop - No Mineral", group="Iterative Opmode")
-public class Teleop extends OpMode
-{
+@TeleOp(name="Teleop", group="Iterative Opmode")
+public class Teleop extends OpMode {
     private Robot robot = Robot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
