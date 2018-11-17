@@ -40,6 +40,11 @@ public class TensorFlow {
         } else {
             throw new RuntimeException("This phone is not compatible with Tensorflow");
         }
+
+        /* Activate Tensor Flow Object Detection. */
+        if (tfod != null) {
+            tfod.activate();
+        }
     }
 
     public GoldPosition getGoldPos() {
@@ -65,6 +70,18 @@ public class TensorFlow {
         }
     }
 
+    public int determineGoldMineralX2() {
+        goldMineralX = -1;
+        if (TFODisPrepared()) {
+            Recognition goldMineral = identifyGoldMineral();
+            if (goldMineral != null) {
+                goldMineralX = (int) goldMineral.getLeft();
+                return (int) goldMineral.getLeft();
+            }
+        }
+        return -8686;
+    }
+
     private Recognition identifyGoldMineral() {
         List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
         if (updatedRecognitions != null) {
@@ -78,9 +95,9 @@ public class TensorFlow {
     }
 
     private boolean TFODisPrepared() {
-        if (tfod != null) {
-            tfod.activate();
-        }
+//        if (tfod != null) {
+//            tfod.activate();
+//        }
         return tfod != null;
     }
 

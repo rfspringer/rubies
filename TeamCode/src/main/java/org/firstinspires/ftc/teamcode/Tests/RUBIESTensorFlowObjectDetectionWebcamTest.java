@@ -70,7 +70,9 @@ public class RUBIESTensorFlowObjectDetectionWebcamTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()){
-            telemetry.addData("Gold Mineral Position", tensorFlow.goldMineralX);
+            tensorFlow.getGoldPos();
+            telemetry.addData("Gold Mineral Position", tensorFlow.determineGoldMineralX2());
+            telemetry.addData("Gold Mineral Position by variable", tensorFlow.goldMineralX);
             telemetry.update();
         }
         tensorFlow.shutdown();
