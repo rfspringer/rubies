@@ -3,12 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Actions.Hang;
-import org.firstinspires.ftc.teamcode.Actions.Lower;
-import org.firstinspires.ftc.teamcode.Actions.MineralToDepot;
-import org.firstinspires.ftc.teamcode.Actions.Sample;
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
-import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
 @Autonomous(name="Auto No Park OR Sample", group="Iterative Opmode")
@@ -17,17 +12,13 @@ public class AutoNoParkOrSample extends LinearOpMode {
 
     // Declare OpMode members.
     private Robot robot = Robot.getInstance();
-    private Hang hang = new Hang(robot);
-    private Lower lower = new Lower(robot);
-    private Sample sample = new Sample(robot);
-    private MineralToDepot mineralToDepot = new MineralToDepot(robot);
 
     @Override
     public void runOpMode() {
         telemetry.addData("Instructions", "Initialize robot against phone-side wall");
         telemetry.update();
         robot.init(hardwareMap);
-        hang.init();
+        robot.lift.holdHangingPosition();
         TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-15, -30);
         TrajectoryFollower driveFromUnlatchedToDepot = robot.drive.initializeTrajectory(150, 180);
         TrajectoryFollower driveAwayFromMarker = robot.drive.initializeTrajectory(-10, 30);
@@ -36,24 +27,17 @@ public class AutoNoParkOrSample extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        while (!isStarted()) {
-            hang.run();
-        }
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        sample.init();
-        hang.kill();
-        lower.init();
         telemetry.addData("Task", "Time to lower from the lander!");
         telemetry.update();
-        lower.run();
-        lower.kill();
+        robot.lift.lowerRobotToGround();
         telemetry.addData("Task", "Alrighty, now I'm gonna turn");
         telemetry.update();
         robot.turnToHeading(-30);
         telemetry.addData("Task", "Now I'll drive out from the latch :)");
         telemetry.update();
+//        robot.drive.initializeTrajectory(-15, -30).run();
         driveAwayFromLatch.run();
         robot.turnToHeading(180);
         telemetry.addData("Task", "Time to head over to the depot");

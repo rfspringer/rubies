@@ -72,7 +72,7 @@ public class kATest extends LinearOpMode {
         //NOT WORKING
         robot.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
-        telemetry.addData("This program will attempt to run a 3 foot trajectory. The acceleration constant is adjustable via the gamepad in init. Encoder values will be logged to a file which can be viewed in Excel", "Go RUBIES!");
+        telemetry.addData("This program will attempt to runAction a 3 foot trajectory. The acceleration constant is adjustable via the gamepad in init. Encoder values will be logged to a file which can be viewed in Excel", "Go RUBIES!");
         telemetry.addData("Instruction", "Press A to begin adjusting kA");
         telemetry.update();
 
@@ -95,7 +95,7 @@ public class kATest extends LinearOpMode {
     private void followTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
 //        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxVel);
 //        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(robot.drive.getAllMotors(), trajectory, kV, kA, usesFeedback);
-//        trajectoryFollower.run();
+//        trajectoryFollower.runAction();
     }
 
     private void adjustkA(){

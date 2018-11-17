@@ -69,7 +69,7 @@ public class AccelerationTest extends LinearOpMode {
 
         while (!gamepad1.a && !isStarted()) {
             telemetry.addData("Status", "Initialized");
-            telemetry.addData("This program will attempt to run a 3 foot trajectory. Acceleration is adjustable via the gamepad in init. Run several times until the acceleration causes inconsistencies in read distance and actual distance travelled", "Go RUBIES!");
+            telemetry.addData("This program will attempt to runAction a 3 foot trajectory. Acceleration is adjustable via the gamepad in init. Run several times until the acceleration causes inconsistencies in read distance and actual distance travelled", "Go RUBIES!");
             telemetry.addData("Instruction", "Press A to begin adjusting acceleration");
             telemetry.addData("A", gamepad1.a);
             telemetry.update();

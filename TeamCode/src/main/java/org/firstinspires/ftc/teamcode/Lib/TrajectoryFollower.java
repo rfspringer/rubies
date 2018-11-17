@@ -36,7 +36,7 @@ public class TrajectoryFollower {
 //            if (trajectoryIsComplete()) {
 //                MotorEnhanced.setPower(motors, 0);
 //            } else if (usesFeedback) {
-//                //run PID with heading and feedforward
+//                //runAction PID with heading and feedforward
 //            } else {
                 power = getFeedforwardPower(timer);
             robot.driveByHeading(power, power, heading);

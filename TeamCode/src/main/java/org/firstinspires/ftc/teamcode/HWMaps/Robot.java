@@ -38,8 +38,7 @@ import org.firstinspires.ftc.teamcode.Lib.PIDController;
  * This class can be used to define all the specific hardware for our robot
  * This class stores functions that 3use a combination of subsystems on our robot
  */
-public class Robot
-{
+public class Robot {
     private static final Robot instance = new Robot();
     public Drive drive = Drive.getInstance();
     public Lift lift = Lift.getInstance();
@@ -79,6 +78,19 @@ public class Robot
             drive.setPowers(leftPower, rightPower);
         }
         drive.setPowers(0, 0);
+    }
+
+    public void sample(Sensors.GoldLocation goldLocation) {
+        if (goldLocation == Sensors.GoldLocation.LEFT) {
+            turnToHeading(sensors.getLeftMineralHeading());
+            drive.driveToLeftMineral.run();
+        } else if (goldLocation == Sensors.GoldLocation.RIGHT) {
+            turnToHeading(sensors.getRightMineralHeading());
+            drive.driveToRightMineral.run();
+        } else {
+            turnToHeading(sensors.getCenterMineralHeading());
+            drive.driveToCenterMineral.run();
+        }
     }
 
     public static Robot getInstance() {

@@ -54,7 +54,7 @@ public class TeleopNoMineral extends OpMode
     private double rightPower;
 
     /*
-     * Code to run ONCE when the driver hits INIT
+     * Code to runAction ONCE when the driver hits INIT
      */
     @Override
     public void init() {
@@ -69,7 +69,7 @@ public class TeleopNoMineral extends OpMode
     }
 
     /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+     * Code to runAction REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     @Override
     public void loop() {
@@ -98,8 +98,8 @@ public class TeleopNoMineral extends OpMode
             robot.drive.setPowers(leftPower, rightPower);
         } else {
             robot.drive.setPowers(leftPower, rightPower);
-//            leftAccelerationController.run(leftPower, robot.drive.getLeftMotors());
-//            rightAccelerationController.run(rightPower, robot.drive.getRightMotors());
+//            leftAccelerationController.runAction(leftPower, robot.drive.getLeftMotors());
+//            rightAccelerationController.runAction(rightPower, robot.drive.getRightMotors());
         }
     }
 
