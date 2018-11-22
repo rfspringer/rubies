@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Lib.MecanumEnhanced;
 import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
 
 /**
@@ -53,6 +54,7 @@ public class MecanumDrive
     private DcMotor[] rightMotors;
 
     private boolean reverseDirection = false;
+    MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
 
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
@@ -81,6 +83,7 @@ public class MecanumDrive
     }
 
     private void initializeMotorArrays() {
+        //note that arrays MUST be initialized in this order for Mecanum Enhanced to work
         DcMotor[] allMotors = {leftFront, leftBack, rightFront, rightBack};
         DcMotor[] leftMotors = {leftFront, leftBack};
         DcMotor[] rightMotors = {rightFront, rightBack};
@@ -90,7 +93,7 @@ public class MecanumDrive
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {
-
+        mecanumEnhanced.setPowers(magnitude, x, y, heading);
     }
 
     public void setIndividualPowers(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower){
@@ -117,6 +120,10 @@ public class MecanumDrive
             MotorEnhanced.setDirection(leftMotors, Direction.REVERSE);
             MotorEnhanced.setDirection(rightMotors, Direction.FORWARD);
         }
+    }
+
+    public void setInAutonomous(boolean inAutonomous) {
+        mecanumEnhanced.setInAutonomous(inAutonomous);
     }
 
     public int getRightEncoderCounts(){
