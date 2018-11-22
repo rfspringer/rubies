@@ -138,7 +138,7 @@ public class Robot {
             turnToHeadingBackwardPivot(35);
             drive.driveFromRightMineral.run();
         } else {
-            turnToHeadingBackwardPivot(10);
+            turnToHeadingBackwardPivot(15);
             drive.driveFromCenterMineral.run();
         }
         claim.deploy();

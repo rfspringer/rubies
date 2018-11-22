@@ -61,9 +61,9 @@ public class Sensors
 
     private double IMU_WALL_OFFSET = 45.0;
 
-    private double CENTER_MINERAL_HEADING = 10;
-    private double LEFT_MINERAL_HEADING = 40;
-    private double RIGHT_MINERAL_HEADING = -16.5;
+    private double CENTER_MINERAL_HEADING = 13.5;
+    private double LEFT_MINERAL_HEADING = 45;
+    private double RIGHT_MINERAL_HEADING = -19;
 
     /* Constructor */
     private Sensors(){

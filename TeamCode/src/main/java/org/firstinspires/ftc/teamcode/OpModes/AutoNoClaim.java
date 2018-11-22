@@ -48,8 +48,9 @@ public class AutoNoClaim extends LinearOpMode {
         telemetry.addData("Mineral", goldPos);
         telemetry.update();
         robot.sample(goldPos);
-        robot.drive.setPowers(0.5, 0.5);
+        robot.drive.setPowers(-0.3, -0.3);
         sleep(750);
         robot.drive.setPowers(0, 0);
+        telemetry.addData(">", "All done!!!");
     }
 }
