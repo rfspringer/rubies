@@ -10,6 +10,10 @@ public class GamepadEnhanced {
 
     public double AXIS_AS_BUTTON_THRESHHOLD = 0.75;
 
+    public enum STICK {
+        LEFT_STICK,
+        RIGHT_STICK,
+    }
 
     public enum AXIS {
         AXIS_LEFT_STICK_X,
@@ -196,6 +200,16 @@ public class GamepadEnhanced {
             default:
                 return 0.0;
         }
+    }
+
+    public double getMagnitude(STICK stick) {
+        double magnitude = 0;
+        if (stick == STICK.LEFT_STICK) {
+            magnitude = Math.sqrt(left_stick_x * left_stick_x + left_stick_y * left_stick_y);
+        } else if (stick == STICK.RIGHT_STICK) {
+            magnitude =  Math.sqrt(left_stick_x * left_stick_x + left_stick_y * left_stick_y);
+        }
+        return magnitude;
     }
 
 //    /**

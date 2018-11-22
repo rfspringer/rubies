@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.HWMaps.MecanumRobot;
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.AccelerationController;
 import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
@@ -41,15 +42,16 @@ import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
 @TeleOp(name="Teleop", group="Iterative Opmode")
 public class RubiesMecanumTeleop extends OpMode
 {
-    private Robot robot = Robot.getInstance();
+    private MecanumRobot robot = MecanumRobot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
     private AccelerationController leftAccelerationController = new AccelerationController(1.0);
     private AccelerationController rightAccelerationController = new AccelerationController(1.0);
     private AccelerationController liftAccelerationController = new AccelerationController(1.5);
 
-    private double leftPower;
-    private double rightPower;
+    private double x;
+    private double y;
+    private double angleAdjustment;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -72,21 +74,10 @@ public class RubiesMecanumTeleop extends OpMode
     public void loop() {
         gamepadA.update(gamepad1);
         setDriveMotorPowers();
-        moveLift();
         telemetry.addData("Motors", "left (%.2f), right (%.2f)",
                 robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
         telemetry.addData("Encoders", "left(%d) right (%d)",
                 robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
-    }
-
-    private void moveLift() {
-        if (gamepadA.dpad_up){
-            liftAccelerationController.run(1, robot.lift.getMotor());
-        } else if (gamepadA.dpad_down) {
-            liftAccelerationController.run(-1, robot.lift.getMotor());
-        } else {
-            liftAccelerationController.run(0, robot.lift.getMotor());
-        }
     }
 
     private void setDriveMotorPowers() {
@@ -100,8 +91,7 @@ public class RubiesMecanumTeleop extends OpMode
     }
 
     private void calculateMotorPowers() {
-        leftPower    = -0.5 * gamepadA.left_stick_y;
-        rightPower   = -0.5 * gamepadA.right_stick_y;
+        robot.drive.setPowers(1, gamepadA.left_stick_x, gamepadA.left_stick_y, gamepadA.right_stick_x);
     }
 
     @Override
