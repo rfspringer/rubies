@@ -39,7 +39,7 @@ import org.firstinspires.ftc.teamcode.Lib.AccelerationController;
 import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
 
 
-@TeleOp(name="Teleop", group="Iterative Opmode")
+@TeleOp(name="Mecanum Drive", group="Iterative Opmode")
 public class RubiesMecanumTeleop extends OpMode
 {
     private MecanumRobot robot = MecanumRobot.getInstance();
@@ -73,26 +73,10 @@ public class RubiesMecanumTeleop extends OpMode
     @Override
     public void loop() {
         gamepadA.update(gamepad1);
-        setDriveMotorPowers();
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)",
-                robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
-        telemetry.addData("Encoders", "left(%d) right (%d)",
-                robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
+        robot.drive.setPowers(gamepadA.getMagnitude(GamepadEnhanced.STICK.LEFT_STICK),
+                gamepadA.left_stick_x, gamepadA.left_stick_y, gamepadA.right_stick_x);
     }
 
-    private void setDriveMotorPowers() {
-        calculateMotorPowers();
-        if (gamepadA.left_bumper) {
-            robot.drive.setPowers(leftPower, rightPower);
-        } else {
-            leftAccelerationController.run(leftPower, robot.drive.getLeftMotors());
-            rightAccelerationController.run(rightPower, robot.drive.getRightMotors());
-        }
-    }
-
-    private void calculateMotorPowers() {
-        robot.drive.setPowers(1, gamepadA.left_stick_x, gamepadA.left_stick_y, gamepadA.right_stick_x);
-    }
 
     @Override
     public void stop() {
