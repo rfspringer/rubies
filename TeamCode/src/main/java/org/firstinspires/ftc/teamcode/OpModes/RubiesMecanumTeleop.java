@@ -45,13 +45,6 @@ public class RubiesMecanumTeleop extends OpMode
     private MecanumRobot robot = MecanumRobot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
-    private AccelerationController leftAccelerationController = new AccelerationController(1.0);
-    private AccelerationController rightAccelerationController = new AccelerationController(1.0);
-    private AccelerationController liftAccelerationController = new AccelerationController(1.5);
-
-    private double x;
-    private double y;
-    private double angleAdjustment;
 
     /*
      * Code to run ONCE when the driver hits INIT
