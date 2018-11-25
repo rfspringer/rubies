@@ -43,9 +43,6 @@ public class MecanumRobot
 {
     private static final MecanumRobot instance = new MecanumRobot();
     public MecanumDrive drive = MecanumDrive.getInstance();
-    public Lift lift = Lift.getInstance();
-    public Claim claim = Claim.getInstance();
-    public Sensors sensors = Sensors.getInstance();
 
     /* Constructor */
     private MecanumRobot(){
@@ -55,9 +52,6 @@ public class MecanumRobot
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hwMap) {
         drive.init(hwMap);
-        lift.init(hwMap);
-        sensors.init(hwMap);
-        claim.init(hwMap);
     }
 
     public static MecanumRobot getInstance() {
