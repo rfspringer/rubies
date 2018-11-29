@@ -5,7 +5,7 @@ public class PIDController {
         return initialPower + p * kP + i * kI + d * kD;
     }
 
-    public static double proportionalController(double initialPower, double p, double kP) {
+    public static double pController(double initialPower, double p, double kP) {
         return initialPower + p * kP;
     }
 }
