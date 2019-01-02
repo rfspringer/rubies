@@ -6,15 +6,10 @@ import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
 public class MecanumEnhanced {
     private MecanumDrive drive = MecanumDrive.getInstance();
     private Sensors sensors = Sensors.getInstance();
-    private double kP = 0.0065;
+    private double kP = 0.02;
     private boolean inAutonomous = false;
 
-    public void setPowers(double magnitude, double x, double y, double heading) {
-        double[] powers = calculatePowers(magnitude, x, y, heading);
-        drive.setIndividualPowers(powers[0], powers[1], powers[2], powers[3]);
-    }
-
-    private double[] calculatePowers(double magnitude, double x, double y, double heading) {
+    public double[] calculatePowers(double magnitude, double x, double y, double heading) {
         double[] powerRatios = calculatePowerRatios(x, y, heading);
         return scalePowers(magnitude, powerRatios);
     }
@@ -46,7 +41,7 @@ public class MecanumEnhanced {
                 greatestMagnitude = Math.abs(value);
             }
         }
-        return greatestMagnitude;
+       return greatestMagnitude;
     }
     
     private double getHeadingError(double heading) {
@@ -59,7 +54,7 @@ public class MecanumEnhanced {
             The multiplier of 45 allows the driver to make more significant corrections
             (assuming all the way to the right wants a correction of 45 degrees)
              */
-            error = 45 * heading;
+            error = 15 / kP * heading;
         }
         return error;
     }

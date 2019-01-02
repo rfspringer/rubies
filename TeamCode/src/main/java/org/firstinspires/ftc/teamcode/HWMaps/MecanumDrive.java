@@ -76,10 +76,10 @@ public class MecanumDrive
     }
 
     private void initializeDriveMotors(){
-        leftFront = hwMap.get(DcMotor.class, "left_drive_1");
-        leftBack = hwMap.get(DcMotor.class, "left_drive_2");
-        rightFront = hwMap.get(DcMotor.class, "right_drive_1");
-        rightBack = hwMap.get(DcMotor.class, "right_drive_2");
+        leftFront = hwMap.get(DcMotor.class, "left_front");
+        leftBack = hwMap.get(DcMotor.class, "left_back");
+        rightFront = hwMap.get(DcMotor.class, "right_front");
+        rightBack = hwMap.get(DcMotor.class, "right_back");
     }
 
     private void initializeMotorArrays() {
@@ -93,7 +93,8 @@ public class MecanumDrive
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {
-        mecanumEnhanced.setPowers(magnitude, x, y, heading);
+        double[] powers = mecanumEnhanced.calculatePowers(magnitude, x, y, heading);
+        setIndividualPowers(powers[0], powers[1], powers[2], powers[3]);
     }
 
     public void setIndividualPowers(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower){

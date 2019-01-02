@@ -66,8 +66,8 @@ public class Robot {
         sensors.updateIMU();
         double kP = 0.0065;
         double error = targetHeading - sensors.getHeading();
-        double left = PIDController.proportionalController(leftPower, error, -kP);
-        double right = PIDController.proportionalController(rightPower, error, kP);
+        double left = PIDController.pController(leftPower, error, -kP);
+        double right = PIDController.pController(rightPower, error, kP);
         drive.setPowers(leftPower, rightPower);
     }
 
@@ -76,8 +76,8 @@ public class Robot {
             sensors.updateIMU();
             double kP = 0.0065;
             double error = targetHeading - sensors.getHeading();
-            double leftPower = PIDController.proportionalController(0, error, -kP);
-            double rightPower = PIDController.proportionalController(0, error, kP);
+            double leftPower = PIDController.pController(0, error, -kP);
+            double rightPower = PIDController.pController(0, error, kP);
             drive.setPowers(leftPower, rightPower);
         }
         drive.setPowers(0, 0);
@@ -89,8 +89,8 @@ public class Robot {
             sensors.updateIMU();
             double kP = 0.0065;
             double error = targetHeading - sensors.getHeading();
-            double leftPower = PIDController.proportionalController(0, error, -kP);
-            double rightPower = PIDController.proportionalController(0, error, kP);
+            double leftPower = PIDController.pController(0, error, -kP);
+            double rightPower = PIDController.pController(0, error, kP);
             if (leftPower > 0) {
                 drive.setPowers(leftPower, 0);
             } else {
@@ -105,8 +105,8 @@ public class Robot {
             sensors.updateIMU();
             double kP = 0.0065;
             double error = targetHeading - sensors.getHeading();
-            double leftPower = PIDController.proportionalController(0, error, -kP);
-            double rightPower = PIDController.proportionalController(0, error, kP);
+            double leftPower = PIDController.pController(0, error, -kP);
+            double rightPower = PIDController.pController(0, error, kP);
             if (leftPower < 0) {
                 drive.setPowers(leftPower, 0);
             } else {

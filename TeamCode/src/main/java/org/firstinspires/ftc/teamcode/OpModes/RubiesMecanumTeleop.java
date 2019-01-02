@@ -66,8 +66,21 @@ public class RubiesMecanumTeleop extends OpMode
     @Override
     public void loop() {
         gamepadA.update(gamepad1);
-        robot.drive.setPowers(gamepadA.getMagnitude(GamepadEnhanced.STICK.LEFT_STICK),
-                gamepadA.left_stick_x, gamepadA.left_stick_y, gamepadA.right_stick_x);
+        robot.drive.getAllMotors();
+        robot.drive.setPowers(gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK), gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
+        telemetry.addData("Magnitude", gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK));
+        telemetry.addData("X", gamepadA.left_stick_x);
+        telemetry.addData("y", gamepadA.left_stick_y);
+        telemetry.addData("right x", gamepadA.right_stick_x);
+        telemetry.update();
+    }
+
+    private double getHeadingCorrection() {
+        if (Math.abs(gamepadA.right_stick_x) < 0.2) {
+            return 0;
+        } else {
+            return -gamepadA.right_stick_x;
+        }
     }
 
 

@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Lib;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.opencv.core.Range;
+
 /**
  * By rachel on 1/19/18.
  * Based on code by team 4251
@@ -207,9 +209,9 @@ public class GamepadEnhanced {
         if (stick == STICK.LEFT_STICK) {
             magnitude = Math.sqrt(left_stick_x * left_stick_x + left_stick_y * left_stick_y);
         } else if (stick == STICK.RIGHT_STICK) {
-            magnitude =  Math.sqrt(left_stick_x * left_stick_x + left_stick_y * left_stick_y);
+            magnitude =  Math.sqrt(right_stick_x * right_stick_x + right_stick_y * right_stick_y);
         }
-        return magnitude;
+        return magnitude < 1 ? magnitude : 1;
     }
 
 //    /**
