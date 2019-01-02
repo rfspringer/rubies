@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Lib;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.opencv.core.Range;
+
 /**
  * By rachel on 1/19/18.
  * Based on code by team 4251
@@ -10,6 +12,10 @@ public class GamepadEnhanced {
 
     public double AXIS_AS_BUTTON_THRESHHOLD = 0.75;
 
+    public enum STICK {
+        LEFT_STICK,
+        RIGHT_STICK,
+    }
 
     public enum AXIS {
         AXIS_LEFT_STICK_X,
@@ -196,6 +202,16 @@ public class GamepadEnhanced {
             default:
                 return 0.0;
         }
+    }
+
+    public double getMagnitude(STICK stick) {
+        double magnitude = 0;
+        if (stick == STICK.LEFT_STICK) {
+            magnitude = Math.sqrt(left_stick_x * left_stick_x + left_stick_y * left_stick_y);
+        } else if (stick == STICK.RIGHT_STICK) {
+            magnitude =  Math.sqrt(right_stick_x * right_stick_x + right_stick_y * right_stick_y);
+        }
+        return magnitude < 1 ? magnitude : 1;
     }
 
 //    /**
@@ -469,7 +485,7 @@ public class GamepadEnhanced {
     /**
      * Reads any axis as a boolean button, checking if axis value is greater than threshold value
      * @param axis the axis to be checked
-     * @return true if absolute value of the axis is greater than the threshhold, false otherwise
+     * @return true if absolute value of the axis is greater than the threshold, false otherwise
      */
     public boolean getAxisAsButton(AXIS axis){
         switch (axis) {

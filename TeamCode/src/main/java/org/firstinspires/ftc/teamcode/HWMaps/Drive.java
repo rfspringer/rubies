@@ -45,6 +45,8 @@ import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
 public class Drive
 {
     private static final Drive instance = new Drive();
+    private Sensors sensors = Sensors.getInstance();
+
     /* Public OpMode members. */
     private DcMotor leftDrive1 = null;
     private DcMotor leftDrive2 = null;
@@ -71,6 +73,15 @@ public class Drive
     private double kV = 0.8/MAX_VEL;
     private double kA = 0;
 
+    TrajectoryFollower driveToCenterMineral;
+    TrajectoryFollower driveToLeftMineral;
+    TrajectoryFollower driveToRightMineral;
+
+    TrajectoryFollower driveFromCenterMineral;
+    TrajectoryFollower driveFromLeftMineral;
+    TrajectoryFollower driveFromRightMineral;
+
+
     /* Constructor */
     private Drive(){
 
@@ -85,6 +96,14 @@ public class Drive
         setPowers(0, 0);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
+
+        driveToCenterMineral = initializeTrajectory(-90, sensors.getCenterMineralHeading());
+        driveToLeftMineral = initializeTrajectory(-110, sensors.getLeftMineralHeading());
+        driveToRightMineral = initializeTrajectory(-100, sensors.getRightMineralHeading());
+
+        driveFromCenterMineral = initializeTrajectory(-80, 15);
+        driveFromLeftMineral = initializeTrajectory(-100, -35);
+        driveFromRightMineral = initializeTrajectory(-100, 35);
     }
 
     private void initializeDriveMotors(){
@@ -110,12 +129,12 @@ public class Drive
 
     public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading) {
         TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, MAX_VEL, MAX_ACCEL);
-        return new TrajectoryFollower(allMotors, trajectory, kV, kA, false);
+        return new TrajectoryFollower(allMotors, trajectory, heading, kV, kA, false);
     }
 
     public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
         TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxAccel);
-        return new TrajectoryFollower(allMotors, trajectory, kV, kA, usesFeedback);
+        return new TrajectoryFollower(allMotors, trajectory, heading, kV, kA, usesFeedback);
     }
 
     public void reverseMotorDirections(boolean reverseDirection) {

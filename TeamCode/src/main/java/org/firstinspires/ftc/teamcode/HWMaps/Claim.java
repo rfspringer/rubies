@@ -45,7 +45,6 @@ public class Claim {
 
     /* Constructor */
     private Claim(){
-
     }
 
     /* Initialize standard Hardware interfaces */

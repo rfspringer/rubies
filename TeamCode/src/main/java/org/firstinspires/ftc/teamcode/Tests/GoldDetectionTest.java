@@ -32,7 +32,6 @@ package org.firstinspires.ftc.teamcode.Tests;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -42,7 +41,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class GoldDetectionTest extends OpMode
 {
     private GoldAlignDetector detector;
-
 
     @Override
     public void init() {
@@ -73,7 +71,7 @@ public class GoldDetectionTest extends OpMode
     }
 
     /*
-     * Code to run ONCE when the driver hits PLAY
+     * Code to runAction ONCE when the driver hits PLAY
      */
     @Override
     public void start() {
@@ -88,7 +86,7 @@ public class GoldDetectionTest extends OpMode
     }
 
     /*
-     * Code to run ONCE after the driver hits STOP
+     * Code to runAction ONCE after the driver hits STOP
      */
     @Override
     public void stop() {

@@ -31,11 +31,8 @@ package org.firstinspires.ftc.teamcode.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
-import com.qualcomm.robotcore.hardware.PWMOutput;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
-import org.firstinspires.ftc.teamcode.Lib.PIDController;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -51,7 +48,7 @@ import org.firstinspires.ftc.teamcode.Lib.PIDController;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Stay At Heading 0 Test", group="Tests")
+@TeleOp(name="Turn to angle test", group="Tests")
 //@Disabled
 public class TurnToAngleTest extends OpMode {
     private Robot robot = Robot.getInstance();
@@ -67,12 +64,12 @@ public class TurnToAngleTest extends OpMode {
     }
 
     /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+     * Code to runAction REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     @Override
     public void loop() {
         robot.sensors.updateIMU();
-        robot.turnToHeading(0);
+        robot.turnToHeadingCenterPivot(-30);
         telemetry.addData("Gyro Heading", robot.sensors.getHeading());
     }
 }
