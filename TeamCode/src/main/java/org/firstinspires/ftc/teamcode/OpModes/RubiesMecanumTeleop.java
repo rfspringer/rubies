@@ -33,14 +33,14 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HWMaps.MecanumRobot;
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
 
 
 @TeleOp(name="Mecanum Drivev2", group="Iterative Opmode")
 public class RubiesMecanumTeleop extends OpMode
 {
-    private MecanumRobot robot = MecanumRobot.getInstance();
+    private Robot robot = Robot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
 

@@ -29,33 +29,55 @@
 
 package org.firstinspires.ftc.teamcode.HWMaps;
 
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Lib.PIDController;
+import org.firstinspires.ftc.teamcode.Lib.VexMotorEnhanced;
 
 /**
- * This is NOT an opmode.
- *
- * This class can be used to define all the specific hardware for our robot
- * This class stores functions that use a combination of subsystems on our robot
+ * This class stores all objects on our robot's drivetrain
+ * It also includes functionality specific to our drive base
  */
-public class MecanumRobot
-{
-    private static final MecanumRobot instance = new MecanumRobot();
-    public MecanumDrive drive = MecanumDrive.getInstance();
+public class MineralIntake {
+    private static final MineralIntake instance = new MineralIntake();
+
+    private CRServo intake = null;
+    private HardwareMap hwMap = null;
+
+    private double scaledPower = 0;
+    private double rawPower = 0;
 
     /* Constructor */
-    private MecanumRobot(){
-
+    private MineralIntake(){
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap hwMap) {
-        drive.init(hwMap);
+    public void init(HardwareMap ahwMap) {
+        hwMap = ahwMap;
+        intake = hwMap.crservo.get("intake");
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setPower(0);
     }
 
-    public static MecanumRobot getInstance() {
+    public void setRawPower(double power) {
+        intake.setPower(power);
+    }
+
+    public double getRawPower() {
+        return intake.getPower();
+    }
+
+    public void setScaledPower(double power) {
+        VexMotorEnhanced.setScaledPower(intake, power);
+    }
+
+    public double getScaledPower() {
+        return VexMotorEnhanced.getScaledPower(intake);
+    }
+
+    public static MineralIntake getInstance(){
         return instance;
     }
- }
+}
 

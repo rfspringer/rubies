@@ -45,7 +45,7 @@ public class AutoNoPark extends LinearOpMode {
         telemetry.update();
         driveAwayFromLatch.run();
         telemetry.addData("Task", "I'm gonna sample!");
-        telemetry.addData("Mineralv2", goldPos);
+        telemetry.addData("Mineral", goldPos);
         telemetry.update();
         robot.sample(goldPos);
         robot.drive.setPowers(-0.3, -0.3);
