@@ -32,16 +32,16 @@ package org.firstinspires.ftc.teamcode.Tests;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.HWMaps.Robotv2;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
  * The names of OpModes appear on the menu of the FTC Driver Station.
  * When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
+ * class is instantiated on the Robotv2 Controller and executed.
  *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
+ * This particular OpMode just executes a basic Tank Drivev2 Teleop for a two wheeled robot
  * It includes all the skeletal structure that all iterative OpModes contain.
  *
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
@@ -51,7 +51,7 @@ import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 @TeleOp(name="Gyro Test", group="Tests")
 //@Disabled
 public class GyroTest extends OpMode {
-    private Robot robot = Robot.getInstance();
+    private Robotv2 robot = Robotv2.getInstance();
     @Override
     public void init() {
         robot.init(hardwareMap);

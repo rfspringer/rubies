@@ -3,10 +3,10 @@ package org.firstinspires.ftc.teamcode.Lib;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.HWMaps.Robotv2;
 
 public class TrajectoryFollower {
-    private Robot robot = Robot.getInstance();
+    private Robotv2 robot = Robotv2.getInstance();
     private ElapsedTime timer = new ElapsedTime();
     private double heading;
     private double power = 0;

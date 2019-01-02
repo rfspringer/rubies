@@ -33,14 +33,14 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.HWMaps.Robotv2;
 import org.firstinspires.ftc.teamcode.Lib.AccelerationController;
 import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
 
 
 @TeleOp(name="Teleop", group="Iterative Opmode")
 public class Teleop extends OpMode {
-    private Robot robot = Robot.getInstance();
+    private Robotv2 robot = Robotv2.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
     private AccelerationController leftAccelerationController = new AccelerationController(2.0);

@@ -33,16 +33,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
-
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class MineralArm {
-    private static final MineralArm instance = new MineralArm();
+public class MineralArmv2 {
+    private static final MineralArmv2 instance = new MineralArmv2();
     /* Public OpMode members. */
     private DcMotor arm = null;
 
@@ -50,7 +46,7 @@ public class MineralArm {
     private HardwareMap hwMap = null;
 
     /* Constructor */
-    private MineralArm(){
+    private MineralArmv2(){
     }
 
     /* Initialize standard Hardware interfaces */
@@ -84,7 +80,7 @@ public class MineralArm {
         return arm.getCurrentPosition();
     }
 
-    public static MineralArm getInstance(){
+    public static MineralArmv2 getInstance(){
         return instance;
     }
 

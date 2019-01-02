@@ -34,7 +34,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
 import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
-import org.firstinspires.ftc.teamcode.Lib.PIDController;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
 
@@ -42,9 +41,9 @@ import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Drive
+public class Drivev2
 {
-    private static final Drive instance = new Drive();
+    private static final Drivev2 instance = new Drivev2();
     private Sensors sensors = Sensors.getInstance();
 
     /* Public OpMode members. */
@@ -83,7 +82,7 @@ public class Drive
 
 
     /* Constructor */
-    private Drive(){
+    private Drivev2(){
 
     }
 
@@ -199,7 +198,7 @@ public class Drive
         return rightMotors;
     }
 
-    public static Drive getInstance() {
+    public static Drivev2 getInstance() {
         return instance;
     }
 

@@ -29,37 +29,54 @@
 
 package org.firstinspires.ftc.teamcode.HWMaps;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
+import org.firstinspires.ftc.teamcode.Lib.VexMotorEnhanced;
 
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Mineral {
-    private static final Mineral instance = new Mineral();
-    public MineralArm mineralArm = MineralArm.getInstance();
-    public MineralIntake mineralIntake = MineralIntake.getInstance();
+public class MineralIntakev2 {
+    private static final MineralIntakev2 instance = new MineralIntakev2();
 
-    private HardwareMap hwMap;
+    private CRServo intake = null;
+    private HardwareMap hwMap = null;
+
+    private double scaledPower = 0;
+    private double rawPower = 0;
 
     /* Constructor */
-    private Mineral(){
+    private MineralIntakev2(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        mineralArm.init(hwMap);
-        mineralIntake.init(hwMap);
+        intake = hwMap.crservo.get("intake");
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setPower(0);
     }
 
-    public static Mineral getInstance() {
+    public void setRawPower(double power) {
+        intake.setPower(power);
+    }
+
+    public double getRawPower() {
+        return intake.getPower();
+    }
+
+    public void setScaledPower(double power) {
+        VexMotorEnhanced.setScaledPower(intake, power);
+    }
+
+    public double getScaledPower() {
+        return VexMotorEnhanced.getScaledPower(intake);
+    }
+
+    public static MineralIntakev2 getInstance(){
         return instance;
     }
 }

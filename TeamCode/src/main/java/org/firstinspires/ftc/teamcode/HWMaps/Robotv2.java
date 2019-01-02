@@ -41,16 +41,16 @@ import static java.lang.Thread.sleep;
  * This class can be used to define all the specific hardware for our robot
  * This class stores functions that 3use a combination of subsystems on our robot
  */
-public class Robot {
-    private static final Robot instance = new Robot();
-    public Drive drive = Drive.getInstance();
+public class Robotv2 {
+    private static final Robotv2 instance = new Robotv2();
+    public Drivev2 drive = Drivev2.getInstance();
     public Lift lift = Lift.getInstance();
-    public Mineral mineral = Mineral.getInstance();
+    public Mineralv2 mineral = Mineralv2.getInstance();
     public Claim claim = Claim.getInstance();
     public Sensors sensors = Sensors.getInstance();
 
     /* Constructor */
-    private Robot(){
+    private Robotv2(){
     }
 
     /* Initialize standard Hardware interfaces */
@@ -144,7 +144,7 @@ public class Robot {
         claim.deploy();
     }
 
-    public static Robot getInstance() {
+    public static Robotv2 getInstance() {
         return instance;
     }
  }
