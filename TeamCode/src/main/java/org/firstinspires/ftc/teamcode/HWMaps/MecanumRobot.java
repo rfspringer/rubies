@@ -41,6 +41,7 @@ import org.firstinspires.ftc.teamcode.Lib.PIDController;
  */
 public class MecanumRobot
 {
+    //REMEMBER TO BE IN AUTO MODE!!!
     private static final MecanumRobot instance = new MecanumRobot();
     public MecanumDrive drive = MecanumDrive.getInstance();
 
