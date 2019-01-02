@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Tests;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robotv2;
+import org.firstinspires.ftc.teamcode.HWMaps.Archived.Robotv2;
 
 @TeleOp(name="Claim Test", group="Tests")
 public class ClaimTest extends LinearOpMode {

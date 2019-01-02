@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Lib;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robotv2;
+import org.firstinspires.ftc.teamcode.HWMaps.Archived.Robotv2;
 
 public class TrajectoryFollower {
     private Robotv2 robot = Robotv2.getInstance();

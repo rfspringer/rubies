@@ -27,9 +27,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HWMaps;
+package org.firstinspires.ftc.teamcode.HWMaps.Archived;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.HWMaps.Claim;
+import org.firstinspires.ftc.teamcode.HWMaps.Lift;
+import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Lib.PIDController;
 import org.firstinspires.ftc.teamcode.Lib.TensorFlow;
 
