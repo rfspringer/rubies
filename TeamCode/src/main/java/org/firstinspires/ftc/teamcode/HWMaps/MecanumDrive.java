@@ -54,6 +54,12 @@ public class MecanumDrive
     private DcMotor[] rightMotors;
 
     private boolean reverseDirection = false;
+
+    //temporary filler values
+    public double MAX_FORWARD_VELOCITY = 4;
+    public double MAX_STRAFE_VELOCITY = 3;
+    public double MAX_ACCEL = 2;
+
     MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
 
     /* local OpMode members. */

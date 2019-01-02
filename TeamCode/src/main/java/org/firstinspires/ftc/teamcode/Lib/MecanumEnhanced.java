@@ -59,6 +59,13 @@ public class MecanumEnhanced {
         return error;
     }
 
+    public double getMaxVel(double magnitude, double x, double y) {
+        double sum = x + y;
+        double scaledX = x * drive.MAX_STRAFE_VELOCITY;
+        double scaledY = y * drive.MAX_FORWARD_VELOCITY;
+        return magnitude * (scaledX + scaledY)/sum;
+    }
+
     public void setInAutonomous(boolean inAutonomous) {
         this.inAutonomous = inAutonomous;
     }
