@@ -69,7 +69,11 @@ public class Teleop extends OpMode
         gamepadA.update(gamepad1);
         gamepadB.update(gamepad2);
 
-
+        controlDrive();
+        controlArm();
+        controlIntake();
+        controlExtension();
+        controlLift();
 
         telemetry.addData("Magnitude", gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK));
         telemetry.addData("X", gamepadA.left_stick_x);
@@ -112,6 +116,10 @@ public class Teleop extends OpMode
         } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER) && gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)){
             robot.mineral.intake.setScaledPower(0);
         }
+    }
+
+    private void controlExtension() {
+        robot.mineral.extension.setPower(gamepadB.right_stick_y);
     }
 
     private void controlLift() {
