@@ -40,7 +40,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class MineralExtension {
     private static final MineralExtension instance = new MineralExtension();
     /* Public OpMode members. */
-    private DcMotor arm = null;
+    private DcMotor extension = null;
 
     /* local OpMode members. */
     private HardwareMap hwMap = null;
@@ -52,32 +52,20 @@ public class MineralExtension {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        arm = hwMap.get(DcMotor.class, "arm");
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        arm.setDirection(DcMotorSimple.Direction.FORWARD);
-        arm.setPower(0);
+        extension = hwMap.get(DcMotor.class, "extension");
+        extension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        extension.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        extension.setDirection(DcMotorSimple.Direction.FORWARD);
+        extension.setPower(0);
     }
 
     public void setPower(double power) {
-        arm.setPower(power);
+        extension.setPower(power);
     }
 
-//    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
-//        DcMotor[] lift = {this.arm};
-//        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
-//        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
-//        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
-//        if (trajectoryFollower.trajectoryIsComplete()) {
-//            MotorEnhanced.setRawPower(lift, 0);
-//            return;
-//        }
-//        trajectoryFollower.run();
-//    }
-
     public int getEncoderCounts() {
-        return arm.getCurrentPosition();
+        return extension.getCurrentPosition();
     }
 
     public static MineralExtension getInstance(){
