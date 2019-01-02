@@ -9,8 +9,8 @@ public class MecanumEnhanced {
     private double kP = 0.02;
     private boolean inAutonomous = false;
 
-    public double[] calculatePowers(double magnitude, double x, double y, double heading) {
-        double[] powerRatios = calculatePowerRatios(x, y, heading);
+    public double[] calculatePowers(double magnitude, double x, double y, double targetHeading) {
+        double[] powerRatios = calculatePowerRatios(x, y, targetHeading);
         return scalePowers(magnitude, powerRatios);
     }
 

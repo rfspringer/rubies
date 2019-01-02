@@ -3,27 +3,30 @@ package org.firstinspires.ftc.teamcode.Lib;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.HWMaps.MecanumRobot;
 
 public class MecanumTrajectoryFollower {
-    private Robot robot = Robot.getInstance();
+    private MecanumRobot robot = MecanumRobot.getInstance();
+    private MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
     private ElapsedTime timer = new ElapsedTime();
-    private double heading;
+    private double targetHeading;
     private double power = 0;
-    private double kV;
     private double kA;
+    private double x;
+    private double y;
     private boolean usesFeedback = false;
     private boolean hasResetTimer = false;
     private DcMotor[] motors;
-    private TrajectoryGenerator trajectory;
+    private MecanumTrajectoryGenerator trajectory;
 
-    public MecanumTrajectoryFollower(DcMotor[] motors, TrajectoryGenerator trajectory, double heading, double kV, double kA, boolean usesFeedback){
+    public MecanumTrajectoryFollower(DcMotor[] motors, MecanumTrajectoryGenerator trajectory, double heading, double kV, double kA, boolean usesFeedback){
         this.usesFeedback = usesFeedback;
         this.motors = motors;
         this.trajectory = trajectory;
-        this.kV = kV;
+        this.x = trajectory.getX();
+        this.y = trajectory.getY();
         this.kA = kA;
-        this.heading = heading;
+        this.targetHeading = heading;
         MotorEnhanced.setRunMode(motors, DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
@@ -33,23 +36,16 @@ public class MecanumTrajectoryFollower {
                 timer.reset();
                 hasResetTimer = true;
             }
-//            if (trajectoryIsComplete()) {
-//                MotorEnhanced.setPower(motors, 0);
-//            } else if (usesFeedback) {
-//                //runAction PID with heading and feedforward
-//            } else {
-                power = getFeedforwardPower(timer);
-            robot.driveByHeading(power, power, heading);
-//                MotorEnhanced.setPower(motors, power);
-//            }
+
+            robot.drive.setPowers(getMagnitude(timer), x, y, targetHeading);
         }
         MotorEnhanced.setPower(motors, 0);
     }
 
-    private double getFeedforwardPower(ElapsedTime currentTime){
+    private double getMagnitude(ElapsedTime currentTime){
         trajectory.calculatePositionalDerivatives(currentTime);
-        double power = kV * trajectory.getCurrentVelocity() + kA * trajectory.getCurrentAcceleration();
-        return trajectory.getDirection() * power;
+        double kV = 0.8 / mecanumEnhanced.getMaxVel(1, x, y);
+        return kV * trajectory.getCurrentVelocity() + kA * trajectory.getCurrentAcceleration();
     }
 
     public boolean trajectoryIsComplete() {

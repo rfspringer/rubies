@@ -62,6 +62,15 @@ public class MecanumTrajectoryGenerator {
 //        return trajectoryDirection;
 //    }
 
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
     public double getCurrentVelocity() {
         return currentVelocity;
     }
