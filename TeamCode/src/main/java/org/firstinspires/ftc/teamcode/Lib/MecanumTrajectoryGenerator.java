@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Lib;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class MecanumTrajectoryGenerator {
+    MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
     // Units are inches and seconds
     private double maxVelocity;
     private double maxAcceleration;
@@ -14,14 +15,16 @@ public class MecanumTrajectoryGenerator {
     private double y;
 
     private double trajectoryLength;
+    private double totalTime;
 //    private double trajectoryDirection;
 
-    public MecanumTrajectoryGenerator(double x, double y, double maxVelocity, double maxAcceleration) {
+    public MecanumTrajectoryGenerator(double x, double y, double maxAcceleration) {
         this.x = x;
         this.y = y;
         this.trajectoryLength = Math.abs(getTrajectoryLength());
-        this.maxVelocity = maxVelocity;
+        this.maxVelocity = mecanumEnhanced.getMaxVel(1, x, y);
         this.maxAcceleration = maxAcceleration;
+        this.totalTime = calculateTotalTime();
     }
 
     public void calculatePositionalDerivatives(ElapsedTime currentTime) {
@@ -62,6 +65,14 @@ public class MecanumTrajectoryGenerator {
 //        return trajectoryDirection;
 //    }
 
+
+    public double calculateTotalTime() {
+        return Math.sqrt(2 * maxAcceleration * trajectoryLength)/maxAcceleration;
+    }
+
+    public double getTotalTime() {
+        return totalTime;
+    }
 
     public double getX() {
         return x;

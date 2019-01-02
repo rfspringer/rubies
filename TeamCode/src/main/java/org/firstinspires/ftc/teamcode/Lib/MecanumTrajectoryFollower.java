@@ -49,10 +49,6 @@ public class MecanumTrajectoryFollower {
     }
 
     public boolean trajectoryIsComplete() {
-        if (trajectory.getDirection() > 0) {
-            return timer.seconds() > 0.1 && power < 0;
-        } else {
-            return timer.seconds() > 0.1 && power > 0;
-        }
+        return trajectory.getTotalTime() > timer.seconds();
     }
 }
