@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.Lib;
 
-import org.firstinspires.ftc.teamcode.HWMaps.MecanumDrive;
+import org.firstinspires.ftc.teamcode.HWMaps.Drive;
 import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
 
 public class MecanumEnhanced {
-    private MecanumDrive drive = MecanumDrive.getInstance();
+    private Drive drive = Drive.getInstance();
     private Sensors sensors = Sensors.getInstance();
     private double kP = 0.02;
     private boolean inAutonomous = false;

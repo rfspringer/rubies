@@ -40,9 +40,9 @@ import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class MecanumDrive
+public class Drive
 {
-    private static final MecanumDrive instance = new MecanumDrive();
+    private static final Drive instance = new Drive();
     /* Public OpMode members. */
     private DcMotor leftFront = null;
     private DcMotor leftBack = null;
@@ -60,7 +60,7 @@ public class MecanumDrive
     private HardwareMap hwMap =  null;
 
     /* Constructor */
-    private MecanumDrive(){
+    private Drive(){
 
     }
 
@@ -146,7 +146,7 @@ public class MecanumDrive
         return allMotors;
     }
 
-    public static MecanumDrive getInstance() {
+    public static Drive getInstance() {
         return instance;
     }
 
