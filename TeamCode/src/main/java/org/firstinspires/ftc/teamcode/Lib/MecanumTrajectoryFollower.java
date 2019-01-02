@@ -19,7 +19,7 @@ public class MecanumTrajectoryFollower {
     private DcMotor[] motors;
     private MecanumTrajectoryGenerator trajectory;
 
-    public MecanumTrajectoryFollower(DcMotor[] motors, MecanumTrajectoryGenerator trajectory, double heading, double kV, double kA, boolean usesFeedback){
+    public MecanumTrajectoryFollower(DcMotor[] motors, MecanumTrajectoryGenerator trajectory, double heading, double kA, boolean usesFeedback){
         this.usesFeedback = usesFeedback;
         this.motors = motors;
         this.trajectory = trajectory;
@@ -28,6 +28,7 @@ public class MecanumTrajectoryFollower {
         this.kA = kA;
         this.targetHeading = heading;
         MotorEnhanced.setRunMode(motors, DcMotor.RunMode.RUN_USING_ENCODER);
+        mecanumEnhanced.setInAutonomous(true);
     }
 
     public void run(){

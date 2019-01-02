@@ -34,7 +34,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Lib.MecanumEnhanced;
+import org.firstinspires.ftc.teamcode.Lib.MecanumTrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Lib.MecanumTrajectoryGenerator;
 import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -54,6 +58,7 @@ public class MecanumDrive
     private DcMotor[] rightMotors;
 
     private boolean reverseDirection = false;
+    private double kA = 2;
 
     //temporary filler values
     public double MAX_FORWARD_VELOCITY = 4;
@@ -113,6 +118,16 @@ public class MecanumDrive
     public void reverseMotorDirections(boolean reverseDirection) {
         this.reverseDirection = reverseDirection;
         setMotorDirections();
+    }
+
+    public MecanumTrajectoryFollower initializeTrajectory(double x, double y, double heading) {
+        MecanumTrajectoryGenerator trajectory = new MecanumTrajectoryGenerator(x, y, MAX_ACCEL);
+        return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, false);
+    }
+
+    public MecanumTrajectoryFollower initializeTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
+        MecanumTrajectoryGenerator trajectory = new MecanumTrajectoryGenerator(distanceInInches, maxVel, maxAccel);
+        return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, usesFeedback);
     }
 
     public boolean isDirectionReversed() {
