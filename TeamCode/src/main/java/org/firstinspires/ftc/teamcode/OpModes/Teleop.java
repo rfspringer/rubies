@@ -44,6 +44,7 @@ public class Teleop extends OpMode
     private Robot robot = Robot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
+    private GamepadEnhanced gamepadB = new GamepadEnhanced();
     private AccelerationController liftAccelerationController = new AccelerationController(3.0);
 
     /*
@@ -66,7 +67,9 @@ public class Teleop extends OpMode
     @Override
     public void loop() {
         gamepadA.update(gamepad1);
-        robot.drive.getAllMotors();
+        gamepadB.update(gamepad2);
+
+
 
         telemetry.addData("Magnitude", gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK));
         telemetry.addData("X", gamepadA.left_stick_x);
@@ -90,10 +93,10 @@ public class Teleop extends OpMode
     }
 
     private void controlArm() {
-        if (gamepadA.left_bumper) {
+        if (gamepadB.left_bumper) {
             robot.mineral.intake.setScaledPower(0);
             robot.mineral.arm.setPower(1);
-        } else if (gamepadA.right_bumper) {
+        } else if (gamepadB.right_bumper) {
             robot.mineral.intake.setScaledPower(0);
             robot.mineral.arm.setPower(-1);
         } else {
@@ -102,19 +105,19 @@ public class Teleop extends OpMode
     }
 
     private void controlIntake() {
-        if (gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER)) {
+        if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER)) {
             robot.mineral.intake.setScaledPower(-1);
-        } else if (gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)) {
+        } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)) {
             robot.mineral.intake.setScaledPower(1);
-        } else if (gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER) && gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)){
+        } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER) && gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)){
             robot.mineral.intake.setScaledPower(0);
         }
     }
 
     private void controlLift() {
-        if (gamepadA.dpad_up){
+        if (gamepadB.dpad_up){
             liftAccelerationController.run(1, robot.lift.getMotor());
-        } else if (gamepadA.dpad_down) {
+        } else if (gamepadB.dpad_down) {
             liftAccelerationController.run(-1, robot.lift.getMotor());
         } else {
             liftAccelerationController.run(0, robot.lift.getMotor());
