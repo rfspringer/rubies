@@ -125,8 +125,8 @@ public class MecanumDrive
         return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, false);
     }
 
-    public MecanumTrajectoryFollower initializeTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
-        MecanumTrajectoryGenerator trajectory = new MecanumTrajectoryGenerator(distanceInInches, maxVel, maxAccel);
+    public MecanumTrajectoryFollower initializeTrajectory(double x, double y, double heading, double maxAccel, boolean usesFeedback) {
+        MecanumTrajectoryGenerator trajectory = new MecanumTrajectoryGenerator(x, y, maxAccel);
         return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, usesFeedback);
     }
 
