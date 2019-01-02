@@ -27,41 +27,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.OpModes.Archived;
+package org.firstinspires.ftc.teamcode.OpModes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Archived.Robotv2;
-import org.firstinspires.ftc.teamcode.Lib.AccelerationController;
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
-import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
 
 
-@TeleOp(name="Teleopv2v1 - No Mineral", group="Iterative Opmode")
-@Disabled
-public class Teleopv1 extends OpMode
+@TeleOp(name="Mecanum Drivev2", group="Iterative Opmode")
+public class TeleOpDriveOnly extends OpMode
 {
-    private Robotv2 robot = Robotv2.getInstance();
+    private Robot robot = Robot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
-    private AccelerationController leftAccelerationController = new AccelerationController(1.0);
-    private AccelerationController rightAccelerationController = new AccelerationController(1.0);
-    private AccelerationController liftAccelerationController = new AccelerationController(1.5);
-
-    private double leftPower;
-    private double rightPower;
 
     /*
-     * Code to runAction ONCE when the driver hits INIT
+     * Code to run ONCE when the driver hits INIT
      */
     @Override
     public void init() {
         robot.init(hardwareMap);
-        MotorEnhanced.setRunMode(robot.drive.getAllMotors(), DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         telemetry.addData("Status", "Initialized");
     }
 
@@ -71,44 +59,28 @@ public class Teleopv1 extends OpMode
     }
 
     /*
-     * Code to runAction REPEATEDLY after the driver hits PLAY but before they hit STOP
+     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     @Override
     public void loop() {
         gamepadA.update(gamepad1);
-        setDriveMotorPowers();
-        moveLift();
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)",
-                robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
-        telemetry.addData("Encoders", "left(%d) right (%d)",
-                robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
+        robot.drive.getAllMotors();
+        robot.drive.setPowers(gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK), gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
+        telemetry.addData("Magnitude", gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK));
+        telemetry.addData("X", gamepadA.left_stick_x);
+        telemetry.addData("y", gamepadA.left_stick_y);
+        telemetry.addData("right x", gamepadA.right_stick_x);
+        telemetry.update();
     }
 
-    private void moveLift() {
-        if (gamepadA.dpad_up){
-            liftAccelerationController.run(1, robot.lift.getMotor());
-        } else if (gamepadA.dpad_down) {
-            liftAccelerationController.run(-1, robot.lift.getMotor());
+    private double getHeadingCorrection() {
+        if (Math.abs(gamepadA.right_stick_x) < 0.2) {
+            return 0;
         } else {
-            liftAccelerationController.run(0, robot.lift.getMotor());
+            return -gamepadA.right_stick_x;
         }
     }
 
-    private void setDriveMotorPowers() {
-        calculateMotorPowers();
-        if (gamepadA.left_bumper) {
-            robot.drive.setPowers(leftPower, rightPower);
-        } else {
-            robot.drive.setPowers(leftPower, rightPower);
-//            leftAccelerationController.runAction(leftPower, robot.drive.getLeftMotors());
-//            rightAccelerationController.runAction(rightPower, robot.drive.getRightMotors());
-        }
-    }
-
-    private void calculateMotorPowers() {
-        leftPower    = -0.5 * gamepadA.left_stick_y;
-        rightPower   = -0.5 * gamepadA.right_stick_y;
-    }
 
     @Override
     public void stop() {

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Archived.Robotv2;
@@ -8,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Lib.TensorFlow;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
 @Autonomous(name="Auto No Claim", group="Iterative Opmode")
-//@Disabled
+@Disabled
 public class AutoNoClaimv2 extends LinearOpMode {
     // Declare OpMode members.
     private Robotv2 robot = Robotv2.getInstance();

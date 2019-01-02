@@ -37,8 +37,8 @@ import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
 
 
-@TeleOp(name="Mecanum Drivev2", group="Iterative Opmode")
-public class RubiesMecanumTeleop extends OpMode
+@TeleOp(name="Teleop", group="Iterative Opmode")
+public class Teleop extends OpMode
 {
     private Robot robot = Robot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
@@ -68,7 +68,7 @@ public class RubiesMecanumTeleop extends OpMode
         robot.drive.setPowers(gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK), gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
         telemetry.addData("Magnitude", gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK));
         telemetry.addData("X", gamepadA.left_stick_x);
-        telemetry.addData("y", gamepadA.left_stick_y);
+        telemetry.addData("Y", gamepadA.left_stick_y);
         telemetry.addData("right x", gamepadA.right_stick_x);
         telemetry.update();
     }

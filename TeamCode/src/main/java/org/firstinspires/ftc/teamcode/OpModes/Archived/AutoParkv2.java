@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.HWMaps.Archived.Robotv2;
 
 @Autonomous(name="Park From Ground", group="Iterative Opmode")
-//@Disabled
+@Disabled
 public class AutoParkv2 extends LinearOpMode {
 
     // Declare OpMode members.
