@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.Lib.AccelerationController;
 import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
 
 
@@ -43,6 +44,7 @@ public class Teleop extends OpMode
     private Robot robot = Robot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
+    private AccelerationController liftAccelerationController = new AccelerationController(3.0);
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -65,13 +67,19 @@ public class Teleop extends OpMode
     public void loop() {
         gamepadA.update(gamepad1);
         robot.drive.getAllMotors();
-        robot.drive.setPowers(gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK), gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
+
         telemetry.addData("Magnitude", gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK));
         telemetry.addData("X", gamepadA.left_stick_x);
         telemetry.addData("Y", gamepadA.left_stick_y);
         telemetry.addData("right x", gamepadA.right_stick_x);
         telemetry.update();
     }
+
+    private void controlDrive() {
+        robot.drive.setPowers(gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK),
+                gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
+    }
+
 
     private double getHeadingCorrection() {
         if (Math.abs(gamepadA.right_stick_x) < 0.2) {
@@ -80,6 +88,39 @@ public class Teleop extends OpMode
             return -gamepadA.right_stick_x;
         }
     }
+
+    private void controlArm() {
+        if (gamepadA.left_bumper) {
+            robot.mineral.intake.setScaledPower(0);
+            robot.mineral.arm.setPower(1);
+        } else if (gamepadA.right_bumper) {
+            robot.mineral.intake.setScaledPower(0);
+            robot.mineral.arm.setPower(-1);
+        } else {
+            robot.mineral.arm.setPower(0);
+        }
+    }
+
+    private void controlIntake() {
+        if (gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER)) {
+            robot.mineral.intake.setScaledPower(-1);
+        } else if (gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)) {
+            robot.mineral.intake.setScaledPower(1);
+        } else if (gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER) && gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)){
+            robot.mineral.intake.setScaledPower(0);
+        }
+    }
+
+    private void controlLift() {
+        if (gamepadA.dpad_up){
+            liftAccelerationController.run(1, robot.lift.getMotor());
+        } else if (gamepadA.dpad_down) {
+            liftAccelerationController.run(-1, robot.lift.getMotor());
+        } else {
+            liftAccelerationController.run(0, robot.lift.getMotor());
+        }
+    }
+
 
 
     @Override
