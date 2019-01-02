@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -7,9 +7,9 @@ import org.firstinspires.ftc.teamcode.HWMaps.Archived.Robotv2;
 import org.firstinspires.ftc.teamcode.Lib.TensorFlow;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
-@Autonomous(name="Auto No Claim", group="Iterative Opmode")
+@Autonomous(name="Auto no AutoParkv2", group="Iterative Opmode")
 //@Disabled
-public class AutoNoClaim extends LinearOpMode {
+public class AutoNoParkv2 extends LinearOpMode {
     // Declare OpMode members.
     private Robotv2 robot = Robotv2.getInstance();
     private TensorFlow tensorFlow = new TensorFlow();
@@ -23,7 +23,7 @@ public class AutoNoClaim extends LinearOpMode {
         robot.lift.holdHangingPosition();
         TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-15, -30);
         TrajectoryFollower driveFromUnlatchedToDepot = robot.drive.initializeTrajectory(150, 180);
-        TrajectoryFollower driveALittleExtra = robot.drive.initializeTrajectory(-10, 30);
+        TrajectoryFollower driveAwayFromMarker = robot.drive.initializeTrajectory(-10, 30);
 
         telemetry.addData("Instructions", "Initialize robot against left wall");
         telemetry.addData("Status", "Initialized");
@@ -51,6 +51,15 @@ public class AutoNoClaim extends LinearOpMode {
         robot.drive.setPowers(-0.3, -0.3);
         sleep(750);
         robot.drive.setPowers(0, 0);
+            telemetry.addData("Status", "turnin");
+            telemetry.update();
+            robot.drive.setPowers(-0.3, 0);
+            sleep(1000);
+            robot.drive.setPowers(0, 0);
+            robot.claim.deploy();
+            sleep(2000);
+            robot.claim.stow();
         telemetry.addData(">", "All done!!!");
+        telemetry.update();
     }
 }

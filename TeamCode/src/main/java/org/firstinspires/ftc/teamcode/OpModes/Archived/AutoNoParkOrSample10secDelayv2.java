@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
 @Autonomous(name="Auto No Park OR Sample w/Delay", group="Iterative Opmode")
 //@Disabled
-public class AutoNoParkOrSample10secDelay extends LinearOpMode {
+public class AutoNoParkOrSample10secDelayv2 extends LinearOpMode {
 
     // Declare OpMode members.
     private Robotv2 robot = Robotv2.getInstance();

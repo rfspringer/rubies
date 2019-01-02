@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -40,8 +40,8 @@ import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
 import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
 
 
-@TeleOp(name="Teleop - No Mineral", group="Iterative Opmode")
-public class TeleopNoMineral extends OpMode
+@TeleOp(name="Teleopv2v1 - No Mineral", group="Iterative Opmode")
+public class Teleopv1 extends OpMode
 {
     private Robotv2 robot = Robotv2.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
