@@ -34,10 +34,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
-import org.firstinspires.ftc.teamcode.Lib.AccelerationController;
-import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
-import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import org.firstinspires.ftc.teamcode.Library.AccelerationController;
+import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
+import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
 
 
 @TeleOp(name="Teleop - No Mineral", group="Iterative Opmode")

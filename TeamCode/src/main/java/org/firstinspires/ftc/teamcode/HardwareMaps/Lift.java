@@ -27,66 +27,91 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HWMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class MineralArm {
-    private static final MineralArm instance = new MineralArm();
+public class Lift {
+    private static final Lift instance = new Lift();
     /* Public OpMode members. */
-    private DcMotor arm = null;
+    private DcMotor  lift   = null;
 
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
+    private int EXTENDED_ENCODER_COUNTS = -5000;
+
     /* Constructor */
-    private MineralArm(){
+    private Lift(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        arm = hwMap.get(DcMotor.class, "arm");
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        arm.setDirection(DcMotorSimple.Direction.FORWARD);
-        arm.setPower(0);
+        lift = hwMap.get(DcMotor.class, "lift");
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setPower(0);
     }
 
     public void setPower(double power) {
-        arm.setPower(power);
+        lift.setPower(power);
     }
 
-//    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
-//        DcMotor[] lift = {this.arm};
-//        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
-//        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
-//        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
-//        if (trajectoryFollower.trajectoryIsComplete()) {
-//            MotorEnhanced.setRawPower(lift, 0);
-//            return;
-//        }
-//        trajectoryFollower.run();
-//    }
-
-    public int getEncoderCounts() {
-        return arm.getCurrentPosition();
+    public DcMotor getMotor() {
+        return lift;
     }
 
-    public static MineralArm getInstance(){
+    public static Lift getInstance(){
         return instance;
     }
 
+    public int getCurrentPosition() {
+        return lift.getCurrentPosition();
+    }
+
+    public void setTargetPosition(int targetPosition) {
+        lift.setTargetPosition(targetPosition);
+    }
+
+    public void setMode(DcMotor.RunMode runMode) {
+        lift.setMode(runMode);
+    }
+
+    public int getEncoderCounts() {
+        return lift.getCurrentPosition();
+    }
+
+    public void lowerRobotToGround() {
+        boolean actionIsComplete = false;
+        ElapsedTime time = new ElapsedTime();
+        setTargetPosition(EXTENDED_ENCODER_COUNTS);
+        setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setPower(0.5);
+        while (!actionIsComplete) {
+            actionIsComplete = robotIsCloseToGround(time);
+        }
+        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        setPower(0);
+    }
+
+    public void holdHangingPosition() {
+        setTargetPosition(0);
+        setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setPower(0.2);
+    }
+
+    private boolean robotIsCloseToGround(ElapsedTime time) {
+        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS - 10)) || time.seconds() > 4;
+    }
 }
 

@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode.Lib;
+package org.firstinspires.ftc.teamcode.Library;
 
-import org.firstinspires.ftc.teamcode.HWMaps.MecanumDrive;
-import org.firstinspires.ftc.teamcode.HWMaps.Sensors;
+import org.firstinspires.ftc.teamcode.HardwareMaps.MecanumDrive;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Sensors;
 
 public class MecanumEnhanced {
     private MecanumDrive drive = MecanumDrive.getInstance();

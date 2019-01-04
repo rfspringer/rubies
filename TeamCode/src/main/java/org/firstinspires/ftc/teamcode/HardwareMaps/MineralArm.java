@@ -27,61 +27,62 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HWMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
-import org.firstinspires.ftc.teamcode.Lib.VexMotorEnhanced;
 
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class MineralIntake {
-    private static final MineralIntake instance = new MineralIntake();
+public class MineralArm {
+    private static final MineralArm instance = new MineralArm();
+    /* Public OpMode members. */
+    private DcMotor arm = null;
 
-    private CRServo intake = null;
+    /* local OpMode members. */
     private HardwareMap hwMap = null;
 
-    private double scaledPower = 0;
-    private double rawPower = 0;
-
     /* Constructor */
-    private MineralIntake(){
+    private MineralArm(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        intake = hwMap.crservo.get("intake");
-        intake.setDirection(DcMotorSimple.Direction.FORWARD);
-        intake.setPower(0);
+        arm = hwMap.get(DcMotor.class, "arm");
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        arm.setDirection(DcMotorSimple.Direction.FORWARD);
+        arm.setPower(0);
     }
 
-    public void setRawPower(double power) {
-        intake.setPower(power);
+    public void setPower(double power) {
+        arm.setPower(power);
     }
 
-    public double getRawPower() {
-        return intake.getPower();
+//    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
+//        DcMotor[] lift = {this.arm};
+//        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
+//        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
+//        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
+//        if (trajectoryFollower.trajectoryIsComplete()) {
+//            MotorEnhanced.setRawPower(lift, 0);
+//            return;
+//        }
+//        trajectoryFollower.run();
+//    }
+
+    public int getEncoderCounts() {
+        return arm.getCurrentPosition();
     }
 
-    public void setScaledPower(double power) {
-        VexMotorEnhanced.setScaledPower(intake, power);
-    }
-
-    public double getScaledPower() {
-        return VexMotorEnhanced.getScaledPower(intake);
-    }
-
-    public static MineralIntake getInstance(){
+    public static MineralArm getInstance(){
         return instance;
     }
+
 }
 

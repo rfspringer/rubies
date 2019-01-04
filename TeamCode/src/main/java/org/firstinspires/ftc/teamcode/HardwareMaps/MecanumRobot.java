@@ -27,40 +27,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HWMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
-
 /**
- * This class stores all objects on our robot's drivetrain
- * It also includes functionality specific to our drive base
+ * This is NOT an opmode.
+ *
+ * This class can be used to define all the specific hardware for our robot
+ * This class stores functions that use a combination of subsystems on our robot
  */
-public class Mineral {
-    private static final Mineral instance = new Mineral();
-    public MineralArm mineralArm = MineralArm.getInstance();
-    public MineralIntake mineralIntake = MineralIntake.getInstance();
-
-    private HardwareMap hwMap;
+public class MecanumRobot
+{
+    private static final MecanumRobot instance = new MecanumRobot();
+    public MecanumDrive drive = MecanumDrive.getInstance();
 
     /* Constructor */
-    private Mineral(){
+    private MecanumRobot(){
+
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
-        hwMap = ahwMap;
-        mineralArm.init(hwMap);
-        mineralIntake.init(hwMap);
+    public void init(HardwareMap hwMap) {
+        drive.init(hwMap);
     }
 
-    public static Mineral getInstance() {
+    public static MecanumRobot getInstance() {
         return instance;
     }
-}
+ }
 

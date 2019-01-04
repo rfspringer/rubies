@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Lib;
+package org.firstinspires.ftc.teamcode.Library;
 
 public class PIDController {
     public static double PID(double initialPower, double p, double i, double d, double kP, double kI, double kD) {

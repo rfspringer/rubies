@@ -27,11 +27,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HWMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.firstinspires.ftc.teamcode.Lib.PIDController;
-import org.firstinspires.ftc.teamcode.Lib.TensorFlow;
+import org.firstinspires.ftc.teamcode.Library.PIDController;
+import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
 import static java.lang.Thread.sleep;
 

@@ -3,11 +3,9 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
-import org.firstinspires.ftc.teamcode.Lib.TensorFlow;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
-
-import static org.firstinspires.ftc.teamcode.Lib.TensorFlow.GoldPosition.CENTER;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import org.firstinspires.ftc.teamcode.Library.TensorFlow;
+import org.firstinspires.ftc.teamcode.Library.TrajectoryFollower;
 
 @Autonomous(name="Auto no park", group="Iterative Opmode")
 //@Disabled

@@ -27,15 +27,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HWMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
-import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
+import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
+import org.firstinspires.ftc.teamcode.Library.TrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Library.TrajectoryGenerator;
 
 /**
  * This class stores all objects on our robot's drivetrain

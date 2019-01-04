@@ -26,42 +26,34 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.firstinspires.ftc.teamcode.HWMaps;
+
+package org.firstinspires.ftc.teamcode.HardwareMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Claim {
-    private static final Claim instance = new Claim();
-    /* Public OpMode members. */
-    private Servo claimServo;
+public class Mineral {
+    private static final Mineral instance = new Mineral();
+    public MineralArm mineralArm = MineralArm.getInstance();
+    public MineralIntake mineralIntake = MineralIntake.getInstance();
 
-    private double STOWED_POS = 0.0;
-    private double DEPLOYED_POS = 1.0;
+    private HardwareMap hwMap;
 
     /* Constructor */
-    private Claim(){
+    private Mineral(){
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap hwMap) {
-        claimServo = hwMap.servo.get("claim_servo");
-        stow();
+    public void init(HardwareMap ahwMap) {
+        hwMap = ahwMap;
+        mineralArm.init(hwMap);
+        mineralIntake.init(hwMap);
     }
 
-    public void stow() {
-        claimServo.setPosition(STOWED_POS);
-    }
-
-    public void deploy() {
-        claimServo.setPosition(DEPLOYED_POS);
-    }
-
-    public static Claim getInstance(){
+    public static Mineral getInstance() {
         return instance;
     }
 }

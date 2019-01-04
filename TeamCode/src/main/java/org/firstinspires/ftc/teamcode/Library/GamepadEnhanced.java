@@ -1,8 +1,6 @@
-package org.firstinspires.ftc.teamcode.Lib;
+package org.firstinspires.ftc.teamcode.Library;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
-
-import org.opencv.core.Range;
 
 /**
  * By rachel on 1/19/18.

@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import org.firstinspires.ftc.teamcode.Library.TrajectoryFollower;
 
 @Autonomous(name="Auto Park No Sample Crater", group="Iterative Opmode")
 //@Disabled

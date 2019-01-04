@@ -33,9 +33,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
-import org.firstinspires.ftc.teamcode.Lib.AccelerationController;
-import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import org.firstinspires.ftc.teamcode.Library.AccelerationController;
+import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
 
 
 @TeleOp(name="Teleop Meet 3", group="Iterative Opmode")
