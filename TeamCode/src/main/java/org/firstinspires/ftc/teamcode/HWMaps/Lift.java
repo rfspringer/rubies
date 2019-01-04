@@ -43,12 +43,6 @@ public class Lift {
     /* Public OpMode members. */
     private DcMotor  lift   = null;
 
-    private double MAX_VELOCITY;
-    private double MAX_ACCELERATION;
-
-    private double kV = 0.8/MAX_VELOCITY;
-    private double kA;
-
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 

@@ -60,14 +60,14 @@ public class Robot
         sensors.init(hwMap);
         claim.init(hwMap);
     }
-
+//
 //    public void driveByHeading(double leftPower, double rightPower, double targetHeading) {
 //        sensors.updateIMU();
 //        double kP = 0.0065;
 //        double error = targetHeading - sensors.getHeading();
 //        double left = PIDController.pController(leftPower, error, -kP);
 //        double right = PIDController.pController(rightPower, error, kP);
-//        drive.setPowers(leftPower, rightPower);
+//        drive.setPowers(left, right);
 //    }
 //
 //    public void turnToHeadingCenterPivot(double targetHeading) {

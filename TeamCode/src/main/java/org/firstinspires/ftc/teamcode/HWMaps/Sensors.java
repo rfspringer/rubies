@@ -72,7 +72,6 @@ public class Sensors
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hwMap) {
         imu = hwMap.get(BNO055IMU.class, "imu");
-
         initializeIMU();
         updateIMU();
     }
@@ -113,7 +112,7 @@ public class Sensors
         return integrateHeading(rawHeading);
     }
 
-    public double integrateHeading(double heading){
+    private double integrateHeading(double heading){
         //Integrates it to be from -180 to 180 degrees
         while (heading > 180){
             heading = heading - 360;
