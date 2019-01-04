@@ -34,7 +34,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
 import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
-import org.firstinspires.ftc.teamcode.Lib.PIDController;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
 
@@ -56,8 +55,6 @@ public class Drive
     private DcMotor[] allMotors;
     private DcMotor[] leftMotors;
     private DcMotor[] rightMotors;
-
-    private boolean reverseDirection = false;
 
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
@@ -92,7 +89,7 @@ public class Drive
         hwMap = ahwMap;
         initializeDriveMotors();
         initializeMotorArrays();
-        setMotorDirections();
+        setMotorDirections(Direction.REVERSE, Direction.FORWARD);
         setPowers(0, 0);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
@@ -128,8 +125,7 @@ public class Drive
     }
 
     public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading) {
-        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, MAX_VEL, MAX_ACCEL);
-        return new TrajectoryFollower(allMotors, trajectory, heading, kV, kA, false);
+        return initializeTrajectory(distanceInInches, heading, MAX_VEL, MAX_ACCEL, false);
     }
 
     public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
@@ -137,23 +133,9 @@ public class Drive
         return new TrajectoryFollower(allMotors, trajectory, heading, kV, kA, usesFeedback);
     }
 
-    public void reverseMotorDirections(boolean reverseDirection) {
-        this.reverseDirection = reverseDirection;
-        setMotorDirections();
-    }
-
-    public boolean isDirectionReversed() {
-        return reverseDirection;
-    }
-
-    private void setMotorDirections(){
-        if (reverseDirection){
-            MotorEnhanced.setDirection(leftMotors, Direction.FORWARD);
-            MotorEnhanced.setDirection(rightMotors, Direction.REVERSE);
-        } else {
-            MotorEnhanced.setDirection(leftMotors, Direction.REVERSE);
-            MotorEnhanced.setDirection(rightMotors, Direction.FORWARD);
-        }
+    public void setMotorDirections(Direction leftDirection, Direction rightDirection) {
+        MotorEnhanced.setDirection(leftMotors, leftDirection);
+        MotorEnhanced.setDirection(rightMotors, rightDirection);
     }
 
     public double convertEncoderCountsToInches(double encoderCounts) {
