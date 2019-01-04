@@ -13,6 +13,14 @@ public class TrajectoryGenerator {
     private double trajectoryLength;
     private double trajectoryDirection;
 
+    private enum TRAJECTORY_SEGMENT {
+        ACCELERATION,
+        CRUISING,
+        DECELERATION
+    }
+
+    private TRAJECTORY_SEGMENT trajectorySegment;
+
     public TrajectoryGenerator(double distance, double maxVelocity, double maxAcceleration) {
         this.trajectoryDirection = Math.signum(distance);
         this.trajectoryLength = Math.abs(distance);
@@ -21,19 +29,36 @@ public class TrajectoryGenerator {
     }
 
     public void calculatePositionalDerivatives(ElapsedTime currentTime) {
-        if (velocityIfConstantAcceleration(currentTime) < velocityIfCruising()
+        TRAJECTORY_SEGMENT trajectorySegment = getTrajectorySegment(currentTime);
+        switch (trajectorySegment){
+            case ACCELERATION:
+                currentVelocity = velocityIfConstantAcceleration(currentTime);
+                currentAcceleration = maxAcceleration;
+                break;
+
+            case DECELERATION:
+                currentVelocity = velocityIfConstantDeceleration(currentTime);
+                currentAcceleration = -maxAcceleration;
+                break;
+
+            case CRUISING:
+                currentVelocity = maxVelocity;
+                currentAcceleration = 0;
+                break;
+        }
+    }
+
+    private TRAJECTORY_SEGMENT getTrajectorySegment (ElapsedTime currentTime) {
+        if (velocityIfConstantAcceleration(currentTime) < maxVelocity
                 && velocityIfConstantAcceleration(currentTime)
                 < velocityIfConstantDeceleration(currentTime)) {
-            currentVelocity = velocityIfConstantAcceleration(currentTime);
-            currentAcceleration = maxAcceleration;
-        } else if (velocityIfConstantDeceleration(currentTime) < velocityIfCruising()
+            return TRAJECTORY_SEGMENT.ACCELERATION;
+        } else if (velocityIfConstantDeceleration(currentTime) < maxVelocity
                 && velocityIfConstantDeceleration(currentTime)
                 < velocityIfConstantAcceleration(currentTime)) {
-            currentVelocity = velocityIfConstantDeceleration(currentTime);
-            currentAcceleration = -maxAcceleration;
+            return TRAJECTORY_SEGMENT.DECELERATION;
         } else {
-            currentVelocity = maxVelocity;
-            currentAcceleration = 0;
+            return TRAJECTORY_SEGMENT.CRUISING;
         }
     }
 
@@ -41,9 +66,6 @@ public class TrajectoryGenerator {
         return maxAcceleration * currentTime.seconds();
     }
 
-    private double velocityIfCruising(){
-        return maxVelocity;
-    }
 
     private double velocityIfConstantDeceleration(ElapsedTime currentTime) {
         double finalVelocity  = Math.sqrt(2 * maxAcceleration * trajectoryLength);

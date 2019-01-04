@@ -33,15 +33,8 @@ public class TrajectoryFollower {
                 timer.reset();
                 hasResetTimer = true;
             }
-//            if (trajectoryIsComplete()) {
-//                MotorEnhanced.setPower(motors, 0);
-//            } else if (usesFeedback) {
-//                //runAction PID with heading and feedforward
-//            } else {
-                power = getFeedforwardPower(timer);
+            power = getFeedforwardPower(timer);
             robot.driveByHeading(power, power, heading);
-//                MotorEnhanced.setPower(motors, power);
-//            }
         }
         MotorEnhanced.setPower(motors, 0);
     }

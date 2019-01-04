@@ -24,7 +24,6 @@ public class TensorFlow {
 
     private int goldMineralX;
 
-
     public enum GoldPosition {
         LEFT,
         CENTER,
@@ -34,7 +33,6 @@ public class TensorFlow {
     public void init(HardwareMap hardwareMap) {
         hwMap = hardwareMap;
         initVuforia();
-
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
         } else {

@@ -87,10 +87,14 @@ public class Sensors
     }
 
     private void updateIMU() {
+        getInitialHeading();
         //Updates everything
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         gravity  = imu.getGravity();
 
+    }
+
+    private void getInitialHeading() {
         //initialize "initialHeading" value the first time through the loop (again, sometimes our imu doesn't zero when we reset it every time, we do this to prevent the issue
         if (!hasSetInitialAngle){
             initialHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) - IMU_WALL_OFFSET;
