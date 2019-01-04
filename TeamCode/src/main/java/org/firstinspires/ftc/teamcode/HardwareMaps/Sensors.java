@@ -68,7 +68,6 @@ public class Sensors
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hwMap) {
         imu = hwMap.get(BNO055IMU.class, "imu");
-
         initializeIMU();
         updateIMU();
     }
@@ -87,7 +86,7 @@ public class Sensors
         imu.initialize(parameters);
     }
 
-    public void updateIMU() {
+    private void updateIMU() {
         //Updates everything
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         gravity  = imu.getGravity();
@@ -99,14 +98,13 @@ public class Sensors
         }
     }
 
-    /*
-    Gets heading and integrates to be between -180 and 180 just in case
-     */
     public double getHeading(){
-        //Gets heading from imu
-        double rawHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) + initialHeading;
+        updateIMU();
+        return integrateHeading(getRawHeading());
+    }
 
-        return integrateHeading(rawHeading);
+    private double getRawHeading() {
+        return AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) + initialHeading;
     }
 
     public double integrateHeading(double heading){
