@@ -64,18 +64,6 @@ public class MineralArm {
         arm.setPower(power);
     }
 
-//    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
-//        DcMotor[] lift = {this.arm};
-//        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
-//        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
-//        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
-//        if (trajectoryFollower.trajectoryIsComplete()) {
-//            MotorEnhanced.setRawPower(lift, 0);
-//            return;
-//        }
-//        trajectoryFollower.run();
-//    }
-
     public int getEncoderCounts() {
         return arm.getCurrentPosition();
     }

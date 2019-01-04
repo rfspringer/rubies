@@ -45,9 +45,6 @@ public class MineralIntake {
     private CRServo intake = null;
     private HardwareMap hwMap = null;
 
-    private double scaledPower = 0;
-    private double rawPower = 0;
-
     /* Constructor */
     private MineralIntake(){
     }
