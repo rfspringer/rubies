@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.Library;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 /**
- * By rachel on 1/19/18.
- * Based on code by team 4251
+ * Based on code by team 4251 (does not conform to all of our code standards :P
+ * Modified by our team for additional features
  */
 public class GamepadEnhanced {
 

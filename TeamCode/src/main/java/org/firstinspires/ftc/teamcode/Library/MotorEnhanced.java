@@ -10,18 +10,10 @@ public class MotorEnhanced {
         }
     }
 
-    public static void setRunMode(DcMotor motor, DcMotor.RunMode runMode) {
-        motor.setMode(runMode);
-    }
-
     public static void setDirection(DcMotor[] dcMotors, DcMotor.Direction direction){
         for (DcMotor motor : dcMotors) {
             motor.setDirection(direction);
         }
-    }
-
-    public static void setDirection(DcMotor motor, DcMotor.Direction direction){
-        motor.setDirection(direction);
     }
 
     public static void setPower(DcMotor[] dcMotors, double power) {
