@@ -6,6 +6,6 @@ public class PIDController {
     }
 
     public static double pController(double initialPower, double p, double kP) {
-        return initialPower + p * kP;
+        return PID(initialPower, p, 0, 0, kP, 0, 0);
     }
 }
