@@ -19,19 +19,16 @@ public class AccelerationController {
         this.maxAcceleration = maxAccelerationOfPowers;
     }
 
+    public void run(double targetPower, DcMotor motor) {
+        DcMotor[] motorArray = {motor};
+        run(targetPower, motorArray);
+    }
+
     public void run(double targetPower, DcMotor[] motors) {
         updateTime();
         updateDifferentials(targetPower);
         currentPower = calculatePower();
         MotorEnhanced.setPower(motors, currentPower);
-        updateLastTimeAndPower();
-    }
-
-    public void run(double targetPower, DcMotor motor) {
-        updateTime();
-        updateDifferentials(targetPower);
-        currentPower = calculatePower();
-        motor.setPower(currentPower);
         updateLastTimeAndPower();
     }
 
