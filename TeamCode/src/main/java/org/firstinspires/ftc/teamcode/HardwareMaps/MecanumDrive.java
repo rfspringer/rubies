@@ -53,8 +53,7 @@ public class MecanumDrive
     private DcMotor[] leftMotors;
     private DcMotor[] rightMotors;
 
-    private boolean reverseDirection = false;
-    MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
+    private MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
 
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
@@ -69,7 +68,7 @@ public class MecanumDrive
         hwMap = ahwMap;
         initializeDriveMotors();
         initializeMotorArrays();
-        setMotorDirections();
+        setMotorDirections(Direction.REVERSE, Direction.FORWARD);
         setIndividualPowers(0, 0, 0, 0);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
@@ -97,30 +96,16 @@ public class MecanumDrive
         setIndividualPowers(powers[0], powers[1], powers[2], powers[3]);
     }
 
-    public void setIndividualPowers(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower){
+    private void setIndividualPowers(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower){
         leftFront.setPower(leftFrontPower);
         leftBack.setPower(leftBackPower);
         rightFront.setPower(rightFrontPower);
         rightBack.setPower(rightBackPower);
     }
 
-    public void reverseMotorDirections(boolean reverseDirection) {
-        this.reverseDirection = reverseDirection;
-        setMotorDirections();
-    }
-
-    public boolean isDirectionReversed() {
-        return reverseDirection;
-    }
-
-    private void setMotorDirections(){
-        if (reverseDirection){
-            MotorEnhanced.setDirection(leftMotors, Direction.FORWARD);
-            MotorEnhanced.setDirection(rightMotors, Direction.REVERSE);
-        } else {
-            MotorEnhanced.setDirection(leftMotors, Direction.REVERSE);
-            MotorEnhanced.setDirection(rightMotors, Direction.FORWARD);
-        }
+    public void setMotorDirections(Direction leftDirection, Direction rightDirection) {
+        MotorEnhanced.setDirection(leftMotors, leftDirection);
+        MotorEnhanced.setDirection(rightMotors, rightDirection);
     }
 
     public void setInAutonomous(boolean inAutonomous) {
