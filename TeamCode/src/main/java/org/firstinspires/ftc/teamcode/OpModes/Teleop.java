@@ -71,6 +71,7 @@ public class Teleop extends OpMode
 
         controlDrive();
         controlArm();
+        controlBucket();
         controlIntake();
         controlExtension();
         controlLift();
@@ -115,6 +116,14 @@ public class Teleop extends OpMode
             robot.mineral.intake.setScaledPower(1);
         } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER) && gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)){
             robot.mineral.intake.setScaledPower(0);
+        }
+    }
+
+    private void controlBucket() {
+        if (gamepadB.y) {
+            robot.mineral.intake.setToIntake();
+        } else if (gamepadB.b) {
+            robot.mineral.intake.dumpCubes();
         }
     }
 
