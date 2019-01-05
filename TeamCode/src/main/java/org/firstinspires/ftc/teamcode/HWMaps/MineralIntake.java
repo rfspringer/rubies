@@ -32,6 +32,8 @@ package org.firstinspires.ftc.teamcode.HWMaps;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoController;
 
 import org.firstinspires.ftc.teamcode.Lib.VexMotorEnhanced;
 
@@ -43,10 +45,15 @@ public class MineralIntake {
     private static final MineralIntake instance = new MineralIntake();
 
     private CRServo intake = null;
+    private Servo bucket = null;
     private HardwareMap hwMap = null;
 
     private double scaledPower = 0;
     private double rawPower = 0;
+
+    private double INTAKE_POSITION = 0;
+    private double BALL_DUMP_POSITION = 0.25;
+    private double CUBE_DUMP_POSITION = 1;
 
     /* Constructor */
     private MineralIntake(){
@@ -55,9 +62,24 @@ public class MineralIntake {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
+        bucket = hwMap.servo.get("bucket");
         intake = hwMap.crservo.get("intake");
+        bucket.setPosition(INTAKE_POSITION);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setPower(0);
+    }
+
+    public void setToIntake() {
+        setScaledPower(1);
+        bucket.setPosition(INTAKE_POSITION);
+    }
+
+    public void dumpBalls() {
+        bucket.setPosition(BALL_DUMP_POSITION);
+    }
+
+    public void dumpCubes() {
+        bucket.setPosition(CUBE_DUMP_POSITION);
     }
 
     public void setRawPower(double power) {
