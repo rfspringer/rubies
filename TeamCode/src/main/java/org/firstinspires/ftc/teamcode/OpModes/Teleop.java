@@ -39,8 +39,7 @@ import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
 
 
 @TeleOp(name="Teleop", group="Iterative Opmode")
-public class Teleop extends OpMode
-{
+public class Teleop extends OpMode {
     private Robot robot = Robot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
@@ -98,15 +97,16 @@ public class Teleop extends OpMode
     }
 
     private void controlArm() {
-        if (gamepadB.left_bumper) {
-            robot.mineral.intake.setScaledPower(0);
-            robot.mineral.arm.setPower(1);
-        } else if (gamepadB.right_bumper) {
-            robot.mineral.intake.setScaledPower(0);
-            robot.mineral.arm.setPower(-1);
-        } else {
-            robot.mineral.arm.setPower(0);
-        }
+        robot.mineral.arm.setPowers(gamepadB.left_stick_y);
+//        if (gamepadB.left_bumper) {
+//            robot.mineral.intake.setScaledPower(0);
+//            robot.mineral.arm.setPowers(1);
+//        } else if (gamepadB.right_bumper) {
+//            robot.mineral.intake.setScaledPower(0);
+//            robot.mineral.arm.setPowers(-1);
+//        } else {
+//            robot.mineral.arm.setPowers(0);
+//        }
     }
 
     private void controlIntake() {

@@ -48,8 +48,8 @@ public class MineralIntake {
     private Servo bucket = null;
     private HardwareMap hwMap = null;
 
-    private double scaledPower = 0;
-    private double rawPower = 0;
+    private double INTAKE_POWER = 1;
+    private double OUTTAKE_POWER = -1;
 
     private double INTAKE_POSITION = 0;
     private double BALL_DUMP_POSITION = 0.25;
@@ -65,7 +65,7 @@ public class MineralIntake {
         bucket = hwMap.servo.get("bucket");
         intake = hwMap.crservo.get("intake");
         bucket.setPosition(INTAKE_POSITION);
-        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setPower(0);
     }
 
