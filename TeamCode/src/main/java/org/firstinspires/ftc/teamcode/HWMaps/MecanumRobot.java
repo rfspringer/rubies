@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.HWMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
 import org.firstinspires.ftc.teamcode.Lib.PIDController;
 
 /**
@@ -41,9 +42,9 @@ import org.firstinspires.ftc.teamcode.Lib.PIDController;
  */
 public class MecanumRobot
 {
-    //REMEMBER TO BE IN AUTO MODE!!!
     private static final MecanumRobot instance = new MecanumRobot();
     public MecanumDrive drive = MecanumDrive.getInstance();
+    public FTCLogger logger = new FTCLogger();
 
     /* Constructor */
     private MecanumRobot(){

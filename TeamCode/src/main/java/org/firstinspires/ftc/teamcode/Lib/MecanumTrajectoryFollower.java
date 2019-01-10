@@ -10,7 +10,7 @@ public class MecanumTrajectoryFollower {
     private MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
     private ElapsedTime timer = new ElapsedTime();
     private double targetHeading;
-    private double power = 0;
+    private double maxVelocity = 0;
     private double kA;
     private double x;
     private double y;
@@ -39,17 +39,22 @@ public class MecanumTrajectoryFollower {
             }
 
             robot.drive.setPowers(getMagnitude(timer), x, y, targetHeading);
+            robot.logger.writeLine(robot.drive.getAllMotors()[0].getPower(), robot.drive.getAllMotors()[1].getPower());
         }
         MotorEnhanced.setPower(motors, 0);
     }
 
     private double getMagnitude(ElapsedTime currentTime){
         trajectory.calculatePositionalDerivatives(currentTime);
-        double kV = 0.8 / mecanumEnhanced.getMaxVel(1, x, y);
-        return kV * trajectory.getCurrentVelocity() + kA * trajectory.getCurrentAcceleration();
+        double velocity = trajectory.getCurrentVelocity();
+        double acceleration = trajectory.getCurrentAcceleration();
+        maxVelocity = mecanumEnhanced.getMaxVel(1, x, y);
+        double kV = 0.8 / maxVelocity;
+        return kV * trajectory.getCurrentVelocity();
+       // return kV * trajectory.getCurrentVelocity() + kA * trajectory.getCurrentAcceleration();
     }
 
     public boolean trajectoryIsComplete() {
-        return trajectory.getTotalTime() > timer.seconds();
+        return trajectory.getCurrentVelocity() < 0;
     }
 }

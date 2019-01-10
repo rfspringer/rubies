@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode.HWMaps;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -61,9 +63,9 @@ public class MecanumDrive
     private double kA = 2;
 
     //temporary filler values
-    public double MAX_FORWARD_VELOCITY = 4;
-    public double MAX_STRAFE_VELOCITY = 3;
-    public double MAX_ACCEL = 2;
+    public double MAX_FORWARD_VELOCITY = 48;
+    public double MAX_STRAFE_VELOCITY = 36;
+    public double MAX_ACCEL = 24;
 
     MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
 
@@ -108,7 +110,7 @@ public class MecanumDrive
         setIndividualPowers(powers[0], powers[1], powers[2], powers[3]);
     }
 
-    public void setIndividualPowers(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower){
+    private void setIndividualPowers(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower){
         leftFront.setPower(leftFrontPower);
         leftBack.setPower(leftBackPower);
         rightFront.setPower(rightFrontPower);

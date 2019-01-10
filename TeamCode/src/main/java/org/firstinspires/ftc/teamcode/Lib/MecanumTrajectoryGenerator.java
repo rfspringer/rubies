@@ -2,8 +2,11 @@ package org.firstinspires.ftc.teamcode.Lib;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.HWMaps.MecanumRobot;
+
 public class MecanumTrajectoryGenerator {
     MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
+    MecanumRobot robot = MecanumRobot.getInstance();
     // Units are inches and seconds
     private double maxVelocity;
     private double maxAcceleration;
@@ -42,10 +45,11 @@ public class MecanumTrajectoryGenerator {
             currentVelocity = maxVelocity;
             currentAcceleration = 0;
         }
+        robot.logger.writeLine(velocityIfConstantAcceleration(currentTime), velocityIfConstantDeceleration(currentTime), velocityIfCruising(), currentVelocity, currentAcceleration);
     }
 
     private double getTrajectoryLength() {
-        return Math.sqrt(x*x + y * y);
+        return Math.sqrt(x*x + y*y);
     }
 
     private double velocityIfConstantAcceleration(ElapsedTime currentTime) {
@@ -61,12 +65,7 @@ public class MecanumTrajectoryGenerator {
         return  finalVelocity - maxAcceleration * currentTime.seconds();
     }
 
-//    public double getDirection() {
-//        return trajectoryDirection;
-//    }
-
-
-    public double calculateTotalTime() {
+    private double calculateTotalTime() {
         return Math.sqrt(2 * maxAcceleration * trajectoryLength)/maxAcceleration;
     }
 
