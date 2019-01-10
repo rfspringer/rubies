@@ -30,6 +30,8 @@
 package org.firstinspires.ftc.teamcode.HWMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
 import org.firstinspires.ftc.teamcode.Lib.PIDController;
 import org.firstinspires.ftc.teamcode.Lib.TensorFlow;
 

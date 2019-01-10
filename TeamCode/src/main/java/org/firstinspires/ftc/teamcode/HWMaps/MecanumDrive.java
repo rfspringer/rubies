@@ -29,12 +29,18 @@
 
 package org.firstinspires.ftc.teamcode.HWMaps;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Lib.MecanumEnhanced;
+import org.firstinspires.ftc.teamcode.Lib.MecanumTrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Lib.MecanumTrajectoryGenerator;
 import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -54,6 +60,13 @@ public class MecanumDrive
     private DcMotor[] rightMotors;
 
     private boolean reverseDirection = false;
+    private double kA = 2;
+
+    //temporary filler values
+    public double MAX_FORWARD_VELOCITY = 20;
+    public double MAX_STRAFE_VELOCITY = 16;
+    public double MAX_ACCEL = 24;
+
     MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
 
     /* local OpMode members. */
@@ -97,7 +110,7 @@ public class MecanumDrive
         setIndividualPowers(powers[0], powers[1], powers[2], powers[3]);
     }
 
-    public void setIndividualPowers(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower){
+    private void setIndividualPowers(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower){
         leftFront.setPower(leftFrontPower);
         leftBack.setPower(leftBackPower);
         rightFront.setPower(rightFrontPower);
@@ -107,6 +120,16 @@ public class MecanumDrive
     public void reverseMotorDirections(boolean reverseDirection) {
         this.reverseDirection = reverseDirection;
         setMotorDirections();
+    }
+
+    public MecanumTrajectoryFollower initializeTrajectory(double x, double y, double heading) {
+        MecanumTrajectoryGenerator trajectory = new MecanumTrajectoryGenerator(x, y, MAX_ACCEL);
+        return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, false);
+    }
+
+    public MecanumTrajectoryFollower initializeTrajectory(double x, double y, double heading, double maxAccel, boolean usesFeedback) {
+        MecanumTrajectoryGenerator trajectory = new MecanumTrajectoryGenerator(x, y, maxAccel);
+        return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, usesFeedback);
     }
 
     public boolean isDirectionReversed() {

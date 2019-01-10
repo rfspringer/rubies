@@ -9,8 +9,8 @@ public class MecanumEnhanced {
     private double kP = 0.02;
     private boolean inAutonomous = false;
 
-    public double[] calculatePowers(double magnitude, double x, double y, double heading) {
-        double[] powerRatios = calculatePowerRatios(x, y, heading);
+    public double[] calculatePowers(double magnitude, double x, double y, double targetHeading) {
+        double[] powerRatios = calculatePowerRatios(x, y, targetHeading);
         return scalePowers(magnitude, powerRatios);
     }
 
@@ -57,6 +57,13 @@ public class MecanumEnhanced {
             error = 15 / kP * heading;
         }
         return error;
+    }
+
+    public double getMaxVel(double magnitude, double x, double y) {
+        double sum = x + y;
+        double scaledX = x * drive.MAX_STRAFE_VELOCITY;
+        double scaledY = y * drive.MAX_FORWARD_VELOCITY;
+        return magnitude * (scaledX + scaledY)/sum;
     }
 
     public void setInAutonomous(boolean inAutonomous) {
