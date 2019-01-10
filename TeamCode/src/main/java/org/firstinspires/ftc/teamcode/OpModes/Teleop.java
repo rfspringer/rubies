@@ -33,9 +33,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
-import org.firstinspires.ftc.teamcode.Lib.AccelerationController;
-import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import org.firstinspires.ftc.teamcode.Library.AccelerationController;
+import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
 
 
 @TeleOp(name="Teleop", group="Iterative Opmode")
@@ -97,31 +97,31 @@ public class Teleop extends OpMode {
     }
 
     private void controlArm() {
-        robot.mineral.arm.setPowers(-0.4 * gamepadB.left_stick_y);
+        robot.mineral.setArmPower(-0.4 * gamepadB.left_stick_y);
     }
 
     private void controlIntake() {
         if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER)) {
-            robot.mineral.intake.setScaledPower(1);
+            robot.mineral.setIntakeScaledPower(1);
         } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)) {
-            robot.mineral.intake.setScaledPower(-1);
+            robot.mineral.setIntakeScaledPower(-1);
         } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER) && gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)){
-            robot.mineral.intake.setScaledPower(0);
+            robot.mineral.setIntakeScaledPower(0);
         }
     }
 
     private void controlBucket() {
         if (gamepadB.y) {
-            robot.mineral.intake.setToIntake();
+            robot.mineral.setToIntake();
         } else if (gamepadB.b) {
-            robot.mineral.intake.dumpCubes();
+            robot.mineral.dumpCubes();
         } else if (gamepadB.a) {
-            robot.mineral.intake.dumpBalls();
+            robot.mineral.dumpBalls();
         }
     }
 
     private void controlExtension() {
-        robot.mineral.extension.setPower(gamepadB.right_stick_y);
+        robot.mineral.setExtensionPower(gamepadB.right_stick_y);
     }
 
     private void controlLift() {

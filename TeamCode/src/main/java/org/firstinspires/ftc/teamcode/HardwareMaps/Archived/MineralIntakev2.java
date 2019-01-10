@@ -27,42 +27,57 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Archived;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import org.firstinspires.ftc.teamcode.Library.VexMotorEnhanced;
 
 /**
- * This file contains an example of an iterative (Non-Linear) "OpMode".
- * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
- * The names of OpModes appear on the menu of the FTC Driver Station.
- * When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robotv2 Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drivev2 Teleop for a two wheeled robot
- * It includes all the skeletal structure that all iterative OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * This class stores all objects on our robot's drivetrain
+ * It also includes functionality specific to our drive base
  */
+public class MineralIntakev2 {
+    private static final MineralIntakev2 instance = new MineralIntakev2();
 
-@TeleOp(name="Gyro Test", group="Tests")
-//@Disabled
-public class GyroTest extends OpMode {
-    private Robot robot = Robot.getInstance();
-    @Override
-    public void init() {
-        robot.init(hardwareMap);
-        telemetry.addData("Status", "Initialized");
+    private CRServo intake = null;
+    private HardwareMap hwMap = null;
+
+    private double scaledPower = 0;
+    private double rawPower = 0;
+
+    /* Constructor */
+    private MineralIntakev2(){
     }
 
-    /*
-     * Code to runAction REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-    @Override
-    public void loop() {
-        telemetry.addData("Gyro Heading", robot.sensors.getHeading());
+    /* Initialize standard Hardware interfaces */
+    public void init(HardwareMap ahwMap) {
+        hwMap = ahwMap;
+        intake = hwMap.crservo.get("intake");
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setPower(0);
+    }
+
+    public void setRawPower(double power) {
+        intake.setPower(power);
+    }
+
+    public double getRawPower() {
+        return intake.getPower();
+    }
+
+    public void setScaledPower(double power) {
+        VexMotorEnhanced.setScaledPower(intake, power);
+    }
+
+    public double getScaledPower() {
+        return VexMotorEnhanced.getScaledPower(intake);
+    }
+
+    public static MineralIntakev2 getInstance(){
+        return instance;
     }
 }
+
