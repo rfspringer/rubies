@@ -27,42 +27,62 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
 
-/**
- * This file contains an example of an iterative (Non-Linear) "OpMode".
- * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
- * The names of OpModes appear on the menu of the FTC Driver Station.
- * When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robotv2 Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drivev2 Teleop for a two wheeled robot
- * It includes all the skeletal structure that all iterative OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
 
-@TeleOp(name="Gyro Test", group="Tests")
-//@Disabled
-public class GyroTest extends OpMode {
+@TeleOp(name="Mecanum Drivev2", group="Iterative Opmode")
+public class TeleOpDriveOnly extends OpMode
+{
     private Robot robot = Robot.getInstance();
+    private ElapsedTime runtime = new ElapsedTime();
+    private GamepadEnhanced gamepadA = new GamepadEnhanced();
+
+    /*
+     * Code to run ONCE when the driver hits INIT
+     */
     @Override
     public void init() {
         robot.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
     }
 
+    @Override
+    public void start() {
+        runtime.reset();
+    }
+
     /*
-     * Code to runAction REPEATEDLY after the driver hits PLAY but before they hit STOP
+     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     @Override
     public void loop() {
-        telemetry.addData("Gyro Heading", robot.sensors.getHeading());
+        gamepadA.update(gamepad1);
+        robot.drive.getAllMotors();
+        robot.drive.setPowers(gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK), gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
+        telemetry.addData("Magnitude", gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK));
+        telemetry.addData("X", gamepadA.left_stick_x);
+        telemetry.addData("y", gamepadA.left_stick_y);
+        telemetry.addData("right x", gamepadA.right_stick_x);
+        telemetry.update();
+    }
+
+    private double getHeadingCorrection() {
+        if (Math.abs(gamepadA.right_stick_x) < 0.2) {
+            return 0;
+        } else {
+            return -gamepadA.right_stick_x;
+        }
+    }
+
+
+    @Override
+    public void stop() {
     }
 }

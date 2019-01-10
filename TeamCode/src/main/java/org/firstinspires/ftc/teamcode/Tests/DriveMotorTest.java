@@ -33,17 +33,18 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
-import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import org.firstinspires.ftc.teamcode.Library.FTCLogger;
 
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
  * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
  * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
+ * class is instantiated on the Robotv2 Controller and executed.
  *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
+ * This particular OpMode just executes a basic Tank Drivev2 Teleop for a two wheeled robot
  * It includes all the skeletal structure that all linear OpModes contain.
  *
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
@@ -80,15 +81,15 @@ public class DriveMotorTest extends LinearOpMode {
         while (opModeIsActive()) {
             if (runtime.seconds() < 3){
                 if (leftMotor1)
-                    robot.drive.getLeftMotors()[0].setPower(0.8);
+                    robot.drive.getAllMotors()[0].setPower(0.8);
                 if (leftMotor0)
-                    robot.drive.getLeftMotors()[1].setPower(0.8);
+                    robot.drive.getAllMotors()[1].setPower(0.8);
                 if (rightMotor1)
-                    robot.drive.getRightMotors()[0].setPower(0.8);
+                    robot.drive.getAllMotors()[2].setPower(0.8);
                 if (rightMotor0)
-                    robot.drive.getRightMotors()[1].setPower(0.8);
+                    robot.drive.getAllMotors()[3].setPower(0.8);
             } else {
-                robot.drive.setPowers(0,0);
+                robot.drive.setPowers(0,0, 0, 0);
             }
             addTelemetry();
             telemetry.update();
@@ -116,10 +117,10 @@ public class DriveMotorTest extends LinearOpMode {
     }
 
     private void addTelemetry() {
-        telemetry.addData("Left Motor 0", robot.drive.getLeftMotors()[0].getCurrentPosition());
-        telemetry.addData("Left Motor 1", robot.drive.getLeftMotors()[1].getCurrentPosition());
-        telemetry.addData("Right Motor 0", robot.drive.getRightMotors()[0].getCurrentPosition());
-        telemetry.addData("Right Motor 1", robot.drive.getRightMotors()[1].getCurrentPosition());
+//        telemetry.addData("Left Motor 0", robot.drive.getLeftMotors()[0].getCurrentPosition());
+//        telemetry.addData("Left Motor 1", robot.drive.getLeftMotors()[1].getCurrentPosition());
+//        telemetry.addData("Right Motor 0", robot.drive.getRightMotors()[0].getCurrentPosition());
+//        telemetry.addData("Right Motor 1", robot.drive.getRightMotors()[1].getCurrentPosition());
 
         telemetry.addData("Left", robot.drive.getLeftEncoderCounts());
         telemetry.addData("Right", robot.drive.getRightEncoderCounts());

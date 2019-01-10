@@ -27,12 +27,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.Tests.Archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -48,10 +48,15 @@ import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Gyro Test", group="Tests")
+@TeleOp(name="Turn to angle test", group="Tests")
 //@Disabled
-public class GyroTest extends OpMode {
-    private Robot robot = Robot.getInstance();
+public class TurnToAngleTest extends OpMode {
+    private Robotv2 robot = Robotv2.getInstance();
+    private double error;
+    private double leftPower;
+    private double rightPower;
+    private double kP = 0.0065;
+
     @Override
     public void init() {
         robot.init(hardwareMap);
@@ -63,6 +68,8 @@ public class GyroTest extends OpMode {
      */
     @Override
     public void loop() {
-        telemetry.addData("Gyro Heading", robot.sensors.getHeading());
+//        robot.sensors.updateIMU();
+//        robot.turnToHeadingCenterPivot(-30);
+//        telemetry.addData("Gyro Heading", robot.sensors());
     }
 }

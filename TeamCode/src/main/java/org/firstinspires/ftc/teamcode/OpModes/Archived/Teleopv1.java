@@ -27,31 +27,41 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
+import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
 
 
-@TeleOp(name="Teleop", group="Iterative Opmode")
-public class Teleop extends OpMode {
-    private Robot robot = Robot.getInstance();
+@TeleOp(name="Teleopv2v1 - No Mineral", group="Iterative Opmode")
+@Disabled
+public class Teleopv1 extends OpMode
+{
+    private Robotv2 robot = Robotv2.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
-    private GamepadEnhanced gamepadB = new GamepadEnhanced();
-    private AccelerationController liftAccelerationController = new AccelerationController(3.0);
+    private AccelerationController leftAccelerationController = new AccelerationController(1.0);
+    private AccelerationController rightAccelerationController = new AccelerationController(1.0);
+    private AccelerationController liftAccelerationController = new AccelerationController(1.5);
+
+    private double leftPower;
+    private double rightPower;
 
     /*
-     * Code to run ONCE when the driver hits INIT
+     * Code to runAction ONCE when the driver hits INIT
      */
     @Override
     public void init() {
         robot.init(hardwareMap);
+        MotorEnhanced.setRunMode(robot.drive.getAllMotors(), DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         telemetry.addData("Status", "Initialized");
     }
 
@@ -61,80 +71,44 @@ public class Teleop extends OpMode {
     }
 
     /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+     * Code to runAction REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     @Override
     public void loop() {
         gamepadA.update(gamepad1);
-        gamepadB.update(gamepad2);
-
-        controlDrive();
-        controlArm();
-        controlBucket();
-        controlIntake();
-        controlExtension();
-        controlLift();
-
-        telemetry.addData("Magnitude", gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK));
-        telemetry.addData("X", gamepadA.left_stick_x);
-        telemetry.addData("Y", gamepadA.left_stick_y);
-        telemetry.addData("Right X", gamepadA.right_stick_x);
-        telemetry.update();
+        setDriveMotorPowers();
+        moveLift();
+        telemetry.addData("Motors", "left (%.2f), right (%.2f)",
+                robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
+        telemetry.addData("Encoders", "left(%d) right (%d)",
+                robot.drive.getLeftEncoderCounts(), robot.drive.getRightEncoderCounts());
     }
 
-    private void controlDrive() {
-        robot.drive.setPowers(gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK),
-                gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
-    }
-
-
-    private double getHeadingCorrection() {
-        if (Math.abs(gamepadA.right_stick_x) < 0.2) {
-            return 0;
-        } else {
-            return -0.5 * gamepadA.right_stick_x;
-        }
-    }
-
-    private void controlArm() {
-        robot.mineral.setArmPower(-0.4 * gamepadB.left_stick_y);
-    }
-
-    private void controlIntake() {
-        if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER)) {
-            robot.mineral.setIntakeScaledPower(1);
-        } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)) {
-            robot.mineral.setIntakeScaledPower(-1);
-        } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER) && gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)){
-            robot.mineral.setIntakeScaledPower(0);
-        }
-    }
-
-    private void controlBucket() {
-        if (gamepadB.y) {
-            robot.mineral.setToIntake();
-        } else if (gamepadB.b) {
-            robot.mineral.dumpCubes();
-        } else if (gamepadB.a) {
-            robot.mineral.dumpBalls();
-        }
-    }
-
-    private void controlExtension() {
-        robot.mineral.setExtensionPower(gamepadB.right_stick_y);
-    }
-
-    private void controlLift() {
-        if (gamepadB.dpad_up){
+    private void moveLift() {
+        if (gamepadA.dpad_up){
             liftAccelerationController.run(1, robot.lift.getMotor());
-        } else if (gamepadB.dpad_down) {
+        } else if (gamepadA.dpad_down) {
             liftAccelerationController.run(-1, robot.lift.getMotor());
         } else {
             liftAccelerationController.run(0, robot.lift.getMotor());
         }
     }
 
+    private void setDriveMotorPowers() {
+        calculateMotorPowers();
+        if (gamepadA.left_bumper) {
+            robot.drive.setPowers(leftPower, rightPower);
+        } else {
+            robot.drive.setPowers(leftPower, rightPower);
+//            leftAccelerationController.runAction(leftPower, robot.drive.getLeftMotors());
+//            rightAccelerationController.runAction(rightPower, robot.drive.getRightMotors());
+        }
+    }
 
+    private void calculateMotorPowers() {
+        leftPower    = -0.5 * gamepadA.left_stick_y;
+        rightPower   = -0.5 * gamepadA.right_stick_y;
+    }
 
     @Override
     public void stop() {

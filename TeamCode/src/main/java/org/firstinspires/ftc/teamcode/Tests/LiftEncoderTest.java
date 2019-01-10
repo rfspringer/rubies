@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 
 @TeleOp(name="Lift Encoder Test", group="Tests")
 public class LiftEncoderTest extends LinearOpMode {
