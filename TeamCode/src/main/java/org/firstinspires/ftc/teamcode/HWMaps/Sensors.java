@@ -72,7 +72,6 @@ public class Sensors
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hwMap) {
         imu = hwMap.get(BNO055IMU.class, "imu");
-
         initializeIMU();
         updateIMU();
     }

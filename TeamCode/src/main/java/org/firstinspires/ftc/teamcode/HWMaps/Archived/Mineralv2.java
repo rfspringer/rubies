@@ -27,37 +27,34 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HWMaps;
+package org.firstinspires.ftc.teamcode.HWMaps.Archived;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
-import org.firstinspires.ftc.teamcode.Lib.PIDController;
-
 /**
- * This is NOT an opmode.
- *
- * This class can be used to define all the specific hardware for our robot
- * This class stores functions that use a combination of subsystems on our robot
+ * This class stores all objects on our robot's drivetrain
+ * It also includes functionality specific to our drive base
  */
-public class MecanumRobot
-{
-    private static final MecanumRobot instance = new MecanumRobot();
-    public MecanumDrive drive = MecanumDrive.getInstance();
-    public FTCLogger logger = new FTCLogger();
+public class Mineralv2 {
+    private static final Mineralv2 instance = new Mineralv2();
+    public MineralArmv2 mineralArm = MineralArmv2.getInstance();
+    public MineralIntakev2 mineralIntake = MineralIntakev2.getInstance();
+
+    private HardwareMap hwMap;
 
     /* Constructor */
-    private MecanumRobot(){
-
+    private Mineralv2(){
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap hwMap) {
-        drive.init(hwMap);
+    public void init(HardwareMap ahwMap) {
+        hwMap = ahwMap;
+        mineralArm.init(hwMap);
+        mineralIntake.init(hwMap);
     }
 
-    public static MecanumRobot getInstance() {
+    public static Mineralv2 getInstance() {
         return instance;
     }
- }
+}
 

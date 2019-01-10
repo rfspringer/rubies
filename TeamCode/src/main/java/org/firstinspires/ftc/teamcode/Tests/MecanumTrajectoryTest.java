@@ -33,7 +33,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HWMaps.MecanumRobot;
 import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 import org.firstinspires.ftc.teamcode.Lib.FTCLogger;
 import org.firstinspires.ftc.teamcode.Lib.MecanumTrajectoryFollower;
@@ -58,7 +57,7 @@ public class MecanumTrajectoryTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime accelerationTimer = new ElapsedTime();
 
-    private MecanumRobot robot = MecanumRobot.getInstance();
+    private Robot robot = Robot.getInstance();
     private FTCLogger logger = new FTCLogger("AccelerationTest");
 
 

@@ -27,25 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.HWMaps.Archived.Robotv2;
 import org.firstinspires.ftc.teamcode.Lib.AccelerationController;
 import org.firstinspires.ftc.teamcode.Lib.GamepadEnhanced;
 
 
-@TeleOp(name="Teleop Meet 3", group="Iterative Opmode")
-public class TeleopMeet3 extends OpMode {
-    private Robot robot = Robot.getInstance();
+@TeleOp(name="Teleopv2v1", group="Iterative Opmode")
+@Disabled
+public class Teleopv2v1 extends OpMode {
+    private Robotv2 robot = Robotv2.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
-    private AccelerationController leftAccelerationController = new AccelerationController(6.0);
-    private AccelerationController rightAccelerationController = new AccelerationController(6.0);
-    private AccelerationController liftAccelerationController = new AccelerationController(3.0);
+    private AccelerationController leftAccelerationController = new AccelerationController(2.0);
+    private AccelerationController rightAccelerationController = new AccelerationController(2.0);
+    private AccelerationController liftAccelerationController = new AccelerationController(2.0);
 
     private double leftPower;
     private double rightPower;
@@ -116,9 +118,8 @@ public class TeleopMeet3 extends OpMode {
 
     private void controlDrivetrain() {
         calculateMotorPowers();
-        if (gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER)) {
-            leftAccelerationController.run(0.4 * leftPower, robot.drive.getLeftMotors());
-            rightAccelerationController.run(0.4 *rightPower, robot.drive.getRightMotors());
+        if (gamepadA.left_bumper) {
+            robot.drive.setPowers(leftPower, rightPower);
         } else {
             leftAccelerationController.run(leftPower, robot.drive.getLeftMotors());
             rightAccelerationController.run(rightPower, robot.drive.getRightMotors());
@@ -126,8 +127,8 @@ public class TeleopMeet3 extends OpMode {
     }
 
     private void calculateMotorPowers() {
-        leftPower    = -0.8 * gamepadA.left_stick_y;
-        rightPower   = -0.8 * gamepadA.right_stick_y;
+        leftPower    = -0.5 * gamepadA.left_stick_y;
+        rightPower   = -0.5 * gamepadA.right_stick_y;
     }
 
     @Override

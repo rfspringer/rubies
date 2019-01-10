@@ -1,17 +1,18 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
+import org.firstinspires.ftc.teamcode.HWMaps.Archived.Robotv2;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
-@Autonomous(name="Auto Park No Sample Depot", group="Iterative Opmode")
-//@Disabled
-public class AutoParkNoSampleDepot extends LinearOpMode {
+@Autonomous(name="Auto Park No Sample Crater", group="Iterative Opmode")
+@Disabled
+public class AutoParkNoSampleCraterv2 extends LinearOpMode {
 
     // Declare OpMode members.
-    private Robot robot = Robot.getInstance();
+    private Robotv2 robot = Robotv2.getInstance();
 
     @Override
     public void runOpMode() {
@@ -20,9 +21,8 @@ public class AutoParkNoSampleDepot extends LinearOpMode {
         robot.init(hardwareMap);
         robot.lift.holdHangingPosition();
         TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-15, -30);
-        TrajectoryFollower driveFromUnlatchedToDepot = robot.drive.initializeTrajectory(150, 180);
-        TrajectoryFollower driveABitFurtherToDepot = robot.drive.initializeTrajectory(10, 180);
-        TrajectoryFollower driveToCrater = robot.drive.initializeTrajectory(250, -45);
+        TrajectoryFollower driveFromUnlatchedToDepot = robot.drive.initializeTrajectory(100, 180);
+//        TrajectoryFollower driveAwayFromMarker = robot.drive.initializeTrajectory(-10, 30);
 
         telemetry.addData("Instructions", "Initialize robot against left wall");
         telemetry.addData("Status", "Initialized");
@@ -39,20 +39,10 @@ public class AutoParkNoSampleDepot extends LinearOpMode {
         telemetry.addData("Task", "Now I'll drive out from the latch :)");
         telemetry.update();
         driveAwayFromLatch.run();
-        robot.turnToHeadingCenterPivot(170);
+        robot.turnToHeadingCenterPivot(180);
         telemetry.addData("Task", "Time to head over to the depot");
         telemetry.update();
         driveFromUnlatchedToDepot.run();
-        telemetry.addData("Task", "One last thing...");
-        telemetry.update();
-//        robot.turnToHeadingCenterPivot(165);
-        robot.claim.deploy();
-        sleep(1500);
-        robot.claim.stow();
-//        robot.turnToHeadingCenterPivot(180);
-        driveABitFurtherToDepot.run();
-        robot.turnToHeadingCenterPivot(-43);
-        driveToCrater.run();
         telemetry.addData("Status", "All done, go RUBOT!");
         telemetry.update();
     }

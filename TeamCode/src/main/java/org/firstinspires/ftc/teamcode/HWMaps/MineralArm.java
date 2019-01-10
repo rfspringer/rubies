@@ -33,10 +33,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Lib.MotorEnhanced;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
-import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
-
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
@@ -44,7 +40,8 @@ import org.firstinspires.ftc.teamcode.Lib.TrajectoryGenerator;
 public class MineralArm {
     private static final MineralArm instance = new MineralArm();
     /* Public OpMode members. */
-    private DcMotor arm = null;
+    private DcMotor motor1 = null;
+    private DcMotor motor2 = null;
 
     /* local OpMode members. */
     private HardwareMap hwMap = null;
@@ -56,33 +53,27 @@ public class MineralArm {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        arm = hwMap.get(DcMotor.class, "arm");
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        arm.setDirection(DcMotorSimple.Direction.FORWARD);
-        arm.setPower(0);
+        motor1 = hwMap.dcMotor.get( "arm1");
+        motor2 = hwMap.dcMotor.get("arm2");
+        initializeMotor(motor1);
+        initializeMotor(motor2);
     }
 
-    public void setPower(double power) {
-        arm.setPower(power);
+    private void initializeMotor(DcMotor motor) {
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor.setPower(0);
     }
 
-//    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
-//        DcMotor[] lift = {this.arm};
-//        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
-//        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
-//        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
-//        if (trajectoryFollower.trajectoryIsComplete()) {
-//            MotorEnhanced.setRawPower(lift, 0);
-//            return;
-//        }
-//        trajectoryFollower.run();
+    public void setPowers(double power) {
+        motor1.setPower(power);
+        motor2.setPower(power);
+    }
+
+//    public int getEncoderCounts() {
+//        return motor1.getCurrentPosition();
 //    }
-
-    public int getEncoderCounts() {
-        return arm.getCurrentPosition();
-    }
 
     public static MineralArm getInstance(){
         return instance;

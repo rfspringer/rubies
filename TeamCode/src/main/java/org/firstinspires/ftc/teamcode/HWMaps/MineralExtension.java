@@ -29,34 +29,47 @@
 
 package org.firstinspires.ftc.teamcode.HWMaps;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Mineral {
-    private static final Mineral instance = new Mineral();
-    public MineralArm arm = MineralArm.getInstance();
-    public MineralIntake intake = MineralIntake.getInstance();
-    public MineralExtension extension = MineralExtension.getInstance();
+public class MineralExtension {
+    private static final MineralExtension instance = new MineralExtension();
+    /* Public OpMode members. */
+    private DcMotor extension = null;
 
-    private HardwareMap hwMap;
+    /* local OpMode members. */
+    private HardwareMap hwMap = null;
 
     /* Constructor */
-    private Mineral(){
+    private MineralExtension(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        arm.init(hwMap);
-        intake.init(hwMap);
-        extension.init(hwMap);
+        extension = hwMap.get(DcMotor.class, "extension");
+        extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        extension.setDirection(DcMotorSimple.Direction.FORWARD);
+        extension.setPower(0);
     }
 
-    public static Mineral getInstance() {
+    public void setPower(double power) {
+        extension.setPower(power);
+    }
+
+//    public int getEncoderCounts() {
+//        return extension.getCurrentPosition();
+//    }
+
+    public static MineralExtension getInstance(){
         return instance;
     }
+
 }
 

@@ -1,27 +1,24 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.HWMaps.Robot;
-import org.firstinspires.ftc.teamcode.Lib.TensorFlow;
+import org.firstinspires.ftc.teamcode.HWMaps.Archived.Robotv2;
 import org.firstinspires.ftc.teamcode.Lib.TrajectoryFollower;
 
-import static org.firstinspires.ftc.teamcode.Lib.TensorFlow.GoldPosition.CENTER;
+@Autonomous(name="Auto No Park OR Sample w/Delay", group="Iterative Opmode")
+@Disabled
+public class AutoNoParkOrSample10secDelayv2 extends LinearOpMode {
 
-@Autonomous(name="Auto no park", group="Iterative Opmode")
-//@Disabled
-public class AutoNoPark extends LinearOpMode {
     // Declare OpMode members.
-    private Robot robot = Robot.getInstance();
-    private TensorFlow tensorFlow = new TensorFlow();
+    private Robotv2 robot = Robotv2.getInstance();
 
     @Override
     public void runOpMode() {
         telemetry.addData("Instructions", "Initialize robot against phone-side wall");
         telemetry.update();
         robot.init(hardwareMap);
-        tensorFlow.init(hardwareMap);
         robot.lift.holdHangingPosition();
         TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-15, -30);
         TrajectoryFollower driveFromUnlatchedToDepot = robot.drive.initializeTrajectory(150, 180);
@@ -30,13 +27,9 @@ public class AutoNoPark extends LinearOpMode {
         telemetry.addData("Instructions", "Initialize robot against left wall");
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-        tensorFlow.activate();
-
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        TensorFlow.GoldPosition goldPos = tensorFlow.getGoldPos();
-        tensorFlow.shutdown();
         telemetry.addData("Task", "Time to lower from the lander!");
         telemetry.update();
         robot.lift.lowerRobotToGround();
@@ -46,22 +39,18 @@ public class AutoNoPark extends LinearOpMode {
         telemetry.addData("Task", "Now I'll drive out from the latch :)");
         telemetry.update();
         driveAwayFromLatch.run();
-        telemetry.addData("Task", "I'm gonna sample!");
-        telemetry.addData("Mineral", goldPos);
+        robot.turnToHeadingCenterPivot(180);
+        sleep(10000);
+        telemetry.addData("Task", "Time to head over to the depot");
         telemetry.update();
-        robot.sample(goldPos);
-        robot.drive.setPowers(-0.3, -0.3);
-        sleep(750);
-        robot.drive.setPowers(0, 0);
-            telemetry.addData("Status", "turnin");
-            telemetry.update();
-            robot.drive.setPowers(-0.3, 0);
-            sleep(1000);
-            robot.drive.setPowers(0, 0);
-            robot.claim.deploy();
-            sleep(2000);
-            robot.claim.stow();
-        telemetry.addData(">", "All done!!!");
+        driveFromUnlatchedToDepot.run();
+        telemetry.addData("Task", "One last thing...");
+        telemetry.update();
+        robot.claim.deploy();
+        sleep(1500);
+        robot.claim.stow();
+        driveAwayFromMarker.run();
+        telemetry.addData("Status", "All done, go RUBOT!");
         telemetry.update();
     }
 }

@@ -2,11 +2,11 @@ package org.firstinspires.ftc.teamcode.Lib;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HWMaps.MecanumRobot;
+import org.firstinspires.ftc.teamcode.HWMaps.Robot;
 
 public class MecanumTrajectoryGenerator {
     MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
-    MecanumRobot robot = MecanumRobot.getInstance();
+    Robot robot = Robot.getInstance();
     // Units are inches and seconds
     private double maxVelocity;
     private double maxAcceleration;
