@@ -53,26 +53,17 @@ public class MineralArm {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        initMotor1();
-        initMotor2();
-    }
-
-    private void initMotor1() {
         motor1 = hwMap.dcMotor.get( "arm1");
-        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor1.setDirection(DcMotorSimple.Direction.FORWARD);
-        motor1.setPower(0);
+        motor2 = hwMap.dcMotor.get("arm2");
+        initializeMotor(motor1);
+        initializeMotor(motor2);
     }
 
-    private void initMotor2() {
-        motor2 = hwMap.dcMotor.get("arm2");
-        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor2.setDirection(DcMotorSimple.Direction.FORWARD);
-        motor2.setPower(0);
+    private void initializeMotor(DcMotor motor) {
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor.setPower(0);
     }
 
     public void setPowers(double power) {
@@ -80,21 +71,9 @@ public class MineralArm {
         motor2.setPower(power);
     }
 
-//    public void followTrajectory(double distance, double heading, double maxVel, double maxAccel) {
-//        DcMotor[] lift = {this.motor1};
-//        MotorEnhanced.setRunMode(lift, DcMotor.RunMode.RUN_USING_ENCODER);
-//        TrajectoryGenerator trajectory = new TrajectoryGenerator(distance, maxVel, maxAccel);
-//        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(lift, trajectory, kV, kA, false);
-//        if (trajectoryFollower.trajectoryIsComplete()) {
-//            MotorEnhanced.setRawPower(lift, 0);
-//            return;
-//        }
-//        trajectoryFollower.run();
+//    public int getEncoderCounts() {
+//        return motor1.getCurrentPosition();
 //    }
-
-    public int getEncoderCounts() {
-        return motor1.getCurrentPosition();
-    }
 
     public static MineralArm getInstance(){
         return instance;

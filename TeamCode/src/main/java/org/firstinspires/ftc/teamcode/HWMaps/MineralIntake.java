@@ -51,9 +51,9 @@ public class MineralIntake {
     private double INTAKE_POWER = 1;
     private double OUTTAKE_POWER = -1;
 
-    private double INTAKE_POSITION = 0;
-    private double BALL_DUMP_POSITION = 0.25;
-    private double CUBE_DUMP_POSITION = 1;
+    private double INTAKE_POSITION = 1;
+    private double BALL_DUMP_POSITION = 0.6;
+    private double CUBE_DUMP_POSITION = 0.575;
 
     /* Constructor */
     private MineralIntake(){

@@ -53,8 +53,7 @@ public class MineralExtension {
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
         extension = hwMap.get(DcMotor.class, "extension");
-        extension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        extension.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         extension.setDirection(DcMotorSimple.Direction.FORWARD);
         extension.setPower(0);
@@ -64,9 +63,9 @@ public class MineralExtension {
         extension.setPower(power);
     }
 
-    public int getEncoderCounts() {
-        return extension.getCurrentPosition();
-    }
+//    public int getEncoderCounts() {
+//        return extension.getCurrentPosition();
+//    }
 
     public static MineralExtension getInstance(){
         return instance;

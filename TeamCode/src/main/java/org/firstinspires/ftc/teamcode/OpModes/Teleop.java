@@ -78,7 +78,7 @@ public class Teleop extends OpMode {
         telemetry.addData("Magnitude", gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK));
         telemetry.addData("X", gamepadA.left_stick_x);
         telemetry.addData("Y", gamepadA.left_stick_y);
-        telemetry.addData("right x", gamepadA.right_stick_x);
+        telemetry.addData("Right X", gamepadA.right_stick_x);
         telemetry.update();
     }
 
@@ -92,28 +92,19 @@ public class Teleop extends OpMode {
         if (Math.abs(gamepadA.right_stick_x) < 0.2) {
             return 0;
         } else {
-            return -gamepadA.right_stick_x;
+            return -0.5 * gamepadA.right_stick_x;
         }
     }
 
     private void controlArm() {
-        robot.mineral.arm.setPowers(gamepadB.left_stick_y);
-//        if (gamepadB.left_bumper) {
-//            robot.mineral.intake.setScaledPower(0);
-//            robot.mineral.arm.setPowers(1);
-//        } else if (gamepadB.right_bumper) {
-//            robot.mineral.intake.setScaledPower(0);
-//            robot.mineral.arm.setPowers(-1);
-//        } else {
-//            robot.mineral.arm.setPowers(0);
-//        }
+        robot.mineral.arm.setPowers(-0.4 * gamepadB.left_stick_y);
     }
 
     private void controlIntake() {
         if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER)) {
-            robot.mineral.intake.setScaledPower(-1);
-        } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)) {
             robot.mineral.intake.setScaledPower(1);
+        } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)) {
+            robot.mineral.intake.setScaledPower(-1);
         } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER) && gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)){
             robot.mineral.intake.setScaledPower(0);
         }
@@ -124,6 +115,8 @@ public class Teleop extends OpMode {
             robot.mineral.intake.setToIntake();
         } else if (gamepadB.b) {
             robot.mineral.intake.dumpCubes();
+        } else if (gamepadB.a) {
+            robot.mineral.intake.dumpBalls();
         }
     }
 
