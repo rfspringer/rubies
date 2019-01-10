@@ -76,7 +76,7 @@ public class MecanumTrajectoryTest extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        while (opModeIsActive() && runtime.seconds() < 4) {
+        while (opModeIsActive()) {
             trajectory.run();
             telemetry.addData("Powers", robot.drive.getAllMotors()[0].getPower());
 //            telemetry.addData("Read distance", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));

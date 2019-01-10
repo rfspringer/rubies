@@ -63,8 +63,8 @@ public class MecanumDrive
     private double kA = 2;
 
     //temporary filler values
-    public double MAX_FORWARD_VELOCITY = 48;
-    public double MAX_STRAFE_VELOCITY = 36;
+    public double MAX_FORWARD_VELOCITY = 20;
+    public double MAX_STRAFE_VELOCITY = 16;
     public double MAX_ACCEL = 24;
 
     MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
