@@ -61,7 +61,7 @@ public class Drive
 
     public double MAX_FORWARD_VELOCITY = 20;
     public double MAX_STRAFE_VELOCITY = 16;
-    public double MAX_ACCEL = 24;
+    public double MAX_ACCEL = 25;
 
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
