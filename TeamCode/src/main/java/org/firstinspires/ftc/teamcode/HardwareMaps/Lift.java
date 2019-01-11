@@ -46,7 +46,7 @@ public class Lift {
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
-    private int EXTENDED_ENCODER_COUNTS = -5000;
+    private int EXTENDED_ENCODER_COUNTS = -4700;
 
     /* Constructor */
     private Lift(){
