@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.Tests.Archived;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -52,7 +53,7 @@ import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
  */
 
 @TeleOp(name="Acceleration Test", group="Tests")
-//@Disabled
+@Disabled
 public class AccelerationTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime accelerationTimer = new ElapsedTime();

@@ -55,7 +55,7 @@ public class Sensors
     private boolean hasSetInitialAngle = false;
     private double initialHeading;
 
-    private double IMU_WALL_OFFSET = -90.0;
+    private double IMU_WALL_OFFSET = -                                                                                                                                                                                                                                                     90.0;
 
     private double CENTER_MINERAL_HEADING = 13.5;
     private double LEFT_MINERAL_HEADING = 45;
@@ -110,7 +110,6 @@ public class Sensors
     }
 
     public double integrateHeading(double heading){
-        //Integrates it to be from -180 to 180 degrees
         while (heading > 180){
             heading = heading - 360;
         }

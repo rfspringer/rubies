@@ -21,19 +21,18 @@ public class AutoSample extends LinearOpMode {
         robot.init(hardwareMap);
         tensorFlow.init(hardwareMap);
         robot.lift.holdHangingPosition();
-        MecanumTrajectoryFollower unlatch = robot.drive.initializeTrajectory(0, -10, 0);
+        robot.drive.setInAutonomous(true);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         tensorFlow.activate();
-
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         TensorFlow.GoldPosition goldPos = tensorFlow.getGoldPos();
         tensorFlow.shutdown();
         robot.lift.lowerRobotToGround();
-        unlatch.run();
+        robot.drive.unlatch();
         robot.turnToHeadingCenterPivot(0);
-        robot.sample(goldPos);
+//        robot.sample(goldPos);
     }
 }

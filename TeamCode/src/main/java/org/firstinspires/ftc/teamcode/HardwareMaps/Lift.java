@@ -107,7 +107,7 @@ public class Lift {
     public void holdHangingPosition() {
         setTargetPosition(0);
         setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(0.2);
+        setPower(0.8);
     }
 
     private boolean robotIsCloseToGround(ElapsedTime time) {

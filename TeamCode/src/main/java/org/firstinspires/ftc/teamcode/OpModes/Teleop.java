@@ -74,12 +74,6 @@ public class Teleop extends OpMode {
         controlIntake();
         controlExtension();
         controlLift();
-
-        telemetry.addData("Magnitude", gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK));
-        telemetry.addData("X", gamepadA.left_stick_x);
-        telemetry.addData("Y", gamepadA.left_stick_y);
-        telemetry.addData("Right X", gamepadA.right_stick_x);
-        telemetry.update();
     }
 
     private void controlDrive() {
