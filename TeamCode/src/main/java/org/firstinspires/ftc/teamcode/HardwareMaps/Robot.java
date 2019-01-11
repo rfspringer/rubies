@@ -76,8 +76,10 @@ public class Robot
 //    }
 //
     public void turnToHeadingCenterPivot(double targetHeading) {
-        while (Math.abs(sensors.getIntegratedError(targetHeading)) > 2.5) {
-            drive.setPowers(1, 0, 0, targetHeading);
+        double error = sensors.getIntegratedError(targetHeading);
+        while (Math.abs(error) > 2.5) {
+            error = sensors.getIntegratedError(targetHeading);
+            drive.turnToHeading(error);
         }
         drive.stop();
     }

@@ -120,6 +120,13 @@ public class Drive
         setIndividualPowers(powers[0], powers[1], powers[2], powers[3]);
     }
 
+    public void turnToHeading(double headingError) {
+        double kP = 0.065;
+        double leftPower = PIDController.pController(0, headingError, -kP);
+        double rightPower = PIDController.pController(0, headingError, kP);
+        setIndividualPowers(leftPower, leftPower, rightPower, rightPower);
+    }
+
     private void setIndividualPowers(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower){
         leftFront.setPower(leftFrontPower);
         leftBack.setPower(leftBackPower);
