@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
 import org.firstinspires.ftc.teamcode.Library.PIDController;
+import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
 /**
  * This is NOT an opmode.
@@ -74,17 +75,12 @@ public class Robot
 //        drive.setPowers(left, right);
 //    }
 //
-//    public void turnToHeadingCenterPivot(double targetHeading) {
-//        while (Math.abs(sensors.integrateHeading(targetHeading - sensors.getHeading())) > 2.5) {
-//            sensors.updateIMU();
-//            double kP = 0.0065;
-//            double error = targetHeading - sensors.getHeading();
-//            double leftPower = PIDController.pController(0, error, -kP);
-//            double rightPower = PIDController.pController(0, error, kP);
-//            drive.setPowers(leftPower, rightPower);
-//        }
-//        drive.setPowers(0, 0);
-//    }
+    public void turnToHeadingCenterPivot(double targetHeading) {
+        while (Math.abs(sensors.getIntegratedError(targetHeading)) > 2.5) {
+            drive.setPowers(1, 0, 0, targetHeading);
+        }
+        drive.stop();
+    }
 //
 //
 //    public void turnToHeadingForwardPivot(double targetHeading) {
@@ -118,19 +114,16 @@ public class Robot
 //        }
 //        drive.setPowers(0, 0);
 //    }
-//
-//    public void sample(TensorFlow.GoldPosition goldLocation) {
-//        if (goldLocation == TensorFlow.GoldPosition.LEFT) {
-//            turnToHeadingCenterPivot(sensors.getLeftMineralHeading());
-//            drive.driveToLeftMineral.run();
-//        } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
-//            turnToHeadingCenterPivot(sensors.getRightMineralHeading());
-//            drive.driveToRightMineral.run();
-//        } else {
-//            turnToHeadingCenterPivot(sensors.getCenterMineralHeading());
-//            drive.driveToCenterMineral.run();
-//        }
-//    }
+
+    public void sample(TensorFlow.GoldPosition goldLocation) {
+        if (goldLocation == TensorFlow.GoldPosition.LEFT) {
+            drive.getLeftMineralTrajectory().run();
+        } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
+            drive.getRightMineralTrajectory().run();
+        } else {
+            drive.getCenterMineralTrajectory().run();
+        }
+    }
 //
 //
 //    public void claim(TensorFlow.GoldPosition goldLocation) {

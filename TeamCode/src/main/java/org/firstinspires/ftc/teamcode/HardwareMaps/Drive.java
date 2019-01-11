@@ -37,6 +37,7 @@ import org.firstinspires.ftc.teamcode.Library.MecanumEnhanced;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryGenerator;
 import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
+import org.firstinspires.ftc.teamcode.Library.PIDController;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -63,6 +64,10 @@ public class Drive
     public double MAX_STRAFE_VELOCITY = 16;
     public double MAX_ACCEL = 25;
 
+    private MecanumTrajectoryFollower leftMineral;
+    private MecanumTrajectoryFollower centerMineral;
+    private MecanumTrajectoryFollower rightMineral;
+
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
 
@@ -76,6 +81,7 @@ public class Drive
         hwMap = ahwMap;
         initializeDriveMotors();
         initializeMotorArrays();
+        initializeMineralTrajectories();
         setMotorDirections();
         setIndividualPowers(0, 0, 0, 0);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -99,16 +105,26 @@ public class Drive
         this.rightMotors = rightMotors;
     }
 
+    private void initializeMineralTrajectories() {
+        leftMineral = initializeTrajectory(-10, 40, 0);
+        centerMineral = initializeTrajectory(10, 40, 0);
+        rightMineral = initializeTrajectory(30, 40, 0);
+    }
+
     public void setPowers(double magnitude, double x, double y, double heading) {
         double[] powers = mecanumEnhanced.calculatePowers(magnitude, x, y, heading);
         setIndividualPowers(powers[0], powers[1], powers[2], powers[3]);
     }
 
-    public void setIndividualPowers(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower){
+    private void setIndividualPowers(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower){
         leftFront.setPower(leftFrontPower);
         leftBack.setPower(leftBackPower);
         rightFront.setPower(rightFrontPower);
         rightBack.setPower(rightBackPower);
+    }
+
+    public void stop() {
+        setIndividualPowers(0, 0, 0, 0);
     }
 
 
@@ -158,6 +174,18 @@ public class Drive
     public int getAverageEncoderCounts(){
         double counts = (getLeftEncoderCounts() + getRightEncoderCounts())/2;
         return (int) counts;
+    }
+
+    public MecanumTrajectoryFollower getLeftMineralTrajectory() {
+        return leftMineral;
+    }
+
+    public MecanumTrajectoryFollower getCenterMineralTrajectory() {
+        return centerMineral;
+    }
+
+    public MecanumTrajectoryFollower getRightMineralTrajectory() {
+        return rightMineral;
     }
 
     public DcMotor[] getAllMotors() {

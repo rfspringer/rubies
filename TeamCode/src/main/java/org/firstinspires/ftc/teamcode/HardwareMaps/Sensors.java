@@ -122,6 +122,14 @@ public class Sensors
         return heading;
     }
 
+    public double getError(double targetHeading) {
+        return targetHeading - getHeading();
+    }
+
+    public double getIntegratedError(double targetHeading) {
+        return integrateHeading(targetHeading - getHeading());
+    }
+
     public double getCenterMineralHeading() {
         return CENTER_MINERAL_HEADING;
     }
