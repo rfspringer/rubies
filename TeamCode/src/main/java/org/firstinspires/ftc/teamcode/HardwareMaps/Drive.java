@@ -61,12 +61,14 @@ public class Drive
     private double kA = 2;
 
     public double MAX_FORWARD_VELOCITY = 20;
-    public double MAX_STRAFE_VELOCITY = 16;
+    public double MAX_STRAFE_VELOCITY = 15;
     public double MAX_ACCEL = 25;
 
     private MecanumTrajectoryFollower leftMineral;
     private MecanumTrajectoryFollower centerMineral;
     private MecanumTrajectoryFollower rightMineral;
+    private MecanumTrajectoryFollower unlatchAwayFromLander;
+    private MecanumTrajectoryFollower unlatchParallelToLander;
 
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
@@ -81,7 +83,7 @@ public class Drive
         hwMap = ahwMap;
         initializeDriveMotors();
         initializeMotorArrays();
-        initializeMineralTrajectories();
+        initializeTrajectories();
         setMotorDirections();
         setIndividualPowers(0, 0, 0, 0);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -105,10 +107,12 @@ public class Drive
         this.rightMotors = rightMotors;
     }
 
-    private void initializeMineralTrajectories() {
+    private void initializeTrajectories() {
         leftMineral = initializeTrajectory(-10, 40, 0);
         centerMineral = initializeTrajectory(10, 40, 0);
         rightMineral = initializeTrajectory(30, 40, 0);
+        unlatchAwayFromLander = initializeTrajectory(-5, 0, 90);
+        unlatchParallelToLander = initializeTrajectory(0, -10, 90);
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {
@@ -155,6 +159,11 @@ public class Drive
             MotorEnhanced.setDirection(leftMotors, Direction.REVERSE);
             MotorEnhanced.setDirection(rightMotors, Direction.FORWARD);
         }
+    }
+
+    public void unlatch() {
+        unlatchAwayFromLander.run();
+        unlatchParallelToLander.run();
     }
 
     public void setInAutonomous(boolean inAutonomous) {
