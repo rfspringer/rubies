@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
-@Autonomous(name="Land", group="auto")
+@Autonomous(name="Sample", group="auto")
 //@Disabled
 public class AutoSample extends LinearOpMode {
     // Declare OpMode members

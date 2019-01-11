@@ -23,7 +23,9 @@ public class AutoLand extends LinearOpMode {
         robot.init(hardwareMap);
         tensorFlow.init(hardwareMap);
         robot.lift.holdHangingPosition();
-        MecanumTrajectoryFollower unlatch = robot.drive.initializeTrajectory(0, -10, 0);
+        robot.drive.setInAutonomous(true);
+        MecanumTrajectoryFollower unlatch1 = robot.drive.initializeTrajectory(2, 0, 90);
+        MecanumTrajectoryFollower unlatch2 = robot.drive.initializeTrajectory(0, -10, 90);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         tensorFlow.activate();
@@ -38,6 +40,7 @@ public class AutoLand extends LinearOpMode {
         robot.lift.lowerRobotToGround();
         telemetry.addData("Task", "Alrighty, now I'm gonna turn");
         telemetry.update();
-        unlatch.run();
+        unlatch1.run();
+        unlatch2.run();
     }
 }

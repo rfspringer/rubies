@@ -37,7 +37,7 @@ import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
 
 
-@TeleOp(name="Mecanum Drivev2", group="Iterative Opmode")
+@TeleOp(name="Mecanum Drivev2", group="teleop")
 public class TeleOpDriveOnly extends OpMode
 {
     private Robot robot = Robot.getInstance();

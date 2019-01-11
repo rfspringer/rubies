@@ -96,7 +96,7 @@ public class Lift {
         ElapsedTime time = new ElapsedTime();
         setTargetPosition(EXTENDED_ENCODER_COUNTS);
         setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(0.5);
+        setPower(0.9);
         while (!actionIsComplete) {
             actionIsComplete = robotIsCloseToGround(time);
         }
