@@ -108,9 +108,9 @@ public class Drive
     }
 
     private void initializeTrajectories() {
-        leftMineral = initializeTrajectory(10, -40, 0);
-        centerMineral = initializeTrajectory(-10, -40, 0);
-        rightMineral = initializeTrajectory(-30, -40, 0);
+        leftMineral = initializeTrajectory(10, -75, 0);
+        centerMineral = initializeTrajectory(-12, -75, 0);
+        rightMineral = initializeTrajectory(-30, -75, 0);
         unlatchAwayFromLander = initializeTrajectory(-5, 0, 90);
         unlatchParallelToLander = initializeTrajectory(0, -10, 90);
     }
