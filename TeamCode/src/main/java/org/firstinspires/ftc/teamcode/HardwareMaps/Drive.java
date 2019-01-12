@@ -64,11 +64,9 @@ public class Drive
     public double MAX_STRAFE_VELOCITY = 13;
     public double MAX_ACCEL = 25;
 
-    private MecanumTrajectoryFollower leftMineral;
-    private MecanumTrajectoryFollower centerMineral;
-    private MecanumTrajectoryFollower rightMineral;
     private MecanumTrajectoryFollower unlatchAwayFromLander;
     private MecanumTrajectoryFollower unlatchParallelToLander;
+    private MecanumTrajectoryFollower driveAwayFromLander;
 
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
@@ -108,11 +106,9 @@ public class Drive
     }
 
     private void initializeTrajectories() {
-        leftMineral = initializeTrajectory(65, -90, 0);
-        centerMineral = initializeTrajectory(-2, -53, 0);
-        rightMineral = initializeTrajectory(-30, -53, 0);
-        unlatchAwayFromLander = initializeTrajectory(-3, 0, 90);
-        unlatchParallelToLander = initializeTrajectory(0, -7, 90);
+        unlatchAwayFromLander = initializeTrajectory(-3, 0, 0);
+        unlatchParallelToLander = initializeTrajectory(0, -6, 0);
+        driveAwayFromLander = initializeTrajectory(-8, 0, 0);
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {
@@ -125,6 +121,19 @@ public class Drive
         double leftPower = PIDController.pController(0, headingError, -kP);
         double rightPower = PIDController.pController(0, headingError, kP);
         setIndividualPowers(leftPower, leftPower, rightPower, rightPower);
+    }
+
+    public void turnToHeadingLeftWheels(double headingError) {
+        double kP = 0.07;
+        double leftPower = PIDController.pController(0, headingError, -kP);
+        setIndividualPowers(leftPower, leftPower, 0, 0);
+    }
+
+
+    public void turnToHeadingRightWheels(double headingError) {
+        double kP = 0.07;
+        double rightPower = PIDController.pController(0, headingError, kP);
+        setIndividualPowers(0, 0, rightPower, rightPower);
     }
 
     private void setIndividualPowers(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower){
@@ -171,6 +180,7 @@ public class Drive
     public void unlatch() {
         unlatchAwayFromLander.run();
         unlatchParallelToLander.run();
+        driveAwayFromLander.run();
     }
 
     public void setInAutonomous(boolean inAutonomous) {
@@ -190,18 +200,6 @@ public class Drive
     public int getAverageEncoderCounts(){
         double counts = (getLeftEncoderCounts() + getRightEncoderCounts())/2;
         return (int) counts;
-    }
-
-    public MecanumTrajectoryFollower getLeftMineralTrajectory() {
-        return leftMineral;
-    }
-
-    public MecanumTrajectoryFollower getCenterMineralTrajectory() {
-        return centerMineral;
-    }
-
-    public MecanumTrajectoryFollower getRightMineralTrajectory() {
-        return rightMineral;
     }
 
     public DcMotor[] getAllMotors() {

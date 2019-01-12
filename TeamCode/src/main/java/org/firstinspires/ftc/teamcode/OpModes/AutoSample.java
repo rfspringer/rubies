@@ -35,13 +35,13 @@ public class AutoSample extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         TensorFlow.GoldPosition goldPos = tensorFlow.getGoldPos();
-        goldPos = TensorFlow.GoldPosition.CENTER;
+        goldPos = TensorFlow.GoldPosition.LEFT;
         tensorFlow.shutdown();
         robot.lift.lowerRobotToGround();
         robot.drive.unlatch();
         robot.turnToHeadingCenterPivot(0);
-//        robot.sample(goldPos);
-        mineralTraj.run();
+        robot.sample(goldPos);
+//        mineralTraj.run();
     }
 
     private MecanumTrajectoryFollower adjustTrajectory() {

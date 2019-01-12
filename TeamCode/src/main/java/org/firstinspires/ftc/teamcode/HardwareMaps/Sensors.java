@@ -55,11 +55,11 @@ public class Sensors
     private boolean hasSetInitialAngle = false;
     private double initialHeading;
 
-    private double IMU_WALL_OFFSET = -                                                                                                                                                                                                                                                     90.0;
+    private double IMU_WALL_OFFSET = 0.0;
 
-    private double CENTER_MINERAL_HEADING = 13.5;
-    private double LEFT_MINERAL_HEADING = 45;
-    private double RIGHT_MINERAL_HEADING = -19;
+    private double CENTER_MINERAL_HEADING = 73;
+    private double LEFT_MINERAL_HEADING = 111;
+    private double RIGHT_MINERAL_HEADING = 45;
 
     /* Constructor */
     private Sensors(){
@@ -88,16 +88,14 @@ public class Sensors
     }
 
     private void updateIMU() {
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        angles   = imu.getAngularOrientation(
+                AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         gravity  = imu.getGravity();
     }
 
     private void setInitialHeading() {
-        //initialize "initialHeading" value the first time through the loop (again, sometimes our imu doesn't zero when we reset it every time, we do this to prevent the issue
-        if (!hasSetInitialAngle){
-            initialHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) - IMU_WALL_OFFSET;
-            hasSetInitialAngle = true;
-        }
+        initialHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)
+                - IMU_WALL_OFFSET;
     }
 
     public double getHeading(){
