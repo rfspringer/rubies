@@ -35,7 +35,7 @@ public class AutoSample extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         TensorFlow.GoldPosition goldPos = tensorFlow.getGoldPos();
-        goldPos = TensorFlow.GoldPosition.LEFT;
+        goldPos = TensorFlow.GoldPosition.RIGHT;
         tensorFlow.shutdown();
         robot.lift.lowerRobotToGround();
         robot.drive.unlatch();
