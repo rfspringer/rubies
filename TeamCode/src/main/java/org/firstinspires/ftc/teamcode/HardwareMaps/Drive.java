@@ -129,7 +129,6 @@ public class Drive
         setIndividualPowers(leftPower, leftPower, 0, 0);
     }
 
-
     public void turnToHeadingRightWheels(double headingError) {
         double kP = 0.07;
         double rightPower = PIDController.pController(0, headingError, kP);

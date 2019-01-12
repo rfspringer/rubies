@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
 @Autonomous(name="Park", group="auto")
 //@Disabled
-public class AutoSample extends LinearOpMode {
+public class AutoPark extends LinearOpMode {
     // Declare OpMode members
     private Robot robot = Robot.getInstance();
     private TensorFlow tensorFlow = new TensorFlow();
@@ -36,8 +36,6 @@ public class AutoSample extends LinearOpMode {
         tensorFlow.shutdown();
         robot.lift.lowerRobotToGround();
         robot.drive.unlatch();
-        robot.turnToHeadingCenterPivot(0);
         robot.sample(goldPos);
-
     }
 }

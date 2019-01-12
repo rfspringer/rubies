@@ -122,10 +122,10 @@ public class Robot
             heading = sensors.getRightMineralHeading();
             turnToHeadingCenterPivot(heading);
         } else {
-            heading = sensors.getCenterMineralHeading();
+            heading = sensors.getCenterDepotHeading();
             turnToHeadingRightPivot(heading);
         }
-        depotTrajectory = drive.initializeTrajectory(0, 20, heading);
+        depotTrajectory = drive.initializeTrajectory(0, 28, heading);
         depotTrajectory.run();
     }
 

@@ -71,10 +71,6 @@ public class Lift {
         return lift;
     }
 
-    public static Lift getInstance(){
-        return instance;
-    }
-
     public int getCurrentPosition() {
         return lift.getCurrentPosition();
     }
@@ -107,11 +103,15 @@ public class Lift {
     public void holdHangingPosition() {
         setTargetPosition(0);
         setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(0.8);
+        setPower(1);
     }
 
     private boolean robotIsCloseToGround(ElapsedTime time) {
         return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS - 10)) || time.seconds() > 4;
+    }
+
+    public static Lift getInstance(){
+        return instance;
     }
 }
 
