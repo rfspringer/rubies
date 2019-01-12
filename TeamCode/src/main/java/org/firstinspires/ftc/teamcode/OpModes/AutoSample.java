@@ -44,9 +44,9 @@ public class AutoSample extends LinearOpMode {
         mineralTraj.run();
     }
 
-    public MecanumTrajectoryFollower adjustTrajectory() {
-        double x = 10;
-        double y = -75;
+    private MecanumTrajectoryFollower adjustTrajectory() {
+        double x = 50;
+        double y = -85;
         double heading = 0;
         ElapsedTime timer = new ElapsedTime();
             while (!isStarted()){
@@ -65,7 +65,7 @@ public class AutoSample extends LinearOpMode {
                 }
 
                 telemetry.addData("x", x);
-                telemetry.addData("y", x);
+                telemetry.addData("y", y);
                 telemetry.update();
             }
         return robot.drive.initializeTrajectory(x, y, 0);

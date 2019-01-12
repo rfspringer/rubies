@@ -52,6 +52,7 @@ public class Teleop extends OpMode {
     @Override
     public void init() {
         robot.init(hardwareMap);
+        robot.drive.setInAutonomous(false);
         telemetry.addData("Status", "Initialized");
     }
 

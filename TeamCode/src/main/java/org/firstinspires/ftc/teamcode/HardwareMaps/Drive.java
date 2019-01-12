@@ -60,8 +60,8 @@ public class Drive
     private boolean reverseDirection = false;
     private double kA = 2;
 
-    public double MAX_FORWARD_VELOCITY = 20;
-    public double MAX_STRAFE_VELOCITY = 15;
+    public double MAX_FORWARD_VELOCITY = 16;
+    public double MAX_STRAFE_VELOCITY = 13;
     public double MAX_ACCEL = 25;
 
     private MecanumTrajectoryFollower leftMineral;
@@ -108,11 +108,11 @@ public class Drive
     }
 
     private void initializeTrajectories() {
-        leftMineral = initializeTrajectory(10, -75, 0);
-        centerMineral = initializeTrajectory(-12, -75, 0);
-        rightMineral = initializeTrajectory(-30, -75, 0);
-        unlatchAwayFromLander = initializeTrajectory(-5, 0, 90);
-        unlatchParallelToLander = initializeTrajectory(0, -10, 90);
+        leftMineral = initializeTrajectory(65, -90, 0);
+        centerMineral = initializeTrajectory(-2, -53, 0);
+        rightMineral = initializeTrajectory(-30, -53, 0);
+        unlatchAwayFromLander = initializeTrajectory(-3, 0, 90);
+        unlatchParallelToLander = initializeTrajectory(0, -7, 90);
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {
