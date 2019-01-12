@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
-@Autonomous(name="Sample", group="auto")
+@Autonomous(name="Park", group="auto")
 //@Disabled
 public class AutoSample extends LinearOpMode {
     // Declare OpMode members

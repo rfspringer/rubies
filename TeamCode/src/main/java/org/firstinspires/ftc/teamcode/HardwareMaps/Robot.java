@@ -56,6 +56,7 @@ public class Robot
     private MecanumTrajectoryFollower leftMineralTrajectory;
     private MecanumTrajectoryFollower centerMineralTrajectory;
     private MecanumTrajectoryFollower rightMineralTrajectory;
+    private MecanumTrajectoryFollower depotTrajectory;
 
     /* Constructor */
     private Robot(){
@@ -110,6 +111,22 @@ public class Robot
             turnToHeadingCenterPivot(sensors.getCenterMineralHeading());
             centerMineralTrajectory.run();
         }
+    }
+
+    public void goToDepot(TensorFlow.GoldPosition goldLocation) {
+        double heading;
+        if (goldLocation == TensorFlow.GoldPosition.LEFT) {
+            heading = sensors.getLeftDepotHeading();
+            turnToHeadingLeftPivot(heading);
+        } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
+            heading = sensors.getRightMineralHeading();
+            turnToHeadingCenterPivot(heading);
+        } else {
+            heading = sensors.getCenterMineralHeading();
+            turnToHeadingRightPivot(heading);
+        }
+        depotTrajectory = drive.initializeTrajectory(0, 20, heading);
+        depotTrajectory.run();
     }
 
     private void initializeSamplingTrajectories() {

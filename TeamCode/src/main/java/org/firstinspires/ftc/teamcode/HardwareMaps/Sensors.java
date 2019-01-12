@@ -61,6 +61,10 @@ public class Sensors
     private double LEFT_MINERAL_HEADING = 108;
     private double RIGHT_MINERAL_HEADING = 45;
 
+    private double CENTER_DEPOT_HEADING = 90;
+    private double LEFT_DEPOT_HEADING = 45;
+    private double RIGHT_DEPOT_HEADING = 135;
+
     /* Constructor */
     private Sensors(){
     }
@@ -136,6 +140,18 @@ public class Sensors
 
     public double getRightMineralHeading() {
         return RIGHT_MINERAL_HEADING;
+    }
+
+    public double getCenterDepotHeading() {
+        return CENTER_DEPOT_HEADING;
+    }
+
+    public double getLeftDepotHeading() {
+        return LEFT_DEPOT_HEADING;
+    }
+
+    public double getRightDepotHeading() {
+        return RIGHT_DEPOT_HEADING;
     }
 
     public static Sensors getInstance() {
