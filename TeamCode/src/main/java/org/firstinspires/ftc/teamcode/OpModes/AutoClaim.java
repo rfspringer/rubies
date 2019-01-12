@@ -39,5 +39,6 @@ public class AutoClaim extends LinearOpMode {
         robot.claim.deploy();
         sleep(2000);
         robot.claim.stow();
+        robot.drive.driveAwayFromMarker();
     }
 }

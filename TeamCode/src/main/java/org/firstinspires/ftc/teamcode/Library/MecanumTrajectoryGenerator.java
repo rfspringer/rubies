@@ -19,7 +19,14 @@ public class MecanumTrajectoryGenerator {
 
     private double trajectoryLength;
     private double totalTime;
-//    private double trajectoryDirection;
+
+    private enum TRAJECTORY_SEGMENT {
+        ACCELERATION,
+        CRUISING,
+        DECELERATION
+    }
+
+    private TRAJECTORY_SEGMENT trajectorySegment;
 
     public MecanumTrajectoryGenerator(double x, double y, double maxAcceleration) {
         this.x = x;
@@ -31,21 +38,37 @@ public class MecanumTrajectoryGenerator {
     }
 
     public void calculatePositionalDerivatives(ElapsedTime currentTime) {
-        if (velocityIfConstantAcceleration(currentTime) < velocityIfCruising()
+        trajectorySegment = getTrajectorySegment(currentTime);
+        switch (trajectorySegment){
+            case ACCELERATION:
+                currentVelocity = velocityIfConstantAcceleration(currentTime);
+                currentAcceleration = maxAcceleration;
+                break;
+
+            case DECELERATION:
+                currentVelocity = velocityIfConstantDeceleration(currentTime);
+                currentAcceleration = -maxAcceleration;
+                break;
+
+            case CRUISING:
+                currentVelocity = maxVelocity;
+                currentAcceleration = 0;
+                break;
+        }
+    }
+
+    private TRAJECTORY_SEGMENT getTrajectorySegment (ElapsedTime currentTime) {
+        if (velocityIfConstantAcceleration(currentTime) < maxVelocity
                 && velocityIfConstantAcceleration(currentTime)
                 < velocityIfConstantDeceleration(currentTime)) {
-            currentVelocity = velocityIfConstantAcceleration(currentTime);
-            currentAcceleration = maxAcceleration;
-        } else if (velocityIfConstantDeceleration(currentTime) < velocityIfCruising()
+            return TRAJECTORY_SEGMENT.ACCELERATION;
+        } else if (velocityIfConstantDeceleration(currentTime) < maxVelocity
                 && velocityIfConstantDeceleration(currentTime)
                 < velocityIfConstantAcceleration(currentTime)) {
-            currentVelocity = velocityIfConstantDeceleration(currentTime);
-            currentAcceleration = -maxAcceleration;
+            return TRAJECTORY_SEGMENT.DECELERATION;
         } else {
-            currentVelocity = maxVelocity;
-            currentAcceleration = 0;
+            return TRAJECTORY_SEGMENT.CRUISING;
         }
-        robot.logger.writeLine(velocityIfConstantAcceleration(currentTime), velocityIfConstantDeceleration(currentTime), velocityIfCruising(), currentVelocity, currentAcceleration);
     }
 
     private double getTrajectoryLength() {
@@ -54,10 +77,6 @@ public class MecanumTrajectoryGenerator {
 
     private double velocityIfConstantAcceleration(ElapsedTime currentTime) {
         return maxAcceleration * currentTime.seconds();
-    }
-
-    private double velocityIfCruising(){
-        return maxVelocity;
     }
 
     private double velocityIfConstantDeceleration(ElapsedTime currentTime) {

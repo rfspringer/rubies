@@ -58,7 +58,7 @@ public class Drive
     private DcMotor[] rightMotors;
 
     private boolean reverseDirection = false;
-    private double kA = 2;
+    private double kA = 0.0001;
 
     public double MAX_FORWARD_VELOCITY = 16;
     public double MAX_STRAFE_VELOCITY = 13;
@@ -67,6 +67,7 @@ public class Drive
     private MecanumTrajectoryFollower unlatchAwayFromLander;
     private MecanumTrajectoryFollower unlatchParallelToLander;
     private MecanumTrajectoryFollower driveAwayFromLander;
+    private MecanumTrajectoryFollower driveAwayFromMarker;
 
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
@@ -109,6 +110,7 @@ public class Drive
         unlatchAwayFromLander = initializeTrajectory(-3, 0, 0);
         unlatchParallelToLander = initializeTrajectory(0, -6, 0);
         driveAwayFromLander = initializeTrajectory(-8, 0, 0);
+        driveAwayFromMarker = initializeTrajectory(0, -5, 0);
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {
@@ -180,6 +182,10 @@ public class Drive
         unlatchAwayFromLander.run();
         unlatchParallelToLander.run();
         driveAwayFromLander.run();
+    }
+
+    public void driveAwayFromMarker() {
+        driveAwayFromMarker.run();
     }
 
     public void setInAutonomous(boolean inAutonomous) {

@@ -105,7 +105,7 @@ public class Robot
             turnToHeadingCenterPivot(sensors.getLeftMineralHeading());
             leftMineralTrajectory.run();
         } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
-            turnToHeadingCenterPivot(sensors.getRightMineralHeading());
+            turnToHeadingRightPivot(sensors.getRightMineralHeading());
             rightMineralTrajectory.run();
         } else {
             turnToHeadingCenterPivot(sensors.getCenterMineralHeading());
@@ -119,13 +119,13 @@ public class Robot
             heading = sensors.getLeftDepotHeading();
             turnToHeadingLeftPivot(heading);
         } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
-            heading = sensors.getRightMineralHeading();
-            turnToHeadingCenterPivot(heading);
+            heading = sensors.getRightDepotHeading();
+            turnToHeadingRightPivot(heading);
         } else {
             heading = sensors.getCenterDepotHeading();
-            turnToHeadingRightPivot(heading);
+            turnToHeadingCenterPivot(heading);
         }
-        depotTrajectory = drive.initializeTrajectory(0, 28, heading);
+        depotTrajectory = drive.initializeTrajectory(0, 25, heading);
         depotTrajectory.run();
     }
 
@@ -138,45 +138,5 @@ public class Robot
     public static Robot getInstance() {
         return instance;
     }
-
-//    public void driveByHeading(double leftPower, double rightPower, double targetHeading) {
-//        sensors.updateIMU();
-//        double kP = 0.0065;
-//        double error = targetHeading - sensors.getHeading();
-//        double left = PIDController.pController(leftPower, error, -kP);
-//        double right = PIDController.pController(rightPower, error, kP);
-//        drive.setPowers(left, right);
-//    }
-//
-//    public void turnToHeadingBackwardPivot(double targetHeading) {
-//        while (Math.abs(sensors.integrateHeading(targetHeading - sensors.getHeading())) > 2.5) {
-//            sensors.updateIMU();
-//            double kP = 0.0065;
-//            double error = targetHeading - sensors.getHeading();
-//            double leftPower = PIDController.pController(0, error, -kP);
-//            double rightPower = PIDController.pController(0, error, kP);
-//            if (leftPower < 0) {
-//                drive.setPowers(leftPower, 0);
-//            } else {
-//                drive.setPowers(0, rightPower);
-//            }
-//        }
-//        drive.setPowers(0, 0);
-//    }
-//
-//
-//    public void claim(TensorFlow.GoldPosition goldLocation) {
-//        if (goldLocation == TensorFlow.GoldPosition.LEFT) {
-//            turnToHeadingBackwardPivot(-35);
-//            drive.driveFromLeftMineral.run();
-//        } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
-//            turnToHeadingBackwardPivot(35);
-//            drive.driveFromRightMineral.run();
-//        } else {
-//            turnToHeadingBackwardPivot(15);
-//            drive.driveFromCenterMineral.run();
-//        }
-//        claim.deploy();
-//    }
  }
 
