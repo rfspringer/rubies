@@ -52,10 +52,10 @@ public class TensorFlow {
         determineGoldMineralX();
         if (goldMineralX < LEFT_THRESHOLD) {
             goldPosition = GoldPosition.LEFT;
-        } else if (goldMineralX > RIGHT_THRESHOLD) {
-            goldPosition = GoldPosition.RIGHT;
-        } else {
+        } else if (goldMineralX < RIGHT_THRESHOLD) {
             goldPosition = GoldPosition.CENTER;
+        } else {
+            goldPosition = GoldPosition.RIGHT;
         }
         return goldPosition;
     }
