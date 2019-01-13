@@ -48,7 +48,7 @@ public class MecanumEnhanced {
         double error;
         if (inAutonomous) {
             //In autonomous, heading is returned as an absolute number in degrees
-            error = heading - sensors.getHeading();
+            error = sensors.getError(heading);
         } else {
             /* In teleop, heading is relative and is returned as a joystick value from -1 to 1
             The multiplier of 45 allows the driver to make more significant corrections

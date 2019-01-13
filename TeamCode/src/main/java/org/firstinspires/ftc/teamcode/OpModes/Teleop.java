@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
@@ -38,7 +39,7 @@ import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
 
 
-@TeleOp(name="Teleop", group="Iterative Opmode")
+@TeleOp(name="Teleop", group="teleop")
 public class Teleop extends OpMode {
     private Robot robot = Robot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
@@ -52,6 +53,7 @@ public class Teleop extends OpMode {
     @Override
     public void init() {
         robot.init(hardwareMap);
+        robot.drive.setInAutonomous(false);
         telemetry.addData("Status", "Initialized");
     }
 
@@ -74,12 +76,6 @@ public class Teleop extends OpMode {
         controlIntake();
         controlExtension();
         controlLift();
-
-        telemetry.addData("Magnitude", gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK));
-        telemetry.addData("X", gamepadA.left_stick_x);
-        telemetry.addData("Y", gamepadA.left_stick_y);
-        telemetry.addData("Right X", gamepadA.right_stick_x);
-        telemetry.update();
     }
 
     private void controlDrive() {
@@ -89,7 +85,7 @@ public class Teleop extends OpMode {
 
 
     private double getHeadingCorrection() {
-        if (Math.abs(gamepadA.right_stick_x) < 0.2) {
+        if (Math.abs(gamepadA.right_stick_x) < 0.5) {
             return 0;
         } else {
             return -0.5 * gamepadA.right_stick_x;
@@ -114,9 +110,9 @@ public class Teleop extends OpMode {
         if (gamepadB.y) {
             robot.mineral.setToIntake();
         } else if (gamepadB.b) {
-            robot.mineral.dumpCubes();
+            robot.mineral.storeMinerals();
         } else if (gamepadB.a) {
-            robot.mineral.dumpBalls();
+            robot.mineral.dumpMinerals();
         }
     }
 
@@ -129,6 +125,10 @@ public class Teleop extends OpMode {
             liftAccelerationController.run(1, robot.lift.getMotor());
         } else if (gamepadB.dpad_down) {
             liftAccelerationController.run(-1, robot.lift.getMotor());
+        } else if (gamepadB.dpad_right) {
+            robot.lift.setTargetPosition(0);
+            robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.lift.setPower(0.9);
         } else {
             liftAccelerationController.run(0, robot.lift.getMotor());
         }

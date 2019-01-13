@@ -37,6 +37,7 @@ import org.firstinspires.ftc.teamcode.Library.MecanumEnhanced;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryGenerator;
 import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
+import org.firstinspires.ftc.teamcode.Library.PIDController;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -57,11 +58,16 @@ public class Drive
     private DcMotor[] rightMotors;
 
     private boolean reverseDirection = false;
-    private double kA = 2;
+    private double kA = 0.0001;
 
-    public double MAX_FORWARD_VELOCITY = 20;
-    public double MAX_STRAFE_VELOCITY = 16;
-    public double MAX_ACCEL = 24;
+    public double MAX_FORWARD_VELOCITY = 16;
+    public double MAX_STRAFE_VELOCITY = 13;
+    public double MAX_ACCEL = 25;
+
+    private MecanumTrajectoryFollower unlatchAwayFromLander;
+    private MecanumTrajectoryFollower unlatchParallelToLander;
+    private MecanumTrajectoryFollower driveAwayFromLander;
+    private MecanumTrajectoryFollower driveAwayFromMarker;
 
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
@@ -76,6 +82,7 @@ public class Drive
         hwMap = ahwMap;
         initializeDriveMotors();
         initializeMotorArrays();
+        initializeTrajectories();
         setMotorDirections();
         setIndividualPowers(0, 0, 0, 0);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -99,9 +106,35 @@ public class Drive
         this.rightMotors = rightMotors;
     }
 
+    private void initializeTrajectories() {
+        unlatchAwayFromLander = initializeTrajectory(-3, 0, 0);
+        unlatchParallelToLander = initializeTrajectory(0, -6, 0);
+        driveAwayFromLander = initializeTrajectory(-8, 0, 0);
+        driveAwayFromMarker = initializeTrajectory(0, -5, 0);
+    }
+
     public void setPowers(double magnitude, double x, double y, double heading) {
         double[] powers = mecanumEnhanced.calculatePowers(magnitude, x, y, heading);
         setIndividualPowers(powers[0], powers[1], powers[2], powers[3]);
+    }
+
+    public void turnToHeading(double headingError) {
+        double kP = 0.065;
+        double leftPower = PIDController.pController(0, headingError, -kP);
+        double rightPower = PIDController.pController(0, headingError, kP);
+        setIndividualPowers(leftPower, leftPower, rightPower, rightPower);
+    }
+
+    public void turnToHeadingLeftWheels(double headingError) {
+        double kP = 0.07;
+        double leftPower = PIDController.pController(0, headingError, -kP);
+        setIndividualPowers(leftPower, leftPower, 0, 0);
+    }
+
+    public void turnToHeadingRightWheels(double headingError) {
+        double kP = 0.07;
+        double rightPower = PIDController.pController(0, headingError, kP);
+        setIndividualPowers(0, 0, rightPower, rightPower);
     }
 
     public void setIndividualPowers(double leftFrontPower, double leftBackPower, double rightFrontPower, double rightBackPower){
@@ -109,6 +142,10 @@ public class Drive
         leftBack.setPower(leftBackPower);
         rightFront.setPower(rightFrontPower);
         rightBack.setPower(rightBackPower);
+    }
+
+    public void stop() {
+        setIndividualPowers(0, 0, 0, 0);
     }
 
 
@@ -139,6 +176,16 @@ public class Drive
             MotorEnhanced.setDirection(leftMotors, Direction.REVERSE);
             MotorEnhanced.setDirection(rightMotors, Direction.FORWARD);
         }
+    }
+
+    public void unlatch() {
+        unlatchAwayFromLander.run();
+        unlatchParallelToLander.run();
+        driveAwayFromLander.run();
+    }
+
+    public void driveAwayFromMarker() {
+        driveAwayFromMarker.run();
     }
 
     public void setInAutonomous(boolean inAutonomous) {

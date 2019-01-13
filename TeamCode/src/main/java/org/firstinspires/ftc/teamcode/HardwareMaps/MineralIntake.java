@@ -50,9 +50,9 @@ public class MineralIntake {
     private double INTAKE_POWER = 1;
     private double OUTTAKE_POWER = -1;
 
-    private double INTAKE_POSITION = 1;
-    private double BALL_DUMP_POSITION = 0.6;
-    private double CUBE_DUMP_POSITION = 0.575;
+    private double INTAKE_POSITION = 0.7;
+    private double STORAGE_POSITION = 0.95;
+    private double DUMP_POSITION = 0.5;
 
     /* Constructor */
     private MineralIntake(){
@@ -63,7 +63,7 @@ public class MineralIntake {
         hwMap = ahwMap;
         bucket = hwMap.servo.get("bucket");
         intake = hwMap.crservo.get("intake");
-        bucket.setPosition(INTAKE_POSITION);
+        bucket.setPosition(1);
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setPower(0);
     }
@@ -73,12 +73,12 @@ public class MineralIntake {
         bucket.setPosition(INTAKE_POSITION);
     }
 
-    public void dumpBalls() {
-        bucket.setPosition(BALL_DUMP_POSITION);
+    public void storeMinerals() {
+        bucket.setPosition(STORAGE_POSITION);
     }
 
-    public void dumpCubes() {
-        bucket.setPosition(CUBE_DUMP_POSITION);
+    public void dumpMinerals() {
+        bucket.setPosition(DUMP_POSITION);
     }
 
     public void setRawPower(double power) {

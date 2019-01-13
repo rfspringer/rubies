@@ -55,11 +55,15 @@ public class Sensors
     private boolean hasSetInitialAngle = false;
     private double initialHeading;
 
-    private double IMU_WALL_OFFSET = 45.0;
+    private double IMU_WALL_OFFSET = 0.0;
 
-    private double CENTER_MINERAL_HEADING = 13.5;
-    private double LEFT_MINERAL_HEADING = 45;
-    private double RIGHT_MINERAL_HEADING = -19;
+    private double CENTER_MINERAL_HEADING = 73;
+    private double LEFT_MINERAL_HEADING = 108;
+    private double RIGHT_MINERAL_HEADING = 45;
+
+    private double CENTER_DEPOT_HEADING = 90;
+    private double LEFT_DEPOT_HEADING = 45;
+    private double RIGHT_DEPOT_HEADING = 135;
 
     /* Constructor */
     private Sensors(){
@@ -69,6 +73,8 @@ public class Sensors
     public void init(HardwareMap hwMap) {
         imu = hwMap.get(BNO055IMU.class, "imu");
         initializeIMU();
+        updateIMU();
+        setInitialHeading();
     }
 
     private void initializeIMU() {
@@ -86,19 +92,14 @@ public class Sensors
     }
 
     private void updateIMU() {
-        getInitialHeading();
-        //Updates everything
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        angles   = imu.getAngularOrientation(
+                AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         gravity  = imu.getGravity();
-
     }
 
-    private void getInitialHeading() {
-        //initialize "initialHeading" value the first time through the loop (again, sometimes our imu doesn't zero when we reset it every time, we do this to prevent the issue
-        if (!hasSetInitialAngle){
-            initialHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) - IMU_WALL_OFFSET;
-            hasSetInitialAngle = true;
-        }
+    private void setInitialHeading() {
+        initialHeading = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)
+                - IMU_WALL_OFFSET;
     }
 
     public double getHeading(){
@@ -111,7 +112,6 @@ public class Sensors
     }
 
     public double integrateHeading(double heading){
-        //Integrates it to be from -180 to 180 degrees
         while (heading > 180){
             heading = heading - 360;
         }
@@ -120,6 +120,14 @@ public class Sensors
         }
 
         return heading;
+    }
+
+    public double getError(double targetHeading) {
+        return targetHeading - getHeading();
+    }
+
+    public double getIntegratedError(double targetHeading) {
+        return integrateHeading(targetHeading - getHeading());
     }
 
     public double getCenterMineralHeading() {
@@ -132,6 +140,18 @@ public class Sensors
 
     public double getRightMineralHeading() {
         return RIGHT_MINERAL_HEADING;
+    }
+
+    public double getCenterDepotHeading() {
+        return CENTER_DEPOT_HEADING;
+    }
+
+    public double getLeftDepotHeading() {
+        return LEFT_DEPOT_HEADING;
+    }
+
+    public double getRightDepotHeading() {
+        return RIGHT_DEPOT_HEADING;
     }
 
     public static Sensors getInstance() {
