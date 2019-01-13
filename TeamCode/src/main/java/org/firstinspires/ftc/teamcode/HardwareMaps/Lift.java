@@ -46,7 +46,7 @@ public class Lift {
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
-    private int EXTENDED_ENCODER_COUNTS = -5000;
+    private int EXTENDED_ENCODER_COUNTS = -4000;
 
     /* Constructor */
     private Lift(){
@@ -59,7 +59,7 @@ public class Lift {
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setPower(0);
     }
 
@@ -69,10 +69,6 @@ public class Lift {
 
     public DcMotor getMotor() {
         return lift;
-    }
-
-    public static Lift getInstance(){
-        return instance;
     }
 
     public int getCurrentPosition() {
@@ -96,7 +92,7 @@ public class Lift {
         ElapsedTime time = new ElapsedTime();
         setTargetPosition(EXTENDED_ENCODER_COUNTS);
         setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(0.5);
+        setPower(0.9);
         while (!actionIsComplete) {
             actionIsComplete = robotIsCloseToGround(time);
         }
@@ -105,13 +101,17 @@ public class Lift {
     }
 
     public void holdHangingPosition() {
-        setTargetPosition(0);
-        setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(0.2);
+        if (lift.getCurrentPosition() < -3) {
+            lift.setPower(0.75);
+        }
     }
 
     private boolean robotIsCloseToGround(ElapsedTime time) {
         return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS - 10)) || time.seconds() > 4;
+    }
+
+    public static Lift getInstance(){
+        return instance;
     }
 }
 

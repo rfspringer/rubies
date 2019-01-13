@@ -40,8 +40,8 @@ public class Claim {
     /* Public OpMode members. */
     private Servo claimServo;
 
-    private double STOWED_POS = 0.0;
-    private double DEPLOYED_POS = 1.0;
+    private double STOWED_POS = 1.0;
+    private double DEPLOYED_POS = 0.0;
 
     /* Constructor */
     private Claim(){
