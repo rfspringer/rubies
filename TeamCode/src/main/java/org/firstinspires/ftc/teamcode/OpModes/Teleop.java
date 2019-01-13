@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
@@ -124,6 +125,10 @@ public class Teleop extends OpMode {
             liftAccelerationController.run(1, robot.lift.getMotor());
         } else if (gamepadB.dpad_down) {
             liftAccelerationController.run(-1, robot.lift.getMotor());
+        } else if (gamepadB.dpad_right) {
+            robot.lift.setTargetPosition(0);
+            robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.lift.setPower(0.9);
         } else {
             liftAccelerationController.run(0, robot.lift.getMotor());
         }
