@@ -30,7 +30,10 @@ public class AutoLand extends LinearOpMode {
 
 
         // Wait for the game to start (driver presses PLAY)
-        waitForStart();
+        while (!isStarted() && !isStopRequested()) {
+            telemetry.addData("Status", "Initialized");
+            telemetry.update();
+        }
         TensorFlow.GoldPosition goldPos = tensorFlow.getGoldPos();
         tensorFlow.shutdown();
         telemetry.addData("Task", "Time to lower from the lander!");

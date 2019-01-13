@@ -22,13 +22,15 @@ public class AutoClaim extends LinearOpMode {
         tensorFlow.init(hardwareMap);
         robot.lift.holdHangingPosition();
         robot.drive.setInAutonomous(true);
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
         tensorFlow.activate();
 
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        while (!isStarted() && !isStopRequested()) {
+            telemetry.addData("Status", "Initialized");
+            telemetry.update();
+        }
         TensorFlow.GoldPosition goldPos = tensorFlow.getGoldPos();
         tensorFlow.shutdown();
         robot.lift.lowerRobotToGround();
@@ -39,6 +41,8 @@ public class AutoClaim extends LinearOpMode {
         robot.claim.deploy();
         sleep(2000);
         robot.claim.stow();
-        robot.drive.driveAwayFromMarker();
+        robot.drive.setIndividualPowers(-0.5, -0.5, -0.5, -0.5);
+        sleep(500);
+        robot.drive.stop();
     }
 }

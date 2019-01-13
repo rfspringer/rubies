@@ -30,8 +30,10 @@ public class AutoPark extends LinearOpMode {
         tensorFlow.activate();
 
 
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
+        while (!isStarted() && !isStopRequested()) {
+            telemetry.addData("Status", "Initialized");
+            telemetry.update();
+        }
         TensorFlow.GoldPosition goldPos = tensorFlow.getGoldPos();
         tensorFlow.shutdown();
         robot.lift.lowerRobotToGround();

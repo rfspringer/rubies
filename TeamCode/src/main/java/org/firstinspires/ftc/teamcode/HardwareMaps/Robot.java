@@ -105,7 +105,7 @@ public class Robot
             turnToHeadingCenterPivot(sensors.getLeftMineralHeading());
             leftMineralTrajectory.run();
         } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
-            turnToHeadingRightPivot(sensors.getRightMineralHeading());
+            turnToHeadingCenterPivot(sensors.getRightMineralHeading());
             rightMineralTrajectory.run();
         } else {
             turnToHeadingCenterPivot(sensors.getCenterMineralHeading());

@@ -65,12 +65,12 @@ public class Mineral {
         extension.setPower(power);
     }
 
-    public void dumpBalls() {
-        intake.dumpBalls();
+    public void dumpMinerals() {
+        intake.dumpMinerals();
     }
 
-    public void dumpCubes() {
-        intake.dumpCubes();
+    public void storeMinerals() {
+        intake.storeMinerals();
     }
 
     public void setScaledPower(double power) {

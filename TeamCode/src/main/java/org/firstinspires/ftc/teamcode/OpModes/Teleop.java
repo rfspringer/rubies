@@ -84,7 +84,7 @@ public class Teleop extends OpMode {
 
 
     private double getHeadingCorrection() {
-        if (Math.abs(gamepadA.right_stick_x) < 0.2) {
+        if (Math.abs(gamepadA.right_stick_x) < 0.5) {
             return 0;
         } else {
             return -0.5 * gamepadA.right_stick_x;
@@ -109,9 +109,9 @@ public class Teleop extends OpMode {
         if (gamepadB.y) {
             robot.mineral.setToIntake();
         } else if (gamepadB.b) {
-            robot.mineral.dumpCubes();
+            robot.mineral.storeMinerals();
         } else if (gamepadB.a) {
-            robot.mineral.dumpBalls();
+            robot.mineral.dumpMinerals();
         }
     }
 
