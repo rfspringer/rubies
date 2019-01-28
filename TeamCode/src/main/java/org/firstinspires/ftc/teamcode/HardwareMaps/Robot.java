@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.HardwareMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
@@ -125,7 +126,7 @@ public class Robot
             heading = sensors.getCenterDepotHeading();
             turnToHeadingCenterPivot(heading);
         }
-        depotTrajectory = drive.initializeTrajectory(0, 25, heading);
+        depotTrajectory = drive.initializeTrajectory(0, 19, heading);
         depotTrajectory.run();
     }
 

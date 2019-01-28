@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
@@ -13,6 +14,7 @@ public class AutoClaim extends LinearOpMode {
     // Declare OpMode members
     private Robot robot = Robot.getInstance();
     private TensorFlow tensorFlow = new TensorFlow();
+    private ElapsedTime sleepTimer = new ElapsedTime();
 
     @Override
     public void runOpMode() {
@@ -20,29 +22,44 @@ public class AutoClaim extends LinearOpMode {
         telemetry.update();
         robot.init(hardwareMap);
         tensorFlow.init(hardwareMap);
+//        robot.lift.kindaHoldHangingPosition();
+//        while (!gamepad1.a) {
+//            telemetry.addData("Status", "waiting for a");
+//            telemetry.update();
+//        }
         robot.lift.holdHangingPosition();
         robot.drive.setInAutonomous(true);
         tensorFlow.activate();
 
-
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
         while (!isStarted() && !isStopRequested()) {
             telemetry.addData("Status", "Initialized");
             telemetry.update();
         }
         TensorFlow.GoldPosition goldPos = tensorFlow.getGoldPos();
+        telemetry.addData("Gold pos", goldPos);
+        telemetry.update();
         tensorFlow.shutdown();
         robot.lift.lowerRobotToGround();
         robot.drive.unlatch();
+        if (goldPos == TensorFlow.GoldPosition.RIGHT) {
+            sleepFor(15000);
+        }
         robot.turnToHeadingCenterPivot(0);
         robot.sample(goldPos);
         robot.goToDepot(goldPos);
         robot.claim.deploy();
-        sleep(2000);
+        sleepFor(2000);
         robot.claim.stow();
         robot.drive.setIndividualPowers(-0.5, -0.5, -0.5, -0.5);
-        sleep(500);
+        sleepFor(500);
         robot.drive.stop();
+    }
+
+    private void sleepFor(double milliseconds) {
+        sleepTimer.reset();
+        while (sleepTimer.milliseconds() < milliseconds) {
+            telemetry.addData("Status", "sleeping");
+            telemetry.update();
+        }
     }
 }
