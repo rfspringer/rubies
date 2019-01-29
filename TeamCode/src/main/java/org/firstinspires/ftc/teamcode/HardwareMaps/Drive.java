@@ -70,10 +70,6 @@ public class Drive
     private double LATERAL_DISTANCE_CENTER = -400;
     private double LATERAL_DISTANCE_RIGHT = -100;
 
-    private double lateralMineralDistance;
-    private double verticalMineralDistance;
-    private double lateralToWallDistance;
-
     private MecanumTrajectoryFollower unlatchAwayFromLander;
     private MecanumTrajectoryFollower unlatchParallelToLander;
     private MecanumTrajectoryFollower driveAwayFromLander;
@@ -81,6 +77,7 @@ public class Drive
     private MecanumTrajectoryFollower lateralMineral;
     private MecanumTrajectoryFollower verticalMineral;
     private MecanumTrajectoryFollower lateralToWall;
+    private MecanumTrajectoryFollower awayFromWall;
 
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
@@ -124,6 +121,7 @@ public class Drive
         unlatchParallelToLander = initializeTrajectory(0, -6, 0);
         driveAwayFromLander = initializeTrajectory(-8, 0, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
+        awayFromWall = initializeTrajectory(10, 0, 45);
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {
@@ -202,7 +200,11 @@ public class Drive
         lateralMineral.run();
         verticalMineral.run();
         verticalMineral.runBackwards();
+    }
+
+    public void alignWithWall() {
         lateralToWall.run();
+        awayFromWall.run();
     }
 
     private void initializeSamplingTrajectories(TensorFlow.GoldPosition goldPosition) {
