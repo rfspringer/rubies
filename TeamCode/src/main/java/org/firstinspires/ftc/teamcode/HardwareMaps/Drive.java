@@ -65,16 +65,22 @@ public class Drive
     public double MAX_STRAFE_VELOCITY = 13;
     public double MAX_ACCEL = 25;
 
+    private double TOTAL_DISTANCE_TO_WALL = -1000;
+    private double LATERAL_DISTANCE_LEFT = -600;
+    private double LATERAL_DISTANCE_CENTER = -400;
+    private double LATERAL_DISTANCE_RIGHT = -100;
+
+    private double lateralMineralDistance;
+    private double verticalMineralDistance;
+    private double lateralToWallDistance;
+
     private MecanumTrajectoryFollower unlatchAwayFromLander;
     private MecanumTrajectoryFollower unlatchParallelToLander;
     private MecanumTrajectoryFollower driveAwayFromLander;
     private MecanumTrajectoryFollower driveAwayFromMarker;
-    private MecanumTrajectoryFollower lateralLeftMineral;
-    private MecanumTrajectoryFollower verticalLeftMineral;
-    private MecanumTrajectoryFollower lateralCenterMineral;
-    private MecanumTrajectoryFollower verticalCenterMineral;
-    private MecanumTrajectoryFollower lateralRightMineral;
-    private MecanumTrajectoryFollower verticalRightMineral;
+    private MecanumTrajectoryFollower lateralMineral;
+    private MecanumTrajectoryFollower verticalMineral;
+    private MecanumTrajectoryFollower lateralToWall;
 
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
@@ -118,12 +124,6 @@ public class Drive
         unlatchParallelToLander = initializeTrajectory(0, -6, 0);
         driveAwayFromLander = initializeTrajectory(-8, 0, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
-        lateralRightMineral = initializeTrajectory(, , 45);
-        lateralCenterMineral = initializeTrajectory(, , 45);
-        lateralLeftMineral = initializeTrajectory(, , 45);
-        verticalRightMineral = initializeTrajectory(, , 45);
-        verticalCenterMineral = initializeTrajectory(, , 45);
-        verticalLeftMineral = initializeTrajectory(, , 45);
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {
@@ -198,31 +198,39 @@ public class Drive
     }
 
     public void sample(TensorFlow.GoldPosition goldPosition) {
+        initializeSamplingTrajectories(goldPosition);
+        lateralMineral.run();
+        verticalMineral.run();
+        verticalMineral.runBackwards();
+        lateralToWall.run();
+    }
+
+    private void initializeSamplingTrajectories(TensorFlow.GoldPosition goldPosition) {
         if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
-            sampleRight();
+            initializeRightTrajectories();
         } else if (goldPosition == TensorFlow.GoldPosition.CENTER) {
-            sampleCenter();
+            initializeCenterTrajectories();
         } else {
-            sampleLeft();
+            initializeLeftTrajectories();
         }
     }
 
-    public void sampleRight() {
-        lateralRightMineral.run();
-        verticalRightMineral.run();
-        verticalRightMineral.runBackwards();
+    private void initializeRightTrajectories() {
+        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_RIGHT, 0, 45);
+        verticalMineral = initializeTrajectory(0, , 45);
+        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_RIGHT, 0, 45);
     }
 
-    public void sampleCenter() {
-        lateralCenterMineral.run();
-        verticalCenterMineral.run();
-        verticalCenterMineral.runBackwards();
+    private void initializeCenterTrajectories() {
+        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_CENTER, 0, 45);
+        verticalMineral = initializeTrajectory(0, , 45);
+        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_CENTER, 0, 45);
     }
 
-    public void sampleLeft() {
-        lateralLeftMineral.run();
-        verticalLeftMineral.run();
-        verticalLeftMineral.runBackwards();
+    private void initializeLeftTrajectories() {
+        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_LEFT, 0, 45);
+        verticalMineral = initializeTrajectory(0, , 45);
+        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_LEFT, 0, 45);
     }
 
     public void driveAwayFromMarker() {
