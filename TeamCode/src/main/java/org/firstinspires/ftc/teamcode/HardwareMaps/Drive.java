@@ -109,7 +109,7 @@ public class Drive
     private void initializeTrajectories() {
         unlatchAwayFromLander = initializeTrajectory(-3, 0, 0);
         unlatchParallelToLander = initializeTrajectory(0, -6, 0);
-        driveAwayFromLander = initializeTrajectory(-8, 0, 0);
+        driveAwayFromLander = initializeTrajectory(-10, 0, 45);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
     }
 
@@ -186,6 +186,9 @@ public class Drive
 
     public void driveAwayFromMarker() {
         driveAwayFromMarker.run();
+    }
+    public void driveAwayFromLander() {
+        driveAwayFromLander.run();
     }
 
     public void setInAutonomous(boolean inAutonomous) {

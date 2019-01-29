@@ -132,6 +132,7 @@ public class Robot
 
     public void unlatch() {
         turnToHeadingRightPivot(45);
+        drive.driveAwayFromLander();
     }
 
     private void initializeSamplingTrajectories() {
