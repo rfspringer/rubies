@@ -38,6 +38,7 @@ import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryGenerator;
 import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
 import org.firstinspires.ftc.teamcode.Library.PIDController;
+import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -68,6 +69,12 @@ public class Drive
     private MecanumTrajectoryFollower unlatchParallelToLander;
     private MecanumTrajectoryFollower driveAwayFromLander;
     private MecanumTrajectoryFollower driveAwayFromMarker;
+    private MecanumTrajectoryFollower lateralLeftMineral;
+    private MecanumTrajectoryFollower verticalLeftMineral;
+    private MecanumTrajectoryFollower lateralCenterMineral;
+    private MecanumTrajectoryFollower verticalCenterMineral;
+    private MecanumTrajectoryFollower lateralRightMineral;
+    private MecanumTrajectoryFollower verticalRightMineral;
 
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
@@ -111,6 +118,12 @@ public class Drive
         unlatchParallelToLander = initializeTrajectory(0, -6, 0);
         driveAwayFromLander = initializeTrajectory(-8, 0, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
+        lateralRightMineral = initializeTrajectory(, , 45);
+        lateralCenterMineral = initializeTrajectory(, , 45);
+        lateralLeftMineral = initializeTrajectory(, , 45);
+        verticalRightMineral = initializeTrajectory(, , 45);
+        verticalCenterMineral = initializeTrajectory(, , 45);
+        verticalLeftMineral = initializeTrajectory(, , 45);
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {
@@ -182,6 +195,22 @@ public class Drive
         unlatchAwayFromLander.run();
         unlatchParallelToLander.run();
         driveAwayFromLander.run();
+    }
+
+    public void sample(TensorFlow.GoldPosition goldPosition) {
+        if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
+
+        } else if (goldPosition == TensorFlow.GoldPosition.CENTER) {
+
+        } else {
+
+        }
+    }
+
+    public void sampleRight() {
+        lateralRightMineral.run();
+        verticalRightMineral.run();
+        verticalRightMineral.runBackwards();
     }
 
     public void driveAwayFromMarker() {
