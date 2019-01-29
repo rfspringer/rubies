@@ -199,11 +199,11 @@ public class Drive
 
     public void sample(TensorFlow.GoldPosition goldPosition) {
         if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
-
+            sampleRight();
         } else if (goldPosition == TensorFlow.GoldPosition.CENTER) {
-
+            sampleCenter();
         } else {
-
+            sampleLeft();
         }
     }
 
@@ -211,6 +211,18 @@ public class Drive
         lateralRightMineral.run();
         verticalRightMineral.run();
         verticalRightMineral.runBackwards();
+    }
+
+    public void sampleCenter() {
+        lateralCenterMineral.run();
+        verticalCenterMineral.run();
+        verticalCenterMineral.runBackwards();
+    }
+
+    public void sampleLeft() {
+        lateralLeftMineral.run();
+        verticalLeftMineral.run();
+        verticalLeftMineral.runBackwards();
     }
 
     public void driveAwayFromMarker() {
