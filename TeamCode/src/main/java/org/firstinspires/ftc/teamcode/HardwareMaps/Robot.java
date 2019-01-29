@@ -131,7 +131,7 @@ public class Robot
     }
 
     public void unlatch() {
-        turnToHeadingRightPivot(45);''
+        turnToHeadingRightPivot(45);
     }
 
     private void initializeSamplingTrajectories() {
