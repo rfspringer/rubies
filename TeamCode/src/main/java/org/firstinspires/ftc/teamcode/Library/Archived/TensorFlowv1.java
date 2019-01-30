@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Library;
+package org.firstinspires.ftc.teamcode.Library.Archived;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
 
-public class TensorFlow {
+public class TensorFlowv1 {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
@@ -18,10 +18,6 @@ public class TensorFlow {
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
     private HardwareMap hwMap;
-
-    private int leftConfidence;
-    private int centerConfidence;
-    private int rightConfidence;
 
     private int LEFT_THRESHOLD = 275;
     private int RIGHT_THRESHOLD = 475;
@@ -51,70 +47,45 @@ public class TensorFlow {
         }
     }
 
+    public GoldPosition getGoldPos() {
+        GoldPosition goldPosition;
+        determineGoldMineralX();
+        if (goldMineralX < LEFT_THRESHOLD) {
+            goldPosition = GoldPosition.LEFT;
+        } else if (goldMineralX < RIGHT_THRESHOLD) {
+            goldPosition = GoldPosition.CENTER;
+        } else {
+            goldPosition = GoldPosition.RIGHT;
+        }
+        return goldPosition;
+    }
+
+    private void determineGoldMineralX() {
+        if (tfod != null) {
+            Recognition goldMineral = identifyGoldMineral();
+            if (goldMineral != null) {
+                goldMineralX = (int) goldMineral.getLeft();
+            }
+        }
+    }
+
+    private Recognition identifyGoldMineral() {
+        Recognition goldMineral = null;
+        List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+        if (updatedRecognitions != null) {
+            for (Recognition recognition : updatedRecognitions) {
+                if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                    goldMineral = recognition;
+                }
+            }
+        }
+        return goldMineral;
+    }
 
     public void shutdown() {
         if (tfod != null) {
             tfod.shutdown();
         }
-    }
-
-    public GoldPosition getGoldPos() {
-        calculateConfidencesInThresholds();
-        return returnGoldPos();
-    }
-
-    private void calculateConfidencesInThresholds() {
-        List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-        if (updatedRecognitions != null) {
-            for (Recognition recognition : updatedRecognitions) {
-                if (recognition.getLeft()  < LEFT_THRESHOLD) {
-                    updateLeftConfidence(recognition);
-                } else if (recognition.getLeft() > RIGHT_THRESHOLD) {
-                    updateRightConfidence(recognition);
-                } else {
-                    updateCenterConfidence(recognition);
-                }
-            }
-        }
-    }
-
-    private void updateRightConfidence(Recognition recognition) {
-        rightConfidence += calculateConfidenceChange(recognition);
-    }
-
-    private void updateCenterConfidence(Recognition recognition) {
-        centerConfidence += calculateConfidenceChange(recognition);
-    }
-
-    private void updateLeftConfidence(Recognition recognition) {
-        leftConfidence += calculateConfidenceChange(recognition);
-    }
-
-    private double calculateConfidenceChange(Recognition recognition) {
-        double magnitudeChange = recognition.getConfidence();
-        if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-            return magnitudeChange;
-        } else {
-            return -magnitudeChange;
-        }
-    }
-
-    private GoldPosition returnGoldPos() {
-        if (leftConfidenceIsHighest()) {
-            return GoldPosition.LEFT;
-        } else if (centerConfidenceIsHighest()) {
-            return GoldPosition.CENTER;
-        } else {
-            return GoldPosition.RIGHT;
-        }
-    }
-
-    private boolean leftConfidenceIsHighest() {
-        return leftConfidence > centerConfidence && leftConfidence > rightConfidence;
-    }
-
-    private boolean centerConfidenceIsHighest() {
-        return centerConfidence > leftConfidence && centerConfidence > rightConfidence;
     }
 
     public int getGoldMineralX() {
