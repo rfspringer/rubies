@@ -26,7 +26,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.firstinspires.ftc.teamcode.HardwareMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Archived;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -35,8 +35,8 @@ import com.qualcomm.robotcore.hardware.Servo;
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Claim {
-    private static final Claim instance = new Claim();
+public class Claimv3 {
+    private static final Claimv3 instance = new Claimv3();
     /* Public OpMode members. */
     private Servo claimServo;
 
@@ -44,7 +44,7 @@ public class Claim {
     private double DEPLOYED_POS = 0.0;
 
     /* Constructor */
-    private Claim(){
+    private Claimv3(){
     }
 
     /* Initialize standard Hardware interfaces */
@@ -61,7 +61,7 @@ public class Claim {
         claimServo.setPosition(DEPLOYED_POS);
     }
 
-    public static Claim getInstance(){
+    public static Claimv3 getInstance(){
         return instance;
     }
 }

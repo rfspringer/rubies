@@ -27,26 +27,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HardwareMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Archived;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.Library.VexMotorEnhanced;
 
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Mineral {
-    private static final Mineral instance = new Mineral();
+public class Mineralv3 {
+    private static final Mineralv3 instance = new Mineralv3();
     private MineralArm arm = MineralArm.getInstance();
-    private MineralIntake intake = MineralIntake.getInstance();
-    private MineralExtension extension = MineralExtension.getInstance();
+    private MineralIntakev3 intake = MineralIntakev3.getInstance();
+    private MineralExtensionv3 extension = MineralExtensionv3.getInstance();
 
     private HardwareMap hwMap;
 
     /* Constructor */
-    private Mineral(){
+    private Mineralv3(){
     }
 
     /* Initialize standard Hardware interfaces */
@@ -93,7 +91,7 @@ public class Mineral {
         intake.setScaledPower(power);
     }
 
-    public static Mineral getInstance() {
+    public static Mineralv3 getInstance() {
         return instance;
     }
 }

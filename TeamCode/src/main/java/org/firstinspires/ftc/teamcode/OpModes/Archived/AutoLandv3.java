@@ -5,14 +5,16 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv3;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
-import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
 
-@Autonomous(name="Auto No Claimv3", group="Iterative Opmode")
-@Disabled
-public class AutoNoClaimv2 extends LinearOpMode {
+@Autonomous(name="Land", group="auto")
+//@Disabled
+public class AutoLandv3 extends LinearOpMode {
     // Declare OpMode members
-    private Robotv2 robot = Robotv2.getInstance();
+    private Robotv3 robot = Robotv3.getInstance();
     private TensorFlow tensorFlow = new TensorFlow();
 
     @Override
@@ -22,18 +24,17 @@ public class AutoNoClaimv2 extends LinearOpMode {
         robot.init(hardwareMap);
         tensorFlow.init(hardwareMap);
         robot.lift.holdHangingPosition();
-        TrajectoryFollower driveAwayFromLatch = robot.drive.initializeTrajectory(-15, -30);
-        TrajectoryFollower driveFromUnlatchedToDepot = robot.drive.initializeTrajectory(150, 180);
-        TrajectoryFollower driveALittleExtra = robot.drive.initializeTrajectory(-10, 30);
-
-        telemetry.addData("Instructions", "Initialize robot against left wall");
+        robot.drive.setInAutonomous(true);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         tensorFlow.activate();
 
 
         // Wait for the game to start (driver presses PLAY)
-        waitForStart();
+        while (!isStarted() && !isStopRequested()) {
+            telemetry.addData("Status", "Initialized");
+            telemetry.update();
+        }
         TensorFlow.GoldPosition goldPos = tensorFlow.getGoldPos();
         tensorFlow.shutdown();
         telemetry.addData("Task", "Time to lower from the lander!");
@@ -41,17 +42,6 @@ public class AutoNoClaimv2 extends LinearOpMode {
         robot.lift.lowerRobotToGround();
         telemetry.addData("Task", "Alrighty, now I'm gonna turn");
         telemetry.update();
-        robot.turnToHeadingCenterPivot(-30);
-        telemetry.addData("Task", "Now I'll drive out from the latch :)");
-        telemetry.update();
-        driveAwayFromLatch.run();
-        telemetry.addData("Task", "I'm gonna sample!");
-        telemetry.addData("Mineral", goldPos);
-        telemetry.update();
-        robot.sample(goldPos);
-        robot.drive.setPowers(-0.3, -0.3);
-        sleep(750);
-        robot.drive.setPowers(0, 0);
-        telemetry.addData(">", "All done!!!");
+        robot.drive.unlatch();
     }
 }

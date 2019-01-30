@@ -27,21 +27,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv3;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
 
 
-@TeleOp(name="Teleop", group="teleop")
-public class Teleop extends OpMode {
-    private Robot robot = Robot.getInstance();
+@TeleOp(name="Teleopv3", group="teleop")
+public class Teleopv3 extends OpMode {
+    private Robotv3 robot = Robotv3.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
     private GamepadEnhanced gamepadB = new GamepadEnhanced();

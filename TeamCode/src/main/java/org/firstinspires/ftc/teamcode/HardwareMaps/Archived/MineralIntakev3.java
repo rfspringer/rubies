@@ -27,49 +27,78 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HardwareMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Archived;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.Library.VexMotorEnhanced;
 
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class MineralExtension {
-    private static final MineralExtension instance = new MineralExtension();
-    /* Public OpMode members. */
-    private DcMotor extension = null;
+public class MineralIntakev3 {
+    private static final MineralIntakev3 instance = new MineralIntakev3();
 
-    /* local OpMode members. */
+    private CRServo intake = null;
+    private Servo bucket = null;
     private HardwareMap hwMap = null;
 
+    private double INTAKE_POWER = 1;
+    private double OUTTAKE_POWER = -1;
+
+    private double INTAKE_POSITION = 0.7;
+    private double STORAGE_POSITION = 0.95;
+    private double DUMP_POSITION = 0.5;
+
     /* Constructor */
-    private MineralExtension(){
+    private MineralIntakev3(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        extension = hwMap.get(DcMotor.class, "extension");
-        extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        extension.setDirection(DcMotorSimple.Direction.FORWARD);
-        extension.setPower(0);
+        bucket = hwMap.servo.get("bucket");
+        intake = hwMap.crservo.get("intake");
+        bucket.setPosition(1);
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setPower(0);
     }
 
-    public void setPower(double power) {
-        extension.setPower(power);
+    public void setToIntake() {
+        setScaledPower(1);
+        bucket.setPosition(INTAKE_POSITION);
     }
 
-//    public int getEncoderCounts() {
-//        return extension.getCurrentPosition();
-//    }
+    public void storeMinerals() {
+        bucket.setPosition(STORAGE_POSITION);
+    }
 
-    public static MineralExtension getInstance(){
+    public void dumpMinerals() {
+        bucket.setPosition(DUMP_POSITION);
+    }
+
+    public void setRawPower(double power) {
+        intake.setPower(power);
+    }
+
+    public double getRawPower() {
+        return intake.getPower();
+    }
+
+    public void setScaledPower(double power) {
+        VexMotorEnhanced.setScaledPower(intake, power);
+    }
+
+    public double getScaledPower() {
+        return VexMotorEnhanced.getScaledPower(intake);
+    }
+
+    public static MineralIntakev3 getInstance(){
         return instance;
     }
-
 }
 
