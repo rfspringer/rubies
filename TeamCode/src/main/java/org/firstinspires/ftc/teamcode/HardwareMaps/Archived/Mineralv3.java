@@ -37,7 +37,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 public class Mineralv3 {
     private static final Mineralv3 instance = new Mineralv3();
-    private MineralArm arm = MineralArm.getInstance();
+    private MineralArmv3 arm = MineralArmv3.getInstance();
     private MineralIntakev3 intake = MineralIntakev3.getInstance();
     private MineralExtensionv3 extension = MineralExtensionv3.getInstance();
 
