@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
 @Autonomous(name="Land", group="auto")
-//@Disabled
+@Disabled
 public class AutoLandv3 extends LinearOpMode {
     // Declare OpMode members
     private Robotv3 robot = Robotv3.getInstance();

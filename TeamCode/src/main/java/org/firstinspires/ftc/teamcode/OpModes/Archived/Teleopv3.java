@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -41,6 +42,7 @@ import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
 
 
 @TeleOp(name="Teleopv3", group="teleop")
+@Disabled
 public class Teleopv3 extends OpMode {
     private Robotv3 robot = Robotv3.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
