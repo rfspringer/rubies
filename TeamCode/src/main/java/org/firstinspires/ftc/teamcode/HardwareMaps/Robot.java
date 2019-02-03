@@ -49,12 +49,10 @@ public class Robot
     public Drive drive = Drive.getInstance();
     public Sensors sensors = Sensors.getInstance();
     public Mineral mineral = Mineral.getInstance();
+    public Lift lift = Lift.getInstance();
 
     public FTCLogger logger = new FTCLogger();
 
-    private MecanumTrajectoryFollower leftMineralTrajectory;
-    private MecanumTrajectoryFollower centerMineralTrajectory;
-    private MecanumTrajectoryFollower rightMineralTrajectory;
     private MecanumTrajectoryFollower depotTrajectory;
 
     /* Constructor */
@@ -66,6 +64,7 @@ public class Robot
         drive.init(hwMap);
         sensors.init(hwMap);
         mineral.init(hwMap);
+        lift.init(hwMap);
     }
 
     public void turnToHeadingCenterPivot(double targetHeading) {
