@@ -48,6 +48,7 @@ public class Robot
 
     public Drive drive = Drive.getInstance();
     public Sensors sensors = Sensors.getInstance();
+    public Mineral mineral = Mineral.getInstance();
 
     public FTCLogger logger = new FTCLogger();
 
@@ -64,6 +65,7 @@ public class Robot
     public void init(HardwareMap hwMap) {
         drive.init(hwMap);
         sensors.init(hwMap);
+        mineral.init(hwMap);
     }
 
     public void turnToHeadingCenterPivot(double targetHeading) {
