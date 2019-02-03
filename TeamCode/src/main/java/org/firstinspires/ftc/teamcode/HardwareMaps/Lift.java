@@ -29,9 +29,11 @@
 
 package org.firstinspires.ftc.teamcode.HardwareMaps;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -42,6 +44,7 @@ public class Lift {
     private static final Lift instance = new Lift();
     /* Public OpMode members. */
     private DcMotor  lift   = null;
+    private CRServo pin = null;
 
     /* local OpMode members. */
     private HardwareMap hwMap = null;
@@ -55,12 +58,30 @@ public class Lift {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
+        initializeMotor();
+        initializeServo();
+    }
+
+    private void initializeMotor() {
         lift = hwMap.get(DcMotor.class, "lift");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setPower(0);
+    }
+
+    private void initializeServo() {
+        pin = hwMap.crservo.get("pin");
+        pin.setPower(0);
+    }
+
+    public void removePin() {
+        pin.setPower(-1);
+    }
+
+    public void stopPinServo() {
+        pin.setPower(0);
     }
 
     public void setPower(double power) {
@@ -83,10 +104,6 @@ public class Lift {
         lift.setMode(runMode);
     }
 
-    public int getEncoderCounts() {
-        return lift.getCurrentPosition();
-    }
-
     public void lowerRobotToGround() {
         boolean actionIsComplete = false;
         ElapsedTime time = new ElapsedTime();
@@ -100,17 +117,8 @@ public class Lift {
         setPower(0);
     }
 
-    public void kindaHoldHangingPosition() {
-        setTargetPosition(6);
-        setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(1);
-    }
-
     public void holdHangingPosition() {
         setPower(0.2);
-//        setTargetPosition(4);
-//        setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        setPower(1);
     }
 
     private boolean robotIsCloseToGround(ElapsedTime time) {
