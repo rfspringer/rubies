@@ -95,6 +95,7 @@ public class Drive
         initializeTrajectories();
         setMotorDirections();
         setIndividualPowers(0, 0, 0, 0);
+        MotorEnhanced.setDirection(allMotors, Direction.FORWARD);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
     }
