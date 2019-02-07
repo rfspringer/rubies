@@ -57,7 +57,7 @@ public class MineralArm {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        motor1 = hwMap.dcMotor.get( "arm1");
+        motor1 = hwMap.dcMotor.get("arm1");
         motor2 = hwMap.dcMotor.get("arm2");
         initializeMotor(motor1);
         initializeMotor(motor2);
@@ -66,7 +66,7 @@ public class MineralArm {
     private void initializeMotor(DcMotor motor) {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor.setDirection(DcMotorSimple.Direction.REVERSE);
         motor.setPower(0);
     }
 

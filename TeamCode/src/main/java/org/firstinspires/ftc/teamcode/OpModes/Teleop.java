@@ -87,7 +87,6 @@ public class Teleop extends OpMode {
             robot.drive.setPowers(0.5 * gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK),
                     gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
         }
-
     }
 
     private double getHeadingCorrection() {
@@ -99,7 +98,7 @@ public class Teleop extends OpMode {
     }
 
     private void controlArm() {
-        robot.mineral.setArmPower(-gamepadB.left_stick_y);
+        robot.mineral.setArmPower(-0.5* gamepadB.left_stick_y);
     }
 
     private void controlIntake() {
