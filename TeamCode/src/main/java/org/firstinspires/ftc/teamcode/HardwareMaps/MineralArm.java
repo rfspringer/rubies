@@ -33,12 +33,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Library.AccelerationController;
+
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
 public class MineralArm {
     private static final MineralArm instance = new MineralArm();
+
+    private AccelerationController pivotAccelerationControl = new AccelerationController(2.5);
     /* Public OpMode members. */
     private DcMotor motor1 = null;
     private DcMotor motor2 = null;
@@ -67,8 +71,8 @@ public class MineralArm {
     }
 
     public void setPowers(double power) {
-        motor1.setPower(power);
-        motor2.setPower(power);
+        DcMotor[] motors = {motor1, motor2};
+        pivotAccelerationControl.run(power, motors);
     }
 
     public static MineralArm getInstance(){

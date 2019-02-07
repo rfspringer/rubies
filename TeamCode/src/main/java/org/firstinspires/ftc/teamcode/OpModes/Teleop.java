@@ -34,7 +34,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv3;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
@@ -77,6 +76,7 @@ public class Teleop extends OpMode {
         controlIntake();
         controlExtension();
         controlLift();
+        controlPin();
     }
 
     private void controlDrive() {
@@ -90,7 +90,6 @@ public class Teleop extends OpMode {
 
     }
 
-
     private double getHeadingCorrection() {
         if (Math.abs(gamepadA.right_stick_x) < 0.7) {
             return 0;
@@ -100,7 +99,7 @@ public class Teleop extends OpMode {
     }
 
     private void controlArm() {
-        robot.mineral.setArmPower(-0.4 * gamepadB.left_stick_y);
+        robot.mineral.setArmPower(-gamepadB.left_stick_y);
     }
 
     private void controlIntake() {
@@ -141,6 +140,13 @@ public class Teleop extends OpMode {
         }
     }
 
+    private void controlPin() {
+        if (gamepadA.y) {
+            robot.lift.removePin();
+        } else {
+            robot.lift.stopPin();
+        }
+    }
 
 
     @Override

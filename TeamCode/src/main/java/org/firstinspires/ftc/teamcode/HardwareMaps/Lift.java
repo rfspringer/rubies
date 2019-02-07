@@ -36,6 +36,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Library.VexMotorEnhanced;
+
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
@@ -77,11 +79,11 @@ public class Lift {
     }
 
     public void removePin() {
-        pin.setPower(-1);
+        VexMotorEnhanced.setScaledPower(pin, -1);
     }
 
-    public void stopPinServo() {
-        pin.setPower(0);
+    public void stopPin() {
+        VexMotorEnhanced.setScaledPower(pin, 0);
     }
 
     public void setPower(double power) {
