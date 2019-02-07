@@ -52,7 +52,7 @@ public class MineralIntake {
 
     private double INTAKE_POSITION = 0.54;
     private double STORAGE_POSITION = 0.4;
-    private double DUMP_POSITION = 0.7;
+    private double DUMP_POSITION = 0.8;
 
     /* Constructor */
     private MineralIntake(){
@@ -63,7 +63,7 @@ public class MineralIntake {
         hwMap = ahwMap;
         bucket = hwMap.servo.get("bucket");
         intake = hwMap.crservo.get("intake");
-        bucket.setPosition(1);
+        bucket.setPosition(INTAKE_POSITION);
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setPower(0);
     }

@@ -98,7 +98,7 @@ public class Teleop extends OpMode {
     }
 
     private void controlArm() {
-        robot.mineral.setArmPower(-0.5* gamepadB.left_stick_y);
+        robot.mineral.setArmPower(-0.3 * gamepadB.left_stick_y);
     }
 
     private void controlIntake() {
