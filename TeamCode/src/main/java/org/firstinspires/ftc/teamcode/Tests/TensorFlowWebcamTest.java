@@ -70,6 +70,7 @@ public class TensorFlowWebcamTest extends LinearOpMode {
 
             tensorFlow.getGoldPos();
             telemetry.addData("Gold Mineral Position by variable", tensorFlow.getGoldMineralX());
+            telemetry.addData("Gold Mineral Pos", tensorFlow.getGoldPos());
             telemetry.update();
         }
 
