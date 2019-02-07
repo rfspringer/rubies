@@ -26,6 +26,8 @@ public class TensorFlow {
     private int LEFT_THRESHOLD = 275;
     private int RIGHT_THRESHOLD = 475;
 
+    private GoldPosition goldPosition;
+
     private int goldMineralX;
 
     public enum GoldPosition {
@@ -59,20 +61,23 @@ public class TensorFlow {
     }
 
     public GoldPosition getGoldPos() {
+        initializeConfidences();
         calculateConfidencesInThresholds();
         return returnGoldPos();
     }
 
     private void calculateConfidencesInThresholds() {
-        List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-        if (updatedRecognitions != null) {
-            for (Recognition recognition : updatedRecognitions) {
-                if (recognition.getLeft()  < LEFT_THRESHOLD) {
-                    updateLeftConfidence(recognition);
-                } else if (recognition.getLeft() > RIGHT_THRESHOLD) {
-                    updateRightConfidence(recognition);
-                } else {
-                    updateCenterConfidence(recognition);
+        if (tfod != null) {
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                for (Recognition recognition : updatedRecognitions) {
+                    if (recognition.getLeft()  < LEFT_THRESHOLD) {
+                        updateLeftConfidence(recognition);
+                    } else if (recognition.getLeft() > RIGHT_THRESHOLD) {
+                        updateRightConfidence(recognition);
+                    } else {
+                        updateCenterConfidence(recognition);
+                    }
                 }
             }
         }
@@ -90,6 +95,12 @@ public class TensorFlow {
         leftConfidence += calculateConfidenceChange(recognition);
     }
 
+    private void initializeConfidences() {
+        leftConfidence = 0;
+        centerConfidence = 0;
+        rightConfidence = 0;
+    }
+
     private double calculateConfidenceChange(Recognition recognition) {
         double magnitudeChange = recognition.getConfidence();
         if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
@@ -101,12 +112,13 @@ public class TensorFlow {
 
     private GoldPosition returnGoldPos() {
         if (leftConfidenceIsHighest()) {
-            return GoldPosition.LEFT;
+            goldPosition = GoldPosition.LEFT;
         } else if (centerConfidenceIsHighest()) {
-            return GoldPosition.CENTER;
-        } else {
-            return GoldPosition.RIGHT;
+            goldPosition = GoldPosition.CENTER;
+        } else if (rightConfidenceIsHighest()){
+            goldPosition = GoldPosition.RIGHT;
         }
+        return goldPosition;
     }
 
     private boolean leftConfidenceIsHighest() {
@@ -115,6 +127,10 @@ public class TensorFlow {
 
     private boolean centerConfidenceIsHighest() {
         return centerConfidence > leftConfidence && centerConfidence > rightConfidence;
+    }
+
+    private boolean rightConfidenceIsHighest() {
+        return rightConfidence > leftConfidence && rightConfidence > centerConfidence;
     }
 
     public int getGoldMineralX() {
