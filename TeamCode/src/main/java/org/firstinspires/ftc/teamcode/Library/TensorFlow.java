@@ -19,16 +19,18 @@ public class TensorFlow {
     private TFObjectDetector tfod;
     private HardwareMap hwMap;
 
-    private int leftConfidence;
-    private int centerConfidence;
-    private int rightConfidence;
+    private double leftConfidence;
+    private double centerConfidence;
+    private double rightConfidence;
 
-    private int LEFT_THRESHOLD = 275;
+    private double confidenceChange;
+
+    private int LEFT_THRESHOLD = 160;
     private int RIGHT_THRESHOLD = 475;
 
-    private GoldPosition goldPosition;
+    private double goldX = 0;
 
-    private int goldMineralX;
+    private GoldPosition goldPosition;
 
     public enum GoldPosition {
         LEFT,
@@ -66,6 +68,19 @@ public class TensorFlow {
         return returnGoldPos();
     }
 
+    public double getGoldX() {
+        if (tfod != null) {
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                for (Recognition recognition : updatedRecognitions) {
+                    if (recognition.getLabel().equals(LABEL_GOLD_MINERAL))
+                        goldX = recognition.getLeft();
+                }
+            }
+        }
+        return goldX;
+    }
+
     private void calculateConfidencesInThresholds() {
         if (tfod != null) {
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
@@ -92,7 +107,8 @@ public class TensorFlow {
     }
 
     private void updateCenterConfidence(Recognition recognition) {
-        centerConfidence += calculateConfidenceChange(recognition);
+        confidenceChange = calculateConfidenceChange(recognition);
+        centerConfidence += confidenceChange;
     }
 
     private void updateLeftConfidence(Recognition recognition) {
@@ -108,6 +124,7 @@ public class TensorFlow {
     private double calculateConfidenceChange(Recognition recognition) {
         double magnitudeChange = recognition.getConfidence();
         if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+            confidenceChange = magnitudeChange;
             return magnitudeChange;
         } else {
             return -magnitudeChange;
@@ -135,10 +152,6 @@ public class TensorFlow {
 
     private boolean rightConfidenceIsHighest() {
         return rightConfidence > leftConfidence && rightConfidence > centerConfidence;
-    }
-
-    public int getGoldMineralX() {
-        return goldMineralX;
     }
 
     /**
