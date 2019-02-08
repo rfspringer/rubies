@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
 @Autonomous(name="Park", group="auto")
-@Disabled
+//@Disabled
 public class AutoParkv3 extends LinearOpMode {
     // Declare OpMode members
     private Robotv3 robot = Robotv3.getInstance();
