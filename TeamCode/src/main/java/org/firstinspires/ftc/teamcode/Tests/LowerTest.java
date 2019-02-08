@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 
 @TeleOp(name="Lower Test", group="Tests")
 public class LowerTest extends LinearOpMode {
-    private Robotv3 robot = Robotv3.getInstance();
+    private Robot robot = Robot.getInstance();
 
     @Override
     public void runOpMode() {
@@ -19,7 +19,7 @@ public class LowerTest extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         while (opModeIsActive()) {
-            robot.lift.lowerRobotToGround();
+            robot.lift.lower();
             telemetry.addData("Position", robot.lift.getMotor().getCurrentPosition());
             telemetry.update();
         }

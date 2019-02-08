@@ -51,7 +51,7 @@ public class Lift {
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
-    private int EXTENDED_ENCODER_COUNTS = -4700;
+    private int EXTENDED_ENCODER_COUNTS = -3600;
 
     /* Constructor */
     private Lift(){
@@ -86,8 +86,8 @@ public class Lift {
 
     private void removePinAutonomously() {
         ElapsedTime timer = new ElapsedTime();
-        while (timer.seconds() < 2) {
-            setPower(1);
+        while (timer.seconds() < 1.5) {
+            setPower(-1);
             removePin();
         }
     }
@@ -102,7 +102,7 @@ public class Lift {
     }
 
     private boolean robotIsCloseToGround(ElapsedTime time) {
-        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS )) || time.seconds() > 4;
+        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS )) || time.seconds() < 4;
     }
 
     private void stopLift() {

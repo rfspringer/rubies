@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 
 @TeleOp(name="Liftv3 Encoder Test", group="Tests")
 public class LiftEncoderTest extends LinearOpMode {
-    private Robotv3 robot = Robotv3.getInstance();
+    private Robot robot = Robot.getInstance();
 
     @Override
     public void runOpMode() {
@@ -19,7 +19,7 @@ public class LiftEncoderTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            telemetry.addData("Liftv3 Encoder Pos", robot.lift.getEncoderCounts());
+            telemetry.addData("Liftv3 Encoder Pos", robot.lift.getMotor().getCurrentPosition());
             telemetry.update();
         }
     }
