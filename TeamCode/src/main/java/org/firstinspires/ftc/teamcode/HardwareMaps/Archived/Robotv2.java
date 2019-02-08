@@ -31,8 +31,6 @@ package org.firstinspires.ftc.teamcode.HardwareMaps.Archived;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Claim;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Lift;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Library.PIDController;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
@@ -48,9 +46,9 @@ import static java.lang.Thread.sleep;
 public class Robotv2 {
     private static final Robotv2 instance = new Robotv2();
     public Drivev2 drive = Drivev2.getInstance();
-    public Lift lift = Lift.getInstance();
+    public Liftv3 lift = Liftv3.getInstance();
     public Mineralv2 mineral = Mineralv2.getInstance();
-    public Claim claim = Claim.getInstance();
+    public Claimv3 claim = Claimv3.getInstance();
     public Sensors sensors = Sensors.getInstance();
 
     /* Constructor */

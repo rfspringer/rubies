@@ -1,20 +1,17 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Mineral;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv3;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
-import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
-import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
 @Autonomous(name="Park", group="auto")
 //@Disabled
-public class AutoPark extends LinearOpMode {
+public class AutoParkv3 extends LinearOpMode {
     // Declare OpMode members
-    private Robot robot = Robot.getInstance();
+    private Robotv3 robot = Robotv3.getInstance();
     private TensorFlow tensorFlow = new TensorFlow();
 
     @Override

@@ -1,18 +1,20 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv3;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
-@Autonomous(name="Claim", group="auto")
-//@Disabled
-public class AutoClaim extends LinearOpMode {
+@Autonomous(name="Claimv3", group="auto")
+@Disabled
+public class AutoClaimv3 extends LinearOpMode {
     // Declare OpMode members
-    private Robot robot = Robot.getInstance();
+    private Robotv3 robot = Robotv3.getInstance();
     private TensorFlow tensorFlow = new TensorFlow();
     private ElapsedTime sleepTimer = new ElapsedTime();
 

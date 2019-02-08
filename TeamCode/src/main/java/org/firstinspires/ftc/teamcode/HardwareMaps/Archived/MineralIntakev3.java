@@ -27,14 +27,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HardwareMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Archived;
 
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Library.VexMotorEnhanced;
 
@@ -42,92 +40,64 @@ import org.firstinspires.ftc.teamcode.Library.VexMotorEnhanced;
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Lift {
-    private static final Lift instance = new Lift();
-    /* Public OpMode members. */
-    private DcMotor  lift   = null;
-    private CRServo pin = null;
+public class MineralIntakev3 {
+    private static final MineralIntakev3 instance = new MineralIntakev3();
 
-    /* local OpMode members. */
+    private CRServo intake = null;
+    private Servo bucket = null;
     private HardwareMap hwMap = null;
 
-    private int EXTENDED_ENCODER_COUNTS = -4700;
+    private double INTAKE_POWER = 1;
+    private double OUTTAKE_POWER = -1;
+
+    private double INTAKE_POSITION = 0.7;
+    private double STORAGE_POSITION = 0.95;
+    private double DUMP_POSITION = 0.5;
 
     /* Constructor */
-    private Lift(){
+    private MineralIntakev3(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        initializeMotor();
-        initializeServo();
+        bucket = hwMap.servo.get("bucket");
+        intake = hwMap.crservo.get("intake");
+        bucket.setPosition(1);
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setPower(0);
     }
 
-    private void initializeMotor() {
-        lift = hwMap.get(DcMotor.class, "lift");
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
-        lift.setPower(0);
+    public void setToIntake() {
+        setScaledPower(1);
+        bucket.setPosition(INTAKE_POSITION);
     }
 
-    private void initializeServo() {
-        pin = hwMap.crservo.get("pin");
-        pin.setPower(0);
+    public void storeMinerals() {
+        bucket.setPosition(STORAGE_POSITION);
     }
 
-    public void removePin() {
-        VexMotorEnhanced.setScaledPower(pin, -1);
+    public void dumpMinerals() {
+        bucket.setPosition(DUMP_POSITION);
     }
 
-    public void stopPin() {
-        VexMotorEnhanced.setScaledPower(pin, 0);
+    public void setRawPower(double power) {
+        intake.setPower(power);
     }
 
-    public void setPower(double power) {
-        lift.setPower(power);
+    public double getRawPower() {
+        return intake.getPower();
     }
 
-    public DcMotor getMotor() {
-        return lift;
+    public void setScaledPower(double power) {
+        VexMotorEnhanced.setScaledPower(intake, power);
     }
 
-    public int getCurrentPosition() {
-        return lift.getCurrentPosition();
+    public double getScaledPower() {
+        return VexMotorEnhanced.getScaledPower(intake);
     }
 
-    public void setTargetPosition(int targetPosition) {
-        lift.setTargetPosition(targetPosition);
-    }
-
-    public void setMode(DcMotor.RunMode runMode) {
-        lift.setMode(runMode);
-    }
-
-    public void lowerRobotToGround() {
-        boolean actionIsComplete = false;
-        ElapsedTime time = new ElapsedTime();
-        setTargetPosition(EXTENDED_ENCODER_COUNTS);
-        setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(0.9);
-        while (!actionIsComplete) {
-            actionIsComplete = robotIsCloseToGround(time);
-        }
-        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        setPower(0);
-    }
-
-    public void holdHangingPosition() {
-        setPower(0.2);
-    }
-
-    private boolean robotIsCloseToGround(ElapsedTime time) {
-        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS - 10)) || time.seconds() > 4;
-    }
-
-    public static Lift getInstance(){
+    public static MineralIntakev3 getInstance(){
         return instance;
     }
 }

@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
 
-@Autonomous(name="Auto No Claim", group="Iterative Opmode")
+@Autonomous(name="Auto No Claimv3", group="Iterative Opmode")
 @Disabled
 public class AutoNoClaimv2 extends LinearOpMode {
     // Declare OpMode members
