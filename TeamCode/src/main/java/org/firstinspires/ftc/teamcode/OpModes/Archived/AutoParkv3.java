@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv3;
@@ -8,7 +9,7 @@ import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
 @Autonomous(name="Park", group="auto")
-//@Disabled
+@Disabled
 public class AutoParkv3 extends LinearOpMode {
     // Declare OpMode members
     private Robotv3 robot = Robotv3.getInstance();
