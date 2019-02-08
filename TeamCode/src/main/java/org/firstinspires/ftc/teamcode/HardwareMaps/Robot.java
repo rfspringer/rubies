@@ -95,6 +95,31 @@ public class Robot
         drive.stop();
     }
 
+    public void sample(TensorFlow.GoldPosition goldLocation) {
+        if (goldLocation == TensorFlow.GoldPosition.LEFT) {
+            sampleLeft();
+        } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
+            sampleRight();
+        } else {
+            sampleCenter();
+        }
+    }
+
+    private void sampleLeft () {
+        turnToHeadingCenterPivot(sensors.getLeftMineralHeading());
+        drive.runSamplingTrajectory(TensorFlow.GoldPosition.LEFT, sensors.getLeftMineralHeading());
+    }
+
+    private void sampleCenter () {
+        turnToHeadingCenterPivot(sensors.getCenterMineralHeading());
+        drive.runSamplingTrajectory(TensorFlow.GoldPosition.CENTER, sensors.getCenterMineralHeading());
+    }
+
+    private void sampleRight () {
+        turnToHeadingCenterPivot(sensors.getRightMineralHeading());
+        drive.runSamplingTrajectory(TensorFlow.GoldPosition.RIGHT, sensors.getRightMineralHeading());
+    }
+
     public void goToDepot(TensorFlow.GoldPosition goldLocation) {
         double heading;
         if (goldLocation == TensorFlow.GoldPosition.LEFT) {

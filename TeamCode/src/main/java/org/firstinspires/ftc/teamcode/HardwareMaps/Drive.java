@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MecanumEnhanced;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryGenerator;
@@ -124,6 +125,21 @@ public class Drive
         driveAwayFromLander = initializeTrajectory(-10, 0, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
         awayFromWall = initializeTrajectory(10, 0, 0);
+    }
+
+    public void runSamplingTrajectory (TensorFlow.GoldPosition goldPosition, double heading) {
+        MecanumTrajectoryFollower trajectory = determineSamplingTrajectory(goldPosition, heading);
+        trajectory.run();
+    }
+
+    private MecanumTrajectoryFollower determineSamplingTrajectory (TensorFlow.GoldPosition goldPosition, double heading) {
+        if (goldPosition == TensorFlow.GoldPosition.LEFT) {
+            return initializeTrajectory(0, 54, heading);
+        } else if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
+            return initializeTrajectory(0, 57, heading);
+        } else {
+            return initializeTrajectory(0, 50, heading);
+        }
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {

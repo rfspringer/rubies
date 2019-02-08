@@ -10,11 +10,13 @@ import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
-@Autonomous(name="Park", group="auto")
+@Autonomous(name="Sample", group="auto")
 //@Disabled
-public class AutoPark extends RubiesLinearOpMode {
+public class AutoSample extends RubiesLinearOpMode {
     private Robot robot = Robot.getInstance();
     private TensorFlow tensorFlow = new TensorFlow();
+
+    private TensorFlow.GoldPosition goldPosition;
 
     @Override
     public void runOpMode() {
@@ -27,8 +29,11 @@ public class AutoPark extends RubiesLinearOpMode {
         tensorFlow.activate();
 
         waitForStart();
+        goldPosition = tensorFlow.getGoldPos();
+        tensorFlow.shutdown();
         robot.lift.lower();
         robot.drive.unlatch();
         robot.drive.stop();
+//        robot.sample(goldPosition);
     }
 }
