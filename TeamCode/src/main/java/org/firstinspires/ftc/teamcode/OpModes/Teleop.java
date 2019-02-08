@@ -79,16 +79,22 @@ public class Teleop extends OpMode {
     }
 
     private void controlDrive() {
-        robot.drive.setPowers(gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK),
-                gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
+        if (!gamepadA.left_bumper) {
+            robot.drive.setPowers(gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK),
+                    gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
+        } else {
+            robot.drive.setPowers(0.5 * gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK),
+                    gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
+        }
+
     }
 
 
     private double getHeadingCorrection() {
-        if (Math.abs(gamepadA.right_stick_x) < 0.5) {
+        if (Math.abs(gamepadA.right_stick_x) < 0.7) {
             return 0;
         } else {
-            return -0.5 * gamepadA.right_stick_x;
+            return -0.4 * gamepadA.right_stick_x;
         }
     }
 

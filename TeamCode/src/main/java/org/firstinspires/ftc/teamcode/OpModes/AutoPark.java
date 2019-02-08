@@ -23,6 +23,11 @@ public class AutoPark extends LinearOpMode {
         telemetry.update();
         robot.init(hardwareMap);
         tensorFlow.init(hardwareMap);
+//        robot.lift.kindaHoldHangingPosition();
+//        while (!gamepad1.a) {
+//            telemetry.addData("Status", "waiting for a");
+//            telemetry.update();
+//        }
         robot.lift.holdHangingPosition();
         robot.drive.setInAutonomous(true);
         telemetry.addData("Status", "Initialized");
@@ -35,9 +40,11 @@ public class AutoPark extends LinearOpMode {
             telemetry.update();
         }
         TensorFlow.GoldPosition goldPos = tensorFlow.getGoldPos();
+        telemetry.addData("Gold pos", goldPos);
         tensorFlow.shutdown();
         robot.lift.lowerRobotToGround();
         robot.drive.unlatch();
         robot.sample(goldPos);
+        robot.claim.deploy();
     }
 }

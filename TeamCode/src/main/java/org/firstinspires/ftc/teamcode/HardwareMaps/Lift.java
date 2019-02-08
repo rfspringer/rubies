@@ -46,7 +46,7 @@ public class Lift {
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
-    private int EXTENDED_ENCODER_COUNTS = -4000;
+    private int EXTENDED_ENCODER_COUNTS = -4700;
 
     /* Constructor */
     private Lift(){
@@ -100,10 +100,17 @@ public class Lift {
         setPower(0);
     }
 
+    public void kindaHoldHangingPosition() {
+        setTargetPosition(6);
+        setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setPower(1);
+    }
+
     public void holdHangingPosition() {
-        if (lift.getCurrentPosition() < -3) {
-            lift.setPower(0.75);
-        }
+        setPower(0.2);
+//        setTargetPosition(4);
+//        setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        setPower(1);
     }
 
     private boolean robotIsCloseToGround(ElapsedTime time) {
