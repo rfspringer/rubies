@@ -80,6 +80,7 @@ public class Lift {
 
     public void lower() {
         removePinAutonomously();
+        stopPin();
         extendLiftAutonomously();
         stopLift();
     }
@@ -87,22 +88,22 @@ public class Lift {
     private void removePinAutonomously() {
         ElapsedTime timer = new ElapsedTime();
         while (timer.seconds() < 1.5) {
-            setPower(-1);
+            setPower(1);
             removePin();
         }
     }
 
     private void extendLiftAutonomously() {
         ElapsedTime timer = new ElapsedTime();
+        setTargetPosition(EXTENDED_ENCODER_COUNTS - 10);
+        setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setPower(-0.8);
         while (!robotIsCloseToGround(timer)) {
-            setTargetPosition(EXTENDED_ENCODER_COUNTS - 10);
-            setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            setPower(0.8);
         }
     }
 
     private boolean robotIsCloseToGround(ElapsedTime time) {
-        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS )) || time.seconds() < 4;
+        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS )) || time.seconds() > 4;
     }
 
     private void stopLift() {
