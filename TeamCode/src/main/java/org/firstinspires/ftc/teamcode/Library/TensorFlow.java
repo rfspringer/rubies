@@ -70,15 +70,19 @@ public class TensorFlow {
         if (tfod != null) {
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
-                for (Recognition recognition : updatedRecognitions) {
-                    if (recognition.getLeft()  < LEFT_THRESHOLD) {
-                        updateLeftConfidence(recognition);
-                    } else if (recognition.getLeft() > RIGHT_THRESHOLD) {
-                        updateRightConfidence(recognition);
-                    } else {
-                        updateCenterConfidence(recognition);
-                    }
-                }
+                updateConfidences(updatedRecognitions);
+            }
+        }
+    }
+
+    private void updateConfidences(List<Recognition> updatedRecognitions) {
+        for (Recognition recognition : updatedRecognitions) {
+            if (recognition.getLeft()  < LEFT_THRESHOLD) {
+                updateLeftConfidence(recognition);
+            } else if (recognition.getLeft() > RIGHT_THRESHOLD) {
+                updateRightConfidence(recognition);
+            } else {
+                updateCenterConfidence(recognition);
             }
         }
     }
