@@ -27,108 +27,49 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HardwareMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Archived;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.teamcode.Library.VexMotorEnhanced;
 
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Lift {
-    private static final Lift instance = new Lift();
+public class MineralExtensionv3 {
+    private static final MineralExtensionv3 instance = new MineralExtensionv3();
     /* Public OpMode members. */
-    private DcMotor  lift   = null;
-    private CRServo pin = null;
+    private DcMotor extension = null;
 
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
-    private int EXTENDED_ENCODER_COUNTS = -4700;
-
     /* Constructor */
-    private Lift(){
+    private MineralExtensionv3(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        initializeMotor();
-        initializeServo();
-    }
-
-    private void initializeMotor() {
-        lift = hwMap.get(DcMotor.class, "lift");
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
-        lift.setPower(0);
-    }
-
-    private void initializeServo() {
-        pin = hwMap.crservo.get("pin");
-        pin.setPower(0);
-    }
-
-    public void removePin() {
-        VexMotorEnhanced.setScaledPower(pin, -1);
-    }
-
-    public void stopPin() {
-        VexMotorEnhanced.setScaledPower(pin, 0);
+        extension = hwMap.get(DcMotor.class, "extension");
+        extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        extension.setDirection(DcMotorSimple.Direction.FORWARD);
+        extension.setPower(0);
     }
 
     public void setPower(double power) {
-        lift.setPower(power);
+        extension.setPower(power);
     }
 
-    public DcMotor getMotor() {
-        return lift;
-    }
+//    public int getEncoderCounts() {
+//        return extension.getCurrentPosition();
+//    }
 
-    public int getCurrentPosition() {
-        return lift.getCurrentPosition();
-    }
-
-    public void setTargetPosition(int targetPosition) {
-        lift.setTargetPosition(targetPosition);
-    }
-
-    public void setMode(DcMotor.RunMode runMode) {
-        lift.setMode(runMode);
-    }
-
-    public void lowerRobotToGround() {
-        boolean actionIsComplete = false;
-        ElapsedTime time = new ElapsedTime();
-        setTargetPosition(EXTENDED_ENCODER_COUNTS);
-        setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(0.9);
-        while (!actionIsComplete) {
-            actionIsComplete = robotIsCloseToGround(time);
-        }
-        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        setPower(0);
-    }
-
-    public void holdHangingPosition() {
-        setPower(0.2);
-    }
-
-    private boolean robotIsCloseToGround(ElapsedTime time) {
-        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS - 10)) || time.seconds() > 4;
-    }
-
-    public static Lift getInstance(){
+    public static MineralExtensionv3 getInstance(){
         return instance;
     }
+
 }
 

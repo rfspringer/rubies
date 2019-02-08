@@ -27,21 +27,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Archived;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv3;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
 
 
-@TeleOp(name="Teleop", group="teleop")
-public class Teleop extends OpMode {
-    private Robot robot = Robot.getInstance();
+@TeleOp(name="Teleopv3", group="teleop")
+@Disabled
+public class Teleopv3 extends OpMode {
+    private Robotv3 robot = Robotv3.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
     private GamepadEnhanced gamepadB = new GamepadEnhanced();
@@ -76,7 +79,6 @@ public class Teleop extends OpMode {
         controlIntake();
         controlExtension();
         controlLift();
-        controlPin();
     }
 
     private void controlDrive() {
@@ -87,7 +89,9 @@ public class Teleop extends OpMode {
             robot.drive.setPowers(0.5 * gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK),
                     gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
         }
+
     }
+
 
     private double getHeadingCorrection() {
         if (Math.abs(gamepadA.right_stick_x) < 0.7) {
@@ -98,7 +102,7 @@ public class Teleop extends OpMode {
     }
 
     private void controlArm() {
-        robot.mineral.setArmPower(-0.3 * gamepadB.left_stick_y);
+        robot.mineral.setArmPower(-0.4 * gamepadB.left_stick_y);
     }
 
     private void controlIntake() {
@@ -139,13 +143,6 @@ public class Teleop extends OpMode {
         }
     }
 
-    private void controlPin() {
-        if (gamepadA.y) {
-            robot.lift.removePin();
-        } else {
-            robot.lift.stopPin();
-        }
-    }
 
 
     @Override

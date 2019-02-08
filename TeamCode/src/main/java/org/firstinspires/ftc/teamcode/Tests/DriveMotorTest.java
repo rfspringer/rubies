@@ -44,7 +44,7 @@ import org.firstinspires.ftc.teamcode.Library.FTCLogger;
  * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
  * class is instantiated on the Robotv2 Controller and executed.
  *
- * This particular OpMode just executes a basic Tank Drivev2 Teleop for a two wheeled robot
+ * This particular OpMode just executes a basic Tank Drivev2 Teleopv3 for a two wheeled robot
  * It includes all the skeletal structure that all linear OpModes contain.
  *
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.

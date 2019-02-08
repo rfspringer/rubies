@@ -27,49 +27,57 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Archived;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
- * This file contains an example of an iterative (Non-Linear) "OpMode".
- * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
- * The names of OpModes appear on the menu of the FTC Driver Station.
- * When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robotv2 Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drivev2 Teleopv3 for a two wheeled robot
- * It includes all the skeletal structure that all iterative OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * This class stores all objects on our robot's drivetrain
+ * It also includes functionality specific to our drive base
  */
+public class MineralArmv3 {
+    private static final MineralArmv3 instance = new MineralArmv3();
+    /* Public OpMode members. */
+    private DcMotor motor1 = null;
+    private DcMotor motor2 = null;
 
-@TeleOp(name="Turn to angle tests", group="Tests")
-//@Disabled
-public class TurnToAngleTest extends OpMode {
-    private Robot robot = Robot.getInstance();
-    private double error;
-    private double leftPower;
-    private double rightPower;
-    private double kP = 0.0065;
+    /* local OpMode members. */
+    private HardwareMap hwMap = null;
 
-    @Override
-    public void init() {
-        robot.init(hardwareMap);
-        telemetry.addData("Status", "Initialized");
+    /* Constructor */
+    private MineralArmv3(){
     }
 
-    /*
-     * Code to runAction REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-    @Override
-    public void loop() {
-        robot.turnToHeadingCenterPivot(-30);
-        telemetry.addData("Gyro Heading", robot.sensors.getHeading());
+    /* Initialize standard Hardware interfaces */
+    public void init(HardwareMap ahwMap) {
+        hwMap = ahwMap;
+        motor1 = hwMap.dcMotor.get( "arm1");
+        motor2 = hwMap.dcMotor.get("arm2");
+        initializeMotor(motor1);
+        initializeMotor(motor2);
     }
+
+    private void initializeMotor(DcMotor motor) {
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor.setPower(0);
+    }
+
+    public void setPowers(double power) {
+        motor1.setPower(power);
+        motor2.setPower(power);
+    }
+
+//    public int getEncoderCounts() {
+//        return motor1.getCurrentPosition();
+//    }
+
+    public static MineralArmv3 getInstance(){
+        return instance;
+    }
+
 }
+

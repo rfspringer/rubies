@@ -19,10 +19,18 @@ public class TensorFlow {
     private TFObjectDetector tfod;
     private HardwareMap hwMap;
 
-    private int LEFT_THRESHOLD = 275;
+    private double leftConfidence;
+    private double centerConfidence;
+    private double rightConfidence;
+
+    private double confidenceChange;
+
+    private int LEFT_THRESHOLD = 160;
     private int RIGHT_THRESHOLD = 475;
 
-    private int goldMineralX;
+    private double goldX = 0;
+
+    private GoldPosition goldPosition;
 
     public enum GoldPosition {
         LEFT,
@@ -47,40 +55,6 @@ public class TensorFlow {
         }
     }
 
-    public GoldPosition getGoldPos() {
-        GoldPosition goldPosition;
-        determineGoldMineralX();
-        if (goldMineralX < LEFT_THRESHOLD) {
-            goldPosition = GoldPosition.LEFT;
-        } else if (goldMineralX < RIGHT_THRESHOLD) {
-            goldPosition = GoldPosition.CENTER;
-        } else {
-            goldPosition = GoldPosition.RIGHT;
-        }
-        return goldPosition;
-    }
-
-    private void determineGoldMineralX() {
-        if (tfod != null) {
-            Recognition goldMineral = identifyGoldMineral();
-            if (goldMineral != null) {
-                goldMineralX = (int) goldMineral.getLeft();
-            }
-        }
-    }
-
-    private Recognition identifyGoldMineral() {
-        Recognition goldMineral = null;
-        List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-        if (updatedRecognitions != null) {
-            for (Recognition recognition : updatedRecognitions) {
-                if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                    goldMineral = recognition;
-                }
-            }
-        }
-        return goldMineral;
-    }
 
     public void shutdown() {
         if (tfod != null) {
@@ -88,8 +62,96 @@ public class TensorFlow {
         }
     }
 
-    public int getGoldMineralX() {
-        return goldMineralX;
+    public GoldPosition getGoldPos() {
+        initializeConfidences();
+        calculateConfidencesInThresholds();
+        return returnGoldPos();
+    }
+
+    public double getGoldX() {
+        if (tfod != null) {
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                for (Recognition recognition : updatedRecognitions) {
+                    if (recognition.getLabel().equals(LABEL_GOLD_MINERAL))
+                        goldX = recognition.getLeft();
+                }
+            }
+        }
+        return goldX;
+    }
+
+    private void calculateConfidencesInThresholds() {
+        if (tfod != null) {
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                updateConfidences(updatedRecognitions);
+            }
+        }
+    }
+
+    private void updateConfidences(List<Recognition> updatedRecognitions) {
+        for (Recognition recognition : updatedRecognitions) {
+            if (recognition.getLeft()  < LEFT_THRESHOLD) {
+                updateLeftConfidence(recognition);
+            } else if (recognition.getLeft() > RIGHT_THRESHOLD) {
+                updateRightConfidence(recognition);
+            } else {
+                updateCenterConfidence(recognition);
+            }
+        }
+    }
+
+    private void updateRightConfidence(Recognition recognition) {
+        rightConfidence += calculateConfidenceChange(recognition);
+    }
+
+    private void updateCenterConfidence(Recognition recognition) {
+        confidenceChange = calculateConfidenceChange(recognition);
+        centerConfidence += confidenceChange;
+    }
+
+    private void updateLeftConfidence(Recognition recognition) {
+        leftConfidence += calculateConfidenceChange(recognition);
+    }
+
+    private void initializeConfidences() {
+        leftConfidence = 0;
+        centerConfidence = 0;
+        rightConfidence = 0;
+    }
+
+    private double calculateConfidenceChange(Recognition recognition) {
+        double magnitudeChange = recognition.getConfidence();
+        if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+            confidenceChange = magnitudeChange;
+            return magnitudeChange;
+        } else {
+            return -magnitudeChange;
+        }
+    }
+
+    private GoldPosition returnGoldPos() {
+        if (leftConfidenceIsHighest()) {
+            goldPosition = GoldPosition.LEFT;
+        } else if (centerConfidenceIsHighest()) {
+            goldPosition = GoldPosition.CENTER;
+        } else if (rightConfidenceIsHighest()){
+            goldPosition = GoldPosition.RIGHT;
+        }
+        return goldPosition;
+    }
+
+    private boolean leftConfidenceIsHighest() {
+        return leftConfidence > centerConfidence && leftConfidence > rightConfidence;
+    }
+
+    private boolean centerConfidenceIsHighest() {
+        return centerConfidence > leftConfidence && centerConfidence > rightConfidence;
+    }
+
+    private boolean rightConfidenceIsHighest() {
+        return rightConfidence > leftConfidence && rightConfidence > centerConfidence;
     }
 
     /**
