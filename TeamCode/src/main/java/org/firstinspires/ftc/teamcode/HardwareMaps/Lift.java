@@ -78,6 +78,38 @@ public class Lift {
         pin.setPower(0);
     }
 
+    public void lower() {
+        removePinAutonomously();
+        extendLiftAutonomously();
+        stopLift();
+    }
+
+    private void removePinAutonomously() {
+        ElapsedTime timer = new ElapsedTime();
+        while (timer.seconds() < 2) {
+            setPower(1);
+            removePin();
+        }
+    }
+
+    private void extendLiftAutonomously() {
+        ElapsedTime timer = new ElapsedTime();
+        while (!robotIsCloseToGround(timer)) {
+            setTargetPosition(EXTENDED_ENCODER_COUNTS - 10);
+            setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            setPower(0.8);
+        }
+    }
+
+    private boolean robotIsCloseToGround(ElapsedTime time) {
+        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS )) || time.seconds() > 4;
+    }
+
+    private void stopLift() {
+        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        setPower(0);
+    }
+
     public void removePin() {
         VexMotorEnhanced.setScaledPower(pin, -1);
     }
@@ -106,25 +138,8 @@ public class Lift {
         lift.setMode(runMode);
     }
 
-    public void lowerRobotToGround() {
-        boolean actionIsComplete = false;
-        ElapsedTime time = new ElapsedTime();
-        setTargetPosition(EXTENDED_ENCODER_COUNTS);
-        setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(0.9);
-        while (!actionIsComplete) {
-            actionIsComplete = robotIsCloseToGround(time);
-        }
-        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        setPower(0);
-    }
-
     public void holdHangingPosition() {
         setPower(0.2);
-    }
-
-    private boolean robotIsCloseToGround(ElapsedTime time) {
-        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS - 10)) || time.seconds() > 4;
     }
 
     public static Lift getInstance(){
