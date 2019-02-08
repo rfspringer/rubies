@@ -33,7 +33,15 @@ public class MecanumTrajectoryFollower {
         while (!trajectoryIsComplete()) {
             robot.drive.setPowers(getMagnitude(timer), x, y, targetHeading);
         }
-        MotorEnhanced.setPower(motors, 0);
+        robot.drive.stop();
+    }
+
+    public void runBackwards() {
+        timer.reset();
+        while (!trajectoryIsComplete()) {
+            robot.drive.setPowers(getMagnitude(timer), -x, -y, targetHeading);
+        }
+        robot.drive.stop();
     }
 
     private double getMagnitude(ElapsedTime currentTime){

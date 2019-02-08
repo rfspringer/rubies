@@ -27,11 +27,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HardwareMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Archived;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Claimv3;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Drive;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
@@ -42,29 +43,35 @@ import org.firstinspires.ftc.teamcode.Library.TensorFlow;
  * This class can be used to define all the specific hardware for our robot
  * This class stores functions that use a combination of subsystems on our robot
  */
-public class Robot
+public class Robotv3
 {
-    private static final Robot instance = new Robot();
+    private static final Robotv3 instance = new Robotv3();
 
     public Drive drive = Drive.getInstance();
+    public Liftv3 lift = Liftv3.getInstance();
+    public Mineralv3 mineral = Mineralv3.getInstance();
+    public Claimv3 claim = Claimv3.getInstance();
     public Sensors sensors = Sensors.getInstance();
-    public Mineral mineral = Mineral.getInstance();
-    public Lift lift = Lift.getInstance();
 
     public FTCLogger logger = new FTCLogger();
 
+    private MecanumTrajectoryFollower leftMineralTrajectory;
+    private MecanumTrajectoryFollower centerMineralTrajectory;
+    private MecanumTrajectoryFollower rightMineralTrajectory;
     private MecanumTrajectoryFollower depotTrajectory;
 
     /* Constructor */
-    private Robot(){
+    private Robotv3(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hwMap) {
         drive.init(hwMap);
-        sensors.init(hwMap);
-        mineral.init(hwMap);
         lift.init(hwMap);
+        mineral.init(hwMap);
+        sensors.init(hwMap);
+        claim.init(hwMap);
+        initializeSamplingTrajectories();
     }
 
     public void turnToHeadingCenterPivot(double targetHeading) {
@@ -95,6 +102,19 @@ public class Robot
         drive.stop();
     }
 
+    public void sample(TensorFlow.GoldPosition goldLocation) {
+        if (goldLocation == TensorFlow.GoldPosition.LEFT) {
+            turnToHeadingCenterPivot(sensors.getLeftMineralHeading());
+            leftMineralTrajectory.run();
+        } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
+            turnToHeadingCenterPivot(sensors.getRightMineralHeading());
+            rightMineralTrajectory.run();
+        } else {
+            turnToHeadingCenterPivot(sensors.getCenterMineralHeading());
+            centerMineralTrajectory.run();
+        }
+    }
+
     public void goToDepot(TensorFlow.GoldPosition goldLocation) {
         double heading;
         if (goldLocation == TensorFlow.GoldPosition.LEFT) {
@@ -111,18 +131,13 @@ public class Robot
         depotTrajectory.run();
     }
 
-    public void unlatch() {
-        turnToHeadingRightPivot(45);
-        drive.driveAwayFromLander();
-    }
-
     private void initializeSamplingTrajectories() {
         leftMineralTrajectory = drive.initializeTrajectory(0, 54, sensors.getLeftMineralHeading());
         centerMineralTrajectory = drive.initializeTrajectory(0, 50, sensors.getCenterMineralHeading());
         rightMineralTrajectory = drive.initializeTrajectory(0, 57, sensors.getRightMineralHeading());
     }
 
-    public static Robot getInstance() {
+    public static Robotv3 getInstance() {
         return instance;
     }
  }

@@ -3,9 +3,10 @@ package org.firstinspires.ftc.teamcode.Tests;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv3;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 
-@TeleOp(name="Lift Encoder Test", group="Tests")
+@TeleOp(name="Liftv3 Encoder Test", group="Tests")
 public class LiftEncoderTest extends LinearOpMode {
     private Robot robot = Robot.getInstance();
 
@@ -18,7 +19,7 @@ public class LiftEncoderTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            telemetry.addData("Lift Encoder Pos", robot.lift.getEncoderCounts());
+            telemetry.addData("Liftv3 Encoder Pos", robot.lift.getMotor().getCurrentPosition());
             telemetry.update();
         }
     }

@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HardwareMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Archived;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
@@ -44,9 +44,9 @@ import org.firstinspires.ftc.teamcode.Library.TensorFlow;
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Drive
+public class Drivev3
 {
-    private static final Drive instance = new Drive();
+    private static final Drivev3 instance = new Drivev3();
     MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
     /* Public OpMode members. */
     private DcMotor leftFront = null;
@@ -83,7 +83,7 @@ public class Drive
     private HardwareMap hwMap =  null;
 
     /* Constructor */
-    private Drive(){
+    private Drivev3(){
 
     }
 
@@ -95,8 +95,6 @@ public class Drive
         initializeTrajectories();
         setMotorDirections();
         setIndividualPowers(0, 0, 0, 0);
-        MotorEnhanced.setDirection(leftMotors, Direction.FORWARD);
-        MotorEnhanced.setDirection(rightMotors, Direction.REVERSE);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
     }
@@ -121,7 +119,7 @@ public class Drive
     private void initializeTrajectories() {
         unlatchAwayFromLander = initializeTrajectory(-3, 0, 0);
         unlatchParallelToLander = initializeTrajectory(0, -6, 0);
-        driveAwayFromLander = initializeTrajectory(-10, 0, 45);
+        driveAwayFromLander = initializeTrajectory(-8, 0, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
         awayFromWall = initializeTrajectory(10, 0, 45);
     }
@@ -197,51 +195,12 @@ public class Drive
         driveAwayFromLander.run();
     }
 
-    public void sample(TensorFlow.GoldPosition goldPosition) {
-        initializeSamplingTrajectories(goldPosition);
-        lateralMineral.run();
-        verticalMineral.run();
-        verticalMineral.runBackwards();
-    }
-
     public void alignWithWall() {
         lateralToWall.run();
         awayFromWall.run();
     }
-
-    private void initializeSamplingTrajectories(TensorFlow.GoldPosition goldPosition) {
-        if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
-            initializeRightTrajectories();
-        } else if (goldPosition == TensorFlow.GoldPosition.CENTER) {
-            initializeCenterTrajectories();
-        } else {
-            initializeLeftTrajectories();
-        }
-    }
-
-    private void initializeRightTrajectories() {
-        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_RIGHT, 0, 45);
-        verticalMineral = initializeTrajectory(0, 20, 45);
-        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_RIGHT, 0, 45);
-    }
-
-    private void initializeCenterTrajectories() {
-        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_CENTER, 0, 45);
-        verticalMineral = initializeTrajectory(0, 20, 45);
-        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_CENTER, 0, 45);
-    }
-
-    private void initializeLeftTrajectories() {
-        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_LEFT, 0, 45);
-        verticalMineral = initializeTrajectory(0, 20, 45);
-        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_LEFT, 0, 45);
-    }
-
     public void driveAwayFromMarker() {
         driveAwayFromMarker.run();
-    }
-    public void driveAwayFromLander() {
-        driveAwayFromLander.run();
     }
 
     public void setInAutonomous(boolean inAutonomous) {
@@ -267,7 +226,7 @@ public class Drive
         return allMotors;
     }
 
-    public static Drive getInstance() {
+    public static Drivev3 getInstance() {
         return instance;
     }
 

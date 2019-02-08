@@ -29,10 +29,14 @@
 
 package org.firstinspires.ftc.teamcode.HardwareMaps;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.Library.VexMotorEnhanced;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -42,11 +46,12 @@ public class Lift {
     private static final Lift instance = new Lift();
     /* Public OpMode members. */
     private DcMotor  lift   = null;
+    private CRServo pin = null;
 
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
-    private int EXTENDED_ENCODER_COUNTS = -4700;
+    private int EXTENDED_ENCODER_COUNTS = -3600;
 
     /* Constructor */
     private Lift(){
@@ -55,12 +60,63 @@ public class Lift {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
+        initializeMotor();
+        initializeServo();
+    }
+
+    private void initializeMotor() {
         lift = hwMap.get(DcMotor.class, "lift");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setPower(0);
+    }
+
+    private void initializeServo() {
+        pin = hwMap.crservo.get("pin");
+        pin.setPower(0);
+    }
+
+    public void lower() {
+        removePinAutonomously();
+        stopPin();
+        extendLiftAutonomously();
+        stopLift();
+    }
+
+    private void removePinAutonomously() {
+        ElapsedTime timer = new ElapsedTime();
+        while (timer.seconds() < 1.5) {
+            setPower(1);
+            removePin();
+        }
+    }
+
+    private void extendLiftAutonomously() {
+        ElapsedTime timer = new ElapsedTime();
+        setTargetPosition(EXTENDED_ENCODER_COUNTS - 10);
+        setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setPower(-0.8);
+        while (!robotIsCloseToGround(timer)) {
+        }
+    }
+
+    private boolean robotIsCloseToGround(ElapsedTime time) {
+        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS )) || time.seconds() > 4;
+    }
+
+    private void stopLift() {
+        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        setPower(0);
+    }
+
+    public void removePin() {
+        VexMotorEnhanced.setScaledPower(pin, -1);
+    }
+
+    public void stopPin() {
+        VexMotorEnhanced.setScaledPower(pin, 0);
     }
 
     public void setPower(double power) {
@@ -83,38 +139,8 @@ public class Lift {
         lift.setMode(runMode);
     }
 
-    public int getEncoderCounts() {
-        return lift.getCurrentPosition();
-    }
-
-    public void lowerRobotToGround() {
-        boolean actionIsComplete = false;
-        ElapsedTime time = new ElapsedTime();
-        setTargetPosition(EXTENDED_ENCODER_COUNTS);
-        setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(0.9);
-        while (!actionIsComplete) {
-            actionIsComplete = robotIsCloseToGround(time);
-        }
-        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        setPower(0);
-    }
-
-    public void kindaHoldHangingPosition() {
-        setTargetPosition(6);
-        setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(1);
-    }
-
     public void holdHangingPosition() {
         setPower(0.2);
-//        setTargetPosition(4);
-//        setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        setPower(1);
-    }
-
-    private boolean robotIsCloseToGround(ElapsedTime time) {
-        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS - 10)) || time.seconds() > 4;
     }
 
     public static Lift getInstance(){
