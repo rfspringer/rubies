@@ -63,7 +63,7 @@ public class MineralIntake {
         hwMap = ahwMap;
         bucket = hwMap.servo.get("bucket");
         intake = hwMap.crservo.get("intake");
-        bucket.setPosition(INTAKE_POSITION);
+        bucket.setPosition(STORAGE_POSITION);
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setPower(0);
     }

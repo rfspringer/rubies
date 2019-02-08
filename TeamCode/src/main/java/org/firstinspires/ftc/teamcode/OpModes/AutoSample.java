@@ -16,8 +16,6 @@ public class AutoSample extends RubiesLinearOpMode {
     private Robot robot = Robot.getInstance();
     private TensorFlow tensorFlow = new TensorFlow();
 
-    private TensorFlow.GoldPosition goldPosition;
-
     @Override
     public void runOpMode() {
         telemetry.addData("Instructions", "Initialize robot against tape");
@@ -29,11 +27,11 @@ public class AutoSample extends RubiesLinearOpMode {
         tensorFlow.activate();
 
         waitForStart();
-        goldPosition = tensorFlow.getGoldPos();
+        TensorFlow.GoldPosition goldPosition = tensorFlow.getGoldPos();
         tensorFlow.shutdown();
         robot.lift.lower();
         robot.drive.unlatch();
         robot.drive.stop();
-//        robot.sample(goldPosition);
+        robot.sample(goldPosition);
     }
 }

@@ -121,7 +121,7 @@ public class Drive
 
     private void initializeTrajectories() {
         unlatchAwayFromLander = initializeTrajectory(-3, 0, 0);
-        unlatchParallelToLander = initializeTrajectory(0, 6, 0);
+        unlatchParallelToLander = initializeTrajectory(0, 9, 0);
         driveAwayFromLander = initializeTrajectory(-10, 0, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
         awayFromWall = initializeTrajectory(10, 0, 0);
@@ -134,11 +134,11 @@ public class Drive
 
     private MecanumTrajectoryFollower determineSamplingTrajectory (TensorFlow.GoldPosition goldPosition, double heading) {
         if (goldPosition == TensorFlow.GoldPosition.LEFT) {
-            return initializeTrajectory(0, 54, heading);
+            return initializeTrajectory(0, -54, heading);
         } else if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
-            return initializeTrajectory(0, 57, heading);
+            return initializeTrajectory(0, -57, heading);
         } else {
-            return initializeTrajectory(0, 50, heading);
+            return initializeTrajectory(0, -50, heading);
         }
     }
 
@@ -186,15 +186,6 @@ public class Drive
     public MecanumTrajectoryFollower initializeTrajectory(double x, double y, double heading, double maxAccel, boolean usesFeedback) {
         MecanumTrajectoryGenerator trajectory = new MecanumTrajectoryGenerator(x, y, maxAccel);
         return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, usesFeedback);
-    }
-
-    public void reverseMotorDirections(boolean reverseDirection) {
-        this.reverseDirection = reverseDirection;
-        setMotorDirections();
-    }
-
-    public boolean isDirectionReversed() {
-        return reverseDirection;
     }
 
     private void setMotorDirections(){
