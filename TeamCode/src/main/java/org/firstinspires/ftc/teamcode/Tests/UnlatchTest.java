@@ -2,14 +2,16 @@ package org.firstinspires.ftc.teamcode.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
-@Autonomous(name="Unlatch Test", group="tests")
+@TeleOp(name="Unlatch Test", group="tests")
 //@Disabled
-public class UnlatchTest extends LinearOpMode {
+public class UnlatchTest extends RubiesLinearOpMode {
     // Declare OpMode members
     private Robot robot = Robot.getInstance();
 
@@ -17,15 +19,9 @@ public class UnlatchTest extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         robot.drive.setInAutonomous(true);
-        waitUntilStarted();
-        robot.unlatch();
+        waitForStart();
+        robot.drive.unlatch();
         robot.drive.stop();
-    }
-
-    private void waitUntilStarted() {
-        while (!isStarted() && !isStopRequested()) {
-            telemetry.addData("Status", "Initialized");
-            telemetry.update();
-        }
+        robot.turnToHeadingCenterPivot(45);
     }
 }
