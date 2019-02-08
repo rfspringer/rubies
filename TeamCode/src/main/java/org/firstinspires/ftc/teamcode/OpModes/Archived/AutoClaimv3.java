@@ -24,11 +24,6 @@ public class AutoClaimv3 extends LinearOpMode {
         telemetry.update();
         robot.init(hardwareMap);
         tensorFlow.init(hardwareMap);
-//        robot.lift.kindaHoldHangingPosition();
-//        while (!gamepad1.a) {
-//            telemetry.addData("Status", "waiting for a");
-//            telemetry.update();
-//        }
         robot.lift.holdHangingPosition();
         robot.drive.setInAutonomous(true);
         tensorFlow.activate();

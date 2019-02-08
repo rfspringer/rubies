@@ -120,10 +120,10 @@ public class Drive
 
     private void initializeTrajectories() {
         unlatchAwayFromLander = initializeTrajectory(-3, 0, 0);
-        unlatchParallelToLander = initializeTrajectory(0, -6, 0);
-        driveAwayFromLander = initializeTrajectory(-8, 0, 0);
+        unlatchParallelToLander = initializeTrajectory(0, 6, 0);
+        driveAwayFromLander = initializeTrajectory(-10, 0, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
-        awayFromWall = initializeTrajectory(10, 0, 45);
+        awayFromWall = initializeTrajectory(10, 0, 0);
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {
@@ -195,6 +195,7 @@ public class Drive
         unlatchAwayFromLander.run();
         unlatchParallelToLander.run();
         driveAwayFromLander.run();
+        unlatchParallelToLander.runBackwards();
     }
 
     public void sample(TensorFlow.GoldPosition goldPosition) {
@@ -239,6 +240,9 @@ public class Drive
 
     public void driveAwayFromMarker() {
         driveAwayFromMarker.run();
+    }
+    public void driveAwayFromLander() {
+        driveAwayFromLander.run();
     }
 
     public void setInAutonomous(boolean inAutonomous) {
