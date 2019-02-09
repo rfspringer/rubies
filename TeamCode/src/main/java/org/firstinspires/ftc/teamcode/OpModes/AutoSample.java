@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv3;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
@@ -29,12 +25,51 @@ public class AutoSample extends RubiesLinearOpMode {
         waitForStart();
         TensorFlow.GoldPosition goldPosition = tensorFlow.getGoldPos();
         tensorFlow.shutdown();
-        robot.lift.lower();
-        robot.drive.unlatch();
-        robot.drive.stop();
+        telemetry.addData("Gold Position", goldPosition);
+        telemetry.update();
+//        robot.lift.lower();
+//        robot.drive.unlatch();
+//        robot.drive.stop();
         robot.sample(goldPosition);
-        robot.drive.setIndividualPowers(0.5, 0.5, 0.5, 0.5);
-        sleepFor(700);
-        robot.turnToHeadingCenterPivot(0);
+        if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
+            robot.drive.setIndividualPowers(0.25, 0.25, 0.25, 0.25);
+            sleepFor(1750);
+            robot.drive.stop();
+            robot.turnToHeadingCenterPivot(0);
+            robot.drive.driveToWall(goldPosition);
+            robot.turnToHeadingCenterPivot(45);
+            robot.drive.alignWithWall();
+            robot.drive.initializeTrajectory(0, -75, 45).run();
+            robot.claim.deploy();
+            sleepFor(2000);
+            robot.claim.stow();
+            robot.drive.initializeTrajectory(0, 120, 45).run();
+        } else if (goldPosition == TensorFlow.GoldPosition.LEFT){
+            robot.drive.setIndividualPowers(0.25, 0.25, 0.25, 0.25);
+            sleepFor(1250);
+            robot.drive.stop();
+            robot.turnToHeadingCenterPivot(0);
+            robot.drive.driveToWall(goldPosition);
+            robot.turnToHeadingCenterPivot(45);
+            robot.drive.alignWithWall();
+            robot.drive.initializeTrajectory(0, -75, 45).run();
+            robot.claim.deploy();
+            sleepFor(2000);
+            robot.claim.stow();
+            robot.drive.initializeTrajectory(0, 120, 45).run();
+        } else {
+            robot.drive.setIndividualPowers(0.25, 0.25, 0.25, 0.25);
+            sleepFor(1250);
+            robot.drive.stop();
+            robot.turnToHeadingCenterPivot(0);
+            robot.drive.driveToWall(goldPosition);
+            robot.turnToHeadingCenterPivot(45);
+            robot.drive.alignWithWall();
+            robot.drive.initializeTrajectory(0, -75, 45).run();
+            robot.claim.deploy();
+            sleepFor(2000);
+            robot.claim.stow();
+            robot.drive.initializeTrajectory(0, 120, 45).run();
+        }
     }
 }

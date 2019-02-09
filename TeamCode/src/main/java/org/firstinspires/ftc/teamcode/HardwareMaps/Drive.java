@@ -136,12 +136,27 @@ public class Drive
 
     private MecanumTrajectoryFollower determineSamplingTrajectory (TensorFlow.GoldPosition goldPosition, double heading) {
         if (goldPosition == TensorFlow.GoldPosition.LEFT) {
-            return initializeTrajectory(0, -44, heading);
+            return initializeTrajectory(0, -46, heading);
         } else if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
-            return initializeTrajectory(0, -44, heading);
+            return initializeTrajectory(0, -46, heading);
         } else {
             return initializeTrajectory(0, -36, heading);
         }
+    }
+
+    public void driveToWall(TensorFlow.GoldPosition goldPosition) {
+        if (goldPosition == TensorFlow.GoldPosition.LEFT) {
+            initializeTrajectory(0, -50, 0).run();
+        } else if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
+            initializeTrajectory(0, -75, 0).run();
+        } else {
+            initializeTrajectory(0, -80, 0).run();
+        }
+    }
+
+    public void alignWithWall() {
+        initializeTrajectory(-40, 0,45).run();
+        initializeTrajectory(8, 0, 45).run();
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {
@@ -200,6 +215,12 @@ public class Drive
         }
     }
 
+    public void runToPosition(int targetPosition, double power) {
+        MotorEnhanced.setTargetPosition(allMotors, targetPosition);
+        MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_TO_POSITION);
+        MotorEnhanced.setPower(allMotors, power);
+    }
+
     public void unlatch() {
         unlatchAwayFromLander.run();
         unlatchParallelToLander.run();
@@ -214,10 +235,7 @@ public class Drive
 //        verticalMineral.runBackwards();
 //    }
 //
-//    public void alignWithWall() {
-//        lateralToWall.run();
-//        awayFromWall.run();
-//    }
+
 //
 //    private void initializeSamplingTrajectories(TensorFlow.GoldPosition goldPosition) {
 //        if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
@@ -246,13 +264,13 @@ public class Drive
 //        verticalMineral = initializeTrajectory(0, 20, 45);
 //        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_LEFT, 0, 45);
 //    }
-
-    public void driveAwayFromMarker() {
-        driveAwayFromMarker.run();
-    }
-    public void driveAwayFromLander() {
-        driveAwayFromLander.run();
-    }
+//
+//    public void driveAwayFromMarker() {
+//        driveAwayFromMarker.run();
+//    }
+//    public void driveAwayFromLander() {
+//        driveAwayFromLander.run();
+//    }
 
     public void setInAutonomous(boolean inAutonomous) {
         mecanumEnhanced.setInAutonomous(inAutonomous);

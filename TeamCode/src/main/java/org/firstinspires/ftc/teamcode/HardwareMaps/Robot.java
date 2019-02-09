@@ -50,6 +50,7 @@ public class Robot
     public Sensors sensors = Sensors.getInstance();
     public Mineral mineral = Mineral.getInstance();
     public Lift lift = Lift.getInstance();
+    public Claim claim = Claim.getInstance();
 
     public FTCLogger logger = new FTCLogger();
 
@@ -65,6 +66,7 @@ public class Robot
         sensors.init(hwMap);
         mineral.init(hwMap);
         lift.init(hwMap);
+        claim.init(hwMap);
     }
 
     public void turnToHeadingCenterPivot(double targetHeading) {
@@ -118,6 +120,10 @@ public class Robot
     private void sampleRight () {
         turnToHeadingCenterPivot(sensors.getRightMineralHeading());
         drive.runSamplingTrajectory(TensorFlow.GoldPosition.RIGHT, sensors.getRightMineralHeading());
+    }
+
+    public void depotAndClaim() {
+
     }
 
 //    public void goToDepot(TensorFlow.GoldPosition goldLocation) {
