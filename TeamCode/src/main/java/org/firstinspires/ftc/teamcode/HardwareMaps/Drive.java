@@ -74,6 +74,7 @@ public class Drive
     private MecanumTrajectoryFollower unlatchAwayFromLander;
     private MecanumTrajectoryFollower unlatchParallelToLander;
     private MecanumTrajectoryFollower driveAwayFromLander;
+    private MecanumTrajectoryFollower centerForSampling;
     private MecanumTrajectoryFollower driveAwayFromMarker;
     private MecanumTrajectoryFollower lateralMineral;
     private MecanumTrajectoryFollower verticalMineral;
@@ -123,6 +124,7 @@ public class Drive
         unlatchAwayFromLander = initializeTrajectory(-3, 0, 0);
         unlatchParallelToLander = initializeTrajectory(0, 9, 0);
         driveAwayFromLander = initializeTrajectory(-10, 0, 0);
+        centerForSampling = initializeTrajectory(0, -13, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
         awayFromWall = initializeTrajectory(10, 0, 0);
     }
@@ -134,11 +136,11 @@ public class Drive
 
     private MecanumTrajectoryFollower determineSamplingTrajectory (TensorFlow.GoldPosition goldPosition, double heading) {
         if (goldPosition == TensorFlow.GoldPosition.LEFT) {
-            return initializeTrajectory(0, -54, heading);
+            return initializeTrajectory(0, -44, heading);
         } else if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
-            return initializeTrajectory(0, -57, heading);
+            return initializeTrajectory(0, -44, heading);
         } else {
-            return initializeTrajectory(0, -50, heading);
+            return initializeTrajectory(0, -36, heading);
         }
     }
 
@@ -202,48 +204,48 @@ public class Drive
         unlatchAwayFromLander.run();
         unlatchParallelToLander.run();
         driveAwayFromLander.run();
-        unlatchParallelToLander.runBackwards();
+        centerForSampling.run();
     }
 
-    public void sample(TensorFlow.GoldPosition goldPosition) {
-        initializeSamplingTrajectories(goldPosition);
-        lateralMineral.run();
-        verticalMineral.run();
-        verticalMineral.runBackwards();
-    }
-
-    public void alignWithWall() {
-        lateralToWall.run();
-        awayFromWall.run();
-    }
-
-    private void initializeSamplingTrajectories(TensorFlow.GoldPosition goldPosition) {
-        if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
-            initializeRightTrajectories();
-        } else if (goldPosition == TensorFlow.GoldPosition.CENTER) {
-            initializeCenterTrajectories();
-        } else {
-            initializeLeftTrajectories();
-        }
-    }
-
-    private void initializeRightTrajectories() {
-        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_RIGHT, 0, 45);
-        verticalMineral = initializeTrajectory(0, 20, 45);
-        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_RIGHT, 0, 45);
-    }
-
-    private void initializeCenterTrajectories() {
-        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_CENTER, 0, 45);
-        verticalMineral = initializeTrajectory(0, 20, 45);
-        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_CENTER, 0, 45);
-    }
-
-    private void initializeLeftTrajectories() {
-        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_LEFT, 0, 45);
-        verticalMineral = initializeTrajectory(0, 20, 45);
-        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_LEFT, 0, 45);
-    }
+//    public void sample(TensorFlow.GoldPosition goldPosition) {
+//        initializeSamplingTrajectories(goldPosition);
+//        lateralMineral.run();
+//        verticalMineral.run();
+//        verticalMineral.runBackwards();
+//    }
+//
+//    public void alignWithWall() {
+//        lateralToWall.run();
+//        awayFromWall.run();
+//    }
+//
+//    private void initializeSamplingTrajectories(TensorFlow.GoldPosition goldPosition) {
+//        if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
+//            initializeRightTrajectories();
+//        } else if (goldPosition == TensorFlow.GoldPosition.CENTER) {
+//            initializeCenterTrajectories();
+//        } else {
+//            initializeLeftTrajectories();
+//        }
+//    }
+//
+//    private void initializeRightTrajectories() {
+//        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_RIGHT, 0, 45);
+//        verticalMineral = initializeTrajectory(0, 20, 45);
+//        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_RIGHT, 0, 45);
+//    }
+//
+//    private void initializeCenterTrajectories() {
+//        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_CENTER, 0, 45);
+//        verticalMineral = initializeTrajectory(0, 20, 45);
+//        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_CENTER, 0, 45);
+//    }
+//
+//    private void initializeLeftTrajectories() {
+//        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_LEFT, 0, 45);
+//        verticalMineral = initializeTrajectory(0, 20, 45);
+//        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_LEFT, 0, 45);
+//    }
 
     public void driveAwayFromMarker() {
         driveAwayFromMarker.run();

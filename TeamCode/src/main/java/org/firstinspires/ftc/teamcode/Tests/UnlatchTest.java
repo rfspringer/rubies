@@ -22,6 +22,5 @@ public class UnlatchTest extends RubiesLinearOpMode {
         waitForStart();
         robot.drive.unlatch();
         robot.drive.stop();
-        robot.turnToHeadingCenterPivot(45);
     }
 }

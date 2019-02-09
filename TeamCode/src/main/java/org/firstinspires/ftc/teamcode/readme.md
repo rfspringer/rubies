@@ -23,6 +23,7 @@ The full description of this convention is found in the samples/sample_conventio
 A brief synopsis of the naming convention is given here:
 The prefix of the name will be one of the following:
 
+
 * Basic:    This is a minimally functional OpMode used to illustrate the skeleton/structure
             of a particular style of OpMode.  These are bare bones examples.
 * Sensor:   This is a Sample OpMode that shows how to use a specific sensor.

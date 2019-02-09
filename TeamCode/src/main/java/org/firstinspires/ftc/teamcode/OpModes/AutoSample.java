@@ -33,5 +33,8 @@ public class AutoSample extends RubiesLinearOpMode {
         robot.drive.unlatch();
         robot.drive.stop();
         robot.sample(goldPosition);
+        robot.drive.setIndividualPowers(0.5, 0.5, 0.5, 0.5);
+        sleepFor(700);
+        robot.turnToHeadingCenterPivot(0);
     }
 }

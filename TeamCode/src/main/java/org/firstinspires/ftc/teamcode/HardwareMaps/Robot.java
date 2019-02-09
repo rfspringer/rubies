@@ -120,26 +120,26 @@ public class Robot
         drive.runSamplingTrajectory(TensorFlow.GoldPosition.RIGHT, sensors.getRightMineralHeading());
     }
 
-    public void goToDepot(TensorFlow.GoldPosition goldLocation) {
-        double heading;
-        if (goldLocation == TensorFlow.GoldPosition.LEFT) {
-            heading = sensors.getLeftDepotHeading();
-            turnToHeadingLeftPivot(heading);
-        } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
-            heading = sensors.getRightDepotHeading();
-            turnToHeadingRightPivot(heading);
-        } else {
-            heading = sensors.getCenterDepotHeading();
-            turnToHeadingCenterPivot(heading);
-        }
-        depotTrajectory = drive.initializeTrajectory(0, 19, heading);
-        depotTrajectory.run();
-    }
-
-    public void unlatch() {
-        turnToHeadingRightPivot(45);
-        drive.driveAwayFromLander();
-    }
+//    public void goToDepot(TensorFlow.GoldPosition goldLocation) {
+//        double heading;
+//        if (goldLocation == TensorFlow.GoldPosition.LEFT) {
+//            heading = sensors.getLeftDepotHeading();
+//            turnToHeadingLeftPivot(heading);
+//        } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
+//            heading = sensors.getRightDepotHeading();
+//            turnToHeadingRightPivot(heading);
+//        } else {
+//            heading = sensors.getCenterDepotHeading();
+//            turnToHeadingCenterPivot(heading);
+//        }
+//        depotTrajectory = drive.initializeTrajectory(0, 19, heading);
+//        depotTrajectory.run();
+//    }
+//
+//    public void unlatch() {
+//        turnToHeadingRightPivot(45);
+//        drive.driveAwayFromLander();
+//    }
 
 //    private void initializeSamplingTrajectories() {
 //        leftMineralTrajectory = drive.initializeTrajectory(0, 54, sensors.getLeftMineralHeading());
