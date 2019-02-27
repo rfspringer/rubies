@@ -154,9 +154,14 @@ public class Drive
         }
     }
 
-    public void alignWithWall() {
-        initializeTrajectory(-40, 0,45).run();
-        initializeTrajectory(8, 0, 45).run();
+    public void alignWithWallDepot() {
+        initializeTrajectory(48, 0,-135).run();
+        initializeTrajectory(-8, 0, -135).run();
+    }
+
+    public void alignWithWallCrater() {
+        initializeTrajectory(-48, 0,45).run();
+        initializeTrajectory(7, 0, 45).run();
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {
