@@ -105,8 +105,6 @@ public class Teleop extends OpMode {
         if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER)) {
             robot.mineral.setIntakeScaledPower(1);
         } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)) {
-            robot.mineral.setIntakeScaledPower(-1);
-        } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER) && gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)){
             robot.mineral.setIntakeScaledPower(0);
         }
     }
