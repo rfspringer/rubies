@@ -95,11 +95,12 @@ public class Lift {
 
     private void extendLiftAutonomously() {
         ElapsedTime timer = new ElapsedTime();
-        setTargetPosition(EXTENDED_ENCODER_COUNTS - 10);
-        setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(-0.8);
         while (!robotIsCloseToGround(timer)) {
+            setTargetPosition(EXTENDED_ENCODER_COUNTS - 10);
+            setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            setPower(-0.8);
         }
+        stopLift();
     }
 
     private boolean robotIsCloseToGround(ElapsedTime time) {

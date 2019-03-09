@@ -116,12 +116,6 @@ public class Robot
         drive.driveAwayFromLander();
     }
 
-//    private void initializeSamplingTrajectories() {
-//        leftMineralTrajectory = drive.initializeTrajectory(0, 54, sensors.getLeftMineralHeading());
-//        centerMineralTrajectory = drive.initializeTrajectory(0, 50, sensors.getCenterMineralHeading());
-//        rightMineralTrajectory = drive.initializeTrajectory(0, 57, sensors.getRightMineralHeading());
-//    }
-
     public static Robot getInstance() {
         return instance;
     }

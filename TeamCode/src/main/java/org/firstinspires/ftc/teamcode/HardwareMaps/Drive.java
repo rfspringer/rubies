@@ -93,7 +93,6 @@ public class Drive
         initializeDriveMotors();
         initializeMotorArrays();
         initializeTrajectories();
-        setMotorDirections();
         setIndividualPowers(0, 0, 0, 0);
         MotorEnhanced.setDirection(leftMotors, Direction.FORWARD);
         MotorEnhanced.setDirection(rightMotors, Direction.REVERSE);
@@ -172,15 +171,6 @@ public class Drive
         return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, usesFeedback);
     }
 
-    public void reverseMotorDirections(boolean reverseDirection) {
-        this.reverseDirection = reverseDirection;
-        setMotorDirections();
-    }
-
-    public boolean isDirectionReversed() {
-        return reverseDirection;
-    }
-
     private void setMotorDirections(){
         if (reverseDirection){
             MotorEnhanced.setDirection(leftMotors, Direction.FORWARD);
@@ -241,6 +231,7 @@ public class Drive
     public void driveAwayFromMarker() {
         driveAwayFromMarker.run();
     }
+
     public void driveAwayFromLander() {
         driveAwayFromLander.run();
     }
