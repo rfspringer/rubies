@@ -10,8 +10,13 @@
 // Custom definitions may go here
 // Include common definitions from above.
 apply from: '../build.common.gradle'
+buildscript {
+    repositories.mavenLocal()
+}
+
 dependencies {
     implementation project(':DogeCV')
     implementation project(':openCVLibrary3')
     testImplementation 'junit:junit:4.12'
+    testImplementation "com.google.truth:truth:0.43"
 }

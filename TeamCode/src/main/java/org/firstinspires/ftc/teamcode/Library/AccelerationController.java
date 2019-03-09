@@ -54,7 +54,7 @@ public class AccelerationController {
         lastPower = currentPower;
     }
 
-    private double calculatePower() {
+    public double calculatePower() {
         double direction = Math.signum(dPower);
         dPower = Math.min(maxAcceleration * dTime,  Math.abs(dPower));
         return lastPower + direction * dPower;
