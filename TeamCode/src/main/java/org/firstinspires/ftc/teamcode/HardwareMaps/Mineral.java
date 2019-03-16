@@ -45,8 +45,7 @@ public class Mineral {
 
     private HardwareMap hwMap;
 
-    private double DUMPING_ANGLE;
-    private double DUMPING_EXTENSION;
+    private int NUMBER_OF_TRAJECTORY_WAYPOINTS;change
 
     /* Constructor */
     private Mineral(){
@@ -65,36 +64,48 @@ public class Mineral {
         setExtensionPower(extensionPower);
     }
 
-    public MineralWaypoint[] createTrajectory() {
-        MineralWaypoint[] trajectory1 = createTrajectoryWithoutEndingExtensionPosition();
-        MineralWaypoint[] trajectory2 = createTrajectoryWithoutStartingExtensionPosition();
+    public MineralWaypoint[] createTrajectory(double targetAngle, double targetLength) {
+        MineralWaypoint[] trajectory1 = createTrajectory(extension.getCurrentLength(), pivot.getCurrentAngle(), targetAngle, 1);
+        MineralWaypoint[] trajectory2 = createTrajectory(targetLength, targetAngle, pivot.getCurrentAngle(), -1);
+        return getActualTrajectory(trajectory1, trajectory2);
 
     }
 
-    private MineralWaypoint[] getWaypointForTrajectory(MineralWaypoint[] trajectory1, MineralWaypoint[] trajectory2) {
-        for (int i = 0; i < trajectory1.length + 1; i++) {
-            if (trajectory2[i].getLinearPosition() < trajectory1[i].getLinearPosition()) {
+    private MineralWaypoint[] getActualTrajectory(MineralWaypoint[] trajectory1, MineralWaypoint[] trajectory2) {
+        for (int i = 0; i < trajectory1.length; i++) {
+            if (trajectory2[i].getLinearPosition() > trajectory1[i].getLinearPosition()) {
                 trajectory1[i] = trajectory2[i];
             }
         }
         return trajectory1;
     }
 
-    private MineralWaypoint[] createTrajectoryWithoutEndingExtensionPosition() {
-
+    private MineralWaypoint[] createTrajectory(double initialLength, double initialAngle, double targetAngle, double targetExtensionPower) {
+        MineralWaypoint[] trajectory = initializeTrajectory(initialLength, initialAngle);
+        double dTheta = (targetAngle - initialAngle)/NUMBER_OF_TRAJECTORY_WAYPOINTS;
+        for (int i = 1; i < trajectory.length; i++) {
+            addWaypoint(dTheta, targetExtensionPower);
+        }
+        return trajectory;
     }
 
-    private MineralWaypoint[] createTrajectoryWithoutStartingExtensionPosition() {
-
+    private MineralWaypoint[] initializeTrajectory(double initialLength, double initialAngle) {
+        MineralWaypoint[] trajectory = new MineralWaypoint[NUMBER_OF_TRAJECTORY_WAYPOINTS];
+        MineralWaypoint initialWaypoint = new MineralWaypoint(0, initialLength, initialAngle,
+                0, 0, 0);
+        trajectory[0] = initialWaypoint;
+        return trajectory;
     }
 
-    private MineralWaypoint addWaypoint(double time){
-        double extensionPower = extension.accelerate(1);
+    private MineralWaypoint addWaypoint(double dTheta, double targetExtensionPower){
+        double extensionPower = extension.accelerate(previousPower, targetExtensionPower);
         double length = extension.getLength(extensionPower);   //will integrate to find (previous length += dTime * current velocity)
         double torque = getExternalTorque(length);
-        double targetVelocity = pivot.getAngularVelocity(trajectory);
-        double pivotPower = pivot.getPower(targetVelocity, torque);
-        return new MineralWaypoint(time, length, extensionPower, pivotPower, targetVelocity);
+        double targetAngularVelocity = pivot.getAngularVelocity(trajectory);
+        double pivotPower = pivot.getPower(targetAngularVelocity, torque);
+        double angle = extension.getAngle(targetAngularVelocity);
+        double dTime = dTheta/targetAngularVelocity;
+        return new MineralWaypoint(dTime, length, angle, extensionPower, pivotPower, targetAngularVelocity);
     }
 
     public double getExternalTorque(double length) {

@@ -1,16 +1,18 @@
 package org.firstinspires.ftc.teamcode.Other;
 
 public class MineralWaypoint {
-    private double time;
-    private double linearPosition;
-    private double extensionPower;
-    private double angularPower;
-    private double angularVelocity;
+    private double dTime;    //seconds
+    private double linearPosition;  //inches
+    private double angle;   //radians
+    private double extensionPower;  //0-1
+    private double angularPower;    //0-1
+    private double angularVelocity; //inches per second
     private double powerArray;
 
-    public MineralWaypoint(double time, double linearPosition, double extensionPower, double angularPower, double angularVelocity) {
-        this.time = time;
-        this.linearPosition = linearPosition;
+    public MineralWaypoint(double dTime, double length, double angle, double extensionPower, double angularPower, double angularVelocity) {
+        this.dTime = dTime;
+        this.linearPosition = length;
+        this.angle = angle;
         this.extensionPower = extensionPower;
         this.angularPower = angularPower;
         this.angularVelocity = angularVelocity;

@@ -48,7 +48,6 @@ public class MineralArm {
     private HardwareMap hwMap = null;
 
     private double DUMPING_ANGLE;
-    private double NUMBER_OF_SAMPLES;
 
     /* Constructor */
     private MineralArm(){
@@ -75,8 +74,8 @@ public class MineralArm {
         pivotAccelerationControl.run(power, motors);
     }
 
-    public double calculateDTheta() {
-        return (DUMPING_ANGLE - getCurrentAngle())/NUMBER_OF_SAMPLES;
+    public double calculateDTheta(double numberOfSamples) {
+        return (DUMPING_ANGLE - getCurrentAngle())/numberOfSamples;
     }
 
     public double getCurrentAngle() {
