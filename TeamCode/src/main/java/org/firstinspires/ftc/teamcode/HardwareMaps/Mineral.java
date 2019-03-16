@@ -31,10 +31,7 @@ package org.firstinspires.ftc.teamcode.HardwareMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.MineralArmv3;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.MineralExtensionv3;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.MineralIntakev3;
-import org.firstinspires.ftc.teamcode.Library.AccelerationController;
+import org.firstinspires.ftc.teamcode.Other.MineralWaypoint;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -42,7 +39,7 @@ import org.firstinspires.ftc.teamcode.Library.AccelerationController;
  */
 public class Mineral {
     private static final Mineral instance = new Mineral();
-    private MineralArm arm = MineralArm.getInstance();
+    private MineralArm pivot = MineralArm.getInstance();
     private MineralIntake intake = MineralIntake.getInstance();
     private MineralExtension extension = MineralExtension.getInstance();
 
@@ -58,13 +55,28 @@ public class Mineral {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        arm.init(hwMap);
+        pivot.init(hwMap);
         intake.init(hwMap);
         extension.init(hwMap);
     }
 
-    public void initializeTrajectories(){
-        double dTheta = arm.calculateDTheta();
+    public void setPowers(double armPower, double extensionPower) {
+        setArmPower(armPower);
+        setExtensionPower(extensionPower);
+    }
+
+    public MineralWaypoint addWaypoint(double time){
+        double extensionPower = extension.accelerate(1);
+        double length = extension.getLength(extensionPower);   //will integrate to find (previous length += dTime * current velocity)
+        double torque = getExternalTorque(length);
+        double targetVelocity = pivot.getAngularVelocity(trajectory);
+        double pivotPower = pivot.getPower(targetVelocity, torque);
+        return new MineralWaypoint(time, length, extensionPower, pivotPower, targetVelocity);
+    }
+
+    public double getExternalTorque(double length) {
+        double inertia = extension.getTorque(length);  //I = 1/3 ml^2
+        return pivot.getTorqueFromGravity(length, inertia);   //
     }
 
     public void setToIntake() {
@@ -92,7 +104,7 @@ public class Mineral {
     }
 
     public void setArmPower(double power){
-        arm.setPowers(power);
+        pivot.setPowers(power);
     }
 
     public void setIntakeRawPower(double power) {
