@@ -17,6 +17,10 @@ public class MineralWaypoint {
         double[] powerArray = {extensionPower, angularPower};
     }
 
+    public double getLinearPosition() {
+        return linearPosition;
+    }
+
     public double getPowerArray() {
         return powerArray;
     }

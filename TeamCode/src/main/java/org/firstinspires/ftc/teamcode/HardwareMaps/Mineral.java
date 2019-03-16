@@ -65,7 +65,30 @@ public class Mineral {
         setExtensionPower(extensionPower);
     }
 
-    public MineralWaypoint addWaypoint(double time){
+    public MineralWaypoint[] createTrajectory() {
+        MineralWaypoint[] trajectory1 = createTrajectoryWithoutEndingExtensionPosition();
+        MineralWaypoint[] trajectory2 = createTrajectoryWithoutStartingExtensionPosition();
+
+    }
+
+    private MineralWaypoint[] getWaypointForTrajectory(MineralWaypoint[] trajectory1, MineralWaypoint[] trajectory2) {
+        for (int i = 0; i < trajectory1.length + 1; i++) {
+            if (trajectory2[i].getLinearPosition() < trajectory1[i].getLinearPosition()) {
+                trajectory1[i] = trajectory2[i];
+            }
+        }
+        return trajectory1;
+    }
+
+    private MineralWaypoint[] createTrajectoryWithoutEndingExtensionPosition() {
+
+    }
+
+    private MineralWaypoint[] createTrajectoryWithoutStartingExtensionPosition() {
+
+    }
+
+    private MineralWaypoint addWaypoint(double time){
         double extensionPower = extension.accelerate(1);
         double length = extension.getLength(extensionPower);   //will integrate to find (previous length += dTime * current velocity)
         double torque = getExternalTorque(length);
