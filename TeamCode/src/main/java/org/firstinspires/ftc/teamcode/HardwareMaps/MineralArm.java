@@ -43,12 +43,12 @@ public class MineralArm {
     private static final MineralArm instance = new MineralArm();
 
     private AccelerationController pivotAccelerationControl = new AccelerationController(2.5);
-    /* Public OpMode members. */
     private DcMotor motor1 = null;
     private DcMotor motor2 = null;
-
-    /* local OpMode members. */
     private HardwareMap hwMap = null;
+
+    private double DUMPING_ANGLE;
+    private double NUMBER_OF_SAMPLES;
 
     /* Constructor */
     private MineralArm(){
@@ -73,6 +73,14 @@ public class MineralArm {
     public void setPowers(double power) {
         DcMotor[] motors = {motor1, motor2};
         pivotAccelerationControl.run(power, motors);
+    }
+
+    public double calculateDTheta() {
+        return (DUMPING_ANGLE - getCurrentAngle())/NUMBER_OF_SAMPLES;
+    }
+
+    public double getCurrentAngle() {
+        return 9890;
     }
 
     public static MineralArm getInstance(){

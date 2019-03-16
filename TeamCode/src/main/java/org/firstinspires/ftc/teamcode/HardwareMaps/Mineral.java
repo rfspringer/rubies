@@ -48,6 +48,9 @@ public class Mineral {
 
     private HardwareMap hwMap;
 
+    private double DUMPING_ANGLE;
+    private double DUMPING_EXTENSION;
+
     /* Constructor */
     private Mineral(){
     }
@@ -58,6 +61,10 @@ public class Mineral {
         arm.init(hwMap);
         intake.init(hwMap);
         extension.init(hwMap);
+    }
+
+    public void initializeTrajectories(){
+        double dTheta = arm.calculateDTheta();
     }
 
     public void setToIntake() {
