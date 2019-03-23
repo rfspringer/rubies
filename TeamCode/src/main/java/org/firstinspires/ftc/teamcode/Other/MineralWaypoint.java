@@ -9,7 +9,7 @@ public class MineralWaypoint {
     private double angularVelocity; //inches per second
     private double powerArray;
 
-    public MineralWaypoint(double dTime, double length, double angle, double extensionPower, double angularPower, double angularVelocity) {
+    public MineralWaypoint(double angle, double dTime, double length, double extensionPower, double angularPower, double angularVelocity) {
         this.dTime = dTime;
         this.linearPosition = length;
         this.angle = angle;
@@ -19,11 +19,15 @@ public class MineralWaypoint {
         double[] powerArray = {extensionPower, angularPower};
     }
 
+    public double getExtensionPower() {
+        return extensionPower;
+    }
+
     public double getLinearPosition() {
         return linearPosition;
     }
 
-    public double getPowerArray() {
-        return powerArray;
+    public double getdTime() {
+        return dTime;
     }
 }
