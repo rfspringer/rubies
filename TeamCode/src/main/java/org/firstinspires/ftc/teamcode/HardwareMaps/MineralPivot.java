@@ -43,7 +43,7 @@ import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryGenerator;
 public class MineralPivot {
     private static final MineralPivot instance = new MineralPivot();
 
-    private AccelerationController pivotAccelerationControl = new AccelerationController(2.5);
+    private AccelerationController pivotAccelerationControl = new AccelerationController(2.5);change max
     private DcMotor motor1 = null;
     private DcMotor motor2 = null;
     private HardwareMap hwMap = null;
@@ -75,6 +75,10 @@ public class MineralPivot {
     public void setPowers(double power) {
         DcMotor[] motors = {motor1, motor2};
         pivotAccelerationControl.run(power, motors);
+    }
+
+    public double getAccelerationControlledPower(double dTime, double previousExtensionPower, double targetExtensionPower) {
+        pivotAccelerationControl.accelerate(dTime, previousExtensionPower, targetExtensionPower);
     }
 
     /**

@@ -40,6 +40,11 @@ public class AccelerationController {
         currentTime = timer.seconds();
     }
 
+    public double accelerate(double dTime, double previousPower, double targetPower) {
+        this.dTime = dTime;
+        return calculatePower();
+    }
+
     /**
      * Updates values for power, time variables of feedback controller
      * Must occur every time through loop

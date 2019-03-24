@@ -31,7 +31,6 @@ package org.firstinspires.ftc.teamcode.HardwareMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryGenerator;
 import org.firstinspires.ftc.teamcode.Other.MineralWaypoint;
 
@@ -112,12 +111,12 @@ public class Mineral {
 
     private MineralWaypoint createWaypoint(int waypointSegment, double time, double dTheta, TrajectoryGenerator pivotTrajectory, double previousExtensionPower, double targetExtensionPower){
         double angle = dTheta * waypointSegment;
-        double extensionPower = AccelerationController.accelerate(previousExtensionPower, targetExtensionPower); // update accel controller to allow
+        double targetAngularVelocity = pivotTrajectory.getVelocityIfMaxAccel(time);
+        double dTime = dTheta/targetAngularVelocity;
+        double extensionPower = pivot.getAccelerationControlledPower(dTime, previousExtensionPower, targetExtensionPower); // update accel controller to allow
         double length = extension.getLengthFromIntegration(extensionPower);   //will integrate to find (previous length += dTime * current velocity)
         double torque = getExternalTorque(length, angle);
-        double targetAngularVelocity = pivotTrajectory.getVelocityIfMaxAccel(time);
         double pivotPower = pivot.getPower(targetAngularVelocity, torque);
-        double dTime = dTheta/targetAngularVelocity;
         return new MineralWaypoint(angle, dTime, length, extensionPower, pivotPower, targetAngularVelocity);
     }
 
