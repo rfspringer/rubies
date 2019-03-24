@@ -101,6 +101,14 @@ public class MineralPivot {
     }
 
     public double getPower(double targetAngularVelocity, double torque, double inertia) {
+        return getPowerFromVelocityOnly(targetAngularVelocity) + CONSTANT * getPowerToCounteractGravity(torque, inertia);
+    }
+
+    private double getPowerFromVelocityOnly(double targetVelocity) {
+        return targetVelocity/MAX_ANGULAR_VELOCITY;
+    }
+
+    private double getPowerToCounteractGravity(double torque, double inertia) {
         return (inertia * MAX_ANGULAR_ACCELERATION + torque) / MAX_TORQUE;
     }
 
