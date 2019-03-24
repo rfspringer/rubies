@@ -32,6 +32,8 @@ package org.firstinspires.ftc.teamcode.HardwareMaps;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
+import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryGenerator;
 import org.firstinspires.ftc.teamcode.Other.MineralWaypoint;
 
 /**
@@ -87,7 +89,7 @@ public class Mineral {
         double dTheta = (targetAngle - initialAngle)/NUMBER_OF_TRAJECTORY_WAYPOINTS;
         double previousExtensionPower = 0;
         double time = 0;
-        double pivotTrajectory = new AccelerationController(pivot.getMaxAcceleration());
+        double pivotTrajectory = pivot.createTrajectory(initialAngle, targetAngle);
         for (int i = 1; i < trajectory.length; i++) {
             MineralWaypoint waypoint = addWaypoint(i, time, dTheta, pivotTrajectory, previousExtensionPower, targetExtensionPower);
             trajectory[i] = waypoint;
@@ -107,7 +109,7 @@ public class Mineral {
 
     private MineralWaypoint addWaypoint(int waypointSegment, double time, double dTheta, double pivotTrajectory, double previousExtensionPower, double targetExtensionPower){
         double angle = dTheta * waypointSegment;
-        double extensionPower = AccelerationController.accelerate(previousExtensionPower, targetExtensionPower); // u[date accel controller to allow
+        double extensionPower = AccelerationController.accelerate(previousExtensionPower, targetExtensionPower); // update accel controller to allow
         double length = extension.getLengthFromIntegration(extensionPower);   //will integrate to find (previous length += dTime * current velocity)
         double torque = getExternalTorque(length, angle);
         double targetAngularVelocity = pivotTrajectory.getVelocityIfMaxAccel(time);
@@ -116,9 +118,9 @@ public class Mineral {
         return new MineralWaypoint(angle, dTime, length, extensionPower, pivotPower, targetAngularVelocity);
     }
 
-    private double getExternalTorque(double length) {
-        double inertia = extension.getTorque(length);  //I = 1/3 ml^2
-        return pivot.getTorqueFromGravity(length, inertia);   //
+    private double getExternalTorque(double length, double angle) {
+        double inertia = extension.getMoment(length);  //I = 1/3 ml^2
+        return pivot.getTorqueFromGravity(inertia, angle);   //mgcos(theta)
     }
 
     public void setToIntake() {

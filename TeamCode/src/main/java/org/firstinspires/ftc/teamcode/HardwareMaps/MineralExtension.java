@@ -39,11 +39,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 public class MineralExtension {
     private static final MineralExtension instance = new MineralExtension();
-    /* Public OpMode members. */
     private DcMotor extension = null;
-
-    /* local OpMode members. */
     private HardwareMap hwMap = null;
+
+    private double RETRACTED_ARM_LENGTH;change
+    private double METERS_PER_REVOLUTION;change
+    private int COUNTS_PER_REVOLUTION = 288;
+
+    private
 
     /* Constructor */
     private MineralExtension(){
@@ -63,13 +66,24 @@ public class MineralExtension {
         extension.setPower(power);
     }
 
-//    public int getEncoderCounts() {
-//        return extension.getCurrentPosition();
-//    }
+    /**
+     * @return the length of our mineral arm from pivot to tip in meters as a double
+     */
+    public double getCurrentLength() {
+        //
+        return RETRACTED_ARM_LENGTH + getNetExtensionDistance();
+    }
+
+    private double getNetExtensionDistance() {
+        return getNetNumberOfRevolutions() * METERS_PER_REVOLUTION;
+    }
+
+    private double getNetNumberOfRevolutions() {
+        return extension.getCurrentPosition() / COUNTS_PER_REVOLUTION;
+    }
 
     public static MineralExtension getInstance(){
         return instance;
     }
-
 }
 
