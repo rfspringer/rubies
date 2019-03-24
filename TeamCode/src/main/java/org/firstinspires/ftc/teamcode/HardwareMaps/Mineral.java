@@ -76,7 +76,7 @@ public class Mineral {
 
     private MineralWaypoint[] getActualTrajectory(MineralWaypoint[] trajectory1, MineralWaypoint[] trajectory2) {
         for (int i = 0; i < trajectory1.length; i++) {
-            if (trajectory2[i].getLinearPosition() > trajectory1[i].getLinearPosition()) {
+            if (trajectory2[i].getLength() > trajectory1[i].getLength()) {
                 trajectory1[i] = trajectory2[i];
             }
         }
@@ -87,20 +87,22 @@ public class Mineral {
         MineralWaypoint[] trajectory = initializeTrajectory(initialLength, initialAngle);
         double dTheta = getDTheta(initialAngle, targetAngle);
         TrajectoryGenerator pivotTrajectory = pivot.createTrajectory(initialAngle, targetAngle);
-        return addWaypointsToTrajectory(trajectory, dTheta, pivotTrajectory, targetExtensionPower);
+        return addWaypointsToTrajectory(trajectory, dTheta, pivotTrajectory, initialLength, targetExtensionPower);
     }
 
-    private MineralWaypoint[] addWaypointsToTrajectory(MineralWaypoint[] trajectory, double dTheta, TrajectoryGenerator pivotTrajectory, double targetExtensionPower) {
+    private MineralWaypoint[] addWaypointsToTrajectory(MineralWaypoint[] trajectory, double dTheta, TrajectoryGenerator pivotTrajectory, double initialLength, double targetExtensionPower) {
         double previousExtensionPower = 0;
         double time = 0;
+        double previousLength = initialLength;
         for (int i = 1; i < trajectory.length; i++) {
-            MineralWaypoint waypoint = createWaypoint(i, time, dTheta, pivotTrajectory, previousExtensionPower, targetExtensionPower);
+            MineralWaypoint waypoint = createWaypoint(i, time, dTheta, pivotTrajectory, previousExtensionPower, previousLength, targetExtensionPower);
             trajectory[i] = waypoint;
             previousExtensionPower = waypoint.getExtensionPower();
             time += waypoint.getdTime();
+            previousLength = waypoint.getLength();
         }
+        return trajectory;
     }
-
 
     private MineralWaypoint[] initializeTrajectory(double initialLength, double initialAngle) {
         MineralWaypoint[] trajectory = new MineralWaypoint[NUMBER_OF_TRAJECTORY_WAYPOINTS];
@@ -110,20 +112,20 @@ public class Mineral {
         return trajectory;
     }
 
-    private MineralWaypoint createWaypoint(int waypointSegment, double time, double dTheta, TrajectoryGenerator pivotTrajectory, double previousExtensionPower, double targetExtensionPower){
+    private MineralWaypoint createWaypoint(int waypointSegment, double time, double dTheta, TrajectoryGenerator pivotTrajectory, double previousExtensionPower, double previousLength, double targetExtensionPower) {
         double targetAngularVelocity = pivotTrajectory.getVelocityIfMaxAccel(time);
         double dTime = dTheta/targetAngularVelocity;
         double extensionPower = pivot.getAccelerationControlledPower(dTime, previousExtensionPower, targetExtensionPower); // update accel controller to allow
-        double length = extension.getLengthFromIntegration(extensionPower, dTime);   //will integrate to find (previous length += dTime * current velocity)
+        double length = extension.calculateLengthFromIntegration(previousLength, extensionPower, dTime);   //will integrate to find (previous length += dTime * current velocity)
         double angle = dTheta * waypointSegment;
-        double inertia = extension.getMomentofInertia(length, MASS);  //I = 1/3 ml^2
+        double inertia = extension.getMomentofInertia(length, MASS);
         double torque = getTorqueFromGravity(angle);
         double pivotPower = pivot.getPower(targetAngularVelocity, torque, inertia);
         return new MineralWaypoint(angle, dTime, length, extensionPower, pivotPower, targetAngularVelocity);
     }
 
     private double getTorqueFromGravity(double angle) {
-        return extension.getCenterOfGravity() * pivot.getForceFromGravity(angle, MASS);
+        return extension.getPositionOfCenterOfGravity() * pivot.getForceFromGravity(angle, MASS);
     }
 
     private double getDTheta(double initialAngle, double targetAngle) {

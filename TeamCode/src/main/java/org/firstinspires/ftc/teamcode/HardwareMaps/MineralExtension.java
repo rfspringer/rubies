@@ -45,6 +45,7 @@ public class MineralExtension {
     private double RETRACTED_ARM_LENGTH;change
     private double METERS_PER_REVOLUTION;change
     private int COUNTS_PER_REVOLUTION = 288;
+    private double MAX_VELOCITY;change
 
     /* Constructor */
     private MineralExtension(){
@@ -72,8 +73,17 @@ public class MineralExtension {
         return RETRACTED_ARM_LENGTH + getNetExtensionDistance();
     }
 
-    public double getCenterOfGravity() {
+    public double getPositionOfCenterOfGravity() {
         return getCurrentLength()/2; // it's close enough :)
+    }
+
+    public double calculateLengthFromIntegration(double previousLength, double extensionPower, double dTime) {
+        double velocity = getVelocity(extensionPower);
+        return previousLength + velocity * dTime;
+    }
+
+    private double getVelocity(double extensionPower) {
+        return extensionPower * MAX_VELOCITY;
     }
 
     private double getNetExtensionDistance() {

@@ -48,11 +48,12 @@ public class MineralPivot {
     private DcMotor motor2 = null;
     private HardwareMap hwMap = null;
 
-    private double DUMPING_ANGLE;
-    private double MAX_ANGULAR_VELOCITY;    //radians per second
-    private double MAX_ANGULAR_ACCELERATION;    //radians per second^2
+    private double DUMPING_ANGLE;change
+    private double MAX_ANGULAR_VELOCITY;change    //radians per second
+    private double MAX_ANGULAR_ACCELERATION;change    //radians per second^2
 
     private double ACCELERATION_FROM_GRAVITY = 9.8; //meters per second^2
+    private double MAX_TORQUE;change
 
     /* Constructor */
     private MineralPivot(){
@@ -97,6 +98,10 @@ public class MineralPivot {
 
     public double getForceFromGravity(double angle, double mass) {
         return mass * ACCELERATION_FROM_GRAVITY * Math.cos(angle);
+    }
+
+    public double getPower(double targetAngularVelocity, double torque, double inertia) {
+        return (inertia * MAX_ANGULAR_ACCELERATION + torque) / MAX_TORQUE;
     }
 
     public double getCurrentAngle() {
