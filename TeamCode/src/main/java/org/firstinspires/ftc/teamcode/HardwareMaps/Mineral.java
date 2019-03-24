@@ -46,6 +46,7 @@ public class Mineral {
 
     private HardwareMap hwMap;
 
+    private int MASS;change //in kilograms
     private int NUMBER_OF_TRAJECTORY_WAYPOINTS;change
 
     /* Constructor */
@@ -110,19 +111,19 @@ public class Mineral {
     }
 
     private MineralWaypoint createWaypoint(int waypointSegment, double time, double dTheta, TrajectoryGenerator pivotTrajectory, double previousExtensionPower, double targetExtensionPower){
-        double angle = dTheta * waypointSegment;
         double targetAngularVelocity = pivotTrajectory.getVelocityIfMaxAccel(time);
         double dTime = dTheta/targetAngularVelocity;
         double extensionPower = pivot.getAccelerationControlledPower(dTime, previousExtensionPower, targetExtensionPower); // update accel controller to allow
-        double length = extension.getLengthFromIntegration(extensionPower);   //will integrate to find (previous length += dTime * current velocity)
-        double torque = getExternalTorque(length, angle);
-        double pivotPower = pivot.getPower(targetAngularVelocity, torque);
+        double length = extension.getLengthFromIntegration(extensionPower, dTime);   //will integrate to find (previous length += dTime * current velocity)
+        double angle = dTheta * waypointSegment;
+        double inertia = extension.getMomentofInertia(length, MASS);  //I = 1/3 ml^2
+        double torque = getTorqueFromGravity(angle);
+        double pivotPower = pivot.getPower(targetAngularVelocity, torque, inertia);
         return new MineralWaypoint(angle, dTime, length, extensionPower, pivotPower, targetAngularVelocity);
     }
 
-    private double getExternalTorque(double length, double angle) {
-        double inertia = extension.getMoment(length);  //I = 1/3 ml^2
-        return pivot.getTorqueFromGravity(inertia, angle);   //mgcos(theta)
+    private double getTorqueFromGravity(double angle) {
+        return extension.getCenterOfGravity() * pivot.getForceFromGravity(angle, MASS);
     }
 
     private double getDTheta(double initialAngle, double targetAngle) {

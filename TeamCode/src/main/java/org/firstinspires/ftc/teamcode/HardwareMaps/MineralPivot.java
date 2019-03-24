@@ -52,6 +52,8 @@ public class MineralPivot {
     private double MAX_ANGULAR_VELOCITY;    //radians per second
     private double MAX_ANGULAR_ACCELERATION;    //radians per second^2
 
+    private double ACCELERATION_FROM_GRAVITY = 9.8; //meters per second^2
+
     /* Constructor */
     private MineralPivot(){
     }
@@ -78,7 +80,7 @@ public class MineralPivot {
     }
 
     public double getAccelerationControlledPower(double dTime, double previousExtensionPower, double targetExtensionPower) {
-        pivotAccelerationControl.accelerate(dTime, previousExtensionPower, targetExtensionPower);
+        return pivotAccelerationControl.accelerate(dTime, previousExtensionPower, targetExtensionPower);
     }
 
     /**
@@ -93,12 +95,12 @@ public class MineralPivot {
         return targetAngle - initialAngle;
     }
 
-    public double calculateDTheta(double numberOfSamples) {
-        return (DUMPING_ANGLE - getCurrentAngle())/numberOfSamples;
+    public double getForceFromGravity(double angle, double mass) {
+        return mass * ACCELERATION_FROM_GRAVITY * Math.cos(angle);
     }
 
     public double getCurrentAngle() {
-        return 9890;
+        return 9890;change
     }
 
     public static MineralPivot getInstance(){

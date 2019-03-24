@@ -46,8 +46,6 @@ public class MineralExtension {
     private double METERS_PER_REVOLUTION;change
     private int COUNTS_PER_REVOLUTION = 288;
 
-    private
-
     /* Constructor */
     private MineralExtension(){
     }
@@ -74,12 +72,20 @@ public class MineralExtension {
         return RETRACTED_ARM_LENGTH + getNetExtensionDistance();
     }
 
+    public double getCenterOfGravity() {
+        return getCurrentLength()/2; // it's close enough :)
+    }
+
     private double getNetExtensionDistance() {
         return getNetNumberOfRevolutions() * METERS_PER_REVOLUTION;
     }
 
     private double getNetNumberOfRevolutions() {
         return extension.getCurrentPosition() / COUNTS_PER_REVOLUTION;
+    }
+
+    public double getMomentofInertia(double length, double mass) {
+        return 1/3 * mass * length * length;
     }
 
     public static MineralExtension getInstance(){
