@@ -34,13 +34,14 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
+import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryGenerator;
 
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class MineralArm {
-    private static final MineralArm instance = new MineralArm();
+public class MineralPivot {
+    private static final MineralPivot instance = new MineralPivot();
 
     private AccelerationController pivotAccelerationControl = new AccelerationController(2.5);
     private DcMotor motor1 = null;
@@ -48,9 +49,11 @@ public class MineralArm {
     private HardwareMap hwMap = null;
 
     private double DUMPING_ANGLE;
+    private double MAX_ANGULAR_VELOCITY;    //radians per second
+    private double MAX_ANGULAR_ACCELERATION;    //radians per second^2
 
     /* Constructor */
-    private MineralArm(){
+    private MineralPivot(){
     }
 
     /* Initialize standard Hardware interfaces */
@@ -74,6 +77,18 @@ public class MineralArm {
         pivotAccelerationControl.run(power, motors);
     }
 
+    /**
+     * Creates a trajectory for pivoting the arm between two angles
+     * @return a TrajectoryGenerator class with parameters based on the arm's constraints
+     */
+    public TrajectoryGenerator createTrajectory(double initialAngle, double targetAngle) {
+         return new TrajectoryGenerator(getAngleDifference(initialAngle, targetAngle), MAX_ANGULAR_VELOCITY, MAX_ANGULAR_ACCELERATION);
+    }
+
+    private double getAngleDifference(double initialAngle, double targetAngle) {
+        return targetAngle - initialAngle;
+    }
+
     public double calculateDTheta(double numberOfSamples) {
         return (DUMPING_ANGLE - getCurrentAngle())/numberOfSamples;
     }
@@ -82,7 +97,7 @@ public class MineralArm {
         return 9890;
     }
 
-    public static MineralArm getInstance(){
+    public static MineralPivot getInstance(){
         return instance;
     }
 

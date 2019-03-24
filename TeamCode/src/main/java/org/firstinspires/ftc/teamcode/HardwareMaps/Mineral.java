@@ -32,7 +32,6 @@ package org.firstinspires.ftc.teamcode.HardwareMaps;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
-import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryGenerator;
 import org.firstinspires.ftc.teamcode.Other.MineralWaypoint;
 
@@ -42,7 +41,7 @@ import org.firstinspires.ftc.teamcode.Other.MineralWaypoint;
  */
 public class Mineral {
     private static final Mineral instance = new Mineral();
-    private MineralArm pivot = MineralArm.getInstance();
+    private MineralPivot pivot = MineralPivot.getInstance();
     private MineralIntake intake = MineralIntake.getInstance();
     private MineralExtension extension = MineralExtension.getInstance();
 
@@ -86,18 +85,22 @@ public class Mineral {
 
     private MineralWaypoint[] createTrajectory(double initialLength, double initialAngle, double targetAngle, double targetExtensionPower) {
         MineralWaypoint[] trajectory = initializeTrajectory(initialLength, initialAngle);
-        double dTheta = (targetAngle - initialAngle)/NUMBER_OF_TRAJECTORY_WAYPOINTS;
+        double dTheta = getDTheta(initialAngle, targetAngle);
+        TrajectoryGenerator pivotTrajectory = pivot.createTrajectory(initialAngle, targetAngle);
+        return addWaypointsToTrajectory(trajectory, dTheta, pivotTrajectory, targetExtensionPower);
+    }
+
+    private MineralWaypoint[] addWaypointsToTrajectory(MineralWaypoint[] trajectory, double dTheta, TrajectoryGenerator pivotTrajectory, double targetExtensionPower) {
         double previousExtensionPower = 0;
         double time = 0;
-        double pivotTrajectory = pivot.createTrajectory(initialAngle, targetAngle);
         for (int i = 1; i < trajectory.length; i++) {
-            MineralWaypoint waypoint = addWaypoint(i, time, dTheta, pivotTrajectory, previousExtensionPower, targetExtensionPower);
+            MineralWaypoint waypoint = createWaypoint(i, time, dTheta, pivotTrajectory, previousExtensionPower, targetExtensionPower);
             trajectory[i] = waypoint;
             previousExtensionPower = waypoint.getExtensionPower();
             time += waypoint.getdTime();
         }
-        return trajectory;
     }
+
 
     private MineralWaypoint[] initializeTrajectory(double initialLength, double initialAngle) {
         MineralWaypoint[] trajectory = new MineralWaypoint[NUMBER_OF_TRAJECTORY_WAYPOINTS];
@@ -107,7 +110,7 @@ public class Mineral {
         return trajectory;
     }
 
-    private MineralWaypoint addWaypoint(int waypointSegment, double time, double dTheta, double pivotTrajectory, double previousExtensionPower, double targetExtensionPower){
+    private MineralWaypoint createWaypoint(int waypointSegment, double time, double dTheta, TrajectoryGenerator pivotTrajectory, double previousExtensionPower, double targetExtensionPower){
         double angle = dTheta * waypointSegment;
         double extensionPower = AccelerationController.accelerate(previousExtensionPower, targetExtensionPower); // update accel controller to allow
         double length = extension.getLengthFromIntegration(extensionPower);   //will integrate to find (previous length += dTime * current velocity)
@@ -121,6 +124,10 @@ public class Mineral {
     private double getExternalTorque(double length, double angle) {
         double inertia = extension.getMoment(length);  //I = 1/3 ml^2
         return pivot.getTorqueFromGravity(inertia, angle);   //mgcos(theta)
+    }
+
+    private double getDTheta(double initialAngle, double targetAngle) {
+        return (targetAngle - initialAngle)/NUMBER_OF_TRAJECTORY_WAYPOINTS;
     }
 
     public void setToIntake() {
