@@ -13,6 +13,8 @@ public class TrajectoryGenerator {
     private double trajectoryLength;
     private double trajectoryDirection;
 
+    private double seconds;
+
     private enum TRAJECTORY_SEGMENT {
         ACCELERATION,
         CRUISING,
@@ -28,8 +30,16 @@ public class TrajectoryGenerator {
         this.maxAcceleration = maxAcceleration;
     }
 
-    public void calculatePositionalDerivatives(ElapsedTime currentTime) {
-        TRAJECTORY_SEGMENT trajectorySegment = getTrajectorySegment(currentTime);
+    public void updateVelocityAndAcceleration(ElapsedTime currentTime) {
+        calculatePositionalDerivatives(currentTime.seconds());
+    }
+
+    public void updateVelocityAndAcceleration(double currentTime) {
+        calculatePositionalDerivatives(currentTime);
+    }
+
+    private void calculatePositionalDerivatives(double currentTime) {
+        trajectorySegment = getTrajectorySegment(currentTime);
         switch (trajectorySegment){
             case ACCELERATION:
                 currentVelocity = velocityIfConstantAcceleration(currentTime);
@@ -48,7 +58,7 @@ public class TrajectoryGenerator {
         }
     }
 
-    private TRAJECTORY_SEGMENT getTrajectorySegment (ElapsedTime currentTime) {
+    private TRAJECTORY_SEGMENT getTrajectorySegment (double currentTime) {
         if (velocityIfConstantAcceleration(currentTime) < maxVelocity
                 && velocityIfConstantAcceleration(currentTime)
                 < velocityIfConstantDeceleration(currentTime)) {
@@ -62,14 +72,14 @@ public class TrajectoryGenerator {
         }
     }
 
-    private double velocityIfConstantAcceleration(ElapsedTime currentTime) {
-        return maxAcceleration * currentTime.seconds();
+    private double velocityIfConstantAcceleration(double currentTime) {
+        return maxAcceleration * currentTime;
     }
 
 
-    private double velocityIfConstantDeceleration(ElapsedTime currentTime) {
+    private double velocityIfConstantDeceleration(double currentTime) {
         double finalVelocity  = Math.sqrt(2 * maxAcceleration * trajectoryLength);
-        return  finalVelocity - maxAcceleration * currentTime.seconds();
+        return  finalVelocity - maxAcceleration * currentTime;
     }
 
     public double getDirection() {

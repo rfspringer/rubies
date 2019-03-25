@@ -113,7 +113,8 @@ public class Mineral {
     }
 
     private MineralWaypoint createWaypoint(int waypointSegment, double time, double dTheta, TrajectoryGenerator pivotTrajectory, double previousExtensionPower, double previousLength, double targetExtensionPower) {
-        double targetAngularVelocity = pivotTrajectory.getVelocityIfMaxAccel(time);
+        pivotTrajectory.updateVelocityAndAcceleration(time);
+        double targetAngularVelocity = pivotTrajectory.getCurrentVelocity();
         double dTime = dTheta/targetAngularVelocity;
         double extensionPower = pivot.getAccelerationControlledPower(dTime, previousExtensionPower, targetExtensionPower); // update accel controller to allow
         double length = extension.calculateLengthFromIntegration(previousLength, extensionPower, dTime);   //will integrate to find (previous length += dTime * current velocity)
