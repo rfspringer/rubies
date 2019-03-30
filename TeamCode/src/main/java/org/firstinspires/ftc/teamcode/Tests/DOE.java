@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv3;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
 
@@ -28,9 +25,9 @@ public class DOE extends RubiesLinearOpMode {
             telemetry.update();
         }
 
-        robot.drive.setPowers(1, 0, 1, 0);
-        robot.mineral.setIntakeScaledPower(1);
-        sleepFor(3000);
+        robot.drive.setPowers(0.75, 0, 1, 0);
+        robot.mineral.setIntakeScaledPower(intakePower);
+        sleepFor(750);
         robot.drive.stop();
         robot.mineral.setIntakeScaledPower(0);
     }
