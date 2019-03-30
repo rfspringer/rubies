@@ -31,7 +31,7 @@ package org.firstinspires.ftc.teamcode.HardwareMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryGenerator;
+import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryGeneratorByTime;
 import org.firstinspires.ftc.teamcode.Other.MineralWaypoint;
 
 /**
@@ -86,11 +86,11 @@ public class Mineral {
     private MineralWaypoint[] createTrajectory(double initialLength, double initialAngle, double targetAngle, double targetExtensionPower) {
         MineralWaypoint[] trajectory = initializeTrajectory(initialLength, initialAngle);
         double dTheta = getDTheta(initialAngle, targetAngle);
-        TrajectoryGenerator pivotTrajectory = pivot.createTrajectory(initialAngle, targetAngle);
+        TrajectoryGeneratorByTime pivotTrajectory = pivot.createTrajectory(initialAngle, targetAngle);
         return addWaypointsToTrajectory(trajectory, dTheta, pivotTrajectory, initialLength, targetExtensionPower);
     }
 
-    private MineralWaypoint[] addWaypointsToTrajectory(MineralWaypoint[] trajectory, double dTheta, TrajectoryGenerator pivotTrajectory, double initialLength, double targetExtensionPower) {
+    private MineralWaypoint[] addWaypointsToTrajectory(MineralWaypoint[] trajectory, double dTheta, TrajectoryGeneratorByTime pivotTrajectory, double initialLength, double targetExtensionPower) {
         double previousExtensionPower = 0;
         double time = 0;
         double previousLength = initialLength;
@@ -112,7 +112,7 @@ public class Mineral {
         return trajectory;
     }
 
-    private MineralWaypoint createWaypoint(int waypointSegment, double time, double dTheta, TrajectoryGenerator pivotTrajectory, double previousExtensionPower, double previousLength, double targetExtensionPower) {
+    private MineralWaypoint createWaypoint(int waypointSegment, double time, double dTheta, TrajectoryGeneratorByTime pivotTrajectory, double previousExtensionPower, double previousLength, double targetExtensionPower) {
         pivotTrajectory.updateVelocityAndAcceleration(time);
         double targetAngularVelocity = pivotTrajectory.getCurrentVelocity();
         double dTime = dTheta/targetAngularVelocity;

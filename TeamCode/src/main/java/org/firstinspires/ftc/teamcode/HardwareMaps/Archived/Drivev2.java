@@ -34,9 +34,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Sensors;
+import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryGeneratorByTime;
 import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
 import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
-import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryGenerator;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -128,12 +128,12 @@ public class Drivev2
     }
 
     public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading) {
-        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, MAX_VEL, MAX_ACCEL);
+        TrajectoryGeneratorByTime trajectory = new TrajectoryGeneratorByTime(distanceInInches, MAX_VEL, MAX_ACCEL);
         return new TrajectoryFollower(allMotors, trajectory, heading, kV, kA, false);
     }
 
     public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
-        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxAccel);
+        TrajectoryGeneratorByTime trajectory = new TrajectoryGeneratorByTime(distanceInInches, maxVel, maxAccel);
         return new TrajectoryFollower(allMotors, trajectory, heading, kV, kA, usesFeedback);
     }
 

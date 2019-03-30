@@ -91,7 +91,7 @@ public class kATest extends LinearOpMode {
     }
 
     private void followTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
-//        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxVel);
+//        TrajectoryGeneratorByTime trajectory = new TrajectoryGeneratorByTime(distanceInInches, maxVel, maxVel);
 //        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(robot.drive.getAllMotors(), trajectory, kV, kA, usesFeedback);
 //        trajectoryFollower.runAction();
     }

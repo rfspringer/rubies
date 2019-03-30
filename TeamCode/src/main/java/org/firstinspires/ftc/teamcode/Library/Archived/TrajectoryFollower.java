@@ -16,9 +16,9 @@ public class TrajectoryFollower {
     private boolean usesFeedback = false;
     private boolean hasResetTimer = false;
     private DcMotor[] motors;
-    private TrajectoryGenerator trajectory;
+    private TrajectoryGeneratorByTime trajectory;
 
-    public TrajectoryFollower(DcMotor[] motors, TrajectoryGenerator trajectory, double heading, double kV, double kA, boolean usesFeedback){
+    public TrajectoryFollower(DcMotor[] motors, TrajectoryGeneratorByTime trajectory, double heading, double kV, double kA, boolean usesFeedback){
         this.usesFeedback = usesFeedback;
         this.motors = motors;
         this.trajectory = trajectory;

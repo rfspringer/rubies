@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Library.Archived;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class TrajectoryGenerator {
+public class TrajectoryGeneratorByTime {
     // Units are inches and seconds
     private double maxVelocity;
     private double maxAcceleration;
@@ -23,7 +23,7 @@ public class TrajectoryGenerator {
 
     private TRAJECTORY_SEGMENT trajectorySegment;
 
-    public TrajectoryGenerator(double distance, double maxVelocity, double maxAcceleration) {
+    public TrajectoryGeneratorByTime(double distance, double maxVelocity, double maxAcceleration) {
         this.trajectoryDirection = Math.signum(distance);
         this.trajectoryLength = Math.abs(distance);
         this.maxVelocity = maxVelocity;

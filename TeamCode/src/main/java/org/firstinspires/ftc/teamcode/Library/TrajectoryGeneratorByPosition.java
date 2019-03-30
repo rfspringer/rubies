@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.Library.Archived;
+package org.firstinspires.ftc.teamcode.Library;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class TrajectoryGeneratorByTime {
+public class TrajectoryGeneratorByPosition {
     // Units are inches and seconds
     private double maxVelocity;
     private double maxAcceleration;
@@ -13,7 +13,7 @@ public class TrajectoryGeneratorByTime {
     private double trajectoryLength;
     private double trajectoryDirection;
 
-    private double seconds;
+    private int numberOfWaypoints;
 
     private enum TRAJECTORY_SEGMENT {
         ACCELERATION,
@@ -23,19 +23,16 @@ public class TrajectoryGeneratorByTime {
 
     private TRAJECTORY_SEGMENT trajectorySegment;
 
-    public TrajectoryGeneratorByTime(double distance, double maxVelocity, double maxAcceleration) {
+    public TrajectoryGeneratorByPosition(int numberOfWaypoints, double distance, double maxVelocity, double maxAcceleration) {
+        this.numberOfWaypoints = numberOfWaypoints;
         this.trajectoryDirection = Math.signum(distance);
         this.trajectoryLength = Math.abs(distance);
         this.maxVelocity = maxVelocity;
         this.maxAcceleration = maxAcceleration;
     }
 
-    public void updateVelocityAndAcceleration(ElapsedTime currentTime) {
+    public void updateVelocityAndAcceleration(int currentWaypoint) {
         calculatePositionalDerivatives(currentTime.seconds());
-    }
-
-    public void updateVelocityAndAcceleration(double currentTime) {
-        calculatePositionalDerivatives(currentTime);
     }
 
     private void calculatePositionalDerivatives(double currentTime) {

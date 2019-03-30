@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
-import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryGenerator;
+import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryGeneratorByTime;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -86,10 +86,10 @@ public class MineralPivot {
 
     /**
      * Creates a trajectory for pivoting the arm between two angles
-     * @return a TrajectoryGenerator class with parameters based on the arm's constraints
+     * @return a TrajectoryGeneratorByTime class with parameters based on the arm's constraints
      */
-    public TrajectoryGenerator createTrajectory(double initialAngle, double targetAngle) {
-         return new TrajectoryGenerator(getAngleDifference(initialAngle, targetAngle), MAX_ANGULAR_VELOCITY, MAX_ANGULAR_ACCELERATION);
+    public TrajectoryGeneratorByTime createTrajectory(double initialAngle, double targetAngle) {
+         return new TrajectoryGeneratorByTime(getAngleDifference(initialAngle, targetAngle), MAX_ANGULAR_VELOCITY, MAX_ANGULAR_ACCELERATION);
     }
 
     private double getAngleDifference(double initialAngle, double targetAngle) {
