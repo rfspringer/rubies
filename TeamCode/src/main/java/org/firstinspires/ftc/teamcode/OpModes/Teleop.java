@@ -37,8 +37,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
-
-
 @TeleOp(name="Teleop", group="teleop")
 public class Teleop extends OpMode {
     private Robot robot = Robot.getInstance();

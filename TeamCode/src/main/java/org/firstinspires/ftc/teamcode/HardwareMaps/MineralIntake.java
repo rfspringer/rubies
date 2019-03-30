@@ -47,7 +47,7 @@ public class MineralIntake {
     private CRServo intake2;
     private Servo   door;
     private HardwareMap hwMap;
-    private CRServo[] intake;
+    private CRServo[] intake = new CRServo[2];
 
     private double INTAKE_POWER = 1;
     private double OUTTAKE_POWER = -1;
