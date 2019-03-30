@@ -52,6 +52,10 @@ public class Teleop extends OpMode {
     private double HIGH_MAGNITUDE_MULTIPLIER = 1;
     private double LOW_MAGNITUDE_MULTIPLIER = 0.5;
     private double X_AXIS_THRESHOLD_FOR_TURNING = 0.7;
+    private double HEADING_ERROR_SCALAR = 0.4;
+    private double ARM_POWER_SCALAR = 0.3;
+    private double INTAKE_POWER = 1;
+    private double OUTTAKE_POWER = -1;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -91,7 +95,7 @@ public class Teleop extends OpMode {
         } else {
             magnitudeMultiplier = LOW_MAGNITUDE_MULTIPLIER;
         }
-        robot.drive.setPowers(magnitudeMultiplier = gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK),
+        robot.drive.setPowers(magnitudeMultiplier * gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK),
                 gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
     }
 
@@ -99,19 +103,19 @@ public class Teleop extends OpMode {
         if (Math.abs(gamepadA.right_stick_x) < X_AXIS_THRESHOLD_FOR_TURNING) {
             return 0;
         } else {
-            return -0.4 * gamepadA.right_stick_x;
+            return HEADING_ERROR_SCALAR * -gamepadA.right_stick_x;
         }
     }
 
     private void controlArm() {
-        robot.mineral.setArmPower(-0.3 * gamepadB.left_stick_y);
+        robot.mineral.setArmPower(-ARM_POWER_SCALAR * gamepadB.left_stick_y);
     }
 
     private void controlIntake() {
         if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER)) {
-            robot.mineral.setIntakeScaledPower(1);
+            robot.mineral.setIntakeScaledPower(INTAKE_POWER);
         } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)) {
-            robot.mineral.setIntakeScaledPower(-1);
+            robot.mineral.setIntakeScaledPower(OUTTAKE_POWER);
         } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER) && gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)){
             robot.mineral.setIntakeScaledPower(0);
         }
