@@ -43,16 +43,18 @@ import org.firstinspires.ftc.teamcode.Library.VexMotorEnhanced;
 public class MineralIntake {
     private static final MineralIntake instance = new MineralIntake();
 
-    private CRServo intake = null;
-    private Servo bucket = null;
-    private HardwareMap hwMap = null;
+    private CRServo intake1;
+    private CRServo intake2;
+    private Servo   door;
+    private HardwareMap hwMap;
+    private CRServo[] intake;
 
     private double INTAKE_POWER = 1;
     private double OUTTAKE_POWER = -1;
 
     private double INTAKE_POSITION = 0.54;
     private double STORAGE_POSITION = 0.4;
-    private double DUMP_POSITION = 0.8;
+    private double RELEASE_POSITION = 0.8;
 
     /* Constructor */
     private MineralIntake(){
@@ -61,32 +63,43 @@ public class MineralIntake {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        bucket = hwMap.servo.get("bucket");
-        intake = hwMap.crservo.get("intake");
-        bucket.setPosition(INTAKE_POSITION);
-        intake.setDirection(DcMotorSimple.Direction.REVERSE);
-        intake.setPower(0);
+        setObjectsFromHardwareMap(hwMap);
+        door.setPosition(STORAGE_POSITION);
+        initializeIntakeArray();
+        setRawPower(0);
+    }
+
+    private void initializeIntakeArray() {
+        intake[0] = intake1;
+        intake[1] = intake2;
+    }
+
+    private void setObjectsFromHardwareMap(HardwareMap hwMap) {
+        intake1 = hwMap.crservo.get("intake1");
+        intake2 = hwMap.crservo.get("intake2");
+        door = hwMap.servo.get("door");
     }
 
     public void setToIntake() {
         setScaledPower(1);
-        bucket.setPosition(INTAKE_POSITION);
+        door.setPosition(STORAGE_POSITION);
     }
 
     public void storeMinerals() {
-        bucket.setPosition(STORAGE_POSITION);
+        door.setPosition(STORAGE_POSITION);
     }
 
-    public void dumpMinerals() {
-        bucket.setPosition(DUMP_POSITION);
+    public void releaseMinerals() {
+        door.setPosition(RELEASE_POSITION);
     }
 
     public void setRawPower(double power) {
-        intake.setPower(power);
+        intake1.setPower(power);
+        intake2.setPower(power);
     }
 
     public double getRawPower() {
-        return intake.getPower();
+        return intake1.getPower();
     }
 
     public void setScaledPower(double power) {
@@ -94,7 +107,7 @@ public class MineralIntake {
     }
 
     public double getScaledPower() {
-        return VexMotorEnhanced.getScaledPower(intake);
+        return VexMotorEnhanced.getScaledPower(intake1);
     }
 
     public static MineralIntake getInstance(){
