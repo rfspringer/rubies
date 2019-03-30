@@ -47,6 +47,12 @@ public class Teleop extends OpMode {
     private GamepadEnhanced gamepadB = new GamepadEnhanced();
     private AccelerationController liftAccelerationController = new AccelerationController(3.0);
 
+    private double magnitudeMultiplier;
+
+    private double HIGH_MAGNITUDE_MULTIPLIER = 1;
+    private double LOW_MAGNITUDE_MULTIPLIER = 0.5;
+    private double X_AXIS_THRESHOLD_FOR_TURNING = 0.7;
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -81,16 +87,16 @@ public class Teleop extends OpMode {
 
     private void controlDrive() {
         if (!gamepadA.left_bumper) {
-            robot.drive.setPowers(gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK),
-                    gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
+            magnitudeMultiplier = HIGH_MAGNITUDE_MULTIPLIER;
         } else {
-            robot.drive.setPowers(0.5 * gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK),
-                    gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
+            magnitudeMultiplier = LOW_MAGNITUDE_MULTIPLIER;
         }
+        robot.drive.setPowers(magnitudeMultiplier = gamepadA.getMagnitude(GamepadEnhanced.STICK.RIGHT_STICK),
+                gamepadA.left_stick_x, -gamepadA.left_stick_y, getHeadingCorrection());
     }
 
     private double getHeadingCorrection() {
-        if (Math.abs(gamepadA.right_stick_x) < 0.7) {
+        if (Math.abs(gamepadA.right_stick_x) < X_AXIS_THRESHOLD_FOR_TURNING) {
             return 0;
         } else {
             return -0.4 * gamepadA.right_stick_x;

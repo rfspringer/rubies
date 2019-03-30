@@ -27,13 +27,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.DiagnosticTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
 
 
@@ -50,49 +50,45 @@ import org.firstinspires.ftc.teamcode.Library.FTCLogger;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Velocity Test", group="Tests")
-//@Disabled
-public class VelocityTest extends LinearOpMode {
+@TeleOp(name="Motor Test", group="Tests")
+public class DriveMotorTest extends LinearOpMode {
 
     // Declare OpMode members.
-    private ElapsedTime pathTime = new ElapsedTime();
-    private Robotv2 robot = Robotv2.getInstance();
-    private FTCLogger logger = new FTCLogger();
+    private ElapsedTime runtime = new ElapsedTime();
 
-    private boolean hasSetEncoderValueAt2Seconds = false;
-    private boolean hasCalculatedEncoderDiff = false;
+    private boolean leftMotor0 = false;
+    private boolean leftMotor1 = false;
+    private boolean rightMotor0 = false;
+    private boolean rightMotor1 = false;
 
-    private double encoderValueAt2Seconds;
-    private double encoderDiff;
-    private double inchesPerSecond;
-    private double powerOfMaxVel = 0.8;
+    private Robot robot = Robot.getInstance();
+    private FTCLogger logger = new FTCLogger("Motor Test");
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
-        telemetry.addData("Run, the encoders per sec value will give you the number of encoder counts in the last second of a 3 second runAction at 0.8 power", "Have fun :)");
         telemetry.update();
 
-        logger.writeLine("Inches travelled in final second");
+        adjustMotors();
+
+        // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        pathTime.reset();
+        runtime.reset();
 
+        // runAction until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            if (gamepad1.a) {
-                pathTime.reset();
-            }
-
-            if (pathTime.seconds() < 3) {
-                robot.drive.setPowers(powerOfMaxVel, powerOfMaxVel);
-                setEncoderValueAt2SecondsIfApplicable();
+            if (runtime.seconds() < 3){
+                if (leftMotor1)
+                    robot.drive.getAllMotors()[0].setPower(0.8);
+                if (leftMotor0)
+                    robot.drive.getAllMotors()[1].setPower(0.8);
+                if (rightMotor1)
+                    robot.drive.getAllMotors()[2].setPower(0.8);
+                if (rightMotor0)
+                    robot.drive.getAllMotors()[3].setPower(0.8);
             } else {
-                robot.drive.setPowers(0,0);
-                if (!hasCalculatedEncoderDiff) {
-                    calculateEncoderDiff();
-                    logger.writeLine(inchesPerSecond);
-                    hasCalculatedEncoderDiff = true;
-                }
+                robot.drive.setPowers(0,0, 0, 0);
             }
             addTelemetry();
             telemetry.update();
@@ -100,23 +96,32 @@ public class VelocityTest extends LinearOpMode {
         logger.closeFile();
     }
 
-    private void setEncoderValueAt2SecondsIfApplicable() {
-        if (pathTime.seconds() > 2 && !hasSetEncoderValueAt2Seconds){
-            encoderValueAt2Seconds = robot.drive.getAverageEncoderCounts();
-            hasSetEncoderValueAt2Seconds = true;
+    void adjustMotors(){
+        while (!isStarted()){
+            if (gamepad1.x)
+                leftMotor1 = true;
+             else if (gamepad1.y)
+                 leftMotor0 = true;
+             else if (gamepad1.a)
+                 rightMotor1 = true;
+             else if (gamepad1.b)
+                 rightMotor0 = true;
+
+            telemetry.addData("Left Motor 0 (x)", leftMotor1);
+            telemetry.addData("Left Motor 1 (y)", leftMotor0);
+            telemetry.addData("Right Motor 0 (a)", rightMotor1);
+            telemetry.addData("Right Motor 1 (b)", rightMotor0);
+            telemetry.update();
         }
     }
 
-    private void calculateEncoderDiff (){
-        encoderDiff = robot.drive.getAverageEncoderCounts() - encoderValueAt2Seconds;
-        inchesPerSecond = robot.drive.convertEncoderCountsToInches(encoderDiff);
-    }
-
     private void addTelemetry() {
-        telemetry.addData("Inch per sec", inchesPerSecond);
-        telemetry.addData("Encoders per sec", encoderDiff);
+//        telemetry.addData("Left Motor 0", robot.drive.getLeftMotors()[0].getCurrentPosition());
+//        telemetry.addData("Left Motor 1", robot.drive.getLeftMotors()[1].getCurrentPosition());
+//        telemetry.addData("Right Motor 0", robot.drive.getRightMotors()[0].getCurrentPosition());
+//        telemetry.addData("Right Motor 1", robot.drive.getRightMotors()[1].getCurrentPosition());
+
         telemetry.addData("Left", robot.drive.getLeftEncoderCounts());
         telemetry.addData("Right", robot.drive.getRightEncoderCounts());
-        telemetry.addData("Instructions", "Press A to repeat and collect additional data");
     }
 }

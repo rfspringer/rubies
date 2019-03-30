@@ -27,16 +27,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Tests.Archived;
+package org.firstinspires.ftc.teamcode.DiagnosticTests;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
-import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
 
 
 /**
@@ -52,59 +50,73 @@ import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Acceleration Test", group="Tests")
-@Disabled
-public class AccelerationTest extends LinearOpMode {
-    private ElapsedTime runtime = new ElapsedTime();
-    private ElapsedTime accelerationTimer = new ElapsedTime();
+@TeleOp(name="Velocity Test", group="Tests")
+//@Disabled
+public class VelocityTest extends LinearOpMode {
 
+    // Declare OpMode members.
+    private ElapsedTime pathTime = new ElapsedTime();
     private Robotv2 robot = Robotv2.getInstance();
-    private FTCLogger logger = new FTCLogger("AccelerationTest");
-    private double maxVelocity = robot.drive.getMaxVelocity();
-    private double acceleration = 24.0;
+    private FTCLogger logger = new FTCLogger();
 
+    private boolean hasSetEncoderValueAt2Seconds = false;
+    private boolean hasCalculatedEncoderDiff = false;
+
+    private double encoderValueAt2Seconds;
+    private double encoderDiff;
+    private double inchesPerSecond;
+    private double powerOfMaxVel = 0.8;
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        telemetry.addData("Status", "Initialized");
+        telemetry.addData("Run, the encoders per sec value will give you the number of encoder counts in the last second of a 3 second runAction at 0.8 power", "Have fun :)");
+        telemetry.update();
 
-        while (!gamepad1.a && !isStarted()) {
-            telemetry.addData("Status", "Initialized");
-            telemetry.addData("This program will attempt to runAction a 3 foot trajectory. Acceleration is adjustable via the gamepad in init. Run several times until the acceleration causes inconsistencies in read distance and actual distance travelled", "Go RUBIES!");
-            telemetry.addData("Instruction", "Press A to begin adjusting acceleration");
-            telemetry.addData("A", gamepad1.a);
-            telemetry.update();
-        }
-
-        adjustAcceleration();
-
+        logger.writeLine("Inches travelled in final second");
         waitForStart();
-        runtime.reset();
-
-//        TrajectoryFollower trajectory = robot.drive.initializeTrajectory(72, 0, maxVelocity, acceleration, false);
+        pathTime.reset();
 
         while (opModeIsActive()) {
-//            trajectory.run();
-            telemetry.addData("Powers", robot.drive.getAllMotors()[0].getPower());
-            telemetry.addData("Read distance", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
+            if (gamepad1.a) {
+                pathTime.reset();
+            }
+
+            if (pathTime.seconds() < 3) {
+                robot.drive.setPowers(powerOfMaxVel, powerOfMaxVel);
+                setEncoderValueAt2SecondsIfApplicable();
+            } else {
+                robot.drive.setPowers(0,0);
+                if (!hasCalculatedEncoderDiff) {
+                    calculateEncoderDiff();
+                    logger.writeLine(inchesPerSecond);
+                    hasCalculatedEncoderDiff = true;
+                }
+            }
+            addTelemetry();
             telemetry.update();
-            logger.writeLine(acceleration, robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()), robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
         }
         logger.closeFile();
     }
 
-    private void adjustAcceleration(){
-        while (!isStarted()){
-            if (gamepad1.dpad_up && accelerationTimer.milliseconds() > 500){
-                acceleration += 1.5;
-                accelerationTimer.reset();
-            } else if (gamepad1.dpad_down && accelerationTimer.milliseconds() > 500) {
-                acceleration -= 1.5;
-                accelerationTimer.reset();
-            }
-
-            telemetry.addData("Current Acceleration", "feet/second^2:" + acceleration);
-            telemetry.update();
+    private void setEncoderValueAt2SecondsIfApplicable() {
+        if (pathTime.seconds() > 2 && !hasSetEncoderValueAt2Seconds){
+            encoderValueAt2Seconds = robot.drive.getAverageEncoderCounts();
+            hasSetEncoderValueAt2Seconds = true;
         }
+    }
+
+    private void calculateEncoderDiff (){
+        encoderDiff = robot.drive.getAverageEncoderCounts() - encoderValueAt2Seconds;
+        inchesPerSecond = robot.drive.convertEncoderCountsToInches(encoderDiff);
+    }
+
+    private void addTelemetry() {
+        telemetry.addData("Inch per sec", inchesPerSecond);
+        telemetry.addData("Encoders per sec", encoderDiff);
+        telemetry.addData("Left", robot.drive.getLeftEncoderCounts());
+        telemetry.addData("Right", robot.drive.getRightEncoderCounts());
+        telemetry.addData("Instructions", "Press A to repeat and collect additional data");
     }
 }

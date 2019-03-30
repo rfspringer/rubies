@@ -27,14 +27,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.DiagnosticTests.Archived;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
 
 
@@ -51,78 +51,59 @@ import org.firstinspires.ftc.teamcode.Library.FTCLogger;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Motor Test", group="Tests")
-public class DriveMotorTest extends LinearOpMode {
-
-    // Declare OpMode members.
+@TeleOp(name="Acceleration Test", group="Tests")
+@Disabled
+public class AccelerationTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime accelerationTimer = new ElapsedTime();
 
-    private boolean leftMotor0 = false;
-    private boolean leftMotor1 = false;
-    private boolean rightMotor0 = false;
-    private boolean rightMotor1 = false;
+    private Robotv2 robot = Robotv2.getInstance();
+    private FTCLogger logger = new FTCLogger("AccelerationTest");
+    private double maxVelocity = robot.drive.getMaxVelocity();
+    private double acceleration = 24.0;
 
-    private Robot robot = Robot.getInstance();
-    private FTCLogger logger = new FTCLogger("Motor Test");
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
 
-        adjustMotors();
+        while (!gamepad1.a && !isStarted()) {
+            telemetry.addData("Status", "Initialized");
+            telemetry.addData("This program will attempt to runAction a 3 foot trajectory. Acceleration is adjustable via the gamepad in init. Run several times until the acceleration causes inconsistencies in read distance and actual distance travelled", "Go RUBIES!");
+            telemetry.addData("Instruction", "Press A to begin adjusting acceleration");
+            telemetry.addData("A", gamepad1.a);
+            telemetry.update();
+        }
 
-        // Wait for the game to start (driver presses PLAY)
+        adjustAcceleration();
+
         waitForStart();
         runtime.reset();
 
-        // runAction until the end of the match (driver presses STOP)
+//        TrajectoryFollower trajectory = robot.drive.initializeTrajectory(72, 0, maxVelocity, acceleration, false);
+
         while (opModeIsActive()) {
-            if (runtime.seconds() < 3){
-                if (leftMotor1)
-                    robot.drive.getAllMotors()[0].setPower(0.8);
-                if (leftMotor0)
-                    robot.drive.getAllMotors()[1].setPower(0.8);
-                if (rightMotor1)
-                    robot.drive.getAllMotors()[2].setPower(0.8);
-                if (rightMotor0)
-                    robot.drive.getAllMotors()[3].setPower(0.8);
-            } else {
-                robot.drive.setPowers(0,0, 0, 0);
-            }
-            addTelemetry();
+//            trajectory.run();
+            telemetry.addData("Powers", robot.drive.getAllMotors()[0].getPower());
+            telemetry.addData("Read distance", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
             telemetry.update();
+            logger.writeLine(acceleration, robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()), robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
         }
         logger.closeFile();
     }
 
-    void adjustMotors(){
+    private void adjustAcceleration(){
         while (!isStarted()){
-            if (gamepad1.x)
-                leftMotor1 = true;
-             else if (gamepad1.y)
-                 leftMotor0 = true;
-             else if (gamepad1.a)
-                 rightMotor1 = true;
-             else if (gamepad1.b)
-                 rightMotor0 = true;
+            if (gamepad1.dpad_up && accelerationTimer.milliseconds() > 500){
+                acceleration += 1.5;
+                accelerationTimer.reset();
+            } else if (gamepad1.dpad_down && accelerationTimer.milliseconds() > 500) {
+                acceleration -= 1.5;
+                accelerationTimer.reset();
+            }
 
-            telemetry.addData("Left Motor 0 (x)", leftMotor1);
-            telemetry.addData("Left Motor 1 (y)", leftMotor0);
-            telemetry.addData("Right Motor 0 (a)", rightMotor1);
-            telemetry.addData("Right Motor 1 (b)", rightMotor0);
+            telemetry.addData("Current Acceleration", "feet/second^2:" + acceleration);
             telemetry.update();
         }
-    }
-
-    private void addTelemetry() {
-//        telemetry.addData("Left Motor 0", robot.drive.getLeftMotors()[0].getCurrentPosition());
-//        telemetry.addData("Left Motor 1", robot.drive.getLeftMotors()[1].getCurrentPosition());
-//        telemetry.addData("Right Motor 0", robot.drive.getRightMotors()[0].getCurrentPosition());
-//        telemetry.addData("Right Motor 1", robot.drive.getRightMotors()[1].getCurrentPosition());
-
-        telemetry.addData("Left", robot.drive.getLeftEncoderCounts());
-        telemetry.addData("Right", robot.drive.getRightEncoderCounts());
     }
 }
