@@ -27,49 +27,72 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HardwareMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Mineral;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class MineralExtension {
-    private static final MineralExtension instance = new MineralExtension();
-    /* Public OpMode members. */
-    private DcMotor extension = null;
+public class Mineral {
+    private static final Mineral instance = new Mineral();
+    private MineralArm arm = MineralArm.getInstance();
+    private MineralIntake intake = MineralIntake.getInstance();
+    private MineralExtension extension = MineralExtension.getInstance();
 
-    /* local OpMode members. */
-    private HardwareMap hwMap = null;
+    private HardwareMap hwMap;
 
     /* Constructor */
-    private MineralExtension(){
+    private Mineral(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        extension = hwMap.get(DcMotor.class, "extension");
-        extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        extension.setDirection(DcMotorSimple.Direction.FORWARD);
-        extension.setPower(0);
+        arm.init(hwMap);
+        intake.init(hwMap);
+        extension.init(hwMap);
     }
 
-    public void setPower(double power) {
+    public void setToIntake() {
+        intake.setToIntake();
+    }
+
+    public void setExtensionPower(double power) {
         extension.setPower(power);
     }
 
-//    public int getEncoderCounts() {
-//        return extension.getCurrentPosition();
-//    }
-
-    public static MineralExtension getInstance(){
-        return instance;
+    public void dumpMinerals() {
+        intake.dumpMinerals();
     }
 
+    public void storeMinerals() {
+        intake.storeMinerals();
+    }
+
+    public void setScaledPower(double power) {
+        intake.setScaledPower(power);
+    }
+
+    public double getScaledPower() {
+        return intake.getScaledPower();
+    }
+
+    public void setArmPower(double power){
+        arm.setPowers(power);
+    }
+
+    public void setIntakeRawPower(double power) {
+        intake.setRawPower(power);
+    }
+
+    public void setIntakeScaledPower(double power) {
+        intake.setScaledPower(power);
+    }
+
+    public static Mineral getInstance() {
+        return instance;
+    }
 }
 

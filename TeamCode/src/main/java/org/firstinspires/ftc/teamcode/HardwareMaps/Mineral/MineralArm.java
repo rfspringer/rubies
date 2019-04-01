@@ -27,77 +27,57 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HardwareMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Mineral;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.MineralArmv3;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.MineralExtensionv3;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.MineralIntakev3;
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Mineral {
-    private static final Mineral instance = new Mineral();
-    private MineralArm arm = MineralArm.getInstance();
-    private MineralIntake intake = MineralIntake.getInstance();
-    private MineralExtension extension = MineralExtension.getInstance();
+public class MineralArm {
+    private static final MineralArm instance = new MineralArm();
 
-    private HardwareMap hwMap;
+    private AccelerationController pivotAccelerationControl = new AccelerationController(2.5);
+    /* Public OpMode members. */
+    private DcMotor motor1 = null;
+    private DcMotor motor2 = null;
+
+    /* local OpMode members. */
+    private HardwareMap hwMap = null;
 
     /* Constructor */
-    private Mineral(){
+    private MineralArm(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        arm.init(hwMap);
-        intake.init(hwMap);
-        extension.init(hwMap);
+        motor1 = hwMap.dcMotor.get("arm1");
+        motor2 = hwMap.dcMotor.get("arm2");
+        initializeMotor(motor1);
+        initializeMotor(motor2);
     }
 
-    public void setToIntake() {
-        intake.setToIntake();
+    private void initializeMotor(DcMotor motor) {
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        motor.setPower(0);
     }
 
-    public void setExtensionPower(double power) {
-        extension.setPower(power);
+    public void setPowers(double power) {
+        DcMotor[] motors = {motor1, motor2};
+        pivotAccelerationControl.run(power, motors);
     }
 
-    public void dumpMinerals() {
-        intake.dumpMinerals();
-    }
-
-    public void storeMinerals() {
-        intake.storeMinerals();
-    }
-
-    public void setScaledPower(double power) {
-        intake.setScaledPower(power);
-    }
-
-    public double getScaledPower() {
-        return intake.getScaledPower();
-    }
-
-    public void setArmPower(double power){
-        arm.setPowers(power);
-    }
-
-    public void setIntakeRawPower(double power) {
-        intake.setRawPower(power);
-    }
-
-    public void setIntakeScaledPower(double power) {
-        intake.setScaledPower(power);
-    }
-
-    public static Mineral getInstance() {
+    public static MineralArm getInstance(){
         return instance;
     }
+
 }
 

@@ -27,57 +27,78 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HardwareMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Mineral;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Library.AccelerationController;
+import org.firstinspires.ftc.teamcode.Library.VexMotorEnhanced;
 
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class MineralArm {
-    private static final MineralArm instance = new MineralArm();
+public class MineralIntake {
+    private static final MineralIntake instance = new MineralIntake();
 
-    private AccelerationController pivotAccelerationControl = new AccelerationController(2.5);
-    /* Public OpMode members. */
-    private DcMotor motor1 = null;
-    private DcMotor motor2 = null;
-
-    /* local OpMode members. */
+    private CRServo intake = null;
+    private Servo bucket = null;
     private HardwareMap hwMap = null;
 
+    private double INTAKE_POWER = 1;
+    private double OUTTAKE_POWER = -1;
+
+    private double INTAKE_POSITION = 0.54;
+    private double STORAGE_POSITION = 0.4;
+    private double DUMP_POSITION = 0.8;
+
     /* Constructor */
-    private MineralArm(){
+    private MineralIntake(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        motor1 = hwMap.dcMotor.get("arm1");
-        motor2 = hwMap.dcMotor.get("arm2");
-        initializeMotor(motor1);
-        initializeMotor(motor2);
+        bucket = hwMap.servo.get("bucket");
+        intake = hwMap.crservo.get("intake");
+        bucket.setPosition(INTAKE_POSITION);
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setPower(0);
     }
 
-    private void initializeMotor(DcMotor motor) {
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        motor.setPower(0);
+    public void setToIntake() {
+        setScaledPower(1);
+        bucket.setPosition(INTAKE_POSITION);
     }
 
-    public void setPowers(double power) {
-        DcMotor[] motors = {motor1, motor2};
-        pivotAccelerationControl.run(power, motors);
+    public void storeMinerals() {
+        bucket.setPosition(STORAGE_POSITION);
     }
 
-    public static MineralArm getInstance(){
+    public void dumpMinerals() {
+        bucket.setPosition(DUMP_POSITION);
+    }
+
+    public void setRawPower(double power) {
+        intake.setPower(power);
+    }
+
+    public double getRawPower() {
+        return intake.getPower();
+    }
+
+    public void setScaledPower(double power) {
+        VexMotorEnhanced.setScaledPower(intake, power);
+    }
+
+    public double getScaledPower() {
+        return VexMotorEnhanced.getScaledPower(intake);
+    }
+
+    public static MineralIntake getInstance(){
         return instance;
     }
-
 }
 
