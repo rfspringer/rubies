@@ -97,7 +97,9 @@ public class Teleop extends OpMode {
 
     private void controlArm() {
         robot.mineral.setArmPower(-0.75 * gamepadB.left_stick_y);
-        robot.mineral.setIntakeScaledPower(0);
+        if (Math.abs(robot.mineral.getArmPower()) > 0) {
+            robot.mineral.setIntakeScaledPower(0);
+        }
     }
 
     private void controlIntake() {
@@ -124,9 +126,9 @@ public class Teleop extends OpMode {
 
     private void controlLift() {
         if (gamepadB.dpad_up){
-            liftAccelerationController.run(1, robot.lift.getMotor());
-        } else if (gamepadB.dpad_down) {
             liftAccelerationController.run(-1, robot.lift.getMotor());
+        } else if (gamepadB.dpad_down) {
+            liftAccelerationController.run(1, robot.lift.getMotor());
         } else if (gamepadB.dpad_right) {
             robot.lift.setTargetPosition(0);
             robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

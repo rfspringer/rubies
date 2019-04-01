@@ -27,7 +27,7 @@ public class DOE extends RubiesLinearOpMode {
 
         robot.drive.setPowers(0.75, 0, 1, 0);
         robot.mineral.setIntakeScaledPower(intakePower);
-        sleepFor(750);
+        sleepFor(450);
         robot.drive.stop();
         robot.mineral.setIntakeScaledPower(0);
     }

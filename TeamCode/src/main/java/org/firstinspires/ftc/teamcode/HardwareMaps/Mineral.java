@@ -91,6 +91,10 @@ public class Mineral {
         intake.setScaledPower(power);
     }
 
+    public double getArmPower() {
+        return arm.getPower();
+    }
+
     public static Mineral getInstance() {
         return instance;
     }

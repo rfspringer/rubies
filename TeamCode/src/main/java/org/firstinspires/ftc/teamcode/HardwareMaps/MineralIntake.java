@@ -71,8 +71,8 @@ public class MineralIntake {
     }
 
     private void setIntakeDirections() {
-        intake1.setDirection(DcMotorSimple.Direction.FORWARD);
-        intake2.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake1.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake2.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     private void initializeIntakeArray() {

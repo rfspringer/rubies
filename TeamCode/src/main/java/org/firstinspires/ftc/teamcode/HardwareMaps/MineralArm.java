@@ -75,6 +75,10 @@ public class MineralArm {
         pivotAccelerationControl.run(power, motors);
     }
 
+    public double getPower() {
+        return motor1.getPower();
+    }
+
     public static MineralArm getInstance(){
         return instance;
     }
