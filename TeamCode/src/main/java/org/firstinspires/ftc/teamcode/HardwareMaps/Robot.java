@@ -31,7 +31,7 @@ package org.firstinspires.ftc.teamcode.HardwareMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Claimv3;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Mineral.Mineral;
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
@@ -140,12 +140,6 @@ public class Robot
         turnToHeadingRightPivot(45);
         drive.driveAwayFromLander();
     }
-
-//    private void initializeSamplingTrajectories() {
-//        leftMineralTrajectory = drive.initializeTrajectory(0, 54, sensors.getLeftMineralHeading());
-//        centerMineralTrajectory = drive.initializeTrajectory(0, 50, sensors.getCenterMineralHeading());
-//        rightMineralTrajectory = drive.initializeTrajectory(0, 57, sensors.getRightMineralHeading());
-//    }
 
     public static Robot getInstance() {
         return instance;

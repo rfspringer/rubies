@@ -27,14 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HardwareMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Mineral;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.MineralArmv3;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.MineralExtensionv3;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.MineralIntakev3;
-import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 
 /**
  * This class stores all objects on our robot's drivetrain

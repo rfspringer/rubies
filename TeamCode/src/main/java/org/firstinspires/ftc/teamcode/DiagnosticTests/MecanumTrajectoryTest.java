@@ -27,96 +27,62 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.DiagnosticTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
+import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
  * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
  * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robotv2 Controller and executed.
+ * class is instantiated on the Robotv3 Controller and executed.
  *
- * This particular OpMode just executes a basic Tank Drivev2 Teleopv3 for a two wheeled robot
+ * This particular OpMode just executes a basic Tank Drive Teleopv3 for a two wheeled robot
  * It includes all the skeletal structure that all linear OpModes contain.
  *
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Velocity Test", group="Tests")
+@TeleOp(name="Mecanum Trajectory Test", group="Tests")
 //@Disabled
-public class VelocityTest extends LinearOpMode {
+public class MecanumTrajectoryTest extends LinearOpMode {
+    private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime accelerationTimer = new ElapsedTime();
 
-    // Declare OpMode members.
-    private ElapsedTime pathTime = new ElapsedTime();
-    private Robotv2 robot = Robotv2.getInstance();
-    private FTCLogger logger = new FTCLogger();
+    private Robot robot = Robot.getInstance();
+    private FTCLogger logger = new FTCLogger("AccelerationTest");
 
-    private boolean hasSetEncoderValueAt2Seconds = false;
-    private boolean hasCalculatedEncoderDiff = false;
-
-    private double encoderValueAt2Seconds;
-    private double encoderDiff;
-    private double inchesPerSecond;
-    private double powerOfMaxVel = 0.8;
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        MecanumTrajectoryFollower trajectory = robot.drive.initializeTrajectory(48, 48, 0, 24, false);
+
         telemetry.addData("Status", "Initialized");
-        telemetry.addData("Run, the encoders per sec value will give you the number of encoder counts in the last second of a 3 second runAction at 0.8 power", "Have fun :)");
+        telemetry.addData("This program will attempt to run a 3 foot trajectory. Acceleration is adjustable via the gamepad in init. Run several times until the acceleration causes inconsistencies in read distance and actual distance travelled", "Go RUBIES!");
+        telemetry.addData("Instruction", "Press A to begin adjusting acceleration");
+        telemetry.addData("A", gamepad1.a);
         telemetry.update();
 
-        logger.writeLine("Inches travelled in final second");
         waitForStart();
-        pathTime.reset();
+        runtime.reset();
 
         while (opModeIsActive()) {
-            if (gamepad1.a) {
-                pathTime.reset();
-            }
-
-            if (pathTime.seconds() < 3) {
-                robot.drive.setPowers(powerOfMaxVel, powerOfMaxVel);
-                setEncoderValueAt2SecondsIfApplicable();
-            } else {
-                robot.drive.setPowers(0,0);
-                if (!hasCalculatedEncoderDiff) {
-                    calculateEncoderDiff();
-                    logger.writeLine(inchesPerSecond);
-                    hasCalculatedEncoderDiff = true;
-                }
-            }
-            addTelemetry();
+            trajectory.run();
+            telemetry.addData("Powers", robot.drive.getAllMotors()[0].getPower());
+//            telemetry.addData("Read distance", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
             telemetry.update();
+//            logger.writeLine(acceleration, robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()), robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
         }
-        logger.closeFile();
+        robot.logger.closeFile();
     }
 
-    private void setEncoderValueAt2SecondsIfApplicable() {
-        if (pathTime.seconds() > 2 && !hasSetEncoderValueAt2Seconds){
-            encoderValueAt2Seconds = robot.drive.getAverageEncoderCounts();
-            hasSetEncoderValueAt2Seconds = true;
-        }
-    }
-
-    private void calculateEncoderDiff (){
-        encoderDiff = robot.drive.getAverageEncoderCounts() - encoderValueAt2Seconds;
-        inchesPerSecond = robot.drive.convertEncoderCountsToInches(encoderDiff);
-    }
-
-    private void addTelemetry() {
-        telemetry.addData("Inch per sec", inchesPerSecond);
-        telemetry.addData("Encoders per sec", encoderDiff);
-        telemetry.addData("Left", robot.drive.getLeftEncoderCounts());
-        telemetry.addData("Right", robot.drive.getRightEncoderCounts());
-        telemetry.addData("Instructions", "Press A to repeat and collect additional data");
-    }
 }

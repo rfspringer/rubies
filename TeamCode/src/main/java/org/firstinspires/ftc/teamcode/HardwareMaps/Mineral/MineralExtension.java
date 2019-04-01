@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 FIRST. All rights reserved.
+/* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted (subject to the limitations in the disclaimer below) provided that
@@ -27,51 +27,49 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Mineral;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.teamcode.Library.TensorFlow;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
- * This 2018-2019 OpMode illustrates the basics of using the TensorFlow Object Detection API to
- * determine the position of the gold and silver minerals.
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
- *
- * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
- * is explained below.
+ * This class stores all objects on our robot's drivetrain
+ * It also includes functionality specific to our drive base
  */
-@TeleOp(name = "Tensorflow Webcam Test", group = "tests")
-//@Disabled
-public class TensorFlowWebcamTest extends LinearOpMode {
-    private TensorFlow tensorFlow = new TensorFlow();
+public class MineralExtension {
+    private static final MineralExtension instance = new MineralExtension();
+    /* Public OpMode members. */
+    private DcMotor extension = null;
 
+    /* local OpMode members. */
+    private HardwareMap hwMap = null;
 
-    @Override
-    public void runOpMode() {
-        /* Wait for the game to begin */
-        telemetry.addData(">", "Wait for initialization to begin");
-        telemetry.update();
-        tensorFlow.init(hardwareMap);
-
-        /* Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start tracking");
-        telemetry.update();
-
-
-        waitForStart();
-
-        tensorFlow.activate();
-
-        while (opModeIsActive()){
-            telemetry.addData("Gold Mineral Pos", tensorFlow.getGoldPos());
-            telemetry.addData("Gold X", tensorFlow.getGoldX());
-            telemetry.update();
-        }
-
-        tensorFlow.shutdown();
+    /* Constructor */
+    private MineralExtension(){
     }
+
+    /* Initialize standard Hardware interfaces */
+    public void init(HardwareMap ahwMap) {
+        hwMap = ahwMap;
+        extension = hwMap.get(DcMotor.class, "extension");
+        extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        extension.setDirection(DcMotorSimple.Direction.FORWARD);
+        extension.setPower(0);
+    }
+
+    public void setPower(double power) {
+        extension.setPower(power);
+    }
+
+//    public int getEncoderCounts() {
+//        return extension.getCurrentPosition();
+//    }
+
+    public static MineralExtension getInstance(){
+        return instance;
+    }
+
 }
+
