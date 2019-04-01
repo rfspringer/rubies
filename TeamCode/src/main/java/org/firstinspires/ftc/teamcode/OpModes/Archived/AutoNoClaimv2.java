@@ -46,7 +46,7 @@ public class AutoNoClaimv2 extends LinearOpMode {
         telemetry.update();
         driveAwayFromLatch.run();
         telemetry.addData("Task", "I'm gonna sample!");
-        telemetry.addData("Mineral", goldPos);
+        telemetry.addData("MineralParent", goldPos);
         telemetry.update();
         robot.sample(goldPos);
         robot.drive.setPowers(-0.3, -0.3);
