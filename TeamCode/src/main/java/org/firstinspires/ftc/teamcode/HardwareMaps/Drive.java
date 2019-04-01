@@ -127,7 +127,7 @@ public class Drive
 
     public void setPowers(double magnitude, double x, double y, double heading) {
         double[] powers = mecanumEnhanced.calculatePowers(magnitude, x, y, heading);
-        setIndividualPowers(powers[0], powers[1], powers[2], powers[3]);
+        setIndividualPowers(powers);
     }
 
     public void turnToHeading(double headingError) {
@@ -154,6 +154,10 @@ public class Drive
         leftBack.setPower(leftBackPower);
         rightFront.setPower(rightFrontPower);
         rightBack.setPower(rightBackPower);
+    }
+
+    public void setIndividualPowers(double[] powerArray){
+        setIndividualPowers(powerArray[0], powerArray[1], powerArray[2], powerArray[3]);
     }
 
     public void stop() {
