@@ -31,7 +31,7 @@ package org.firstinspires.ftc.teamcode.HardwareMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Mineral.Mineral;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Mineral.MineralParent;
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
@@ -48,7 +48,7 @@ public class Robot
 
     public Drive drive = Drive.getInstance();
     public Sensors sensors = Sensors.getInstance();
-    public Mineral mineral = Mineral.getInstance();
+    public MineralParent mineral = MineralParent.getInstance();
     public Lift lift = Lift.getInstance();
 
     public FTCLogger logger = new FTCLogger();

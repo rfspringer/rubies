@@ -35,8 +35,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Mineral {
-    private static final Mineral instance = new Mineral();
+public class MineralParent {
+    private static final MineralParent instance = new MineralParent();
     private MineralArm arm = MineralArm.getInstance();
     private MineralIntake intake = MineralIntake.getInstance();
     private MineralExtension extension = MineralExtension.getInstance();
@@ -44,7 +44,7 @@ public class Mineral {
     private HardwareMap hwMap;
 
     /* Constructor */
-    private Mineral(){
+    private MineralParent(){
     }
 
     /* Initialize standard Hardware interfaces */
@@ -95,7 +95,7 @@ public class Mineral {
         return arm.getPower();
     }
 
-    public static Mineral getInstance() {
+    public static MineralParent getInstance() {
         return instance;
     }
 }
