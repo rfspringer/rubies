@@ -37,8 +37,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
-
-
 @TeleOp(name="Teleop", group="teleop")
 public class Teleop extends OpMode {
     private Robot robot = Robot.getInstance();
@@ -53,7 +51,7 @@ public class Teleop extends OpMode {
     private double LOW_MAGNITUDE_MULTIPLIER = 0.5;
     private double X_AXIS_THRESHOLD_FOR_TURNING = 0.7;
     private double HEADING_ERROR_SCALAR = 0.4;
-    private double ARM_POWER_SCALAR = 0.3;
+    private double ARM_POWER_SCALAR = 0.75;
     private double INTAKE_POWER = 1;
     private double OUTTAKE_POWER = -1;
 
@@ -82,7 +80,7 @@ public class Teleop extends OpMode {
 
         controlDrive();
         controlArm();
-        controlBucket();
+        controlCollection();
         controlIntake();
         controlExtension();
         controlLift();
@@ -121,7 +119,7 @@ public class Teleop extends OpMode {
         }
     }
 
-    private void controlBucket() {
+    private void controlCollection() {
         if (gamepadB.y) {
             robot.mineral.setToIntake();
         } else if (gamepadB.b) {

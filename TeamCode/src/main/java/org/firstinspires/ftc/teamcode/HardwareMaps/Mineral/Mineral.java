@@ -64,7 +64,7 @@ public class Mineral {
     }
 
     public void dumpMinerals() {
-        intake.dumpMinerals();
+        intake.releaseMinerals();
     }
 
     public void storeMinerals() {
