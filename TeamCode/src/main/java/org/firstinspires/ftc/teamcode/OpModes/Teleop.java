@@ -135,9 +135,9 @@ public class Teleop extends OpMode {
 
     private void controlLift() {
         if (gamepadB.dpad_up){
-            liftAccelerationController.run(1, robot.lift.getMotor());
-        } else if (gamepadB.dpad_down) {
             liftAccelerationController.run(-1, robot.lift.getMotor());
+        } else if (gamepadB.dpad_down) {
+            liftAccelerationController.run(1, robot.lift.getMotor());
         } else if (gamepadB.dpad_right) {
             robot.lift.setTargetPosition(0);
             robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

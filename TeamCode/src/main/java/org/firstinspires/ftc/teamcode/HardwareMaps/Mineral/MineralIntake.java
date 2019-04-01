@@ -63,9 +63,15 @@ public class MineralIntake {
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
         setObjectsFromHardwareMap(hwMap);
+        setIntakeDirections();
         door.setPosition(STORAGE_POSITION);
         initializeIntakeArray();
         setRawPower(0);
+    }
+
+    private void setIntakeDirections() {
+        intake1.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake2.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     private void initializeIntakeArray() {
