@@ -42,7 +42,7 @@ import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 public class MineralArm {
     private static final MineralArm instance = new MineralArm();
 
-    private AccelerationController pivotAccelerationControl = new AccelerationController(2.5);
+    private AccelerationController pivotAccelerationControl = new AccelerationController(0.75);
     /* Public OpMode members. */
     private DcMotor motor1 = null;
     private DcMotor motor2 = null;

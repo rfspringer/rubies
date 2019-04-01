@@ -44,6 +44,7 @@ public class Teleop extends OpMode {
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
     private GamepadEnhanced gamepadB = new GamepadEnhanced();
     private AccelerationController liftAccelerationController = new AccelerationController(3.0);
+    private AccelerationController pivotAccelerationController = new AccelerationController(0.75);
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -97,7 +98,6 @@ public class Teleop extends OpMode {
 
     private void controlArm() {
         robot.mineral.setArmPower(-0.75 * gamepadB.left_stick_y);
-        robot.mineral.setIntakeScaledPower(0);
     }
 
     private void controlIntake() {
