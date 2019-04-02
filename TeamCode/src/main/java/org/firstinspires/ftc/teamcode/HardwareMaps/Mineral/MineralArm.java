@@ -42,7 +42,7 @@ import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 public class MineralArm {
     private static final MineralArm instance = new MineralArm();
 
-    private AccelerationController pivotAccelerationControl = new AccelerationController(2.5);
+    private AccelerationController pivotAccelerationControl = new AccelerationController(0.75);
     /* Public OpMode members. */
     private DcMotor motor1 = null;
     private DcMotor motor2 = null;
@@ -64,7 +64,7 @@ public class MineralArm {
     }
 
     private void initializeMotor(DcMotor motor) {
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor.setDirection(DcMotorSimple.Direction.REVERSE);
         motor.setPower(0);
