@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
+import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -68,7 +69,6 @@ public class MineralPivot {
 
     private void initializeLimitSwitch(){
         limitSwitch = hwMap.analogInput.get("limit");
-//        limitSwitch.setMode(DigitalChannel.Mode.INPUT);
     }
 
     private void initializeMotors() {
@@ -88,6 +88,15 @@ public class MineralPivot {
 
     public void setPowers(double power) {
         DcMotor[] motors = {motor1, motor2};
+        if(isPressed() && power < -0.08) {
+            power = 0;
+            MotorEnhanced.setZeroPowerBehavior(motors, DcMotor.ZeroPowerBehavior.FLOAT);
+        } else if (isPressed() && power < 0) {
+            power = 0;
+            MotorEnhanced.setZeroPowerBehavior(motors, DcMotor.ZeroPowerBehavior.BRAKE);
+        } else {
+            MotorEnhanced.setZeroPowerBehavior(motors, DcMotor.ZeroPowerBehavior.BRAKE);
+        }
         pivotAccelerationControl.run(power, motors);
     }
 

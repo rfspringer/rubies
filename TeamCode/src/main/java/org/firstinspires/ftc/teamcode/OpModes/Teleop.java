@@ -86,6 +86,7 @@ public class Teleop extends OpMode {
         controlExtension();
         controlLift();
         controlPin();
+        telemetry.addData("pivot power", robot.mineral.getPivotPower());
     }
 
     private void controlDrive() {

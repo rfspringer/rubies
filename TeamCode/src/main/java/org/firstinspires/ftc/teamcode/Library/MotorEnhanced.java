@@ -16,6 +16,12 @@ public class MotorEnhanced {
         }
     }
 
+    public static void setZeroPowerBehavior(DcMotor[] dcMotors, DcMotor.ZeroPowerBehavior zeroPowerBehavior){
+        for (DcMotor motor : dcMotors) {
+            motor.setZeroPowerBehavior(zeroPowerBehavior);
+        }
+    }
+
     public static void setPower(DcMotor[] dcMotors, double power) {
         power = Range.clip(power, -1, 1);
         for (DcMotor motor : dcMotors) {
