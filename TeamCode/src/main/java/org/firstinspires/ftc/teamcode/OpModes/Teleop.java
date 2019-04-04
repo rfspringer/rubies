@@ -44,6 +44,7 @@ public class Teleop extends OpMode {
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
     private GamepadEnhanced gamepadB = new GamepadEnhanced();
     private AccelerationController liftAccelerationController = new AccelerationController(3.0);
+    private AccelerationController pivotAccelerationController = new AccelerationController(0.75);
 
     private double magnitudeMultiplier;
 
