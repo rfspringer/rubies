@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.HardwareMaps.Mineral;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
@@ -39,24 +40,36 @@ import org.firstinspires.ftc.teamcode.Library.AccelerationController;
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class MineralArm {
-    private static final MineralArm instance = new MineralArm();
+public class MineralPivot {
+    private static final MineralPivot instance = new MineralPivot();
 
     private AccelerationController pivotAccelerationControl = new AccelerationController(0.75);
     /* Public OpMode members. */
     private DcMotor motor1 = null;
     private DcMotor motor2 = null;
 
+    private DigitalChannel limitSwitch;
+
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
     /* Constructor */
-    private MineralArm(){
+    private MineralPivot(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
+        initializeLimitSwitch();
+        initializeMotors();
+    }
+
+    private void initializeLimitSwitch(){
+        limitSwitch = hwMap.digitalChannel.get("limit");
+        limitSwitch.setMode(DigitalChannel.Mode.INPUT);
+    }
+
+    private void initializeMotors() {
         motor1 = hwMap.dcMotor.get("arm1");
         motor2 = hwMap.dcMotor.get("arm2");
         initializeMotor(motor1);
@@ -80,7 +93,11 @@ public class MineralArm {
         return motor1.getPower();
     }
 
-    public static MineralArm getInstance(){
+    public boolean isPressed() {
+        return !limitSwitch.getState();
+    }
+
+    public static MineralPivot getInstance(){
         return instance;
     }
 

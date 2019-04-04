@@ -37,7 +37,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 public class MineralParent {
     private static final MineralParent instance = new MineralParent();
-    private MineralArm arm = MineralArm.getInstance();
+    private MineralPivot pivot = MineralPivot.getInstance();
     private MineralIntake intake = MineralIntake.getInstance();
     private MineralExtension extension = MineralExtension.getInstance();
 
@@ -50,37 +50,19 @@ public class MineralParent {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        arm.init(hwMap);
+        pivot.init(hwMap);
         intake.init(hwMap);
         extension.init(hwMap);
     }
+
+    //COLLECTOR
 
     public void setToIntake() {
         intake.setToIntake();
     }
 
-    public void setExtensionPower(double power) {
-        extension.setPower(power);
-    }
-
-    public void dumpMinerals() {
-        intake.releaseMinerals();
-    }
-
-    public void storeMinerals() {
-        intake.storeMinerals();
-    }
-
-    public void setScaledPower(double power) {
-        intake.setScaledPower(power);
-    }
-
-    public double getScaledPower() {
+    public double getIntakeScaledPower() {
         return intake.getScaledPower();
-    }
-
-    public void setArmPower(double power){
-        arm.setPowers(power);
     }
 
     public void setIntakeRawPower(double power) {
@@ -91,8 +73,32 @@ public class MineralParent {
         intake.setScaledPower(power);
     }
 
-    public double getArmPower() {
-        return arm.getPower();
+    public void dumpMinerals() {
+        intake.releaseMinerals();
+    }
+
+    public void storeMinerals() {
+        intake.storeMinerals();
+    }
+
+    //PIVOT
+
+    public void setPivotPower(double power){
+        pivot.setPowers(power);
+    }
+
+    public double getPivotPower() {
+        return pivot.getPower();
+    }
+
+    public boolean isAtLimit() {
+        return pivot.isPressed();
+    }
+
+    //EXTENSION
+
+    public void setExtensionPower(double power) {
+        extension.setPower(power);
     }
 
     public static MineralParent getInstance() {

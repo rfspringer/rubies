@@ -107,7 +107,7 @@ public class Teleop extends OpMode {
     }
 
     private void controlArm() {
-        robot.mineral.setArmPower(-ARM_POWER_SCALAR * gamepadB.left_stick_y);
+        robot.mineral.setPivotPower(-ARM_POWER_SCALAR * gamepadB.left_stick_y);
     }
 
     private void controlIntake() {
