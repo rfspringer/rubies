@@ -27,47 +27,60 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HardwareMaps;
+package org.firstinspires.ftc.teamcode.HardwareMaps.Mineral;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Library.AccelerationController;
+
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class MineralExtension {
-    private static final MineralExtension instance = new MineralExtension();
+public class MineralArm {
+    private static final MineralArm instance = new MineralArm();
+
+    private AccelerationController pivotAccelerationControl = new AccelerationController(0.75);
     /* Public OpMode members. */
-    private DcMotor extension = null;
+    private DcMotor motor1 = null;
+    private DcMotor motor2 = null;
 
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
     /* Constructor */
-    private MineralExtension(){
+    private MineralArm(){
     }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        extension = hwMap.get(DcMotor.class, "extension");
-        extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        extension.setDirection(DcMotorSimple.Direction.FORWARD);
-        extension.setPower(0);
+        motor1 = hwMap.dcMotor.get("arm1");
+        motor2 = hwMap.dcMotor.get("arm2");
+        initializeMotor(motor1);
+        initializeMotor(motor2);
     }
 
-    public void setPower(double power) {
-        extension.setPower(power);
+    private void initializeMotor(DcMotor motor) {
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor.setPower(0);
     }
 
-//    public int getEncoderCounts() {
-//        return extension.getCurrentPosition();
-//    }
+    public void setPowers(double power) {
+        DcMotor[] motors = {motor1, motor2};
+        pivotAccelerationControl.run(power, motors);
+    }
 
-    public static MineralExtension getInstance(){
+    public double getPower() {
+        return motor1.getPower();
+    }
+
+    public static MineralArm getInstance(){
         return instance;
     }
 

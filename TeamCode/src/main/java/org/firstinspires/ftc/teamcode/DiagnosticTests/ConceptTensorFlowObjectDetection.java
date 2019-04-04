@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.DiagnosticTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -52,8 +52,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 //@Disabled
 public class ConceptTensorFlowObjectDetection extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
-    private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
-    private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+    private static final String LABEL_GOLD_MINERAL = "Gold MineralParent";
+    private static final String LABEL_SILVER_MINERAL = "Silver MineralParent";
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -125,11 +125,11 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
                         }
                         if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                           if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                            telemetry.addData("Gold Mineral Position", "Left");
+                            telemetry.addData("Gold MineralParent Position", "Left");
                           } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                            telemetry.addData("Gold Mineral Position", "Right");
+                            telemetry.addData("Gold MineralParent Position", "Right");
                           } else {
-                            telemetry.addData("Gold Mineral Position", "Center");
+                            telemetry.addData("Gold MineralParent Position", "Center");
                           }
                         }
                         telemetry.addData("Gold", goldMineralX);

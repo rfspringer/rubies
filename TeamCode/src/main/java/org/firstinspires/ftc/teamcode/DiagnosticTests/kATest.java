@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Tests.Archived;
+package org.firstinspires.ftc.teamcode.DiagnosticTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -36,7 +36,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
-import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
 
 
 /**
@@ -52,58 +51,65 @@ import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Acceleration Test", group="Tests")
+@TeleOp(name="kA Test", group="tests")
 @Disabled
-public class AccelerationTest extends LinearOpMode {
+public class kATest extends LinearOpMode {
+
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime accelerationTimer = new ElapsedTime();
 
     private Robotv2 robot = Robotv2.getInstance();
-    private FTCLogger logger = new FTCLogger("AccelerationTest");
-    private double maxVelocity = robot.drive.getMaxVelocity();
-    private double acceleration = 24.0;
-
+    private FTCLogger logger = new FTCLogger("kATest");
+    private double MAX_VELOCITY = robot.drive.getMaxVelocity();
+    private double MAX_ACCELERATION = robot.drive.getMaxAccel();
+    private double kV = robot.drive.getkV();
+    private double kA = 0.005;
 
     @Override
     public void runOpMode() {
+        //NOT WORKING
         robot.init(hardwareMap);
+        telemetry.addData("Status", "Initialized");
+        telemetry.addData("This program will attempt to runAction a 3 foot trajectory. The acceleration constant is adjustable via the gamepad in init. Encoder values will be logged to a file which can be viewed in Excel", "Go RUBIES!");
+        telemetry.addData("Instruction", "Press A to begin adjusting kA");
+        telemetry.update();
 
-        while (!gamepad1.a && !isStarted()) {
-            telemetry.addData("Status", "Initialized");
-            telemetry.addData("This program will attempt to runAction a 3 foot trajectory. Acceleration is adjustable via the gamepad in init. Run several times until the acceleration causes inconsistencies in read distance and actual distance travelled", "Go RUBIES!");
-            telemetry.addData("Instruction", "Press A to begin adjusting acceleration");
-            telemetry.addData("A", gamepad1.a);
-            telemetry.update();
-        }
-
-        adjustAcceleration();
-
+        adjustkA();
+        logger.writeLine("Max Velocity", "Max Acceleration", "kV", "kA");
         waitForStart();
         runtime.reset();
-
-//        TrajectoryFollower trajectory = robot.drive.initializeTrajectory(72, 0, maxVelocity, acceleration, false);
+        logger.writeLine(MAX_VELOCITY, MAX_ACCELERATION, kV, kA);
+        logger.writeLine("Motor Power", "Inches travelled");
 
         while (opModeIsActive()) {
-//            trajectory.run();
-            telemetry.addData("Powers", robot.drive.getAllMotors()[0].getPower());
-            telemetry.addData("Read distance", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
-            telemetry.update();
-            logger.writeLine(acceleration, robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()), robot.drive.getLeftMotors()[0].getPower(), robot.drive.getRightMotors()[0].getPower());
+            this.followTrajectory(36, 0, MAX_VELOCITY, MAX_ACCELERATION, false);
+
+            telemetry.addData("Read distance", "%f", robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
+            logger.writeLine(robot.drive.getLeftMotors()[0].getPower(), robot.drive.convertEncoderCountsToInches(robot.drive.getAverageEncoderCounts()));
         }
         logger.closeFile();
     }
 
-    private void adjustAcceleration(){
+    private void followTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
+//        TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxVel);
+//        TrajectoryFollower trajectoryFollower = new TrajectoryFollower(robot.drive.getAllMotors(), trajectory, kV, kA, usesFeedback);
+//        trajectoryFollower.runAction();
+    }
+
+    private void adjustkA(){
         while (!isStarted()){
             if (gamepad1.dpad_up && accelerationTimer.milliseconds() > 500){
-                acceleration += 1.5;
+                //If the dpad is pushed up for more than 1/2 second, add a second of delay
+                kA = kA + 0.005;
                 accelerationTimer.reset();
             } else if (gamepad1.dpad_down && accelerationTimer.milliseconds() > 500) {
-                acceleration -= 1.5;
+                //If the dpad is pushed down for more than 1/2 second, add a second of delay
+                kA = kA - 0.005;
                 accelerationTimer.reset();
             }
 
-            telemetry.addData("Current Acceleration", "feet/second^2:" + acceleration);
+            //Display telemetry for the current delay time
+            telemetry.addData("Current Acceleration", "%f" + MAX_ACCELERATION);
             telemetry.update();
         }
     }

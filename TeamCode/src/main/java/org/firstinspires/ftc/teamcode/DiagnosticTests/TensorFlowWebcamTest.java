@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.DiagnosticTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -67,7 +67,7 @@ public class TensorFlowWebcamTest extends LinearOpMode {
         tensorFlow.activate();
 
         while (opModeIsActive()){
-            telemetry.addData("Gold Mineral Pos", tensorFlow.getGoldPos());
+            telemetry.addData("Gold MineralParent Pos", tensorFlow.getGoldPos());
             telemetry.addData("Gold X", tensorFlow.getGoldX());
             telemetry.update();
         }

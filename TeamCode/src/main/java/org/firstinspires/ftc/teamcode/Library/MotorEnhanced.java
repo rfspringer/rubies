@@ -26,4 +26,10 @@ public class MotorEnhanced {
     public static void setPower(DcMotor motor, double power) {
         motor.setPower(power);
     }
+
+    public static void setTargetPosition(DcMotor[] dcMotors, int targetPosition) {
+        for (DcMotor motor : dcMotors) {
+            motor.setTargetPosition(targetPosition);
+        }
+    }
 }

@@ -41,7 +41,7 @@ import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
 import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
 
 
-@TeleOp(name="Teleopv2v1 - No Mineral", group="Iterative Opmode")
+@TeleOp(name="Teleopv2v1 - No MineralParent", group="Iterative Opmode")
 @Disabled
 public class Teleopv1 extends OpMode
 {

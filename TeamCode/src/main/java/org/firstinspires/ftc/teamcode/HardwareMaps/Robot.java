@@ -31,7 +31,7 @@ package org.firstinspires.ftc.teamcode.HardwareMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Claimv3;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Mineral.MineralParent;
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
@@ -48,8 +48,9 @@ public class Robot
 
     public Drive drive = Drive.getInstance();
     public Sensors sensors = Sensors.getInstance();
-    public Mineral mineral = Mineral.getInstance();
+    public MineralParent mineral = MineralParent.getInstance();
     public Lift lift = Lift.getInstance();
+    public Claim claim = Claim.getInstance();
 
     public FTCLogger logger = new FTCLogger();
 
@@ -65,6 +66,7 @@ public class Robot
         sensors.init(hwMap);
         mineral.init(hwMap);
         lift.init(hwMap);
+        claim.init(hwMap);
     }
 
     public void turnToHeadingCenterPivot(double targetHeading) {
@@ -95,32 +97,34 @@ public class Robot
         drive.stop();
     }
 
-    public void goToDepot(TensorFlow.GoldPosition goldLocation) {
-        double heading;
+    public void sample(TensorFlow.GoldPosition goldLocation) {
         if (goldLocation == TensorFlow.GoldPosition.LEFT) {
-            heading = sensors.getLeftDepotHeading();
-            turnToHeadingLeftPivot(heading);
+            sampleLeft();
         } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
-            heading = sensors.getRightDepotHeading();
-            turnToHeadingRightPivot(heading);
+            sampleRight();
         } else {
-            heading = sensors.getCenterDepotHeading();
-            turnToHeadingCenterPivot(heading);
+            sampleCenter();
         }
-        depotTrajectory = drive.initializeTrajectory(0, 19, heading);
-        depotTrajectory.run();
     }
 
-    public void unlatch() {
-        turnToHeadingRightPivot(45);
-        drive.driveAwayFromLander();
+    private void sampleLeft () {
+        turnToHeadingCenterPivot(sensors.getLeftMineralHeading());
+        drive.runSamplingTrajectory(TensorFlow.GoldPosition.LEFT, sensors.getLeftMineralHeading());
     }
 
-//    private void initializeSamplingTrajectories() {
-//        leftMineralTrajectory = drive.initializeTrajectory(0, 54, sensors.getLeftMineralHeading());
-//        centerMineralTrajectory = drive.initializeTrajectory(0, 50, sensors.getCenterMineralHeading());
-//        rightMineralTrajectory = drive.initializeTrajectory(0, 57, sensors.getRightMineralHeading());
-//    }
+    private void sampleCenter () {
+        turnToHeadingCenterPivot(sensors.getCenterMineralHeading());
+        drive.runSamplingTrajectory(TensorFlow.GoldPosition.CENTER, sensors.getCenterMineralHeading());
+    }
+
+    private void sampleRight () {
+        turnToHeadingCenterPivot(sensors.getRightMineralHeading());
+        drive.runSamplingTrajectory(TensorFlow.GoldPosition.RIGHT, sensors.getRightMineralHeading());
+    }
+
+    public void depotAndClaim() {
+
+    }
 
     public static Robot getInstance() {
         return instance;

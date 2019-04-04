@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MecanumEnhanced;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryGenerator;
@@ -73,6 +74,7 @@ public class Drive
     private MecanumTrajectoryFollower unlatchAwayFromLander;
     private MecanumTrajectoryFollower unlatchParallelToLander;
     private MecanumTrajectoryFollower driveAwayFromLander;
+    private MecanumTrajectoryFollower centerForSampling;
     private MecanumTrajectoryFollower driveAwayFromMarker;
     private MecanumTrajectoryFollower lateralMineral;
     private MecanumTrajectoryFollower verticalMineral;
@@ -93,7 +95,6 @@ public class Drive
         initializeDriveMotors();
         initializeMotorArrays();
         initializeTrajectories();
-        setMotorDirections();
         setIndividualPowers(0, 0, 0, 0);
         MotorEnhanced.setDirection(leftMotors, Direction.FORWARD);
         MotorEnhanced.setDirection(rightMotors, Direction.REVERSE);
@@ -120,15 +121,51 @@ public class Drive
 
     private void initializeTrajectories() {
         unlatchAwayFromLander = initializeTrajectory(-3, 0, 0);
-        unlatchParallelToLander = initializeTrajectory(0, 6, 0);
+        unlatchParallelToLander = initializeTrajectory(0, 9, 0);
         driveAwayFromLander = initializeTrajectory(-10, 0, 0);
+        centerForSampling = initializeTrajectory(0, -13, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
         awayFromWall = initializeTrajectory(10, 0, 0);
     }
 
+    public void runSamplingTrajectory (TensorFlow.GoldPosition goldPosition, double heading) {
+        MecanumTrajectoryFollower trajectory = determineSamplingTrajectory(goldPosition, heading);
+        trajectory.run();
+    }
+
+    private MecanumTrajectoryFollower determineSamplingTrajectory (TensorFlow.GoldPosition goldPosition, double heading) {
+        if (goldPosition == TensorFlow.GoldPosition.LEFT) {
+            return initializeTrajectory(0, -46, heading);
+        } else if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
+            return initializeTrajectory(0, -46, heading);
+        } else {
+            return initializeTrajectory(0, -36, heading);
+        }
+    }
+
+    public void driveToWall(TensorFlow.GoldPosition goldPosition) {
+        if (goldPosition == TensorFlow.GoldPosition.LEFT) {
+            initializeTrajectory(0, -50, 0).run();
+        } else if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
+            initializeTrajectory(0, -75, 0).run();
+        } else {
+            initializeTrajectory(0, -80, 0).run();
+        }
+    }
+
+    public void alignWithWallDepot() {
+        initializeTrajectory(48, 0,-135).run();
+        initializeTrajectory(-8, 0, -135).run();
+    }
+
+    public void alignWithWallCrater() {
+        initializeTrajectory(-48, 0,45).run();
+        initializeTrajectory(7, 0, 45).run();
+    }
+
     public void setPowers(double magnitude, double x, double y, double heading) {
         double[] powers = mecanumEnhanced.calculatePowers(magnitude, x, y, heading);
-        setIndividualPowers(powers[0], powers[1], powers[2], powers[3]);
+        setIndividualPowers(powers);
     }
 
     public void turnToHeading(double headingError) {
@@ -157,6 +194,10 @@ public class Drive
         rightBack.setPower(rightBackPower);
     }
 
+    public void setIndividualPowers(double[] powerArray){
+        setIndividualPowers(powerArray[0], powerArray[1], powerArray[2], powerArray[3]);
+    }
+
     public void stop() {
         setIndividualPowers(0, 0, 0, 0);
     }
@@ -172,15 +213,6 @@ public class Drive
         return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, usesFeedback);
     }
 
-    public void reverseMotorDirections(boolean reverseDirection) {
-        this.reverseDirection = reverseDirection;
-        setMotorDirections();
-    }
-
-    public boolean isDirectionReversed() {
-        return reverseDirection;
-    }
-
     private void setMotorDirections(){
         if (reverseDirection){
             MotorEnhanced.setDirection(leftMotors, Direction.FORWARD);
@@ -191,24 +223,62 @@ public class Drive
         }
     }
 
+    public void runToPosition(int targetPosition, double power) {
+        MotorEnhanced.setTargetPosition(allMotors, targetPosition);
+        MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_TO_POSITION);
+        MotorEnhanced.setPower(allMotors, power);
+    }
+
     public void unlatch() {
         unlatchAwayFromLander.run();
         unlatchParallelToLander.run();
         driveAwayFromLander.run();
-        unlatchParallelToLander.runBackwards();
+        centerForSampling.run();
     }
 
-    public void sample(TensorFlow.GoldPosition goldPosition) {
-        initializeSamplingTrajectories(goldPosition);
-        lateralMineral.run();
-        verticalMineral.run();
-        verticalMineral.runBackwards();
-    }
+//    public void sample(TensorFlow.GoldPosition goldPosition) {
+//        initializeSamplingTrajectories(goldPosition);
+//        lateralMineral.run();
+//        verticalMineral.run();
+//        verticalMineral.runBackwards();
+//    }
+//
 
-    public void alignWithWall() {
-        lateralToWall.run();
-        awayFromWall.run();
-    }
+//
+//    private void initializeSamplingTrajectories(TensorFlow.GoldPosition goldPosition) {
+//        if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
+//            initializeRightTrajectories();
+//        } else if (goldPosition == TensorFlow.GoldPosition.CENTER) {
+//            initializeCenterTrajectories();
+//        } else {
+//            initializeLeftTrajectories();
+//        }
+//    }
+//
+//    private void initializeRightTrajectories() {
+//        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_RIGHT, 0, 45);
+//        verticalMineral = initializeTrajectory(0, 20, 45);
+//        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_RIGHT, 0, 45);
+//    }
+//
+//    private void initializeCenterTrajectories() {
+//        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_CENTER, 0, 45);
+//        verticalMineral = initializeTrajectory(0, 20, 45);
+//        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_CENTER, 0, 45);
+//    }
+//
+//    private void initializeLeftTrajectories() {
+//        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_LEFT, 0, 45);
+//        verticalMineral = initializeTrajectory(0, 20, 45);
+//        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_LEFT, 0, 45);
+//    }
+//
+//    public void driveAwayFromMarker() {
+//        driveAwayFromMarker.run();
+//    }
+//    public void driveAwayFromLander() {
+//        driveAwayFromLander.run();
+//    }
 
     private void initializeSamplingTrajectories(TensorFlow.GoldPosition goldPosition) {
         if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
@@ -241,6 +311,7 @@ public class Drive
     public void driveAwayFromMarker() {
         driveAwayFromMarker.run();
     }
+
     public void driveAwayFromLander() {
         driveAwayFromLander.run();
     }

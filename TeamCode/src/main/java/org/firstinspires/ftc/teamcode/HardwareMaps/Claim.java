@@ -26,77 +26,42 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.firstinspires.ftc.teamcode.HardwareMaps;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.MineralArmv3;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.MineralExtensionv3;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.MineralIntakev3;
-import org.firstinspires.ftc.teamcode.Library.AccelerationController;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
  */
-public class Mineral {
-    private static final Mineral instance = new Mineral();
-    private MineralArm arm = MineralArm.getInstance();
-    private MineralIntake intake = MineralIntake.getInstance();
-    private MineralExtension extension = MineralExtension.getInstance();
+public class Claim {
+    private static final Claim instance = new Claim();
+    /* Public OpMode members. */
+    private Servo claimServo;
 
-    private HardwareMap hwMap;
+    private double STOWED_POS = 0.0;
+    private double DEPLOYED_POS = 1.0;
 
     /* Constructor */
-    private Mineral(){
+    private Claim(){
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
-        hwMap = ahwMap;
-        arm.init(hwMap);
-        intake.init(hwMap);
-        extension.init(hwMap);
+    public void init(HardwareMap hwMap) {
+        claimServo = hwMap.servo.get("claim_servo");
+        stow();
     }
 
-    public void setToIntake() {
-        intake.setToIntake();
+    public void stow() {
+        claimServo.setPosition(STOWED_POS);
     }
 
-    public void setExtensionPower(double power) {
-        extension.setPower(power);
+    public void deploy() {
+        claimServo.setPosition(DEPLOYED_POS);
     }
 
-    public void dumpMinerals() {
-        intake.dumpMinerals();
-    }
-
-    public void storeMinerals() {
-        intake.storeMinerals();
-    }
-
-    public void setScaledPower(double power) {
-        intake.setScaledPower(power);
-    }
-
-    public double getScaledPower() {
-        return intake.getScaledPower();
-    }
-
-    public void setArmPower(double power){
-        arm.setPowers(power);
-    }
-
-    public void setIntakeRawPower(double power) {
-        intake.setRawPower(power);
-    }
-
-    public void setIntakeScaledPower(double power) {
-        intake.setScaledPower(power);
-    }
-
-    public static Mineral getInstance() {
+    public static Claim getInstance(){
         return instance;
     }
 }

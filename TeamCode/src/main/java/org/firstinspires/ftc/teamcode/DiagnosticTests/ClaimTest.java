@@ -1,14 +1,12 @@
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.DiagnosticTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv3;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 
-@TeleOp(name="Hang Test", group="Tests")
-public class HangTest extends LinearOpMode {
+@TeleOp(name="Claimv3 Test", group="Tests")
+public class ClaimTest extends LinearOpMode {
     private Robotv3 robot = Robotv3.getInstance();
 
     @Override
@@ -16,11 +14,8 @@ public class HangTest extends LinearOpMode {
         robot.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-        robot.lift.holdHangingPosition();
         waitForStart();
-        robot.lift.holdHangingPosition();
-        while (opModeIsActive()) {
-
-        }
+        robot.claim.deploy();
+        sleep(2000);
     }
 }
