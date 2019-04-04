@@ -89,7 +89,9 @@ public class MineralPivot {
     public void setPowers(double power) {
         DcMotor[] motors = {motor1, motor2};
         if(isPressed() && power < -0) {
+            MotorEnhanced.setRunMode(motors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             setPowers(0);
+            MotorEnhanced.setZeroPowerBehavior(motors, DcMotor.ZeroPowerBehavior.BRAKE);
         } else {
             pivotAccelerationControl.run(power, motors);
         }
