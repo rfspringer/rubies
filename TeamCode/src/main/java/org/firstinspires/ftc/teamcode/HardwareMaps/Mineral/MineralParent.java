@@ -95,6 +95,9 @@ public class MineralParent {
         return pivot.isPressed();
     }
 
+    public double getLimitSwitchReading() {
+        return pivot.getReading();
+    }
     //EXTENSION
 
     public void setExtensionPower(double power) {

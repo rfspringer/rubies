@@ -65,7 +65,8 @@ public class LimitSwitchTest extends OpMode {
      */
     @Override
     public void loop() {
-        telemetry.addData("Reading", robot.mineral.limitSwitchIsPressed());
+        telemetry.addData("Is pressed", robot.mineral.limitSwitchIsPressed());
+        telemetry.addData("Reading", robot.mineral.getLimitSwitchReading());
         telemetry.update();
     }
 }

@@ -88,16 +88,11 @@ public class MineralPivot {
 
     public void setPowers(double power) {
         DcMotor[] motors = {motor1, motor2};
-        if(isPressed() && power < -0.08) {
-            power = 0;
-            MotorEnhanced.setZeroPowerBehavior(motors, DcMotor.ZeroPowerBehavior.FLOAT);
-        } else if (isPressed() && power < 0) {
-            power = 0;
-            MotorEnhanced.setZeroPowerBehavior(motors, DcMotor.ZeroPowerBehavior.BRAKE);
+        if(isPressed() && power < -0) {
+            setPowers(0);
         } else {
-            MotorEnhanced.setZeroPowerBehavior(motors, DcMotor.ZeroPowerBehavior.BRAKE);
+            pivotAccelerationControl.run(power, motors);
         }
-        pivotAccelerationControl.run(power, motors);
     }
 
     public double getPower() {
@@ -105,7 +100,11 @@ public class MineralPivot {
     }
 
     public boolean isPressed() {
-        return limitSwitch.getVoltage()/limitSwitch.getMaxVoltage() > 0.5;
+        return getReading() > 0.5;
+    }
+
+    public double getReading() {
+        return limitSwitch.getVoltage()/limitSwitch.getMaxVoltage();
     }
 
     public static MineralPivot getInstance(){
