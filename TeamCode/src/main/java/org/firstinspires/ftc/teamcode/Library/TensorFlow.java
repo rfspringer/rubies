@@ -25,8 +25,8 @@ public class TensorFlow {
 
     private double confidenceChange;
 
-    private int LEFT_THRESHOLD = 200;
-    private int RIGHT_THRESHOLD = 585;
+    private int LEFT_THRESHOLD = 300;
+    private int RIGHT_THRESHOLD = 625;
 
     private double goldX = 0;
 

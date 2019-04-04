@@ -108,7 +108,7 @@ public class Liftv3 {
 
     public void holdHangingPosition() {
         setPower(0.2);
-//        setTargetPosition(4);
+//        runToPosition(4);
 //        setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //        setPower(1);
     }
