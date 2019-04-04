@@ -91,6 +91,10 @@ public class MineralParent {
         return pivot.getPower();
     }
 
+    public int getPivotPosition()   {
+        return pivot.getPosition();
+    }
+
     public boolean limitSwitchIsPressed() {
         return pivot.isPressed();
     }

@@ -99,6 +99,10 @@ public class MineralPivot {
         return motor1.getPower();
     }
 
+    public int getPosition() {
+        return motor1.getCurrentPosition();
+    }
+
     public boolean isPressed() {
         return getReading() > 0.5;
     }
