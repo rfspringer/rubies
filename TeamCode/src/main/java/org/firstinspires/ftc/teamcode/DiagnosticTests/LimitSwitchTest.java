@@ -56,6 +56,7 @@ public class LimitSwitchTest extends OpMode {
     public void init() {
         robot.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
+        telemetry.update();
     }
 
     /*
@@ -64,5 +65,6 @@ public class LimitSwitchTest extends OpMode {
     @Override
     public void loop() {
         telemetry.addData("Reading", robot.mineral.isAtLimit());
+        telemetry.update();
     }
 }
