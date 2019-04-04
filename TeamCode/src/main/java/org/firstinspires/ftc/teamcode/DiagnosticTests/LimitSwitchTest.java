@@ -52,6 +52,7 @@ import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 //@Disabled
 public class LimitSwitchTest extends OpMode {
     private Robot robot = Robot.getInstance();
+
     @Override
     public void init() {
         robot.init(hardwareMap);
@@ -64,7 +65,7 @@ public class LimitSwitchTest extends OpMode {
      */
     @Override
     public void loop() {
-        telemetry.addData("Reading", robot.mineral.isAtLimit());
+        telemetry.addData("Reading", robot.mineral.limitSwitchIsPressed());
         telemetry.update();
     }
 }

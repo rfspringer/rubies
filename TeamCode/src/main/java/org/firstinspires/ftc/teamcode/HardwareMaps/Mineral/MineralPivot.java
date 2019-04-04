@@ -29,10 +29,12 @@
 
 package org.firstinspires.ftc.teamcode.HardwareMaps.Mineral;
 
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 
@@ -48,7 +50,7 @@ public class MineralPivot {
     private DcMotor motor1 = null;
     private DcMotor motor2 = null;
 
-    private DigitalChannel limitSwitch;
+    private AnalogInput limitSwitch;
 
     /* local OpMode members. */
     private HardwareMap hwMap = null;
@@ -65,8 +67,8 @@ public class MineralPivot {
     }
 
     private void initializeLimitSwitch(){
-        limitSwitch = hwMap.digitalChannel.get("limit");
-        limitSwitch.setMode(DigitalChannel.Mode.INPUT);
+        limitSwitch = hwMap.analogInput.get("limit");
+//        limitSwitch.setMode(DigitalChannel.Mode.INPUT);
     }
 
     private void initializeMotors() {
@@ -94,7 +96,7 @@ public class MineralPivot {
     }
 
     public boolean isPressed() {
-        return !limitSwitch.getState();
+        return limitSwitch.getVoltage()/limitSwitch.getMaxVoltage() > 0.5;
     }
 
     public static MineralPivot getInstance(){
