@@ -56,6 +56,8 @@ public class MineralPivot {
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
+    private double SLOW_THRESHOLD = 200;
+
     /* Constructor */
     private MineralPivot(){
     }
@@ -88,11 +90,16 @@ public class MineralPivot {
 
     public void setPowers(double power) {
         DcMotor[] motors = {motor1, motor2};
-        if(isPressed() && power < -0) {
+        if(isPressed() && power < 0) {
             MotorEnhanced.setRunMode(motors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             setPowers(0);
             MotorEnhanced.setZeroPowerBehavior(motors, DcMotor.ZeroPowerBehavior.BRAKE);
+        } else if (getPosition() > SLOW_THRESHOLD && power < 0){
+            MotorEnhanced.setRunMode(motors, DcMotor.RunMode.RUN_USING_ENCODER);
+            setPowers(0);
+            MotorEnhanced.setZeroPowerBehavior(motors, DcMotor.ZeroPowerBehavior.FLOAT);
         } else {
+            MotorEnhanced.setRunMode(motors, DcMotor.RunMode.RUN_USING_ENCODER);
             pivotAccelerationControl.run(power, motors);
         }
     }
