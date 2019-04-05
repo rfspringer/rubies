@@ -53,7 +53,7 @@ public class MineralIntake {
 
     private double INTAKE_POSITION = 0.54;
     private double STORAGE_POSITION = 0.52;
-    private double RELEASE_POSITION = 0.41;
+    private double RELEASE_POSITION = 0.39;
 
     /* Constructor */
     private MineralIntake(){

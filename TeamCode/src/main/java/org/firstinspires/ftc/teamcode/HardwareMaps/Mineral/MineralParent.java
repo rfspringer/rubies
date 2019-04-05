@@ -56,7 +56,7 @@ public class MineralParent {
     }
 
     public void outtake() {
-        intake.setScaledPower(1);
+        intake.setScaledPower(-1);
     }
 
     public void stopIntake() {
