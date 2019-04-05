@@ -55,7 +55,15 @@ public class MineralParent {
         extension.init(hwMap);
     }
 
-    public void setToIntake() {
+    public void outtake() {
+        intake.setScaledPower(1);
+    }
+
+    public void stopIntake() {
+        intake.setScaledPower(0);
+    }
+
+    public void intake() {
         intake.setToIntake();
     }
 
