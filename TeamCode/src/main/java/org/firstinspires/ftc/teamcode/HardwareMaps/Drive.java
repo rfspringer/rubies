@@ -275,50 +275,6 @@ public class Drive
         }
     }
 
-//    public void sample(TensorFlow.GoldPosition goldPosition) {
-//        initializeSamplingTrajectories(goldPosition);
-//        lateralMineral.run();
-//        verticalMineral.run();
-//        verticalMineral.runBackwards();
-//    }
-//
-
-//
-//    private void initializeSamplingTrajectories(TensorFlow.GoldPosition goldPosition) {
-//        if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
-//            initializeRightTrajectories();
-//        } else if (goldPosition == TensorFlow.GoldPosition.CENTER) {
-//            initializeCenterTrajectories();
-//        } else {
-//            initializeLeftTrajectories();
-//        }
-//    }
-//
-//    private void initializeRightTrajectories() {
-//        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_RIGHT, 0, 45);
-//        verticalMineral = initializeTrajectory(0, 20, 45);
-//        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_RIGHT, 0, 45);
-//    }
-//
-//    private void initializeCenterTrajectories() {
-//        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_CENTER, 0, 45);
-//        verticalMineral = initializeTrajectory(0, 20, 45);
-//        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_CENTER, 0, 45);
-//    }
-//
-//    private void initializeLeftTrajectories() {
-//        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_LEFT, 0, 45);
-//        verticalMineral = initializeTrajectory(0, 20, 45);
-//        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_LEFT, 0, 45);
-//    }
-//
-//    public void driveAwayFromMarker() {
-//        driveAwayFromMarker.run();
-//    }
-//    public void driveAwayFromLander() {
-//        driveAwayFromLander.run();
-//    }
-
     private void initializeSamplingTrajectories(TensorFlow.GoldPosition goldPosition) {
         if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
             initializeRightTrajectories();
