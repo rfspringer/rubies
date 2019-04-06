@@ -45,6 +45,8 @@ public class Claim {
     private double STOWED_POS = 0.0;
     private double DEPLOYED_POS = 1.0;
 
+    private long MILLISECONDS_TO_DEPLOY = 1000;
+
     /* Constructor */
     private Claim(){
     }
@@ -55,18 +57,16 @@ public class Claim {
         stow();
     }
 
-    public void depositTeamMarker() {
-        deploy();
-        sleep(1000);
-        stow();
-    }
-
     public void stow() {
         claimServo.setPosition(STOWED_POS);
     }
 
     public void deploy() {
         claimServo.setPosition(DEPLOYED_POS);
+    }
+
+    public long getMillisecondsToDeploy() {
+        return MILLISECONDS_TO_DEPLOY;
     }
 
     public static Claim getInstance(){

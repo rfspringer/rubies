@@ -35,7 +35,9 @@ public class AutoDepot extends RubiesLinearOpMode {
         robot.driveToWall(goldPosition);
         robot.alignWithWall(Robot.StartingPosition.DEPOT);
         robot.drive.driveToDepot(Robot.StartingPosition.DEPOT);
-        robot.claim.depositTeamMarker();
+        robot.claim.deploy();
+        sleepFor(robot.claim.getMillisecondsToDeploy());
+        robot.claim.stow();
         robot.drive.park(Robot.StartingPosition.CRATER);
     }
 }
