@@ -76,10 +76,6 @@ public class Drive
     private MecanumTrajectoryFollower driveAwayFromLander;
     private MecanumTrajectoryFollower centerForSampling;
     private MecanumTrajectoryFollower driveAwayFromMarker;
-    private MecanumTrajectoryFollower lateralMineral;
-    private MecanumTrajectoryFollower verticalMineral;
-    private MecanumTrajectoryFollower lateralToWall;
-    private MecanumTrajectoryFollower awayFromWall;
 
     /* local OpMode members. */
     private HardwareMap hwMap =  null;
@@ -125,7 +121,6 @@ public class Drive
         driveAwayFromLander = initializeTrajectory(-10, 0, 0);
         centerForSampling = initializeTrajectory(0, -13, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
-        awayFromWall = initializeTrajectory(10, 0, 0);
     }
 
     public void runSamplingTrajectory (TensorFlow.GoldPosition goldPosition, double heading) {
