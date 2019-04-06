@@ -143,13 +143,28 @@ public class Drive
         }
     }
 
+    public void backupFromSampling(TensorFlow.GoldPosition goldPosition) {
+       double  backupDistance = getBackupFromSamplingDistance(goldPosition);
+        initializeTrajectory(0, backupDistance, 0).run();
+    }
+
+    private double getBackupFromSamplingDistance(TensorFlow.GoldPosition goldPosition) {
+        if (goldPosition == TensorFlow.GoldPosition.LEFT) {
+            return BACKUP_DISTANCE_LEFT;
+        } else if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
+            return BACKUP_DISTANCE_RIGHT;
+        } else {
+            return BACKUP_DISTANCE_CENTER;
+        }
+    }
+
     public void driveToWall(TensorFlow.GoldPosition goldPosition) {
         if (goldPosition == TensorFlow.GoldPosition.LEFT) {
-            initializeTrajectory(0, -50, 0).run();
+            initializeTrajectory(0, WALL_DISTANCE_LEFT, 0).run();
         } else if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
-            initializeTrajectory(0, -75, 0).run();
+            initializeTrajectory(0, WALL_DISTANCE_RIGHT, 0).run();
         } else {
-            initializeTrajectory(0, -80, 0).run();
+            initializeTrajectory(0, WALL_DISTANCE_CENTER, 0).run();
         }
     }
 
