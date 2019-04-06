@@ -81,7 +81,7 @@ public class Teleop extends OpMode {
 
         controlDrive();
         controlArm();
-        controlCollection();
+        controlMineralDoor();
         controlIntake();
         controlExtension();
         controlLift();
@@ -112,19 +112,19 @@ public class Teleop extends OpMode {
 
     private void controlIntake() {
         if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER)) {
-            robot.mineral.setIntakeScaledPower(INTAKE_POWER);
+            robot.mineral.intake();
         } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)) {
+            robot.mineral.outtake();
         } else if (gamepadB.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_LEFT_TRIGGER) && gamepadA.getAxisAsButton(GamepadEnhanced.AXIS.AXIS_RIGHT_TRIGGER)){
             robot.mineral.setIntakeScaledPower(0);
         }
     }
 
-    private void controlCollection() {
-        if (gamepadB.y) {
-            robot.mineral.setToIntake();
-        } else if (gamepadB.b) {
+    private void controlMineralDoor() {
+        if (gamepadB.b) {
             robot.mineral.storeMinerals();
         } else if (gamepadB.a) {
+            robot.mineral.stopIntake();
             robot.mineral.dumpMinerals();
         }
     }
