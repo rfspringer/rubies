@@ -48,10 +48,6 @@ public class MineralIntake {
     private HardwareMap hwMap;
     private CRServo[] intake = new CRServo[2];
 
-    private double INTAKE_POWER = 1;
-    private double OUTTAKE_POWER = -1;
-
-    private double INTAKE_POSITION = 0.54;
     private double STORAGE_POSITION = 0.52;
     private double RELEASE_POSITION = 0.39;
 

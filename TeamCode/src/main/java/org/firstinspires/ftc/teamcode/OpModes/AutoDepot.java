@@ -27,11 +27,17 @@ public class AutoDepot extends RubiesLinearOpMode {
         tensorFlow.shutdown();
         telemetry.addData("Gold Position", goldPosition);
         telemetry.update();
-
-//        robot.lift.lower();
-//        robot.drive.unlatch();
-//        robot.drive.stop();
+        robot.lift.lower();
+        robot.drive.unlatch();
+        robot.drive.stop();
         robot.sample(goldPosition);
+        robot.backupFromSampling(goldPosition);
+        robot.drive.driveToWall(goldPosition);  //include turning to heading of 0
+        robot.drive.alignWithWall(robot.StartingPosition.CRATER);   //include turning to heading 45
+        robot.drive.driveToDepot(robot.StartingPosition.CRATER);
+        robot.claim.depositTeamMarker();    //include deploy, wait, and then stow
+        robot.park(robot.StartingPosition.CRATER);
+
         if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
             robot.drive.setIndividualPowers(0.25, 0.25, 0.25, 0.25);
             sleepFor(1750);
