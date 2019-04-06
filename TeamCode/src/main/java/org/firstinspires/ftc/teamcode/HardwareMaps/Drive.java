@@ -168,6 +168,14 @@ public class Drive
         }
     }
 
+    public void alignWithWall(Robot.StartingPosition startingPosition) {
+        if(startingPosition == Robot.StartingPosition.DEPOT) {
+            alignWithWallDepot();
+        } else {
+            alignWithWallCrater();
+        }
+    }
+
     public void alignWithWallDepot() {
         initializeTrajectory(48, 0,-135).run();
         initializeTrajectory(-8, 0, -135).run();

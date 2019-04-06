@@ -54,7 +54,10 @@ public class Robot
 
     public FTCLogger logger = new FTCLogger();
 
-    private MecanumTrajectoryFollower depotTrajectory;
+    public enum StartingPosition  {
+        CRATER,
+        DEPOT
+    }
 
     /* Constructor */
     private Robot(){
@@ -95,6 +98,16 @@ public class Robot
             drive.turnToHeadingRightWheels(error);
         }
         drive.stop();
+    }
+
+    public void driveToWall(TensorFlow.GoldPosition goldPosition) {
+        turnToHeadingCenterPivot(0);
+        drive.driveToWall(goldPosition);
+    }
+
+    public void alignWithWall(StartingPosition startingPosition) {
+        turnToHeadingCenterPivot(45);
+        drive.alignWithWall(startingPosition);
     }
 
     public void sample(TensorFlow.GoldPosition goldLocation) {
