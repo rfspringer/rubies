@@ -31,6 +31,8 @@ package org.firstinspires.ftc.teamcode.HardwareMaps;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
+
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
@@ -50,6 +52,12 @@ public class Claim {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hwMap) {
         claimServo = hwMap.servo.get("claim_servo");
+        stow();
+    }
+
+    public void depositTeamMarker() {
+        deploy();
+        sleep(1000);
         stow();
     }
 

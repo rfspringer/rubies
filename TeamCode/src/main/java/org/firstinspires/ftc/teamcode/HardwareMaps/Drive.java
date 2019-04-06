@@ -267,6 +267,14 @@ public class Drive
         centerForSampling.run();
     }
 
+    public void park(Robot.StartingPosition startingPosition) {
+        if (startingPosition == Robot.StartingPosition.DEPOT) {
+            initializeTrajectory(0, PARKING_DISTANCE, DEPOT_HEADING).run();
+        } else {
+            initializeTrajectory(0, PARKING_DISTANCE, CRATER_HEADING).run();
+        }
+    }
+
 //    public void sample(TensorFlow.GoldPosition goldPosition) {
 //        initializeSamplingTrajectories(goldPosition);
 //        lateralMineral.run();

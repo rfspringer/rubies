@@ -52,7 +52,6 @@ public class Sensors
     private BNO055IMU imu;
     private Orientation angles;
     private Acceleration gravity;
-    private boolean hasSetInitialAngle = false;
     private double initialHeading;
 
     private double IMU_WALL_OFFSET = 0.0;

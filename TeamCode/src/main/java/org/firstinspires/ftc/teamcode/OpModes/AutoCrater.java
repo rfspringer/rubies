@@ -36,7 +36,7 @@ public class AutoCrater extends RubiesLinearOpMode {
         robot.drive.alignWithWall(Robot.StartingPosition.CRATER);   //include turning to heading 45
         robot.drive.driveToDepot(Robot.StartingPosition.CRATER);
         robot.claim.depositTeamMarker();    //include deploy, wait, and then stow
-        robot.park(robot.StartingPosition.CRATER);
+        robot.drive.park(Robot.StartingPosition.CRATER);
 
 //        if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
 //            robot.drive.setIndividualPowers(0.25, 0.25, 0.25, 0.25);
