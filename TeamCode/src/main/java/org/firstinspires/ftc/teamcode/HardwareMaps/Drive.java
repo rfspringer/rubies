@@ -177,13 +177,21 @@ public class Drive
     }
 
     public void alignWithWallDepot() {
-        initializeTrajectory(48, 0,-135).run();
-        initializeTrajectory(-8, 0, -135).run();
+        initializeTrajectory(48, 0,DEPOT_WALL_HEADING).run();
+        initializeTrajectory(-8, 0, DEPOT_WALL_HEADING).run();
     }
 
     public void alignWithWallCrater() {
-        initializeTrajectory(-48, 0,45).run();
-        initializeTrajectory(7, 0, 45).run();
+        initializeTrajectory(-48, 0,CRATER_WALL_HEADING).run();
+        initializeTrajectory(7, 0, CRATER_WALL_HEADING).run();
+    }
+
+    public void driveToDepot(Robot.StartingPosition startingPosition) {
+        if (startingPosition == Robot.StartingPosition.DEPOT) {
+            initializeTrajectory(0, DEPOT_TO_DEPOT_DISTANCE, DEPOT_WALL_HEADING).run();
+        } else {
+            initializeTrajectory(0, CRATER_TO_DEPOT_DISTANCE, CRATER_WALL_HEADING).run();
+        }
     }
 
     public void setPowers(double magnitude, double x, double y, double heading) {
