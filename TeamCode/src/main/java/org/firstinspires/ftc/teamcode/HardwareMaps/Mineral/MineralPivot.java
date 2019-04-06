@@ -90,15 +90,19 @@ public class MineralPivot {
 
     public void setPowers(double power) {
         DcMotor[] motors = {motor1, motor2};
-        if(isPressed() && power < 0) {
+        if (isPressed()) {
             MotorEnhanced.setRunMode(motors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            setPowers(0);
+        }
+
+        if(isPressed() && getPower() < 0 ) {
             MotorEnhanced.setZeroPowerBehavior(motors, DcMotor.ZeroPowerBehavior.BRAKE);
-        } else if (getPosition() > SLOW_THRESHOLD && power < 0){
-            MotorEnhanced.setRunMode(motors, DcMotor.RunMode.RUN_USING_ENCODER);
             setPowers(0);
+        } else if (getPosition() < SLOW_THRESHOLD && power < 0){
+            MotorEnhanced.setRunMode(motors, DcMotor.RunMode.RUN_USING_ENCODER);
+            setPowers(-0.05);
             MotorEnhanced.setZeroPowerBehavior(motors, DcMotor.ZeroPowerBehavior.FLOAT);
         } else {
+            MotorEnhanced.setZeroPowerBehavior(motors, DcMotor.ZeroPowerBehavior.BRAKE);
             MotorEnhanced.setRunMode(motors, DcMotor.RunMode.RUN_USING_ENCODER);
             pivotAccelerationControl.run(power, motors);
         }
