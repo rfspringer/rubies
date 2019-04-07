@@ -38,6 +38,7 @@ import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
 import org.firstinspires.ftc.teamcode.Library.PIDController;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
+import org.firstinspires.ftc.teamcode.Library.TrajectoryGenerator;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -202,12 +203,12 @@ public class Drive
 
 
     public MecanumTrajectoryFollower initializeTrajectory(double x, double y, double heading) {
-        MecanumTrajectoryGenerator trajectory = new MecanumTrajectoryGenerator(x, y, MAX_ACCEL);
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(x, y, 1, MAX_ACCEL);
         return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, false);
     }
 
     public MecanumTrajectoryFollower initializeTrajectory(double x, double y, double heading, double maxAccel, boolean usesFeedback) {
-        MecanumTrajectoryGenerator trajectory = new MecanumTrajectoryGenerator(x, y, maxAccel);
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(x, y, 1, maxAccel);
         return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, usesFeedback);
     }
 

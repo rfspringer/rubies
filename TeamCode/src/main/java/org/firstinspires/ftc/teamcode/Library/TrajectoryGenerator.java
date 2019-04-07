@@ -16,6 +16,9 @@ public class TrajectoryGenerator {
     private double trajectoryLength;
     private double totalTime;
 
+    private double x = 0;
+    private double y = 0;
+
     private enum TRAJECTORY_SEGMENT {
         ACCELERATION,
         CRUISING,
@@ -32,6 +35,8 @@ public class TrajectoryGenerator {
     }
 
     public TrajectoryGenerator(double x, double y, double velocityMagnitude, double maxAcceleration) {
+        this.x = x;
+        this.y = y;
         this.trajectoryLength = Math.abs(getTrajectoryLength(x, y));
         this.maxVelocity = mecanumEnhanced.getMaxVel(velocityMagnitude, x, y);
         this.maxAcceleration = maxAcceleration;
@@ -99,5 +104,13 @@ public class TrajectoryGenerator {
 
     public double getCurrentAcceleration() {
         return currentAcceleration;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 }
