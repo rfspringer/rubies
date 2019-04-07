@@ -47,6 +47,8 @@ public class MineralArm {
     private DcMotor motor1 = null;
     private DcMotor motor2 = null;
 
+    private double ENCODER_COUNTS_PER_RADIAN = ;
+
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
@@ -69,6 +71,13 @@ public class MineralArm {
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor.setDirection(DcMotorSimple.Direction.FORWARD);
         motor.setPower(0);
+    }
+
+    /**
+     * @return position of arm in radians
+     */
+    public double getAngle() {
+        return motor1.getCurrentPosition() * ENCODER_COUNTS_PER_RADIAN;
     }
 
     public void setPowers(double power) {
