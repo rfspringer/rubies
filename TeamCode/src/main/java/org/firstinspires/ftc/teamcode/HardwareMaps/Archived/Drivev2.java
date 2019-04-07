@@ -35,8 +35,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
-import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
-import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryGenerator;
+import org.firstinspires.ftc.teamcode.Library.TrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Library.TrajectoryGenerator;
 
 /**
  * This class stores all objects on our robot's drivetrain

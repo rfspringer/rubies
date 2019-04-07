@@ -45,6 +45,8 @@ public class MineralExtension {
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
+    private double ENCODER_COUNTS_PER_METER =;
+
     /* Constructor */
     private MineralExtension(){
     }
@@ -63,9 +65,9 @@ public class MineralExtension {
         extension.setPower(power);
     }
 
-//    public int getEncoderCounts() {
-//        return extension.getCurrentPosition();
-//    }
+    public double getLength() {
+        return ENCODER_COUNTS_PER_METER * extension.getCurrentPosition();
+    }
 
     public static MineralExtension getInstance(){
         return instance;

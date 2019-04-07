@@ -33,7 +33,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MecanumEnhanced;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryGenerator;

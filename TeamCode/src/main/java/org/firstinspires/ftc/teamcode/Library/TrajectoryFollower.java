@@ -1,10 +1,9 @@
-package org.firstinspires.ftc.teamcode.Library.Archived;
+package org.firstinspires.ftc.teamcode.Library;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
-import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
 
 public class TrajectoryFollower {
     private Robotv2 robot = Robotv2.getInstance();
