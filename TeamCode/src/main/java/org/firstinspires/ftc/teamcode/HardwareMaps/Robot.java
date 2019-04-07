@@ -135,10 +135,6 @@ public class Robot
         drive.runSamplingTrajectory(TensorFlow.GoldPosition.RIGHT, sensors.getRightMineralHeading());
     }
 
-    public void depotAndClaim() {
-
-    }
-
     public static Robot getInstance() {
         return instance;
     }

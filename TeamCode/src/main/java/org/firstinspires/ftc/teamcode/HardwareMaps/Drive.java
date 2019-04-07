@@ -62,14 +62,33 @@ public class Drive
     private boolean reverseDirection = false;
     private double kA = 0.0001;
 
-    public double MAX_FORWARD_VELOCITY = 16;
-    public double MAX_STRAFE_VELOCITY = 13;
-    public double MAX_ACCEL = 25;
+    private double MAX_FORWARD_VELOCITY = 16;
+    private double MAX_STRAFE_VELOCITY = 13;
+    private double MAX_ACCEL = 25;
 
-    private double TOTAL_DISTANCE_TO_WALL = -1000;
-    private double LATERAL_DISTANCE_LEFT = -600;
-    private double LATERAL_DISTANCE_CENTER = -400;
-    private double LATERAL_DISTANCE_RIGHT = -100;
+    private double SAMPLING_DISTANCE_LEFT;change
+    private double SAMPLING_DISTANCE_RIGHT;change
+    private double SAMPLING_DISTANCE_CENTER;change
+
+    private double BACKUP_DISTANCE_LEFT;change
+    private double BACKUP_DISTANCE_RIGHT;change
+    private double BACKUP_DISTANCE_CENTER;change
+
+    private double WALL_DISTANCE_LEFT;change
+    private double WALL_DISTANCE_RIGHT;change
+    private double WALL_DISTANCE_CENTER;change
+
+    private double DISTANCE_TO_WALL;change
+    private double DISTANCE_AWAY_FROM_WALL;change
+
+    private double DEPOT_WALL_HEADING;change
+    private double CRATER_WALL_HEADING;change
+
+    private double DEPOT_TO_DEPOT_DISTANCE;change
+    private double CRATER_TO_DEPOT_DISTANCE;change
+
+    private double PARKING_DISTANCE;change
+
 
     private MecanumTrajectoryFollower unlatchAwayFromLander;
     private MecanumTrajectoryFollower unlatchParallelToLander;
@@ -130,11 +149,11 @@ public class Drive
 
     private MecanumTrajectoryFollower determineSamplingTrajectory (TensorFlow.GoldPosition goldPosition, double heading) {
         if (goldPosition == TensorFlow.GoldPosition.LEFT) {
-            return initializeTrajectory(0, -46, heading);
+            return initializeTrajectory(0, SAMPLING_DISTANCE_LEFT, heading);
         } else if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
-            return initializeTrajectory(0, -46, heading);
+            return initializeTrajectory(0, SAMPLING_DISTANCE_RIGHT, heading);
         } else {
-            return initializeTrajectory(0, -36, heading);
+            return initializeTrajectory(0, SAMPLING_DISTANCE_CENTER, heading);
         }
     }
 
@@ -171,14 +190,14 @@ public class Drive
         }
     }
 
-    public void alignWithWallDepot() {
-        initializeTrajectory(48, 0,DEPOT_WALL_HEADING).run();
-        initializeTrajectory(-8, 0, DEPOT_WALL_HEADING).run();
+    private void alignWithWallDepot() {
+        initializeTrajectory(DISTANCE_TO_WALL, 0,DEPOT_WALL_HEADING).run();
+        initializeTrajectory(-DISTANCE_AWAY_FROM_WALL, 0, DEPOT_WALL_HEADING).run();
     }
 
-    public void alignWithWallCrater() {
-        initializeTrajectory(-48, 0,CRATER_WALL_HEADING).run();
-        initializeTrajectory(7, 0, CRATER_WALL_HEADING).run();
+    private void alignWithWallCrater() {
+        initializeTrajectory(-DISTANCE_TO_WALL, 0, CRATER_WALL_HEADING).run();
+        initializeTrajectory(DISTANCE_AWAY_FROM_WALL, 0, CRATER_WALL_HEADING).run();
     }
 
     public void driveToDepot(Robot.StartingPosition startingPosition) {
@@ -264,38 +283,10 @@ public class Drive
 
     public void park(Robot.StartingPosition startingPosition) {
         if (startingPosition == Robot.StartingPosition.DEPOT) {
-            initializeTrajectory(0, PARKING_DISTANCE, DEPOT_HEADING).run();
+            initializeTrajectory(0, PARKING_DISTANCE, DEPOT_WALL_HEADING).run();
         } else {
-            initializeTrajectory(0, PARKING_DISTANCE, CRATER_HEADING).run();
+            initializeTrajectory(0, PARKING_DISTANCE, CRATER_WALL_HEADING).run();
         }
-    }
-
-    private void initializeSamplingTrajectories(TensorFlow.GoldPosition goldPosition) {
-        if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
-            initializeRightTrajectories();
-        } else if (goldPosition == TensorFlow.GoldPosition.CENTER) {
-            initializeCenterTrajectories();
-        } else {
-            initializeLeftTrajectories();
-        }
-    }
-
-    private void initializeRightTrajectories() {
-        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_RIGHT, 0, 45);
-        verticalMineral = initializeTrajectory(0, 20, 45);
-        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_RIGHT, 0, 45);
-    }
-
-    private void initializeCenterTrajectories() {
-        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_CENTER, 0, 45);
-        verticalMineral = initializeTrajectory(0, 20, 45);
-        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_CENTER, 0, 45);
-    }
-
-    private void initializeLeftTrajectories() {
-        lateralMineral = initializeTrajectory(LATERAL_DISTANCE_LEFT, 0, 45);
-        verticalMineral = initializeTrajectory(0, 20, 45);
-        lateralToWall = initializeTrajectory(TOTAL_DISTANCE_TO_WALL - LATERAL_DISTANCE_LEFT, 0, 45);
     }
 
     public void driveAwayFromMarker() {
