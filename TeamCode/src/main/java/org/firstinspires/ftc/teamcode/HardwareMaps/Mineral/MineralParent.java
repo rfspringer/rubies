@@ -43,6 +43,9 @@ public class MineralParent {
 
     private HardwareMap hwMap;
 
+    private double ACCELERATION_FROM_GRAVITY = -9.8;
+    private double INERTIAL_CONSTANT = 0.35;
+
     /* Constructor */
     private MineralParent(){
     }
@@ -53,6 +56,10 @@ public class MineralParent {
         arm.init(hwMap);
         intake.init(hwMap);
         extension.init(hwMap);
+    }
+
+    public double getAngularAccelerationFromGravity() {
+        return ACCELERATION_FROM_GRAVITY * Math.cos(arm.getAngle())/(2 * INERTIAL_CONSTANT * extension.getLength());
     }
 
     public void outtake() {
