@@ -2,7 +2,10 @@ package org.firstinspires.ftc.teamcode.Library;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+
 public class TrajectoryGenerator {
+    private MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
     // Units are inches and seconds
     private double maxVelocity;
     private double maxAcceleration;
@@ -11,7 +14,7 @@ public class TrajectoryGenerator {
     private double currentAcceleration;
 
     private double trajectoryLength;
-    private double trajectoryDirection;
+    private double totalTime;
 
     private enum TRAJECTORY_SEGMENT {
         ACCELERATION,
@@ -21,15 +24,26 @@ public class TrajectoryGenerator {
 
     private TRAJECTORY_SEGMENT trajectorySegment;
 
-    public TrajectoryGenerator(double distance, double maxVelocity, double maxAcceleration) {
-        this.trajectoryDirection = Math.signum(distance);
-        this.trajectoryLength = Math.abs(distance);
+    public TrajectoryGenerator(double trajectoryLength, double maxVelocity, double maxAcceleration) {
+        this.trajectoryLength = trajectoryLength;
         this.maxVelocity = maxVelocity;
         this.maxAcceleration = maxAcceleration;
+        this.totalTime = calculateTotalTime();
+    }
+
+    public TrajectoryGenerator(double x, double y, double velocityMagnitude, double maxAcceleration) {
+        this.trajectoryLength = Math.abs(getTrajectoryLength(x, y));
+        this.maxVelocity = mecanumEnhanced.getMaxVel(velocityMagnitude, x, y);
+        this.maxAcceleration = maxAcceleration;
+        this.totalTime = calculateTotalTime();
+    }
+
+    private double getTrajectoryLength(double x, double y) {
+        return Math.sqrt(x*x + y*y);
     }
 
     public void calculatePositionalDerivatives(ElapsedTime currentTime) {
-        TRAJECTORY_SEGMENT trajectorySegment = getTrajectorySegment(currentTime);
+        trajectorySegment = getTrajectorySegment(currentTime);
         switch (trajectorySegment){
             case ACCELERATION:
                 currentVelocity = velocityIfConstantAcceleration(currentTime);
@@ -62,18 +76,21 @@ public class TrajectoryGenerator {
         }
     }
 
+    private double getTrajectoryLength() {
+        return trajectoryLength;
+    }
+
     private double velocityIfConstantAcceleration(ElapsedTime currentTime) {
         return maxAcceleration * currentTime.seconds();
     }
-
 
     private double velocityIfConstantDeceleration(ElapsedTime currentTime) {
         double finalVelocity  = Math.sqrt(2 * maxAcceleration * trajectoryLength);
         return  finalVelocity - maxAcceleration * currentTime.seconds();
     }
 
-    public double getDirection() {
-        return trajectoryDirection;
+    protected double calculateTotalTime() {
+        return Math.sqrt(2 * maxAcceleration * trajectoryLength)/maxAcceleration;
     }
 
     public double getCurrentVelocity() {
