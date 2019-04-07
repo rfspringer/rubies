@@ -67,7 +67,6 @@ public class DriveMotorTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        robot.drive.resetEncoders();
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 

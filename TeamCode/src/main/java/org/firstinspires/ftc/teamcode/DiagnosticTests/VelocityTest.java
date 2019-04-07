@@ -71,7 +71,6 @@ public class VelocityTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        robot.drive.resetEncoders();
         telemetry.addData("Status", "Initialized");
         telemetry.addData("Run, the encoders per sec value will give you the number of encoder counts in the last second of a 3 second runAction at 0.8 power", "Have fun :)");
         telemetry.update();

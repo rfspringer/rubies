@@ -64,7 +64,6 @@ public class MecanumTrajectoryTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        robot.drive.resetEncoders();
         MecanumTrajectoryFollower trajectory = robot.drive.initializeTrajectory(48, 48, 0, 24, false);
 
         telemetry.addData("Status", "Initialized");
