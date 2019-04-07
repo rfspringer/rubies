@@ -31,7 +31,7 @@ public class MecanumTrajectoryGenerator {
     public MecanumTrajectoryGenerator(double x, double y, double maxAcceleration) {
         this.x = x;
         this.y = y;
-        this.trajectoryLength = Math.abs(getTrajectoryLength());
+        this.trajectoryLength = getTrajectoryLength();
         this.maxVelocity = mecanumEnhanced.getMaxVel(1, x, y);
         this.maxAcceleration = maxAcceleration;
         this.totalTime = calculateTotalTime();
@@ -85,7 +85,7 @@ public class MecanumTrajectoryGenerator {
     }
 
     private double calculateTotalTime() {
-        return Math.sqrt(2 * maxAcceleration * trajectoryLength)/maxAcceleration;
+        return 2 * (maxVelocity/maxAcceleration + getTrajectoryLength()/maxVelocity);
     }
 
     public double getTotalTime() {
