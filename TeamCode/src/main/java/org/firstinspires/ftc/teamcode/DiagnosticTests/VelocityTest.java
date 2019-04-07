@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
 
 
@@ -56,20 +57,21 @@ public class VelocityTest extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime pathTime = new ElapsedTime();
-    private Robotv2 robot = Robotv2.getInstance();
+    private Robot robot = Robot.getInstance();
     private FTCLogger logger = new FTCLogger();
 
     private boolean hasSetEncoderValueAt2Seconds = false;
     private boolean hasCalculatedEncoderDiff = false;
 
-    private double encoderValueAt2Seconds;
-    private double encoderDiff;
+    private int encoderValueAt2Seconds;
+    private int encoderDiff;
     private double inchesPerSecond;
     private double powerOfMaxVel = 0.8;
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        robot.drive.resetEncoders();
         telemetry.addData("Status", "Initialized");
         telemetry.addData("Run, the encoders per sec value will give you the number of encoder counts in the last second of a 3 second runAction at 0.8 power", "Have fun :)");
         telemetry.update();
@@ -84,10 +86,10 @@ public class VelocityTest extends LinearOpMode {
             }
 
             if (pathTime.seconds() < 3) {
-                robot.drive.setPowers(powerOfMaxVel, powerOfMaxVel);
+                robot.drive.setIndividualPowers(powerOfMaxVel, powerOfMaxVel, powerOfMaxVel, powerOfMaxVel);
                 setEncoderValueAt2SecondsIfApplicable();
             } else {
-                robot.drive.setPowers(0,0);
+                robot.drive.stop();
                 if (!hasCalculatedEncoderDiff) {
                     calculateEncoderDiff();
                     logger.writeLine(inchesPerSecond);
