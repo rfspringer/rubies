@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.HardwareMaps.Mineral;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
@@ -56,6 +57,10 @@ public class MineralParent {
         arm.init(hwMap);
         intake.init(hwMap);
         extension.init(hwMap);
+    }
+
+    public DcMotor[] getPivotMotors() {
+        return arm.getMotors();
     }
 
     public double getAngularAccelerationFromGravity() {

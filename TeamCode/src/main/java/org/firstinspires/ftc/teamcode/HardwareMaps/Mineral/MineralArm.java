@@ -89,6 +89,10 @@ public class MineralArm {
         return motor1.getPower();
     }
 
+    public DcMotor[] getMotors() {
+        return new DcMotor[] {motor1, motor2};
+    }
+
     public static MineralArm getInstance(){
         return instance;
     }
