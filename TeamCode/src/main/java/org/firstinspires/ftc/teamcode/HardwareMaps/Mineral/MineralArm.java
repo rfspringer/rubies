@@ -35,7 +35,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 import org.firstinspires.ftc.teamcode.Library.PivotTrajectoryFollower;
-import org.firstinspires.ftc.teamcode.Library.TrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.TrajectoryGenerator;
 
 /**
@@ -50,9 +49,9 @@ public class MineralArm {
     private DcMotor motor1 = null;
     private DcMotor motor2 = null;
 
-    private double ENCODER_COUNTS_PER_RADIAN = ;
-    private double MAX_VELOCITY = ;
-    private double MAX_ACCELERATION = ;
+    private double ENCODER_COUNTS_PER_DEGREE = 15.55;
+    private double MAX_VELOCITY = 99999;
+    private double MAX_ACCELERATION = 999999;
 
     private double kV = 0.5/MAX_VELOCITY;
     private double kA = 0;
@@ -92,12 +91,12 @@ public class MineralArm {
      * @return position of arm in radians
      */
     public double getAngle() {
-        return motor1.getCurrentPosition() * ENCODER_COUNTS_PER_RADIAN;
+        return motor1.getCurrentPosition() * ENCODER_COUNTS_PER_DEGREE;
     }
 
-    public double getVelocity() {
-        return (getAngle() - previousAngle)/(timer.seconds - previousTime);
-    }
+//    public double getVelocity() {
+//        return (getAngle() - previousAngle)/(timer.seconds - previousTime);
+//    }
 
     public void setPowers(double power) {
         DcMotor[] motors = {motor1, motor2};
