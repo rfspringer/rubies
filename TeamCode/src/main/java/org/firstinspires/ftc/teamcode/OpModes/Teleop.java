@@ -52,7 +52,7 @@ public class Teleop extends OpMode {
     private double LOW_MAGNITUDE_MULTIPLIER = 0.5;
     private double X_AXIS_THRESHOLD_FOR_TURNING = 0.7;
     private double HEADING_ERROR_SCALAR = 0.4;
-    private double ARM_POWER_SCALAR = 0.75;
+    private double ARM_POWER_SCALAR = 1;
     private double INTAKE_POWER = 1;
     private double OUTTAKE_POWER = -1;
 
@@ -86,6 +86,7 @@ public class Teleop extends OpMode {
         controlExtension();
         controlLift();
         controlPin();
+        robot.logger.writeLine(gamepadB.left_stick_y, robot.mineral.getAngle());
     }
 
     private void controlDrive() {
@@ -158,5 +159,6 @@ public class Teleop extends OpMode {
 
     @Override
     public void stop() {
+        robot.logger.closeFile();
     }
 }
