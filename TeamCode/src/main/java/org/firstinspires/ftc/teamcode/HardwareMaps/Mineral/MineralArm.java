@@ -50,8 +50,8 @@ public class MineralArm {
     private DcMotor motor2 = null;
 
     private double ENCODER_COUNTS_PER_DEGREE = 15.55;
-    private double MAX_VELOCITY = 99999;
-    private double MAX_ACCELERATION = 999999;
+    private double MAX_VELOCITY = 180;   //based on motor stats
+    private double MAX_ACCELERATION = 90;
 
     private double kV = 0.5/MAX_VELOCITY;
     private double kA = 0;
@@ -91,7 +91,7 @@ public class MineralArm {
      * @return position of arm in radians
      */
     public double getAngle() {
-        return motor1.getCurrentPosition() * ENCODER_COUNTS_PER_DEGREE;
+        return motor1.getCurrentPosition() / ENCODER_COUNTS_PER_DEGREE;
     }
 
 //    public double getVelocity() {
