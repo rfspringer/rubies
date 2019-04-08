@@ -32,6 +32,8 @@ package org.firstinspires.ftc.teamcode.HardwareMaps.Mineral;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Library.PivotTrajectoryFollower;
+
 /**
  * This class stores all objects on our robot's drivetrain
  * It also includes functionality specific to our drive base
@@ -59,8 +61,12 @@ public class MineralParent {
         extension.init(hwMap);
     }
 
-    public DcMotor[] getPivotMotors() {
-        return arm.getMotors();
+    public double getAngle() {
+        return arm.getAngle();
+    }
+
+    public PivotTrajectoryFollower initializeTrajectory(double targetPosition) {
+        return arm.initializeTrajectory(targetPosition);
     }
 
     public double getAngularAccelerationFromGravity() {

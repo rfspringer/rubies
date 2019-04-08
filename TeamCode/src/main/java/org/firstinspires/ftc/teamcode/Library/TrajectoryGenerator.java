@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 
+import java.lang.annotation.ElementType;
+
 public class TrajectoryGenerator {
     private MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
     // Units are inches and seconds
@@ -14,6 +16,7 @@ public class TrajectoryGenerator {
     private double currentAcceleration;
 
     private double trajectoryLength;
+    private double currentPosition;
     private double totalTime;
 
     private double x = 0;
