@@ -86,7 +86,11 @@ public class Teleop extends OpMode {
         controlExtension();
         controlLift();
         controlPin();
-        robot.logger.writeLine(gamepadB.left_stick_y, robot.mineral.getAngle());
+
+        telemetry.addData("Pivot Position", robot.mineral.getAngle());
+        telemetry.addData("Acceleration from grav", robot.mineral.getAngularAccelerationFromGravity());
+        telemetry.addData("Extension length", robot.mineral.getExtensionLength());
+        telemetry.update();
     }
 
     private void controlDrive() {

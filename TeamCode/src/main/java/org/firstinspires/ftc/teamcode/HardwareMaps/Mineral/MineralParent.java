@@ -61,6 +61,10 @@ public class MineralParent {
         extension.init(hwMap);
     }
 
+    public double getExtensionLength() {
+        return extension.getLength();
+    }
+
     public double getAngle() {
         return arm.getAngle();
     }

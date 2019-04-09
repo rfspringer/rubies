@@ -46,7 +46,6 @@ public class PivotTrajectoryTest extends LinearOpMode {
     private Robot robot = Robot.getInstance();
     private FTCLogger logger = new FTCLogger("PivotTrajectoryTest");
 
-
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
