@@ -98,7 +98,15 @@ public class TrajectoryGenerator {
     }
 
     protected double calculateTotalTime() {
-        return maxVelocity/maxAcceleration + trajectoryLength/maxVelocity;
+        if (trajectoryLength > 2 * distanceToAccelerate()) {
+            return maxVelocity/maxAcceleration + trajectoryLength/maxVelocity;
+        } else {
+            return 2 * Math.sqrt(trajectoryLength / (0.5 * maxAcceleration));
+        }
+    }
+
+    private double distanceToAccelerate() {
+        return maxVelocity * maxVelocity / (2 * maxAcceleration);
     }
 
     public double getCurrentVelocity() {
