@@ -66,7 +66,7 @@ public class Drive
 
     private double MAX_FORWARD_VELOCITY = 25.6;
     private double MAX_STRAFE_VELOCITY = 20;
-    private double MAX_ACCEL = 25;
+    private double MAX_ACCEL = 16;
 
     private double SAMPLING_DISTANCE_LEFT;
     private double SAMPLING_DISTANCE_RIGHT;

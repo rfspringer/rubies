@@ -47,7 +47,7 @@ public class MecanumTrajectoryFollower {
     private double getMagnitude(ElapsedTime currentTime){
         trajectory.calculatePositionalDerivatives(currentTime);
         maxVelocity = mecanumEnhanced.getMaxVel(1, x, y);
-        double kV = 1 / maxVelocity;
+        double kV = 0.9 / maxVelocity;
         return kV * trajectory.getCurrentVelocity() + kA * trajectory.getCurrentAcceleration();
     }
 

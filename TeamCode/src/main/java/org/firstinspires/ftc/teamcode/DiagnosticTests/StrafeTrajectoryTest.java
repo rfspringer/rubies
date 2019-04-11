@@ -51,9 +51,9 @@ import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Mecanum Trajectory Test", group="Tests")
+@TeleOp(name="Strafe Trajectory Test", group="Tests")
 //@Disabled
-public class MecanumTrajectoryTest extends LinearOpMode {
+public class StrafeTrajectoryTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime accelerationTimer = new ElapsedTime();
 
@@ -67,7 +67,7 @@ public class MecanumTrajectoryTest extends LinearOpMode {
         MecanumTrajectoryFollower trajectory = robot.drive.initializeTrajectory(24, 0, 0, 24, false);
 
         telemetry.addData("Status", "Initialized");
-        telemetry.addData("This program will attempt to run a 2 footx 2 foot trajectory", "Go RUBIES!");
+        telemetry.addData("This program will attempt to run a 2 foot right trajectory", "Go RUBIES!");
         telemetry.addData("Instruction", "Press A to begin adjusting acceleration");
         telemetry.addData("A", gamepad1.a);
         telemetry.update();
