@@ -74,6 +74,7 @@ public class MineralParent {
     }
 
     public double getAngularAccelerationFromGravity() {
+        //Calculates from torque = inertia * acceleration
         return ACCELERATION_FROM_GRAVITY * Math.cos(arm.getAngle())/(2 * INERTIAL_CONSTANT * extension.getLength());
     }
 

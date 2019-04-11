@@ -45,7 +45,7 @@ public class MineralExtension {
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
-    private double ENCODER_COUNTS_PER_METER = 3.33;
+    private double ENCODER_COUNTS_PER_METER = 3000;
     private double INITIAL_ARM_LENGTH = 0.4572;
 
     /* Constructor */

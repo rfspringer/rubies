@@ -82,7 +82,7 @@ public class MineralArm {
     }
 
     public PivotTrajectoryFollower initializeTrajectory(double targetPositionInDegrees) {
-        double trajectoryLength = Math.toRadians(targetPositionInDegrees - getAngle());
+        double trajectoryLength = targetPositionInDegrees - getAngle();
         TrajectoryGenerator trajectory = new TrajectoryGenerator(trajectoryLength, MAX_VELOCITY, MAX_ACCELERATION);
         return new PivotTrajectoryFollower(getMotors(), trajectory, kV, kA, kAExternal);
     }

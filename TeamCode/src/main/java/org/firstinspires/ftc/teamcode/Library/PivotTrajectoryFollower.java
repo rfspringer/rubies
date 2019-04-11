@@ -25,6 +25,6 @@ public class PivotTrajectoryFollower extends TrajectoryFollower {
     }
 
     protected double getFeedforwardPower(ElapsedTime currentTime){
-        return super.getFeedforwardPower(currentTime) + + kAExternal * mineral.getAngularAccelerationFromGravity();
+        return super.getFeedforwardPower(currentTime) + kAExternal * mineral.getAngularAccelerationFromGravity();
     }
 }
