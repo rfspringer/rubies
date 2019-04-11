@@ -137,10 +137,10 @@ public class Drive
     }
 
     private void initializeTrajectories() {
-        unlatchAwayFromLander = initializeTrajectory(-3, 0, 0);
-        unlatchParallelToLander = initializeTrajectory(0, 9, 0);
-        driveAwayFromLander = initializeTrajectory(-10, 0, 0);
-        centerForSampling = initializeTrajectory(0, -13, 0);
+        unlatchAwayFromLander = initializeTrajectory(-1, 0, 0);
+        unlatchParallelToLander = initializeTrajectory(0, 3, 0);
+        driveAwayFromLander = initializeTrajectory(-5, 0, 0);
+        centerForSampling = initializeTrajectory(0, -6, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
     }
 

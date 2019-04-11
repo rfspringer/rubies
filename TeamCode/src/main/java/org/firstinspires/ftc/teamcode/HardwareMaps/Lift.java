@@ -51,7 +51,7 @@ public class Lift {
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
-    private int EXTENDED_ENCODER_COUNTS = -3600;
+    private int EXTENDED_ENCODER_COUNTS = -3675;
 
     /* Constructor */
     private Lift(){
@@ -79,6 +79,7 @@ public class Lift {
     }
 
     public void lower() {
+        lift.setPower(1);
         removePinAutonomously();
         stopPin();
         extendLiftAutonomously();
@@ -96,10 +97,10 @@ public class Lift {
     private void extendLiftAutonomously() {
         ElapsedTime timer = new ElapsedTime();
         while (!robotIsCloseToGround(timer)) {
-            setTargetPosition(EXTENDED_ENCODER_COUNTS - 10);
-            setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            setPower(-0.8);
+            lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            setPower(-0.6);
         }
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         stopLift();
     }
 
