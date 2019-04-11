@@ -34,6 +34,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
+import org.firstinspires.ftc.teamcode.Library.PivotTrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Library.TrajectoryGenerator;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -46,6 +48,14 @@ public class MineralArm {
     /* Public OpMode members. */
     private DcMotor motor1 = null;
     private DcMotor motor2 = null;
+
+    private double ENCODER_COUNTS_PER_DEGREE = 15.55;
+    private double MAX_VELOCITY = 180;   //based on motor stats
+    private double MAX_ACCELERATION = 90;
+
+    private double kV = 0.5/MAX_VELOCITY;
+    private double kA = 0;
+    private double kAExternal = 0;
 
     /* local OpMode members. */
     private HardwareMap hwMap = null;
@@ -71,6 +81,23 @@ public class MineralArm {
         motor.setPower(0);
     }
 
+    public PivotTrajectoryFollower initializeTrajectory(double targetPositionInDegrees) {
+        double trajectoryLength = targetPositionInDegrees - getAngle();
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(trajectoryLength, MAX_VELOCITY, MAX_ACCELERATION);
+        return new PivotTrajectoryFollower(getMotors(), trajectory, kV, kA, kAExternal);
+    }
+
+    /**
+     * @return position of arm in radians
+     */
+    public double getAngle() {
+        return motor1.getCurrentPosition() / ENCODER_COUNTS_PER_DEGREE;
+    }
+
+//    public double getVelocity() {
+//        return (getAngle() - previousAngle)/(timer.seconds - previousTime);
+//    }
+
     public void setPowers(double power) {
         DcMotor[] motors = {motor1, motor2};
         pivotAccelerationControl.run(power, motors);
@@ -78,6 +105,10 @@ public class MineralArm {
 
     public double getPower() {
         return motor1.getPower();
+    }
+
+    public DcMotor[] getMotors() {
+        return new DcMotor[] {motor1, motor2};
     }
 
     public static MineralArm getInstance(){

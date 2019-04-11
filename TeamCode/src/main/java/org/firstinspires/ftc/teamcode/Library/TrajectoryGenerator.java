@@ -4,9 +4,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 
-public class MecanumTrajectoryGenerator {
-    MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
-    Robot robot = Robot.getInstance();
+import java.lang.annotation.ElementType;
+
+public class TrajectoryGenerator {
+    private MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
     // Units are inches and seconds
     private double maxVelocity;
     private double maxAcceleration;
@@ -14,11 +15,12 @@ public class MecanumTrajectoryGenerator {
     private double currentVelocity;
     private double currentAcceleration;
 
-    private double x;
-    private double y;
-
     private double trajectoryLength;
+    private double currentPosition;
     private double totalTime;
+
+    private double x = 0;
+    private double y = 0;
 
     private enum TRAJECTORY_SEGMENT {
         ACCELERATION,
@@ -28,13 +30,24 @@ public class MecanumTrajectoryGenerator {
 
     private TRAJECTORY_SEGMENT trajectorySegment;
 
-    public MecanumTrajectoryGenerator(double x, double y, double maxAcceleration) {
-        this.x = x;
-        this.y = y;
-        this.trajectoryLength = getTrajectoryLength();
-        this.maxVelocity = mecanumEnhanced.getMaxVel(1, x, y);
+    public TrajectoryGenerator(double trajectoryLength, double maxVelocity, double maxAcceleration) {
+        this.trajectoryLength = trajectoryLength;
+        this.maxVelocity = maxVelocity;
         this.maxAcceleration = maxAcceleration;
         this.totalTime = calculateTotalTime();
+    }
+
+    public TrajectoryGenerator(double x, double y, double velocityMagnitude, double maxAcceleration) {
+        this.x = x;
+        this.y = y;
+        this.trajectoryLength = Math.abs(getTrajectoryLength(x, y));
+        this.maxVelocity = mecanumEnhanced.getMaxVel(velocityMagnitude, x, y);
+        this.maxAcceleration = maxAcceleration;
+        this.totalTime = calculateTotalTime();
+    }
+
+    private double getTrajectoryLength(double x, double y) {
+        return Math.sqrt(x*x + y*y);
     }
 
     public void calculatePositionalDerivatives(ElapsedTime currentTime) {
@@ -72,7 +85,7 @@ public class MecanumTrajectoryGenerator {
     }
 
     private double getTrajectoryLength() {
-        return Math.sqrt(x*x + y*y);
+        return trajectoryLength;
     }
 
     private double velocityIfConstantAcceleration(ElapsedTime currentTime) {
@@ -84,20 +97,8 @@ public class MecanumTrajectoryGenerator {
         return  finalVelocity - maxAcceleration * currentTime.seconds();
     }
 
-    private double calculateTotalTime() {
-        return 2 * (maxVelocity/maxAcceleration + getTrajectoryLength()/maxVelocity);
-    }
-
-    public double getTotalTime() {
-        return totalTime;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
+    protected double calculateTotalTime() {
+        return Math.sqrt(2 * maxAcceleration * trajectoryLength)/maxAcceleration;
     }
 
     public double getCurrentVelocity() {
@@ -106,5 +107,13 @@ public class MecanumTrajectoryGenerator {
 
     public double getCurrentAcceleration() {
         return currentAcceleration;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 }

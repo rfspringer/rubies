@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
-import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Library.TrajectoryFollower;
 
 @Autonomous(name="Auto No Park OR Sample", group="Iterative Opmode")
 @Disabled

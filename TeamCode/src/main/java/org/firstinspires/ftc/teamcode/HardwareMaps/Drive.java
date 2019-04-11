@@ -33,13 +33,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Library.Archived.TrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MecanumEnhanced;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
-import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryGenerator;
 import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
 import org.firstinspires.ftc.teamcode.Library.PIDController;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
+import org.firstinspires.ftc.teamcode.Library.TrajectoryGenerator;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -66,28 +65,28 @@ public class Drive
     private double MAX_STRAFE_VELOCITY = 13;
     private double MAX_ACCEL = 25;
 
-    private double SAMPLING_DISTANCE_LEFT;change
-    private double SAMPLING_DISTANCE_RIGHT;change
-    private double SAMPLING_DISTANCE_CENTER;change
+    private double SAMPLING_DISTANCE_LEFT;
+    private double SAMPLING_DISTANCE_RIGHT;
+    private double SAMPLING_DISTANCE_CENTER;
 
-    private double BACKUP_DISTANCE_LEFT;change
-    private double BACKUP_DISTANCE_RIGHT;change
-    private double BACKUP_DISTANCE_CENTER;change
+    private double BACKUP_DISTANCE_LEFT;
+    private double BACKUP_DISTANCE_RIGHT;
+    private double BACKUP_DISTANCE_CENTER;
 
-    private double WALL_DISTANCE_LEFT;change
-    private double WALL_DISTANCE_RIGHT;change
-    private double WALL_DISTANCE_CENTER;change
+    private double WALL_DISTANCE_LEFT;
+    private double WALL_DISTANCE_RIGHT;
+    private double WALL_DISTANCE_CENTER;
 
-    private double DISTANCE_TO_WALL;change
-    private double DISTANCE_AWAY_FROM_WALL;change
+    private double DISTANCE_TO_WALL;
+    private double DISTANCE_AWAY_FROM_WALL;
 
-    private double DEPOT_WALL_HEADING;change
-    private double CRATER_WALL_HEADING;change
+    private double DEPOT_WALL_HEADING;
+    private double CRATER_WALL_HEADING;
 
-    private double DEPOT_TO_DEPOT_DISTANCE;change
-    private double CRATER_TO_DEPOT_DISTANCE;change
+    private double DEPOT_TO_DEPOT_DISTANCE;
+    private double CRATER_TO_DEPOT_DISTANCE;
 
-    private double PARKING_DISTANCE;change
+    private double PARKING_DISTANCE;
 
 
     private MecanumTrajectoryFollower unlatchAwayFromLander;
@@ -249,12 +248,12 @@ public class Drive
 
 
     public MecanumTrajectoryFollower initializeTrajectory(double x, double y, double heading) {
-        MecanumTrajectoryGenerator trajectory = new MecanumTrajectoryGenerator(x, y, MAX_ACCEL);
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(x, y, 1, MAX_ACCEL);
         return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, false);
     }
 
     public MecanumTrajectoryFollower initializeTrajectory(double x, double y, double heading, double maxAccel, boolean usesFeedback) {
-        MecanumTrajectoryGenerator trajectory = new MecanumTrajectoryGenerator(x, y, maxAccel);
+        TrajectoryGenerator trajectory = new TrajectoryGenerator(x, y, 1, maxAccel);
         return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, usesFeedback);
     }
 
@@ -314,6 +313,14 @@ public class Drive
     public int getAverageEncoderCounts(){
         double counts = (getLeftEncoderCounts() + getRightEncoderCounts())/2;
         return (int) counts;
+    }
+
+    public double getMaxStrafeVelocity() {
+        return MAX_STRAFE_VELOCITY;
+    }
+
+    public double getMaxForwardVelocity() {
+        return MAX_FORWARD_VELOCITY;
     }
 
     public DcMotor[] getAllMotors() {

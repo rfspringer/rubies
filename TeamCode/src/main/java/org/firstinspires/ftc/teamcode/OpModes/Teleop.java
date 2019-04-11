@@ -52,7 +52,7 @@ public class Teleop extends OpMode {
     private double LOW_MAGNITUDE_MULTIPLIER = 0.5;
     private double X_AXIS_THRESHOLD_FOR_TURNING = 0.7;
     private double HEADING_ERROR_SCALAR = 0.4;
-    private double ARM_POWER_SCALAR = 0.75;
+    private double ARM_POWER_SCALAR = 0.6;
     private double INTAKE_POWER = 1;
     private double OUTTAKE_POWER = -1;
 
@@ -86,6 +86,11 @@ public class Teleop extends OpMode {
         controlExtension();
         controlLift();
         controlPin();
+
+        telemetry.addData("Pivot Position", robot.mineral.getAngle());
+        telemetry.addData("Acceleration from grav", robot.mineral.getAngularAccelerationFromGravity());
+        telemetry.addData("Extension length", robot.mineral.getExtensionLength());
+        telemetry.update();
     }
 
     private void controlDrive() {
@@ -158,5 +163,6 @@ public class Teleop extends OpMode {
 
     @Override
     public void stop() {
+        robot.logger.closeFile();
     }
 }

@@ -29,7 +29,10 @@
 
 package org.firstinspires.ftc.teamcode.HardwareMaps.Mineral;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.Library.PivotTrajectoryFollower;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -43,6 +46,9 @@ public class MineralParent {
 
     private HardwareMap hwMap;
 
+    private double ACCELERATION_FROM_GRAVITY = -9.8;
+    private double INERTIAL_CONSTANT = 0.35;
+
     /* Constructor */
     private MineralParent(){
     }
@@ -53,6 +59,23 @@ public class MineralParent {
         arm.init(hwMap);
         intake.init(hwMap);
         extension.init(hwMap);
+    }
+
+    public double getExtensionLength() {
+        return extension.getLength();
+    }
+
+    public double getAngle() {
+        return arm.getAngle();
+    }
+
+    public PivotTrajectoryFollower initializeTrajectory(double targetPosition) {
+        return arm.initializeTrajectory(targetPosition);
+    }
+
+    public double getAngularAccelerationFromGravity() {
+        //Calculates from torque = inertia * acceleration
+        return ACCELERATION_FROM_GRAVITY * Math.cos(arm.getAngle())/(2 * INERTIAL_CONSTANT * extension.getLength());
     }
 
     public void outtake() {

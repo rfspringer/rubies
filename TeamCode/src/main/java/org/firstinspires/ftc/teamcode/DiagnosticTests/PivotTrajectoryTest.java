@@ -27,52 +27,44 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.HardwareMaps.Mineral;
+package org.firstinspires.ftc.teamcode.DiagnosticTests;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-/**
- * This class stores all objects on our robot's drivetrain
- * It also includes functionality specific to our drive base
- */
-public class MineralExtension {
-    private static final MineralExtension instance = new MineralExtension();
-    /* Public OpMode members. */
-    private DcMotor extension = null;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
+import org.firstinspires.ftc.teamcode.Library.FTCLogger;
+import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Library.PivotTrajectoryFollower;
 
-    /* local OpMode members. */
-    private HardwareMap hwMap = null;
+@TeleOp(name="Pivot Test", group="Tests")
+//@Disabled
+public class PivotTrajectoryTest extends LinearOpMode {
+    private ElapsedTime runtime = new ElapsedTime();
 
-    private double ENCODER_COUNTS_PER_METER = 3000;
-    private double INITIAL_ARM_LENGTH = 0.4572;
+    private Robot robot = Robot.getInstance();
+    private FTCLogger logger = new FTCLogger("PivotTrajectoryTest");
 
-    /* Constructor */
-    private MineralExtension(){
-    }
+    @Override
+    public void runOpMode() {
+        robot.init(hardwareMap);
+        PivotTrajectoryFollower trajectory = robot.mineral.initializeTrajectory(90);
 
-    /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
-        hwMap = ahwMap;
-        extension = hwMap.get(DcMotor.class, "extension");
-        extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        extension.setDirection(DcMotorSimple.Direction.FORWARD);
-        extension.setPower(0);
-    }
+        telemetry.addData("Status", "Initialized");
+        telemetry.addData("Goal", "Run arm to 90 degree position");
+        telemetry.update();
 
-    public void setPower(double power) {
-        extension.setPower(power);
-    }
+        waitForStart();
+        runtime.reset();
 
-    public double getLength() {
-        return extension.getCurrentPosition() / ENCODER_COUNTS_PER_METER + INITIAL_ARM_LENGTH;
-    }
-
-    public static MineralExtension getInstance(){
-        return instance;
+        while (opModeIsActive()) {
+            trajectory.run();
+            telemetry.addData("Powers", robot.mineral.getArmPower());
+            telemetry.update();
+            logger.writeLine(robot.mineral.getAngle(), robot.mineral.getArmPower());
+       }
+        robot.logger.closeFile();
     }
 
 }
-

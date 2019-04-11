@@ -15,9 +15,9 @@ public class MecanumTrajectoryFollower {
     private double x;
     private double y;
     private DcMotor[] motors;
-    private MecanumTrajectoryGenerator trajectory;
+    private TrajectoryGenerator trajectory;
 
-    public MecanumTrajectoryFollower(DcMotor[] motors, MecanumTrajectoryGenerator trajectory, double heading, double kA, boolean usesFeedback){
+    public MecanumTrajectoryFollower(DcMotor[] motors, TrajectoryGenerator trajectory, double heading, double kA, boolean usesFeedback){
         this.motors = motors;
         this.trajectory = trajectory;
         this.x = trajectory.getX();
