@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
+import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
 
 
@@ -56,16 +57,16 @@ public class VelocityTest extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime pathTime = new ElapsedTime();
-    private Robotv2 robot = Robotv2.getInstance();
+    private Robot robot = Robot.getInstance();
     private FTCLogger logger = new FTCLogger();
 
     private boolean hasSetEncoderValueAt2Seconds = false;
     private boolean hasCalculatedEncoderDiff = false;
 
-    private double encoderValueAt2Seconds;
-    private double encoderDiff;
+    private int encoderValueAt2Seconds;
+    private int encoderDiff;
     private double inchesPerSecond;
-    private double powerOfMaxVel = 0.8;
+    private double powerOfMaxVel = 0.9;
 
     @Override
     public void runOpMode() {
@@ -84,10 +85,10 @@ public class VelocityTest extends LinearOpMode {
             }
 
             if (pathTime.seconds() < 3) {
-                robot.drive.setPowers(powerOfMaxVel, powerOfMaxVel);
+                robot.drive.setPowers(powerOfMaxVel, 0, 1, 0);
                 setEncoderValueAt2SecondsIfApplicable();
             } else {
-                robot.drive.setPowers(0,0);
+                robot.drive.stop();
                 if (!hasCalculatedEncoderDiff) {
                     calculateEncoderDiff();
                     logger.writeLine(inchesPerSecond);

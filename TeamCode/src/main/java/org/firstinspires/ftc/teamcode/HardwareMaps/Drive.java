@@ -61,8 +61,11 @@ public class Drive
     private boolean reverseDirection = false;
     private double kA = 0.0001;
 
-    private double MAX_FORWARD_VELOCITY = 16;
-    private double MAX_STRAFE_VELOCITY = 13;
+    private double ENCODER_COUNTS_PER_ROTATION = 1120;
+    private double DISTANCE_PER_REVOLUTION = 4 * Math.PI;
+
+    private double MAX_FORWARD_VELOCITY = 25.6;
+    private double MAX_STRAFE_VELOCITY = 20;
     private double MAX_ACCEL = 25;
 
     private double SAMPLING_DISTANCE_LEFT;
@@ -313,6 +316,10 @@ public class Drive
     public int getAverageEncoderCounts(){
         double counts = (getLeftEncoderCounts() + getRightEncoderCounts())/2;
         return (int) counts;
+    }
+
+    public double convertEncoderCountsToInches(int encoderCounts) {
+        return encoderCounts / ENCODER_COUNTS_PER_ROTATION * DISTANCE_PER_REVOLUTION;
     }
 
     public double getMaxStrafeVelocity() {

@@ -48,7 +48,7 @@ public class Teleop extends OpMode {
 
     private double magnitudeMultiplier;
 
-    private double HIGH_MAGNITUDE_MULTIPLIER = 1;
+    private double HIGH_MAGNITUDE_MULTIPLIER = 0.8;
     private double LOW_MAGNITUDE_MULTIPLIER = 0.5;
     private double X_AXIS_THRESHOLD_FOR_TURNING = 0.7;
     private double HEADING_ERROR_SCALAR = 0.4;

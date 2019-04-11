@@ -98,7 +98,7 @@ public class TrajectoryGenerator {
     }
 
     protected double calculateTotalTime() {
-        return Math.sqrt(2 * maxAcceleration * trajectoryLength)/maxAcceleration;
+        return maxVelocity/maxAcceleration + trajectoryLength/maxVelocity;
     }
 
     public double getCurrentVelocity() {
