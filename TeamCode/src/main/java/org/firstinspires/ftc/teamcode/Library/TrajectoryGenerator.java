@@ -93,7 +93,7 @@ public class TrajectoryGenerator {
     }
 
     private double velocityIfConstantDeceleration(ElapsedTime currentTime) {
-        double finalVelocity  = Math.sqrt(2 * maxAcceleration * trajectoryLength);
+        double finalVelocity  = maxAcceleration * calculateTotalTime();
         return  finalVelocity - maxAcceleration * currentTime.seconds();
     }
 

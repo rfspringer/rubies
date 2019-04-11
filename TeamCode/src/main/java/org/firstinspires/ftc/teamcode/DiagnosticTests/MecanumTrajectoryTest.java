@@ -64,7 +64,7 @@ public class MecanumTrajectoryTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        MecanumTrajectoryFollower trajectory = robot.drive.initializeTrajectory(0, 48, 0, 24, false);
+        MecanumTrajectoryFollower trajectory = robot.drive.initializeTrajectory(24, 0, 0, 24, false);
 
         telemetry.addData("Status", "Initialized");
         telemetry.addData("This program will attempt to run a 2 footx 2 foot trajectory", "Go RUBIES!");
