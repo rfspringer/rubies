@@ -51,7 +51,7 @@ import org.firstinspires.ftc.teamcode.Library.FTCLogger;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Velocity Test", group="Tests")
+@TeleOp(name="Velocity Test", group="tests")
 //@Disabled
 public class VelocityTest extends LinearOpMode {
 

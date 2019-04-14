@@ -68,9 +68,9 @@ public class Drive
     private double MAX_STRAFE_VELOCITY = 20;
     private double MAX_ACCEL = 16;
 
-    private double SAMPLING_DISTANCE_LEFT;
-    private double SAMPLING_DISTANCE_RIGHT;
-    private double SAMPLING_DISTANCE_CENTER;
+    private double SAMPLING_DISTANCE_LEFT = -24;
+    private double SAMPLING_DISTANCE_RIGHT = -24;
+    private double SAMPLING_DISTANCE_CENTER = -20;
 
     private double BACKUP_DISTANCE_LEFT;
     private double BACKUP_DISTANCE_RIGHT;
@@ -137,10 +137,10 @@ public class Drive
     }
 
     private void initializeTrajectories() {
-        unlatchAwayFromLander = initializeTrajectory(-0.75, 0, 0);
-        unlatchParallelToLander = initializeTrajectory(0, 3, 0);
-        driveAwayFromLander = initializeTrajectory(-5, 0, 0);
-        centerForSampling = initializeTrajectory(0, -6, 0);
+        unlatchAwayFromLander = initializeTrajectory(-1.15, 0, 0);
+        unlatchParallelToLander = initializeTrajectory(0, 2.5, 0);
+        driveAwayFromLander = initializeTrajectory(-3, 0, 0);
+        centerForSampling = initializeTrajectory(0, -3.75, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
     }
 
