@@ -90,7 +90,6 @@ public class Robot
         drive.stop();
     }
 
-
     public void turnToHeadingRightPivot(double targetHeading) {
         double error = sensors.getIntegratedError(targetHeading);
         while (Math.abs(error) > 2.5) {

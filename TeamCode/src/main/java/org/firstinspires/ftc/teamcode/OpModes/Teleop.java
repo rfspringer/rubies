@@ -69,6 +69,7 @@ public class Teleop extends OpMode {
     @Override
     public void start() {
         runtime.reset();
+        robot.claim.deploy();   //keeps claim out of the way of wires
     }
 
     /*

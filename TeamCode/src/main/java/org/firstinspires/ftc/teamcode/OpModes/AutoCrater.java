@@ -29,7 +29,7 @@ public class AutoCrater extends RubiesLinearOpMode {
         telemetry.update();
         robot.lift.lower();
         robot.drive.unlatch();
-        robot.sample(goldPosition);
+//        robot.sample(goldPosition);
 //        robot.drive.backupFromSampling(goldPosition);
 //        robot.drive.driveToWall(goldPosition);
 //        robot.drive.alignWithWall(Robot.StartingPosition.CRATER);

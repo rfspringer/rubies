@@ -48,6 +48,7 @@ public class Drive
 {
     private static final Drive instance = new Drive();
     MecanumEnhanced mecanumEnhanced = new MecanumEnhanced();
+
     /* Public OpMode members. */
     private DcMotor leftFront = null;
     private DcMotor leftBack = null;
@@ -68,9 +69,9 @@ public class Drive
     private double MAX_STRAFE_VELOCITY = 20;
     private double MAX_ACCEL = 16;
 
-    private double SAMPLING_DISTANCE_LEFT = -24;
-    private double SAMPLING_DISTANCE_RIGHT = -24;
-    private double SAMPLING_DISTANCE_CENTER = -20;
+    private double SAMPLING_DISTANCE_LEFT = -20;
+    private double SAMPLING_DISTANCE_RIGHT = -20;
+    private double SAMPLING_DISTANCE_CENTER = -14;
 
     private double BACKUP_DISTANCE_LEFT;
     private double BACKUP_DISTANCE_RIGHT;
@@ -138,9 +139,9 @@ public class Drive
 
     private void initializeTrajectories() {
         unlatchAwayFromLander = initializeTrajectory(-1.15, 0, 0);
-        unlatchParallelToLander = initializeTrajectory(0, 2.5, 0);
+        unlatchParallelToLander = initializeTrajectory(0, 3.75, 0);
         driveAwayFromLander = initializeTrajectory(-3, 0, 0);
-        centerForSampling = initializeTrajectory(0, -3.75, 0);
+        centerForSampling = initializeTrajectory(0, -2.5, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
     }
 
