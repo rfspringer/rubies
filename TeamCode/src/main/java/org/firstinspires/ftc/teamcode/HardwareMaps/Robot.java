@@ -126,7 +126,7 @@ public class Robot
 
     private void sampleCenter () {
         turnToHeadingCenterPivot(sensors.getCenterMineralHeading());
-        drive.runSamplingTrajectory(TensorFlow.GoldPosition.CENTER, sensors.getCenterMineralHeading());
+//        drive.runSamplingTrajectory(TensorFlow.GoldPosition.CENTER, sensors.getCenterMineralHeading());
     }
 
     private void sampleRight () {

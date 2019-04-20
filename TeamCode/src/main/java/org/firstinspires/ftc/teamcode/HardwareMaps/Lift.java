@@ -88,7 +88,7 @@ public class Lift {
 
     private void removePinAutonomously() {
         ElapsedTime timer = new ElapsedTime();
-        while (timer.seconds() < 1.5) {
+        while (timer.seconds() < 1) {
             setPower(1);
             removePin();
         }

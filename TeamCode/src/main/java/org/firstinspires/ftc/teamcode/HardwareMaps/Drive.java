@@ -141,7 +141,7 @@ public class Drive
         unlatchAwayFromLander = initializeTrajectory(-1.15, 0, 0);
         unlatchParallelToLander = initializeTrajectory(0, 3.75, 0);
         driveAwayFromLander = initializeTrajectory(-3, 0, 0);
-        centerForSampling = initializeTrajectory(0, -2.5, 0);
+        centerForSampling = initializeTrajectory(0, -2.75, 0);
         driveAwayFromMarker = initializeTrajectory(0, -5, 0);
     }
 
