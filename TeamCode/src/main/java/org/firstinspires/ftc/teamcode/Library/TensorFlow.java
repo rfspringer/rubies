@@ -10,6 +10,9 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
 
+/**
+ * This class handles all tensorflow and mineral identification code
+ */
 public class TensorFlow {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold MineralParent";

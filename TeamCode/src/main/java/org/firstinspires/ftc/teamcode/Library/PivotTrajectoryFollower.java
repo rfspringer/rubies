@@ -4,6 +4,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Mineral.MineralParent;
 
+/**
+ * This variation of our standard trajectory follower is used for arms
+ * Takes into account the effect of gravity when setting powers
+ */
 public class PivotTrajectoryFollower extends TrajectoryFollower {
     private MineralParent mineral = MineralParent.getInstance();
     private ElapsedTime timer = new ElapsedTime();

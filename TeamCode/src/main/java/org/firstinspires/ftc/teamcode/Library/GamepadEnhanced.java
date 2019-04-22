@@ -3,8 +3,10 @@ package org.firstinspires.ftc.teamcode.Library;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 /**
- * Based on code by team 4251 (does not conform to all of our code standards :P
+ * Based on code by team 4251 (does not conform to all of our code standards :P)
  * Modified by our team for additional features
+ * Contains additional gamepad functionality
+ * Also stores values in a more efficient way than the standard gamepad class
  */
 public class GamepadEnhanced {
 
@@ -615,8 +617,6 @@ public class GamepadEnhanced {
     public float getPrev_right_trigger() {
         return prev_right_trigger;
     }
-
-
 
     public boolean areGamepadSticksUsed()   {
         return left_stick_y != 0 || right_stick_y != 0;

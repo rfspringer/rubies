@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 
+/**
+ * Follows a trajectory with inputted motors based on vel and accel constants
+ */
 public class TrajectoryFollower {
     private ElapsedTime timer = new ElapsedTime();
     private boolean hasResetTimer = false;

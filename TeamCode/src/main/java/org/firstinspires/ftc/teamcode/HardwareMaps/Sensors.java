@@ -42,8 +42,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 /**
  * This is NOT an opmode.
  *
- * This class can be used to define all the specific hardware for our robot
- * This class stores functions that use a combination of subsystems on our robot
+ * This class can be used to define all the specific hardware for our sensors
+ * This class stores functions that relate specifically to sensors
  */
 public class Sensors
 {
@@ -57,8 +57,8 @@ public class Sensors
     private double IMU_WALL_OFFSET = 0.0;
 
     private double CENTER_MINERAL_HEADING = -90;
-    private double LEFT_MINERAL_HEADING = -50;
-    private double RIGHT_MINERAL_HEADING = -122;
+    private double LEFT_MINERAL_HEADING = -55;
+    private double RIGHT_MINERAL_HEADING = -118;
 
     private double CENTER_DEPOT_HEADING = 90;
     private double LEFT_DEPOT_HEADING = 45;

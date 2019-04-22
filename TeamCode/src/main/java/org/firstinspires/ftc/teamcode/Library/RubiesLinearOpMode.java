@@ -3,6 +3,10 @@ package org.firstinspires.ftc.teamcode.Library;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+/**
+ * This opmode is used to override the moto g5 sleeping bug
+ * avoids disconnects by sending telemetry in while loops
+ */
 public abstract class RubiesLinearOpMode extends LinearOpMode {
     @Override
     public synchronized void waitForStart() {

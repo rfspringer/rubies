@@ -39,8 +39,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Library.VexMotorEnhanced;
 
 /**
- * This class stores all objects on our robot's drivetrain
- * It also includes functionality specific to our drive base
+ * This class stores all objects on our robot's lift
+ * It also includes functionality specific to our lift
  */
 public class Lift {
     private static final Lift instance = new Lift();
@@ -51,7 +51,7 @@ public class Lift {
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
-    private int EXTENDED_ENCODER_COUNTS = -3675;
+    private int EXTENDED_ENCODER_COUNTS = -4800;
 
     /* Constructor */
     private Lift(){
@@ -79,7 +79,6 @@ public class Lift {
     }
 
     public void lower() {
-        lift.setPower(1);
         removePinAutonomously();
         stopPin();
         extendLiftAutonomously();
@@ -88,7 +87,7 @@ public class Lift {
 
     private void removePinAutonomously() {
         ElapsedTime timer = new ElapsedTime();
-        while (timer.seconds() < 1) {
+        while (timer.seconds() < 1.5) {
             setPower(1);
             removePin();
         }
@@ -98,14 +97,15 @@ public class Lift {
         ElapsedTime timer = new ElapsedTime();
         while (!robotIsCloseToGround(timer)) {
             lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            setPower(-0.6);
+            lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            setPower(-0.1);
         }
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         stopLift();
     }
 
     private boolean robotIsCloseToGround(ElapsedTime time) {
-        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS )) || time.seconds() > 4;
+        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS )) || time.seconds() > 5;
     }
 
     private void stopLift() {

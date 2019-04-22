@@ -34,8 +34,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
 
 /**
- * This class stores all objects on our robot's drivetrain
- * It also includes functionality specific to our drive base
+ * This class stores all objects on our robot's claim mechanism
+ * It also includes functionality specific to the mechanism
  */
 public class Claim {
     private static final Claim instance = new Claim();

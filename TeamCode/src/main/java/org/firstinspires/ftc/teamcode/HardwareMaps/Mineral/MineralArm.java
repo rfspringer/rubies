@@ -94,10 +94,6 @@ public class MineralArm {
         return motor1.getCurrentPosition() / ENCODER_COUNTS_PER_DEGREE;
     }
 
-//    public double getVelocity() {
-//        return (getAngle() - previousAngle)/(timer.seconds - previousTime);
-//    }
-
     public void setPowers(double power) {
         DcMotor[] motors = {motor1, motor2};
         pivotAccelerationControl.run(power, motors);

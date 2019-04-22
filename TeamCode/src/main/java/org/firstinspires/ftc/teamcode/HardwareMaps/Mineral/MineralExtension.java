@@ -34,8 +34,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
- * This class stores all objects on our robot's drivetrain
- * It also includes functionality specific to our drive base
+ * This class stores all objects on our robot's extension
+ * It also includes functionality specific to our extension
  */
 public class MineralExtension {
     private static final MineralExtension instance = new MineralExtension();
