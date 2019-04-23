@@ -37,10 +37,11 @@ import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.PivotTrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
 
 @TeleOp(name="Pivot Test", group="Tests")
 //@Disabled
-public class PivotTrajectoryTest extends LinearOpMode {
+public class PivotTrajectoryTest extends RubiesLinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     private Robot robot = Robot.getInstance();
@@ -48,7 +49,7 @@ public class PivotTrajectoryTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, this);
         PivotTrajectoryFollower trajectory = robot.mineral.initializeTrajectory(90);
 
         telemetry.addData("Status", "Initialized");

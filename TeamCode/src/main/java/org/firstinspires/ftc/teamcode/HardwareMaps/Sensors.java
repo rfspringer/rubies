@@ -38,6 +38,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
 /**
  * This is NOT an opmode.
@@ -127,6 +128,16 @@ public class Sensors
 
     public double getIntegratedError(double targetHeading) {
         return integrateHeading(targetHeading - getHeading());
+    }
+
+    public double getMineralHeading(TensorFlow.GoldPosition goldPosition) {
+        if (goldPosition == TensorFlow.GoldPosition.LEFT) {
+            return LEFT_MINERAL_HEADING;
+        } else if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
+            return RIGHT_MINERAL_HEADING;
+        } else {
+            return CENTER_MINERAL_HEADING;
+        }
     }
 
     public double getCenterMineralHeading() {

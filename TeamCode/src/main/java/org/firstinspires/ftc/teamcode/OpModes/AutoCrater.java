@@ -17,7 +17,7 @@ public class AutoCrater extends RubiesLinearOpMode {
         telemetry.addData("Instructions", "Initialize robot against tape");
         telemetry.update();
 
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, this);
         tensorFlow.init(hardwareMap);
         robot.drive.setInAutonomous(true);
         tensorFlow.activate();
@@ -31,7 +31,7 @@ public class AutoCrater extends RubiesLinearOpMode {
         robot.turnToHeadingCenterPivot(0);
         robot.drive.unlatch();
         robot.sample(goldPosition);
-//        robot.drive.backupFromSampling(goldPosition);
+        robot.backupFromSampling(goldPosition);
 //        robot.drive.driveToWall(goldPosition);
 //        robot.drive.alignWithWall(Robot.StartingPosition.CRATER);
 //        robot.drive.driveToDepot(Robot.StartingPosition.CRATER);

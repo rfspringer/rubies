@@ -11,7 +11,7 @@ public class LowerTest extends RubiesLinearOpMode {
 
     @Override
     public void runOpMode() {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, this);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 

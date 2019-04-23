@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Mineral.MineralParent;
 import org.firstinspires.ftc.teamcode.Library.FTCLogger;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 
 /**
@@ -42,9 +43,9 @@ import org.firstinspires.ftc.teamcode.Library.TensorFlow;
  * This class can be used to define all the specific hardware for our robot
  * This class stores functions that use a combination of subsystems on our robot
  */
-public class Robot
-{
+public class Robot {
     private static final Robot instance = new Robot();
+    private RubiesLinearOpMode opMode;
 
     public Drive drive = Drive.getInstance();
     public Sensors sensors = Sensors.getInstance();
@@ -64,6 +65,16 @@ public class Robot
     }
 
     /* Initialize standard Hardware interfaces */
+    public void init(HardwareMap hwMap, RubiesLinearOpMode opMode) {
+        this.opMode = opMode;
+        drive.init(hwMap, opMode);
+        sensors.init(hwMap);
+        mineral.init(hwMap, opMode);
+        lift.init(hwMap, opMode);
+        claim.init(hwMap);
+    }
+
+    /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hwMap) {
         drive.init(hwMap);
         sensors.init(hwMap);
@@ -72,9 +83,15 @@ public class Robot
         claim.init(hwMap);
     }
 
+    private void addTelemetryToAvoidDisconnect() {
+        opMode.telemetry.addData("status", "running");
+        opMode.telemetry.update();
+    }
+
     public void turnToHeadingCenterPivot(double targetHeading) {
         double error = sensors.getIntegratedError(targetHeading);
         while (Math.abs(error) > 2.5) {
+            addTelemetryToAvoidDisconnect();
             error = sensors.getIntegratedError(targetHeading);
             drive.turnToHeading(error);
         }
@@ -84,6 +101,7 @@ public class Robot
     public void turnToHeadingLeftPivot(double targetHeading) {
         double error = sensors.getIntegratedError(targetHeading);
         while (Math.abs(error) > 2.5) {
+            addTelemetryToAvoidDisconnect();
             error = sensors.getIntegratedError(targetHeading);
             drive.turnToHeadingLeftWheels(error);
         }
@@ -93,6 +111,7 @@ public class Robot
     public void turnToHeadingRightPivot(double targetHeading) {
         double error = sensors.getIntegratedError(targetHeading);
         while (Math.abs(error) > 2.5) {
+            addTelemetryToAvoidDisconnect();
             error = sensors.getIntegratedError(targetHeading);
             drive.turnToHeadingRightWheels(error);
         }
@@ -110,28 +129,23 @@ public class Robot
     }
 
     public void sample(TensorFlow.GoldPosition goldLocation) {
-        if (goldLocation == TensorFlow.GoldPosition.LEFT) {
-            sampleLeft();
-        } else if (goldLocation == TensorFlow.GoldPosition.RIGHT) {
-            sampleRight();
+        turnToHeadingCenterPivot(sensors.getMineralHeading(goldLocation));
+        runSampleTrajectory(goldLocation);
+    }
+
+    public void backupFromSampling(TensorFlow.GoldPosition goldPosition) {
+        drive.backupFromSampling(goldPosition, sensors.getMineralHeading(goldPosition));
+        turnToHeadingCenterPivot(0);
+    }
+
+    private void runSampleTrajectory(TensorFlow.GoldPosition goldPosition) {
+        if (goldPosition == TensorFlow.GoldPosition.LEFT) {
+            drive.runSamplingTrajectory(TensorFlow.GoldPosition.LEFT, sensors.getLeftMineralHeading());
+        } else if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
+            drive.runSamplingTrajectory(TensorFlow.GoldPosition.RIGHT, sensors.getRightMineralHeading());
         } else {
-            sampleCenter();
+            drive.runSamplingTrajectory(TensorFlow.GoldPosition.CENTER, sensors.getCenterMineralHeading());
         }
-    }
-
-    private void sampleLeft () {
-        turnToHeadingCenterPivot(sensors.getLeftMineralHeading());
-        drive.runSamplingTrajectory(TensorFlow.GoldPosition.LEFT, sensors.getLeftMineralHeading());
-    }
-
-    private void sampleCenter () {
-        turnToHeadingCenterPivot(sensors.getCenterMineralHeading());
-        drive.runSamplingTrajectory(TensorFlow.GoldPosition.CENTER, sensors.getCenterMineralHeading());
-    }
-
-    private void sampleRight () {
-        turnToHeadingCenterPivot(sensors.getRightMineralHeading());
-        drive.runSamplingTrajectory(TensorFlow.GoldPosition.RIGHT, sensors.getRightMineralHeading());
     }
 
     public static Robot getInstance() {

@@ -37,6 +37,7 @@ import org.firstinspires.ftc.teamcode.Library.MecanumEnhanced;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
 import org.firstinspires.ftc.teamcode.Library.PIDController;
+import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
 import org.firstinspires.ftc.teamcode.Library.TrajectoryGenerator;
 
 /**
@@ -78,7 +79,7 @@ public class Drivev3
     private MecanumTrajectoryFollower lateralToWall;
     private MecanumTrajectoryFollower awayFromWall;
 
-    /* local OpMode members. */
+    private RubiesLinearOpMode opMode;
     private HardwareMap hwMap =  null;
 
     /* Constructor */
@@ -161,12 +162,12 @@ public class Drivev3
 
     public MecanumTrajectoryFollower initializeTrajectory(double x, double y, double heading) {
         TrajectoryGenerator trajectory = new TrajectoryGenerator(x, y, MAX_ACCEL);
-        return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, false);
+        return new MecanumTrajectoryFollower(opMode, allMotors, trajectory, heading, kA, false);
     }
 
     public MecanumTrajectoryFollower initializeTrajectory(double x, double y, double heading, double maxAccel, boolean usesFeedback) {
         TrajectoryGenerator trajectory = new TrajectoryGenerator(x, y, maxAccel);
-        return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, usesFeedback);
+        return new MecanumTrajectoryFollower(opMode, allMotors, trajectory, heading, kA, usesFeedback);
     }
 
     public void reverseMotorDirections(boolean reverseDirection) {

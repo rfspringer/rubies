@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 import org.firstinspires.ftc.teamcode.Library.PivotTrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
 import org.firstinspires.ftc.teamcode.Library.TrajectoryGenerator;
 
 /**
@@ -59,6 +60,7 @@ public class MineralArm {
 
     /* local OpMode members. */
     private HardwareMap hwMap = null;
+    private RubiesLinearOpMode opMode;
 
     /* Constructor */
     private MineralArm(){
@@ -73,6 +75,11 @@ public class MineralArm {
         initializeMotor(motor2);
     }
 
+    public void init(HardwareMap ahwMap, RubiesLinearOpMode opMode) {
+        this.opMode = opMode;
+        init(ahwMap);
+    }
+
     private void initializeMotor(DcMotor motor) {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -84,7 +91,7 @@ public class MineralArm {
     public PivotTrajectoryFollower initializeTrajectory(double targetPositionInDegrees) {
         double trajectoryLength = targetPositionInDegrees - getAngle();
         TrajectoryGenerator trajectory = new TrajectoryGenerator(trajectoryLength, MAX_VELOCITY, MAX_ACCELERATION);
-        return new PivotTrajectoryFollower(getMotors(), trajectory, kV, kA, kAExternal);
+        return new PivotTrajectoryFollower(opMode, getMotors(), trajectory, kV, kA, kAExternal);
     }
 
     /**

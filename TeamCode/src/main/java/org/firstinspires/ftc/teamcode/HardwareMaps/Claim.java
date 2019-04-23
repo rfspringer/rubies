@@ -42,8 +42,8 @@ public class Claim {
     /* Public OpMode members. */
     private Servo claimServo;
 
-    private double STOWED_POS = 0.0;
-    private double DEPLOYED_POS = 1.0;
+    private double STOWED_POS = 1.0;
+    private double DEPLOYED_POS = 0.0;
 
     private long MILLISECONDS_TO_DEPLOY = 1000;
 
@@ -73,4 +73,3 @@ public class Claim {
         return instance;
     }
 }
-

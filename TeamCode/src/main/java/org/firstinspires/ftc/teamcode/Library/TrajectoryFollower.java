@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.Library;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.teamcode.HardwareMaps.Archived.Robotv2;
-import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 
 /**
  * Follows a trajectory with inputted motors based on vel and accel constants
@@ -18,8 +16,10 @@ public class TrajectoryFollower {
     private double kAExternal;
     private DcMotor[] motors;
     private TrajectoryGenerator trajectory;
+    private RubiesLinearOpMode rubiesLinearOpMode;
 
-    public TrajectoryFollower(DcMotor[] motors, TrajectoryGenerator trajectory, double kV, double kA){
+    public TrajectoryFollower(RubiesLinearOpMode opMode, DcMotor[] motors, TrajectoryGenerator trajectory, double kV, double kA){
+        this.rubiesLinearOpMode = opMode;
         this.motors = motors;
         this.trajectory = trajectory;
         this.kV = kV;
@@ -27,15 +27,17 @@ public class TrajectoryFollower {
         MotorEnhanced.setRunMode(motors, DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public TrajectoryFollower(DcMotor[] motors, TrajectoryGenerator trajectory, double kV, double kA, double externalAcceleration, double kAExternal){
+    public TrajectoryFollower(RubiesLinearOpMode opMode, DcMotor[] motors, TrajectoryGenerator trajectory, double kV, double kA, double externalAcceleration, double kAExternal){
         this.externalAcceleration = externalAcceleration;
         this.kAExternal = kAExternal;
-        new TrajectoryFollower(motors, trajectory, kA, kV);
+        new TrajectoryFollower(opMode, motors, trajectory, kA, kV);
     }
 
     public void run(){
         timer.reset();
         while (!trajectoryIsComplete()) {
+            rubiesLinearOpMode.telemetry.addData("velocity", trajectory.getCurrentVelocity());
+            rubiesLinearOpMode.telemetry.update();
             double power = getFeedforwardPower(timer);
             MotorEnhanced.setPower(motors, power);
         }

@@ -37,6 +37,7 @@ import org.firstinspires.ftc.teamcode.Library.MecanumEnhanced;
 import org.firstinspires.ftc.teamcode.Library.MecanumTrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
 import org.firstinspires.ftc.teamcode.Library.PIDController;
+import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
 import org.firstinspires.ftc.teamcode.Library.TensorFlow;
 import org.firstinspires.ftc.teamcode.Library.TrajectoryGenerator;
 
@@ -73,9 +74,9 @@ public class Drive
     private double SAMPLING_DISTANCE_RIGHT = -16.5;
     private double SAMPLING_DISTANCE_CENTER = -14;
 
-    private double BACKUP_DISTANCE_LEFT;
-    private double BACKUP_DISTANCE_RIGHT;
-    private double BACKUP_DISTANCE_CENTER;
+    private double BACKUP_DISTANCE_LEFT = 12.75;
+    private double BACKUP_DISTANCE_RIGHT = 12.75;
+    private double BACKUP_DISTANCE_CENTER = 9;
 
     private double WALL_DISTANCE_LEFT;
     private double WALL_DISTANCE_RIGHT;
@@ -92,15 +93,14 @@ public class Drive
 
     private double PARKING_DISTANCE;
 
-
     private MecanumTrajectoryFollower unlatchAwayFromLander;
     private MecanumTrajectoryFollower unlatchParallelToLander;
     private MecanumTrajectoryFollower driveAwayFromLander;
     private MecanumTrajectoryFollower centerForSampling;
     private MecanumTrajectoryFollower driveAwayFromMarker;
 
-    /* local OpMode members. */
     private HardwareMap hwMap =  null;
+    private RubiesLinearOpMode opMode;
 
     /* Constructor */
     private Drive(){
@@ -118,6 +118,11 @@ public class Drive
         MotorEnhanced.setDirection(rightMotors, Direction.REVERSE);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         MotorEnhanced.setRunMode(allMotors, DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void init(HardwareMap ahwMap, RubiesLinearOpMode opMode) {
+        this.opMode = opMode;
+        init(ahwMap);
     }
 
     private void initializeDriveMotors(){
@@ -160,9 +165,9 @@ public class Drive
         }
     }
 
-    public void backupFromSampling(TensorFlow.GoldPosition goldPosition) {
-       double  backupDistance = getBackupFromSamplingDistance(goldPosition);
-        initializeTrajectory(0, backupDistance, 0).run();
+    public void backupFromSampling(TensorFlow.GoldPosition goldPosition, double heading) {
+       double backupDistance = getBackupFromSamplingDistance(goldPosition);
+        initializeTrajectory(0, backupDistance, heading).run();
     }
 
     private double getBackupFromSamplingDistance(TensorFlow.GoldPosition goldPosition) {
@@ -253,12 +258,12 @@ public class Drive
 
     public MecanumTrajectoryFollower initializeTrajectory(double x, double y, double heading) {
         TrajectoryGenerator trajectory = new TrajectoryGenerator(x, y, 1, MAX_ACCEL);
-        return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, false);
+        return new MecanumTrajectoryFollower(opMode, allMotors, trajectory, heading, kA, false);
     }
 
     public MecanumTrajectoryFollower initializeTrajectory(double x, double y, double heading, double maxAccel, boolean usesFeedback) {
         TrajectoryGenerator trajectory = new TrajectoryGenerator(x, y, 1, maxAccel);
-        return new MecanumTrajectoryFollower(allMotors, trajectory, heading, kA, usesFeedback);
+        return new MecanumTrajectoryFollower(opMode, allMotors, trajectory, heading, kA, usesFeedback);
     }
 
     private void setMotorDirections(){

@@ -33,9 +33,9 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
 import org.firstinspires.ftc.teamcode.Library.VexMotorEnhanced;
 
 /**
@@ -44,6 +44,7 @@ import org.firstinspires.ftc.teamcode.Library.VexMotorEnhanced;
  */
 public class Lift {
     private static final Lift instance = new Lift();
+    private RubiesLinearOpMode opMode;
     /* Public OpMode members. */
     private DcMotor  lift   = null;
     private CRServo pin = null;
@@ -54,7 +55,18 @@ public class Lift {
     private int EXTENDED_ENCODER_COUNTS = -4800;
 
     /* Constructor */
+    private Lift(RubiesLinearOpMode opMode){
+        this.opMode = opMode;
+    }
+
+    /* Constructor */
     private Lift(){
+    }
+
+    /* Initialize standard Hardware interfaces */
+    public void init(HardwareMap ahwMap, RubiesLinearOpMode opMode) {
+        this.opMode = opMode;
+        init(ahwMap);
     }
 
     /* Initialize standard Hardware interfaces */
@@ -88,6 +100,7 @@ public class Lift {
     private void removePinAutonomously() {
         ElapsedTime timer = new ElapsedTime();
         while (timer.seconds() < 1.5) {
+            addTelemetryToAvoidDisconnect();
             setPower(1);
             removePin();
         }
@@ -96,6 +109,7 @@ public class Lift {
     private void extendLiftAutonomously() {
         ElapsedTime timer = new ElapsedTime();
         while (!robotIsCloseToGround(timer)) {
+            addTelemetryToAvoidDisconnect();
             lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             setPower(-0.1);
@@ -143,6 +157,11 @@ public class Lift {
 
     public void holdHangingPosition() {
         setPower(0.2);
+    }
+
+    private void addTelemetryToAvoidDisconnect() {
+        opMode.telemetry.addData("status", "running");
+        opMode.telemetry.update();
     }
 
     public static Lift getInstance(){

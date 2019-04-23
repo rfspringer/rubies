@@ -37,8 +37,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Robot;
 import org.firstinspires.ftc.teamcode.Library.AccelerationController;
 import org.firstinspires.ftc.teamcode.Library.GamepadEnhanced;
+import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
+
 @TeleOp(name="Teleop", group="teleop")
-public class Teleop extends OpMode {
+public class Teleop extends RubiesLinearOpMode {
     private Robot robot = Robot.getInstance();
     private ElapsedTime runtime = new ElapsedTime();
     private GamepadEnhanced gamepadA = new GamepadEnhanced();
@@ -56,42 +58,36 @@ public class Teleop extends OpMode {
     private double INTAKE_POWER = 1;
     private double OUTTAKE_POWER = -1;
 
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
     @Override
-    public void init() {
-        robot.init(hardwareMap);
+    public void runOpMode() {
+        robot.init(hardwareMap, this);
         robot.drive.setInAutonomous(false);
         telemetry.addData("Status", "Initialized");
-    }
+        telemetry.update();
 
-    @Override
-    public void start() {
+        waitForStart();
+
         runtime.reset();
         robot.claim.deploy();   //keeps claim out of the way of wires
-    }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-    @Override
-    public void loop() {
-        gamepadA.update(gamepad1);
-        gamepadB.update(gamepad2);
+        while (isStarted()) {
+            gamepadA.update(gamepad1);
+            gamepadB.update(gamepad2);
 
-        controlDrive();
-        controlArm();
-        controlMineralDoor();
-        controlIntake();
-        controlExtension();
-        controlLift();
-        controlPin();
+            controlDrive();
+            controlArm();
+            controlMineralDoor();
+            controlIntake();
+            controlExtension();
+            controlLift();
+            controlPin();
 
-        telemetry.addData("Pivot Position", robot.mineral.getAngle());
-        telemetry.addData("Acceleration from grav", robot.mineral.getAngularAccelerationFromGravity());
-        telemetry.addData("Extension length", robot.mineral.getExtensionLength());
-        telemetry.update();
+            telemetry.addData("Pivot Position", robot.mineral.getAngle());
+            telemetry.addData("Acceleration from grav", robot.mineral.getAngularAccelerationFromGravity());
+            telemetry.addData("Extension length", robot.mineral.getExtensionLength());
+            telemetry.update();
+        }
+        robot.logger.closeFile();
     }
 
     private void controlDrive() {
@@ -159,11 +155,5 @@ public class Teleop extends OpMode {
         } else {
             robot.lift.stopPin();
         }
-    }
-
-
-    @Override
-    public void stop() {
-        robot.logger.closeFile();
     }
 }

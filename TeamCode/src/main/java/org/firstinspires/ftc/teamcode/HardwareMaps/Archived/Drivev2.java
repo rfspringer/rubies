@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
 import org.firstinspires.ftc.teamcode.HardwareMaps.Sensors;
 import org.firstinspires.ftc.teamcode.Library.MotorEnhanced;
+import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
 import org.firstinspires.ftc.teamcode.Library.TrajectoryFollower;
 import org.firstinspires.ftc.teamcode.Library.TrajectoryGenerator;
 
@@ -46,6 +47,8 @@ public class Drivev2
 {
     private static final Drivev2 instance = new Drivev2();
     private Sensors sensors = Sensors.getInstance();
+
+    private RubiesLinearOpMode opMode;
 
     /* Public OpMode members. */
     private DcMotor leftDrive1 = null;
@@ -129,12 +132,12 @@ public class Drivev2
 
     public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading) {
         TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, MAX_VEL, MAX_ACCEL);
-        return new TrajectoryFollower(allMotors, trajectory, kV, kA);
+        return new TrajectoryFollower(opMode, allMotors, trajectory, kV, kA);
     }
 
     public TrajectoryFollower initializeTrajectory(double distanceInInches, double heading, double maxVel, double maxAccel, boolean usesFeedback) {
         TrajectoryGenerator trajectory = new TrajectoryGenerator(distanceInInches, maxVel, maxAccel);
-        return new TrajectoryFollower(allMotors, trajectory, kV, kA);
+        return new TrajectoryFollower(opMode, allMotors, trajectory, kV, kA);
     }
 
     public void reverseMotorDirections(boolean reverseDirection) {

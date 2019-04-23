@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Library;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -16,8 +17,9 @@ public class MecanumTrajectoryFollower {
     private double y;
     private DcMotor[] motors;
     private TrajectoryGenerator trajectory;
+    private RubiesLinearOpMode opMode;
 
-    public MecanumTrajectoryFollower(DcMotor[] motors, TrajectoryGenerator trajectory, double heading, double kA, boolean usesFeedback){
+    public MecanumTrajectoryFollower(RubiesLinearOpMode opMode, DcMotor[] motors, TrajectoryGenerator trajectory, double heading, double kA, boolean usesFeedback){
         this.motors = motors;
         this.trajectory = trajectory;
         this.x = trajectory.getX();
@@ -31,6 +33,8 @@ public class MecanumTrajectoryFollower {
     public void run(){
         timer.reset();
         while (!trajectoryIsComplete()) {
+            opMode.telemetry.addData("velocity", trajectory.getCurrentVelocity());
+            opMode.telemetry.update();
             robot.drive.setPowers(getMagnitude(timer), x, y, targetHeading);
         }
         robot.drive.stop();
@@ -39,6 +43,8 @@ public class MecanumTrajectoryFollower {
     public void runBackwards() {
         timer.reset();
         while (!trajectoryIsComplete()) {
+            opMode.telemetry.addData("velocity", trajectory.getCurrentVelocity());
+            opMode.telemetry.update();
             robot.drive.setPowers(getMagnitude(timer), -x, -y, targetHeading);
         }
         robot.drive.stop();

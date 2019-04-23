@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Library;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.HardwareMaps.Mineral.MineralParent;
@@ -12,9 +13,10 @@ public class PivotTrajectoryFollower extends TrajectoryFollower {
     private MineralParent mineral = MineralParent.getInstance();
     private ElapsedTime timer = new ElapsedTime();
     private double kAExternal;
+    private RubiesLinearOpMode opMode;
 
-    public PivotTrajectoryFollower(DcMotor[] motors, TrajectoryGenerator trajectory, double kV, double kA, double kAExternal){
-        super(motors, trajectory, kV, kA);
+    public PivotTrajectoryFollower(RubiesLinearOpMode opMode, DcMotor[] motors, TrajectoryGenerator trajectory, double kV, double kA, double kAExternal){
+        super(opMode, motors, trajectory, kV, kA);
         this.kAExternal = kAExternal;
     }
 
@@ -22,6 +24,8 @@ public class PivotTrajectoryFollower extends TrajectoryFollower {
     public void run(){
         timer.reset();
         while (!trajectoryIsComplete()) {
+            opMode.telemetry.addData("trajectory", "running");
+            opMode.telemetry.update();
             double power = getFeedforwardPower(timer);
             mineral.setArmPower(power);
         }

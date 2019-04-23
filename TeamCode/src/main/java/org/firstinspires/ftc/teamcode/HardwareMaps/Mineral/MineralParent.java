@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Library.PivotTrajectoryFollower;
+import org.firstinspires.ftc.teamcode.Library.RubiesLinearOpMode;
 
 /**
  * This class stores all objects on our robot's drivetrain
@@ -45,6 +46,7 @@ public class MineralParent {
     private MineralExtension extension = MineralExtension.getInstance();
 
     private HardwareMap hwMap;
+    private RubiesLinearOpMode opMode;
 
     private double ACCELERATION_FROM_GRAVITY = -9.8;
     private double INERTIAL_CONSTANT = 0.35;
@@ -57,6 +59,15 @@ public class MineralParent {
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
         arm.init(hwMap);
+        intake.init(hwMap);
+        extension.init(hwMap);
+    }
+
+    /* Initialize standard Hardware interfaces */
+    public void init(HardwareMap ahwMap, RubiesLinearOpMode opMode) {
+        this.opMode = opMode;
+        hwMap = ahwMap;
+        arm.init(hwMap, opMode);
         intake.init(hwMap);
         extension.init(hwMap);
     }
