@@ -84,5 +84,4 @@ public class ForwardTrajectoryTest extends LinearOpMode {
         }
         robot.logger.closeFile();
     }
-
 }

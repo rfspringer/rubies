@@ -52,7 +52,7 @@ public class Lift {
     /* local OpMode members. */
     private HardwareMap hwMap = null;
 
-    private int EXTENDED_ENCODER_COUNTS = -4800;
+    private int EXTENDED_ENCODER_COUNTS = -5100;
 
     /* Constructor */
     private Lift(RubiesLinearOpMode opMode){
@@ -119,7 +119,7 @@ public class Lift {
     }
 
     private boolean robotIsCloseToGround(ElapsedTime time) {
-        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS )) || time.seconds() > 5;
+        return (getCurrentPosition() <= (EXTENDED_ENCODER_COUNTS )) || time.seconds() > 3.5;
     }
 
     private void stopLift() {

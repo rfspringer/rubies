@@ -20,6 +20,7 @@ public class MecanumTrajectoryFollower {
     private RubiesLinearOpMode opMode;
 
     public MecanumTrajectoryFollower(RubiesLinearOpMode opMode, DcMotor[] motors, TrajectoryGenerator trajectory, double heading, double kA, boolean usesFeedback){
+        this.opMode = opMode;
         this.motors = motors;
         this.trajectory = trajectory;
         this.x = trajectory.getX();

@@ -124,7 +124,7 @@ public class Robot {
     }
 
     public void alignWithWall(StartingPosition startingPosition) {
-        turnToHeadingCenterPivot(45);
+        turnToHeadingCenterPivot(startingPosition == StartingPosition.CRATER ? -135 : 45);
         drive.alignWithWall(startingPosition);
     }
 

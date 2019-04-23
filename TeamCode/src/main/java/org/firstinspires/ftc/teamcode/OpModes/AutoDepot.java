@@ -17,7 +17,7 @@ public class AutoDepot extends RubiesLinearOpMode {
         telemetry.addData("Instructions", "Initialize robot against tape");
         telemetry.update();
 
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, this);
         tensorFlow.init(hardwareMap);
         robot.drive.setInAutonomous(true);
         tensorFlow.activate();
@@ -28,16 +28,17 @@ public class AutoDepot extends RubiesLinearOpMode {
         telemetry.addData("Gold Position", goldPosition);
         telemetry.update();
         robot.lift.lower();
+        robot.turnToHeadingCenterPivot(0);
         robot.drive.unlatch();
-        robot.drive.stop();
         robot.sample(goldPosition);
         robot.backupFromSampling(goldPosition);
-//        robot.driveToWall(goldPosition);
-//        robot.alignWithWall(Robot.StartingPosition.DEPOT);
-//        robot.drive.driveToDepot(Robot.StartingPosition.DEPOT);
-//        robot.claim.deploy();
-//        sleepFor(robot.claim.getMillisecondsToDeploy());
-//        robot.claim.stow();
-//        robot.drive.park(Robot.StartingPosition.CRATER);
+        robot.drive.driveToWall(goldPosition);
+        robot.alignWithWall(Robot.StartingPosition.DEPOT);
+        robot.drive.driveToDepot(Robot.StartingPosition.DEPOT);
+        robot.claim.deploy();
+        robot.mineral.setExtensionPower(-1);
+        robot.drive.park(Robot.StartingPosition.DEPOT);
+        robot.claim.stow();
+        robot.mineral.setExtensionPower(0);
     }
 }

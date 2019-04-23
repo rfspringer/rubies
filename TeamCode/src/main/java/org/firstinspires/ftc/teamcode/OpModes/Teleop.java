@@ -29,7 +29,6 @@
 
 package org.firstinspires.ftc.teamcode.OpModes;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -71,6 +70,10 @@ public class Teleop extends RubiesLinearOpMode {
         robot.claim.deploy();   //keeps claim out of the way of wires
 
         while (isStarted()) {
+            if (isStopRequested()) {
+                break;
+            }
+
             gamepadA.update(gamepad1);
             gamepadB.update(gamepad2);
 

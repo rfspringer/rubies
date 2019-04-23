@@ -68,30 +68,30 @@ public class Drive
 
     private double MAX_FORWARD_VELOCITY = 25.6;
     private double MAX_STRAFE_VELOCITY = 20;
-    private double MAX_ACCEL = 16;
+    private double MAX_ACCEL = 28;
 
-    private double SAMPLING_DISTANCE_LEFT = -16.5;
-    private double SAMPLING_DISTANCE_RIGHT = -16.5;
-    private double SAMPLING_DISTANCE_CENTER = -14;
+    private double SAMPLING_DISTANCE_LEFT = -15.5;
+    private double SAMPLING_DISTANCE_RIGHT = -15.5;
+    private double SAMPLING_DISTANCE_CENTER = -13;
 
-    private double BACKUP_DISTANCE_LEFT = 12.75;
-    private double BACKUP_DISTANCE_RIGHT = 12.75;
-    private double BACKUP_DISTANCE_CENTER = 9;
+    private double BACKUP_DISTANCE_LEFT = 6.9;
+    private double BACKUP_DISTANCE_RIGHT = 6.75;
+    private double BACKUP_DISTANCE_CENTER = 5.75;
 
-    private double WALL_DISTANCE_LEFT;
-    private double WALL_DISTANCE_RIGHT;
-    private double WALL_DISTANCE_CENTER;
+    private double WALL_DISTANCE_LEFT = -38;
+    private double WALL_DISTANCE_RIGHT = -55;
+    private double WALL_DISTANCE_CENTER = -50;
 
-    private double DISTANCE_TO_WALL;
-    private double DISTANCE_AWAY_FROM_WALL;
+    private double DISTANCE_TO_WALL = 15;
+    private double DISTANCE_AWAY_FROM_WALL = 2.5;
 
-    private double DEPOT_WALL_HEADING;
-    private double CRATER_WALL_HEADING;
+    private double DEPOT_WALL_HEADING = 45;
+    private double CRATER_WALL_HEADING = -135;
 
-    private double DEPOT_TO_DEPOT_DISTANCE;
-    private double CRATER_TO_DEPOT_DISTANCE;
+    private double DEPOT_TO_DEPOT_DISTANCE = 53;
+    private double CRATER_TO_DEPOT_DISTANCE = 47;
 
-    private double PARKING_DISTANCE;
+    private double PARKING_DISTANCE = -56;
 
     private MecanumTrajectoryFollower unlatchAwayFromLander;
     private MecanumTrajectoryFollower unlatchParallelToLander;
@@ -182,11 +182,11 @@ public class Drive
 
     public void driveToWall(TensorFlow.GoldPosition goldPosition) {
         if (goldPosition == TensorFlow.GoldPosition.LEFT) {
-            initializeTrajectory(0, WALL_DISTANCE_LEFT, 0).run();
+            initializeTrajectory(0, WALL_DISTANCE_LEFT, -5).run();
         } else if (goldPosition == TensorFlow.GoldPosition.RIGHT) {
-            initializeTrajectory(0, WALL_DISTANCE_RIGHT, 0).run();
+            initializeTrajectory(0, WALL_DISTANCE_RIGHT, -5).run();
         } else {
-            initializeTrajectory(0, WALL_DISTANCE_CENTER, 0).run();
+            initializeTrajectory(0, WALL_DISTANCE_CENTER, -5).run();
         }
     }
 
@@ -199,13 +199,13 @@ public class Drive
     }
 
     private void alignWithWallDepot() {
-        initializeTrajectory(DISTANCE_TO_WALL, 0,DEPOT_WALL_HEADING).run();
-        initializeTrajectory(-DISTANCE_AWAY_FROM_WALL, 0, DEPOT_WALL_HEADING).run();
+        initializeTrajectory(-DISTANCE_TO_WALL, 0,DEPOT_WALL_HEADING).run();
+        initializeTrajectory(DISTANCE_AWAY_FROM_WALL, 0, DEPOT_WALL_HEADING).run();
     }
 
     private void alignWithWallCrater() {
-        initializeTrajectory(-DISTANCE_TO_WALL, 0, CRATER_WALL_HEADING).run();
-        initializeTrajectory(DISTANCE_AWAY_FROM_WALL, 0, CRATER_WALL_HEADING).run();
+        initializeTrajectory(DISTANCE_TO_WALL, 0, CRATER_WALL_HEADING).run();
+        initializeTrajectory(-DISTANCE_AWAY_FROM_WALL, 0, CRATER_WALL_HEADING).run();
     }
 
     public void driveToDepot(Robot.StartingPosition startingPosition) {
@@ -222,7 +222,7 @@ public class Drive
     }
 
     public void turnToHeading(double headingError) {
-        double kP = 0.065;
+        double kP = 0.04;
         double leftPower = PIDController.pController(0, headingError, -kP);
         double rightPower = PIDController.pController(0, headingError, kP);
         setIndividualPowers(leftPower, leftPower, rightPower, rightPower);

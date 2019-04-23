@@ -90,8 +90,6 @@ public class EncoderTest extends LinearOpMode {
             else {
                 motor.setPower(0);
             }
-
         }
-
     }
 }

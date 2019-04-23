@@ -22,5 +22,4 @@ public class LiftEncoderTest extends LinearOpMode {
             telemetry.update();
         }
     }
-
 }

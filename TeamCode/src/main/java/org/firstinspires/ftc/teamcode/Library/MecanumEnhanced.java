@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.HardwareMaps.Drive;
 public class MecanumEnhanced {
     private Drive drive = Drive.getInstance();
     private Sensors sensors = Sensors.getInstance();
-    private double kP = 0.3;
+    private double kP = 0.375;
     private boolean inAutonomous = false;
 
     public double[] calculatePowers(double magnitude, double x, double y, double targetHeading) {
